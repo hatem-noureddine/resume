@@ -78,29 +78,43 @@ export const es = {
         ]
     },
     portfolio: {
-        title: "Mes Projets",
+        title: "Mis Proyectos",
         items: [
             {
                 id: 1,
-                title: "Plateforme E-commerce",
-                category: "Développement",
+                title: "Plataforma de Comercio Electrónico",
+                category: "Desarrollo",
                 image: "https://placehold.co/600x400/1f1f1f/FFF",
                 link: "#",
             },
             {
                 id: 2,
-                title: "Tableau de Bord Finance",
+                title: "Panel Financiero",
                 category: "UI/UX",
                 image: "https://placehold.co/600x400/1f1f1f/FFF",
                 link: "#",
             },
             {
                 id: 3,
-                title: "App de Voyage",
-                category: "Mobile",
+                title: "App de Viajes",
+                category: "Móvil",
                 image: "https://placehold.co/600x400/1f1f1f/FFF",
                 link: "#",
             },
+            {
+                id: 4,
+                title: "App de Redes Sociales",
+                category: "Móvil",
+                image: "https://placehold.co/600x400/1f1f1f/FFF",
+                link: "#",
+            },
+            {
+                id: 5,
+                title: "Sitio Web Corporativo",
+                category: "Diseño Web",
+                image: "https://placehold.co/600x400/1f1f1f/FFF",
+                link: "#",
+            }
         ]
     },
     blog: {
@@ -115,11 +129,69 @@ export const es = {
         next: "Suivant"
     },
     skills: {
-        title: "Mes Compétences",
-        description: "Je travaille avec un large éventail de technologies et d'outils pour donner vie aux idées.",
-        categories: {
-            frontend: "Frontend",
-            backend: "Backend"
+        title: "Mis Habilidades",
+        description: "Una visión general completa de mi experiencia técnica y capacidades profesionales.",
+        professional: {
+            title: "Profesional",
+            items: [
+                "Gestión de Equipos",
+                "Análisis Técnico y Funcional",
+                "Redacción de Documentación Técnica",
+                "Colaboración en Equipo",
+                "Aseguramiento de Calidad de Código",
+                "Revisión de Código",
+                "Hoja de Ruta del Producto",
+                "Gestión de Backlog"
+            ]
+        },
+        technical: {
+            title: "Técnica",
+            categories: [
+                {
+                    name: "Arquitectura",
+                    items: ["Clean Arch", "Modular Arch", "MVVM", "MVI"]
+                },
+                {
+                    name: "Desarrollo",
+                    items: ["Kotlin", "Android", "Jetpack Compose", "Room", "Coroutines", "Koin", "Hilt", "Gradle DSL", "Google Maps", "Ktor", "Retrofit", "Kotlin MultiPlatform", "Compose MultiPlatform"]
+                },
+                {
+                    name: "Pruebas Móviles",
+                    items: ["JUnit", "Robolectric", "Mockk", "Espresso"]
+                },
+                {
+                    name: "Patrones de Diseño",
+                    items: ["Dependency Injection", "Singleton", "Observer", "Adapter", "Facade", "Repository"]
+                },
+                {
+                    name: "CI/CD para Móvil",
+                    items: ["Jenkins", "Fastlane", "TeamCity", "GitHub Actions"]
+                },
+                {
+                    name: "UX/UI para Móvil",
+                    items: ["Figma", "Overflow", "Zeplin"]
+                },
+                {
+                    name: "IA",
+                    items: ["Copilot", "Gemini"]
+                },
+                {
+                    name: "Calidad de Código",
+                    items: ["Sonar", "Detekt", "Lint", "Kover"]
+                },
+                {
+                    name: "Control de Versiones",
+                    items: ["Git", "Gitflow"]
+                },
+                {
+                    name: "Herramientas de Colaboración",
+                    items: ["Jira", "Confluence", "Redmine"]
+                },
+                {
+                    name: "Analítica",
+                    items: ["Firebase Analytics", "Kotzilla"]
+                }
+            ]
         }
     },
     cooperation: {
@@ -158,8 +230,12 @@ export const es = {
             name: "Nom",
             email: "Email",
             subject: "Sujet",
-            message: "Message",
-            send: "Envoyer le Message"
+            message: "Mensaje",
+            send: "Enviar Mensaje",
+            validation: {
+                emailInvalid: "Por favor introduzca una dirección de correo válida",
+                required: "Este campo es obligatorio"
+            }
         }
     },
     footer: {

@@ -78,14 +78,14 @@ export function BlogList({ initialPosts }: BlogListProps) {
             {/* Search and Filter Controls */}
             <div className="space-y-6">
                 <div className="flex flex-col md:flex-row gap-4 max-w-2xl mx-auto">
-                    <div className="relative flex-grow">
+                    <div className="relative grow">
                         <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground w-5 h-5" />
                         <input
                             type="text"
                             placeholder={blog.searchPlaceholder}
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full pl-12 pr-4 py-4 bg-secondary/30 border border-white/10 rounded-xl focus:outline-none focus:border-primary/50 transition-all text-lg"
+                            className="w-full pl-12 pr-4 py-4 bg-secondary/30 border border-foreground/10 rounded-xl focus:outline-none focus:border-primary/50 transition-all text-lg"
                         />
                         {searchQuery && (
                             <button
@@ -100,7 +100,7 @@ export function BlogList({ initialPosts }: BlogListProps) {
                         onClick={() => setIsFilterOpen(!isFilterOpen)}
                         className={`flex items-center justify-center gap-2 px-6 py-4 rounded-xl border transition-all font-medium ${isFilterOpen || selectedTag
                             ? "bg-primary/10 border-primary text-primary"
-                            : "bg-secondary/30 border-white/10 hover:border-white/20"
+                            : "bg-secondary/30 border-foreground/10 hover:border-foreground/20"
                             }`}
                     >
                         <Filter size={20} />
@@ -117,7 +117,7 @@ export function BlogList({ initialPosts }: BlogListProps) {
                             exit={{ height: 0, opacity: 0 }}
                             className="overflow-hidden"
                         >
-                            <div className="bg-secondary/20 border border-white/5 rounded-2xl p-6 max-w-4xl mx-auto backdrop-blur-sm">
+                            <div className="bg-secondary/20 border border-foreground/5 rounded-2xl p-6 max-w-4xl mx-auto backdrop-blur-sm">
                                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                                     {Object.entries(activeGroups).map(([groupName, tags]) => (
                                         <div key={groupName}>
@@ -131,7 +131,7 @@ export function BlogList({ initialPosts }: BlogListProps) {
                                                         onClick={() => handleTagClick(tag)}
                                                         className={`px-3 py-1.5 rounded-lg text-sm transition-all border ${selectedTag === tag
                                                             ? "bg-primary text-white border-primary"
-                                                            : "bg-background/50 hover:bg-secondary border-white/5 hover:border-white/10"
+                                                            : "bg-background/50 hover:bg-secondary border-foreground/5 hover:border-foreground/10"
                                                             }`}
                                                     >
                                                         {tag}
@@ -141,7 +141,7 @@ export function BlogList({ initialPosts }: BlogListProps) {
                                         </div>
                                     ))}
                                 </div>
-                                <div className="mt-6 flex justify-end border-t border-white/5 pt-4">
+                                <div className="mt-6 flex justify-end border-t border-foreground/5 pt-4">
                                     <button
                                         onClick={clearFilters}
                                         className="text-sm text-muted-foreground hover:text-foreground flex items-center gap-1"
@@ -171,7 +171,7 @@ export function BlogList({ initialPosts }: BlogListProps) {
                                     exit={{ opacity: 0, scale: 0.9 }}
                                     transition={{ duration: 0.3 }}
                                     key={post.slug}
-                                    className="group bg-secondary/30 rounded-2xl overflow-hidden border border-white/5 hover:border-primary/50 transition-colors flex flex-col"
+                                    className="group bg-secondary/30 rounded-2xl overflow-hidden border border-foreground/5 hover:border-primary/50 transition-colors flex flex-col"
                                 >
                                     <div className="p-6 flex flex-col h-full">
                                         <div className="flex flex-wrap gap-2 mb-4">
@@ -189,7 +189,7 @@ export function BlogList({ initialPosts }: BlogListProps) {
                                                 {post.title}
                                             </Link>
                                         </h3>
-                                        <p className="text-secondary-foreground mb-6 line-clamp-3 flex-grow">
+                                        <p className="text-secondary-foreground mb-6 line-clamp-3 grow">
                                             {post.description}
                                         </p>
                                         <Link
@@ -204,7 +204,7 @@ export function BlogList({ initialPosts }: BlogListProps) {
                         </AnimatePresence>
                     </motion.div>
                 ) : (
-                    <div className="text-center py-20 bg-secondary/10 rounded-2xl border border-white/5 border-dashed">
+                    <div className="text-center py-20 bg-secondary/10 rounded-2xl border border-foreground/5 border-dashed">
                         <div className="inline-block p-4 bg-secondary/50 rounded-full mb-4">
                             <Search size={32} className="text-muted-foreground" />
                         </div>
@@ -226,7 +226,7 @@ export function BlogList({ initialPosts }: BlogListProps) {
                     <button
                         onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                         disabled={currentPage === 1}
-                        className="p-2 rounded-full border border-white/10 hover:bg-secondary disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                        className="p-2 rounded-full border border-foreground/10 hover:bg-secondary disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                         title={blog.previous}
                     >
                         <ChevronLeft size={20} />
@@ -237,7 +237,7 @@ export function BlogList({ initialPosts }: BlogListProps) {
                     <button
                         onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
                         disabled={currentPage === totalPages}
-                        className="p-2 rounded-full border border-white/10 hover:bg-secondary disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                        className="p-2 rounded-full border border-foreground/10 hover:bg-secondary disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                         title={blog.next}
                     >
                         <ChevronRight size={20} />

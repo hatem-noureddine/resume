@@ -1,36 +1,84 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio / Resume Website
 
-## Getting Started
+A modern, responsive, and localized portfolio website built with **Next.js**, **Tailwind CSS**, and **Framer Motion**.
 
-First, run the development server:
+## 🚀 Getting Started
 
+### Prerequisites
+
+*   Node.js 18+ installed.
+*   npm or yarn package manager.
+
+### Installation
+
+1.  Clone the repository:
+    ```bash
+    git clone <repository-url>
+    cd resume_1
+    ```
+2.  Install dependencies:
+    ```bash
+    npm install
+    ```
+3.  Run the development server:
+    ```bash
+    npm run dev
+    ```
+4.  Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+### Running Tests
+
+To run the test suite:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm test
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Project Structure
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+*   `src/app`: Main application pages (Next.js App Router).
+*   `src/components`: Reusable UI components.
+    *   `sections`: High-level page sections (Hero, Skills, Experience, etc.).
+    *   `ui`: Atomic components (Buttons, etc.).
+*   `src/locales`: Localization files (`en.ts`, `fr.ts`, `es.ts`). **Update content here.**
+*   `src/context`: Global state (Theme, Language).
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📝 How to Update Content
 
-## Learn More
+The website's content is separated from the code in the `src/locales` directory.
 
-To learn more about Next.js, take a look at the following resources:
+1.  **Skills**:
+    *   Open `src/locales/en.ts` (and other languages).
+    *   Navigate to the `skills` object.
+    *   Add/Remove items in `professional.items` or `technical.categories`.
+2.  **Experience/Education**:
+    *   Edit the `experience` array in the locale files.
+3.  **Contact Info**:
+    *   Update email, phone, and social links in the `contact` object.
+4.  **Icons**:
+    *   The `Skills` component automatically maps skill names to icons. To force a specific icon, use an object format: `{ name: "Your Skill", icon: "IconName" }` where `IconName` matches a Lucide React icon.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🚢 Deployment
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+This project is optimized for static deployment (e.g., Vercel, Netlify, GitHub Pages).
 
-## Deploy on Vercel
+### Vercel (Recommended)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1.  Push your code to GitHub.
+2.  Import the project in Vercel.
+3.  Vercel will detect Next.js and configure the build automatically.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### GitHub Pages
+
+1.  Update `next.config.ts` to enable static export:
+    ```typescript
+    const nextConfig = {
+      output: 'export',
+      images: { unoptimized: true } // Required for static export
+    };
+    ```
+2.  Run `npm run build`.
+3.  Deploy the `out` directory.
+
+## 📄 Documentation
+
+For more detailed technical choices, see [TECHNICAL.md](./TECHNICAL.md).

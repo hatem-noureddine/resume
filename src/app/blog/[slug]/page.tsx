@@ -58,7 +58,15 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                                     return (
                                         <span className="block my-8 relative w-full aspect-video rounded-xl overflow-hidden bg-secondary">
                                             {/* eslint-disable-next-line @next/next/no-img-element */}
-                                            <img {...props} className="object-cover w-full h-full" alt={props.alt || ""} />
+                                            {props.src && (
+                                                <Image
+                                                    src={props.src as string}
+                                                    alt={props.alt || ""}
+                                                    fill
+                                                    className="object-cover"
+                                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 70vw, 896px"
+                                                />
+                                            )}
                                         </span>
                                     );
                                 },

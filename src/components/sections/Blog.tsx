@@ -5,11 +5,16 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Post } from "@/lib/posts";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { Button } from "@/components/ui/Button";
 import { useLanguage } from "@/context/LanguageContext";
 
 export function Blog({ posts }: { posts: Post[] }) {
     const { t } = useLanguage();
     const { blog } = t;
+
+    if (!posts || posts.length === 0) {
+        return null;
+    }
 
     return (
         <section id="blog" className="py-24 relative overflow-hidden">
@@ -29,7 +34,7 @@ export function Blog({ posts }: { posts: Post[] }) {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: index * 0.1 }}
-                                className="group bg-secondary/30 rounded-2xl overflow-hidden border border-white/5 hover:border-primary/50 transition-colors"
+                                className="group bg-secondary/30 rounded-2xl overflow-hidden border border-foreground/5 hover:border-primary/50 transition-colors"
                             >
                                 <div className="p-6 flex flex-col h-full">
                                     <div className="flex justify-between items-center mb-4 text-sm text-secondary-foreground">
@@ -43,7 +48,7 @@ export function Blog({ posts }: { posts: Post[] }) {
                                             {post.title}
                                         </Link>
                                     </h3>
-                                    <p className="text-secondary-foreground mb-6 line-clamp-3 md:line-clamp-4 flex-grow">
+                                    <p className="text-secondary-foreground mb-6 line-clamp-3 md:line-clamp-4 grow">
                                         {post.description}
                                     </p>
                                     <Link
@@ -62,13 +67,12 @@ export function Blog({ posts }: { posts: Post[] }) {
                     )}
                 </div>
 
-                <div className="mt-12 text-center">
-                    <Link
-                        href="/blog"
-                        className="inline-flex items-center gap-2 px-8 py-3 bg-secondary hover:bg-secondary/80 rounded-full transition-colors font-medium border border-white/10 hover:border-primary/30"
-                    >
-                        {t.header.nav.find(n => n.href === '/blog')?.name || "View all posts"} <ArrowRight size={16} />
-                    </Link>
+                <div className="mt-12 flex justify-center">
+                    <Button variant="secondary" size="lg" asChild className="rounded-full px-8 border border-foreground/10 hover:border-primary/30">
+                        <Link href="/blog" className="inline-flex items-center gap-2">
+                            {t.header.nav.find(n => n.href === '/blog')?.name || "View all posts"} <ArrowRight size={16} />
+                        </Link>
+                    </Button>
                 </div>
             </div>
         </section>

@@ -20,7 +20,7 @@ export const fr = {
             { value: "50+", label: "Projets Terminés" },
             { value: "1.5k", label: "Clients Satisfaits" },
         ],
-        image: "/profile.png",
+        image: "/resume/profile.png",
     },
     services: {
         title: "Mes Services",
@@ -74,6 +74,26 @@ export const fr = {
                 role: "Développeur Junior",
                 company: "StartUp Hub",
                 description: "Collaboration avec des développeurs seniors pour construire des produits MVP.",
+                startDate: "2016-01",
+                endDate: "2018-05",
+            },
+            {
+                id: 4,
+                period: "2018 - 2020",
+                role: "Senior UI/UX Designer",
+                company: "Creative Agency (Duplicate)",
+                description: "Conception d'interfaces primées pour des marques mondiales.",
+                startDate: "2018-01",
+                endDate: "2020-01",
+            },
+            {
+                id: 5,
+                period: "2016 - 2018",
+                role: "Développeur Junior",
+                company: "StartUp Hub (Duplicate)",
+                description: "Collaboration avec des développeurs seniors pour construire des produits MVP.",
+                startDate: "2015-01",
+                endDate: "2016-01",
             },
         ]
     },
@@ -101,6 +121,20 @@ export const fr = {
                 image: "https://placehold.co/600x400/1f1f1f/FFF",
                 link: "#",
             },
+            {
+                id: 4,
+                title: "Application Réseau Social",
+                category: "Mobile",
+                image: "https://placehold.co/600x400/1f1f1f/FFF",
+                link: "#",
+            },
+            {
+                id: 5,
+                title: "Site Web Corporatif",
+                category: "Web Design",
+                image: "https://placehold.co/600x400/1f1f1f/FFF",
+                link: "#",
+            }
         ]
     },
     blog: {
@@ -116,10 +150,68 @@ export const fr = {
     },
     skills: {
         title: "Mes Compétences",
-        description: "Je travaille avec un large éventail de technologies et d'outils pour donner vie aux idées.",
-        categories: {
-            frontend: "Frontend",
-            backend: "Backend"
+        description: "Un aperçu complet de mon expertise technique et de mes capacités professionnelles.",
+        professional: {
+            title: "Professionnel",
+            items: [
+                "Gestion d’équipe",
+                "Analyse technique & fonctionnelle",
+                "Rédaction de documentation technique",
+                "Collaboration avec les équipes",
+                "Veiller à la qualité du code",
+                "Relecture de code",
+                "Roadmap Produit",
+                "Gestion de Backlog"
+            ]
+        },
+        technical: {
+            title: "Technique",
+            categories: [
+                {
+                    name: "Architecture",
+                    items: ["Clean Arch", "Arch Modulaire", "MVVM", "MVI"]
+                },
+                {
+                    name: "Développement",
+                    items: ["Kotlin", "Android", "Jetpack Compose", "Room", "Coroutines", "Koin", "Hilt", "Gradle DSL", "Google Maps", "Ktor", "Retrofit", "Kotlin MultiPlatform", "Compose MultiPlatform"]
+                },
+                {
+                    name: "Test pour mobile",
+                    items: ["JUnit", "Robolectric", "Mockk", "Espresso"]
+                },
+                {
+                    name: "Design Patterns",
+                    items: ["Dependency Injection", "Singleton", "Observer", "Adapter", "Facade", "Repository"]
+                },
+                {
+                    name: "CI/CD pour Mobile",
+                    items: ["Jenkins", "Fastlane", "TeamCity", "GitHub Actions"]
+                },
+                {
+                    name: "UX/UI pour Mobile",
+                    items: ["Figma", "Overflow", "Zeplin"]
+                },
+                {
+                    name: "Intelligence artificielle",
+                    items: ["Copilot", "Gemini"]
+                },
+                {
+                    name: "Qualité de code",
+                    items: ["Sonar", "Detekt", "Lint", "Kover"]
+                },
+                {
+                    name: "Gestion de version",
+                    items: ["Git", "Gitflow"]
+                },
+                {
+                    name: "Outils de collaboration",
+                    items: ["Jira", "Confluence", "Redmine"]
+                },
+                {
+                    name: "Outils d’analyse",
+                    items: ["Firebase Analytics", "Kotzilla"]
+                }
+            ]
         }
     },
     cooperation: {
@@ -159,7 +251,11 @@ export const fr = {
             email: "Email",
             subject: "Sujet",
             message: "Message",
-            send: "Envoyer le Message"
+            send: "Envoyer le Message",
+            validation: {
+                emailInvalid: "Veuillez entrer une adresse email valide",
+                required: "Ce champ est requis"
+            }
         }
     },
     footer: {

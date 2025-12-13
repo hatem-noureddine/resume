@@ -1,16 +1,58 @@
 @import "tailwindcss";
 
-@theme {
-  --color-background: #0f0f0f;
-  --color-foreground: #ededed;
+@layer base {
+  :root {
+    --color-background: #0f0f0f;
+    /* Default dark for resume_1? user mentioned portfolio redesign ... wait. The current globals says bg #0f0f0f which is dark. */
+    /* original was dark default. user wants light/dark. 
+       Let's assume current is "Dark". I should define Light colors in :root (or .light) and Dark in .dark 
+       OR if default is dark, I make :root dark and .light light?
+       Standard is usually :root is light.
+       Let's define :root as LIGHT and .dark as DARK.
+       
+       Current values:
+       --color-background: #0f0f0f; (Dark)
+       --color-foreground: #ededed; (Light text)
+       
+       So the current site IS Dark mode by default.
+       I will set :root to be Light Mode values, and .dark to be these current values.
+    */
+    --color-background: #fafafa;
+    --color-foreground: #171717;
 
-  --color-primary: #2c75ff;
-  /* Violet-500 equivalent */
-  --color-primary-dark: #185ad7;
-  /* Violet-600 */
-  --color-secondary: #1f1f1f;
-  --color-secondary-foreground: #a1a1aa;
-  /* Zinc-400 */
+    --color-primary: #2c75ff;
+    --color-primary-dark: #185ad7;
+
+    --color-secondary: #f4f4f5;
+    --color-secondary-foreground: #52525b;
+    /* Zinc-600 */
+
+    --font-sans: var(--font-inter);
+    --font-display: var(--font-outfit);
+  }
+
+  .dark {
+    --color-background: #0f0f0f;
+    --color-foreground: #ededed;
+
+    --color-primary: #2c75ff;
+    --color-primary-dark: #185ad7;
+
+    --color-secondary: #1f1f1f;
+    --color-secondary-foreground: #a1a1aa;
+    /* Zinc-400 */
+  }
+}
+
+@theme {
+  --color-background: var(--color-background);
+  --color-foreground: var(--color-foreground);
+
+  --color-primary: var(--color-primary);
+  --color-primary-dark: var(--color-primary-dark);
+
+  --color-secondary: var(--color-secondary);
+  --color-secondary-foreground: var(--color-secondary-foreground);
 
   --font-sans: var(--font-inter);
   --font-display: var(--font-outfit);
@@ -26,6 +68,12 @@ h6 {
 }
 
 /* Base styles */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 10px;
+  /* Adjust based on header height */
+}
+
 body {
   background-color: var(--color-background);
   color: var(--color-foreground);
@@ -49,4 +97,57 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #444;
+}
+
+/* Custom Animations */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+
+  50% {
+    opacity: 0.8;
+  }
+}
+
+.animate-spin-slow {
+  animation: spin 15s linear infinite;
+}
+
+.animate-spin-reverse-slower {
+  animation: spin 20s linear infinite reverse;
+}
+
+.animate-pulse-slow {
+  animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes infinite-scroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-infinite-scroll {
+  animation: infinite-scroll 25s linear infinite;
+}
+
+.animate-infinite-scroll-reverse {
+  animation: infinite-scroll 25s linear infinite reverse;
 }

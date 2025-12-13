@@ -4,37 +4,45 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { SectionHeading } from "@/components/ui/SectionHeading";
-import { ArrowUpRight, ArrowRight } from "lucide-react";
+import { ArrowUpRight, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import { useLanguage } from "@/context/LanguageContext";
+import rawPortfolioData from "@/data/portfolio.json";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 
-export function Portfolio() {
-    const { t } = useLanguage();
-    const portfolioData = t.portfolio.items;
+export default function PortfolioPage() {
     const [filter, setFilter] = useState("All");
-
-    const categories = ["All", ...Array.from(new Set(portfolioData.map((item) => item.category)))];
+    const categories = ["All", ...Array.from(new Set(rawPortfolioData.map((item) => item.category)))];
 
     const filteredProjects = filter === "All"
-        ? portfolioData
-        : portfolioData.filter((item) => item.category === filter);
-
-    if (!portfolioData || portfolioData.length === 0) {
-        return null;
-    }
-
-    // Show only first 3 projects on home page
-    const displayProjects = filteredProjects.slice(0, 3);
+        ? rawPortfolioData
+        : rawPortfolioData.filter((item) => item.category === filter);
 
     return (
-        <section id="portfolio" className="py-24 bg-secondary/30">
-            <div className="container mx-auto px-4">
-                <SectionHeading
-                    title={t.portfolio.title}
-                    subtitle="Portfolio"
-                    className="mb-12"
-                />
+        <main className="min-h-screen pb-20">
+            <Header />
+
+            <section className="pt-32 pb-12 container mx-auto px-4">
+                <div className="mb-12">
+                    <Button variant="ghost" asChild className="mb-8 hover:bg-transparent pl-0 hover:text-primary">
+                        <Link href="/" className="flex items-center gap-2">
+                            <ArrowLeft size={20} />
+                            Back to Home
+                        </Link>
+                    </Button>
+
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
+                        className="text-center"
+                    >
+                        <h1 className="text-4xl md:text-5xl font-bold font-outfit mb-6">All Projects</h1>
+                        <p className="text-secondary-foreground max-w-2xl mx-auto">
+                            Explore my complete portfolio of projects across development, design, and mobile apps.
+                        </p>
+                    </motion.div>
+                </div>
 
                 {/* Filters */}
                 <div className="flex flex-wrap justify-center gap-4 mb-16">
@@ -44,7 +52,7 @@ export function Portfolio() {
                             onClick={() => setFilter(cat)}
                             className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 ${filter === cat
                                 ? "bg-primary text-white"
-                                : "bg-secondary text-secondary-foreground hover:bg-primary hover:text-white"
+                                : "bg-secondary text-secondary-foreground hover:text-white"
                                 }`}
                         >
                             {cat}
@@ -55,10 +63,10 @@ export function Portfolio() {
                 {/* Grid */}
                 <motion.div
                     layout
-                    className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12"
+                    className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
                 >
                     <AnimatePresence>
-                        {displayProjects.map((project) => (
+                        {filteredProjects.map((project) => (
                             <motion.div
                                 key={project.id}
                                 layout
@@ -75,7 +83,6 @@ export function Portfolio() {
                                     className="object-cover transition-transform duration-500 group-hover:scale-110"
                                 />
 
-                                {/* Overlay */}
                                 <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
                                     <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-300 w-full">
                                         <div className="flex items-center justify-between">
@@ -96,15 +103,9 @@ export function Portfolio() {
                         ))}
                     </AnimatePresence>
                 </motion.div>
+            </section>
 
-                <div className="mt-12 flex justify-center">
-                    <Button variant="secondary" size="lg" asChild className="rounded-full px-8 border border-foreground/10 hover:border-primary/30">
-                        <Link href="/portfolio" className="inline-flex items-center gap-2">
-                            View All Projects <ArrowRight size={16} />
-                        </Link>
-                    </Button>
-                </div>
-            </div>
-        </section>
+            <Footer />
+        </main>
     );
 }

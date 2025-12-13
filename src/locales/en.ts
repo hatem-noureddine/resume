@@ -22,7 +22,7 @@ export const en = {
             { value: "50+", label: "Projects Completed" },
             { value: "1.5k", label: "Happy Clients" },
         ],
-        image: "/profile.png",
+        image: "/resume/profile.png",
     },
     services: {
         title: "My Services",
@@ -76,33 +76,67 @@ export const en = {
                 role: "Junior Developer",
                 company: "StartUp Hub",
                 description: "Collaborated with senior developers to build MVP products.",
+                startDate: "2016-01",
+                endDate: "2018-05", // Added date for sorting since logic depends on it
+            },
+            {
+                id: 4,
+                period: "2018 - 2020",
+                role: "Senior UI/UX Designer",
+                company: "Creative Agency (Duplicate)",
+                description: "Designed award-winning interfaces for global brands.",
+                startDate: "2018-01",
+                endDate: "2020-01",
+            },
+            {
+                id: 5,
+                period: "2016 - 2018",
+                role: "Junior Developer",
+                company: "StartUp Hub (Duplicate)",
+                description: "Collaborated with senior developers to build MVP products.",
+                startDate: "2015-01",
+                endDate: "2016-01",
             },
         ]
     },
     portfolio: {
         title: "My Projects",
         items: [
-            {
-                id: 1,
-                title: "E-commerce Platform",
-                category: "Development",
-                image: "https://placehold.co/600x400/1f1f1f/FFF",
-                link: "#",
-            },
-            {
-                id: 2,
-                title: "Finance Dashboard",
-                category: "UI/UX",
-                image: "https://placehold.co/600x400/1f1f1f/FFF",
-                link: "#",
-            },
-            {
-                id: 3,
-                title: "Travel App",
-                category: "Mobile",
-                image: "https://placehold.co/600x400/1f1f1f/FFF",
-                link: "#",
-            },
+            // {
+            //     id: 1,
+            //     title: "E-commerce Platform",
+            //     category: "Development",
+            //     image: "https://placehold.co/600x400/1f1f1f/FFF",
+            //     link: "#",
+            // },
+            // {
+            //     id: 2,
+            //     title: "Finance Dashboard",
+            //     category: "UI/UX",
+            //     image: "https://placehold.co/600x400/1f1f1f/FFF",
+            //     link: "#",
+            // },
+            // {
+            //     id: 3,
+            //     title: "Travel App",
+            //     category: "Mobile",
+            //     image: "https://placehold.co/600x400/1f1f1f/FFF",
+            //     link: "#",
+            // },
+            // {
+            //     id: 4,
+            //     title: "Social Media App",
+            //     category: "Mobile",
+            //     image: "https://placehold.co/600x400/1f1f1f/FFF",
+            //     link: "#",
+            // },
+            // {
+            //     id: 5,
+            //     title: "Corporate Website",
+            //     category: "Web Design",
+            //     image: "https://placehold.co/600x400/1f1f1f/FFF",
+            //     link: "#",
+            // }
         ]
     },
     blog: {
@@ -118,27 +152,71 @@ export const en = {
     },
     skills: {
         title: "My Skills",
-        description: "I work with a wide range of technologies and tools to bring ideas to life.",
-        categories: {
-            frontend: "Frontend",
-            backend: "Backend"
+        description: "A comprehensive overview of my technical expertise and professional capabilities.",
+        professional: {
+            title: "Professional",
+            items: [
+                "Team Management",
+                "Technical & Functional Analysis",
+                "Technical Documentation",
+                "Team Collaboration",
+                "Code Quality Assurance",
+                "Code Review",
+                "Product Roadmap",
+                "Backlog Management"
+            ]
+        },
+        technical: {
+            title: "Technical",
+            categories: [
+                {
+                    name: "Architecture",
+                    items: ["Clean Arch", "Modular Arch", "MVVM", "MVI"]
+                },
+                {
+                    name: "Development",
+                    items: ["Kotlin", "Android", "Jetpack Compose", "Room", "Coroutines", "Koin", "Hilt", "Gradle DSL", "Google Maps", "Ktor", "Retrofit", "Kotlin MultiPlatform", "Compose MultiPlatform"]
+                },
+                {
+                    name: "Mobile Testing",
+                    items: ["JUnit", "Robolectric", "Mockk", "Espresso"]
+                },
+                {
+                    name: "Design Patterns",
+                    items: ["Dependency Injection", "Singleton", "Observer", "Adapter", "Facade", "Repository"]
+                },
+                {
+                    name: "CI/CD for Mobile",
+                    items: ["Jenkins", "Fastlane", "TeamCity", "GitHub Actions"]
+                },
+                {
+                    name: "Mobile UX/UI",
+                    items: ["Figma", "Overflow", "Zeplin"]
+                },
+                {
+                    name: "AI",
+                    items: ["Copilot", "Gemini"]
+                },
+                {
+                    name: "Code Quality",
+                    items: ["Sonar", "Detekt", "Lint", "Kover"]
+                },
+                {
+                    name: "Version Control",
+                    items: ["Git", "Gitflow"]
+                },
+                {
+                    name: "Collaboration Tools",
+                    items: ["Jira", "Confluence", "Redmine"]
+                },
+                {
+                    name: "Analytics",
+                    items: ["Firebase Analytics", "Kotzilla"]
+                }
+            ]
         }
     },
-    cooperation: {
-        title: "Let's Cooperate to build something great.",
-        description: "I'm always open to discussing new projects, creative ideas, or opportunities to be part of your visions.",
-        availableFor: "Available for Freelance",
-        partnership: "Project Partnership",
-        freelanceDesc: "Available for freelance projects and consultation.",
-        partnershipDesc: "Open to long-term partnerships and collaborations.",
-        contactBtn: "Contact Me",
-        stats: {
-            clients: "Happy Clients",
-            experience: "Years Experience", // Fixed typo "Years of Experience" matches previously but verifying
-            projects: "Projects Completed",
-            support: "Support"
-        }
-    },
+
     contact: {
         title: "Contact Me",
         subtitle: "Let's Connect",
@@ -161,7 +239,11 @@ export const en = {
             email: "Email",
             subject: "Subject",
             message: "Message",
-            send: "Send Message"
+            send: "Send Message",
+            validation: {
+                emailInvalid: "Please enter a valid email address",
+                required: "This field is required"
+            }
         }
     },
     footer: {

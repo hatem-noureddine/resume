@@ -9,10 +9,12 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
 import { useLanguage } from "@/context/LanguageContext";
 import { localeMetadata } from "@/locales";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { Logo } from "@/components/ui/Logo";
 
-export function Header() {
+export function Header({ hasBlogPosts = true }: { hasBlogPosts?: boolean }) {
     const { t, language, setLanguage, availableLanguages } = useLanguage();
-    const [isOpen, setIsOpen] = useState(false);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
     const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false);
     const languageMenuRef = useRef<HTMLDivElement>(null);
@@ -38,12 +40,12 @@ export function Header() {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    const pathname = usePathname();
+    const portfolioItems = t.portfolio.items || [];
+    const showPortfolio = portfolioItems.length > 0;
+
     const navLinks = t.header.nav.filter(link => {
-        // Hide "Blog" link if we are on any blog page
-        if (pathname?.startsWith("/blog") && link.href.includes("blog")) {
-            return false;
-        }
+        if (link.href.includes('portfolio')) return showPortfolio;
+        if (link.href.includes('blog')) return hasBlogPosts;
         return true;
     });
 
@@ -51,13 +53,14 @@ export function Header() {
         <header
             className={cn(
                 "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-                isScrolled ? "bg-background/80 backdrop-blur-md py-4 shadow-sm" : "bg-transparent py-6"
+                isScrolled ? "bg-background/80 backdrop-blur-md shadow-sm" : "bg-transparent"
             )}
         >
             <div className="container mx-auto px-4 flex items-center justify-between">
-                <Link href="/" className="text-2xl font-bold font-outfit text-foreground">
-                    {t.header.logo}
-                    <span className="text-primary">.</span>
+                <Link href="/" className="text-2xl font-bold font-outfit text-foreground flex items-center gap-2">
+                    <div className="relative h-8 w-8">
+                        <Logo className="h-full w-full" />
+                    </div>
                 </Link>
 
                 {/* Desktop Nav */}
@@ -66,7 +69,7 @@ export function Header() {
                         <Link
                             key={link.name}
                             href={link.href}
-                            className="text-sm font-medium text-secondary-foreground hover:text-primary transition-colors"
+                            className="text-sm font-medium hover:text-primary transition-colors"
                         >
                             {link.name}
                         </Link>
@@ -77,7 +80,7 @@ export function Header() {
                         <div className="relative" ref={languageMenuRef}>
                             <button
                                 onClick={() => setIsLanguageMenuOpen(!isLanguageMenuOpen)}
-                                className="flex items-center gap-2 text-sm font-medium text-secondary-foreground hover:text-primary transition-colors px-3 py-2 rounded-full hover:bg-white/5 active:bg-white/10"
+                                className="flex items-center gap-2 text-sm font-medium text-secondary-foreground hover:text-primary transition-colors px-3 py-2 rounded-full hover:bg-foreground/5 active:bg-foreground/10"
                             >
                                 <span className="text-lg leading-none">{localeMetadata[language].flag}</span>
                                 <span className="uppercase">{language}</span>
@@ -96,7 +99,7 @@ export function Header() {
                                         animate={{ opacity: 1, y: 0, scale: 1 }}
                                         exit={{ opacity: 0, y: 10, scale: 0.95 }}
                                         transition={{ duration: 0.2 }}
-                                        className="absolute top-full right-0 mt-2 min-w-[160px] bg-background/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-xl overflow-hidden py-2"
+                                        className="absolute top-full right-0 mt-2 min-w-[160px] bg-background/95 backdrop-blur-xl border border-foreground/10 rounded-xl shadow-xl overflow-hidden py-2"
                                     >
                                         <div className="flex flex-col">
                                             {availableLanguages.map((lang) => (
@@ -107,7 +110,7 @@ export function Header() {
                                                         setIsLanguageMenuOpen(false);
                                                     }}
                                                     className={cn(
-                                                        "flex items-center justify-between px-4 py-2.5 text-sm transition-colors hover:bg-white/5",
+                                                        "flex items-center justify-between px-4 py-2.5 text-sm transition-colors hover:bg-foreground/5",
                                                         language === lang
                                                             ? "text-primary font-bold bg-primary/5"
                                                             : "text-muted-foreground hover:text-foreground"
@@ -127,6 +130,8 @@ export function Header() {
                         </div>
                     )}
 
+                    <ThemeToggle />
+
                     <Button variant="default" size="sm" asChild>
                         <Link href="#contact">{t.header.hireMe}</Link>
                     </Button>
@@ -134,6 +139,8 @@ export function Header() {
 
                 {/* Mobile Menu Toggle */}
                 <div className="flex items-center gap-4 md:hidden">
+                    <ThemeToggle />
+
                     {availableLanguages.length > 1 && (
                         <button
                             onClick={() => {
@@ -149,38 +156,38 @@ export function Header() {
                     )}
                     <button
                         className="text-foreground p-2"
-                        onClick={() => setIsOpen(!isOpen)}
+                        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                         aria-label="Toggle menu"
                     >
-                        {isOpen ? <X size={24} /> : <Menu size={24} />}
+                        {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
                     </button>
                 </div>
             </div>
 
             {/* Mobile Nav */}
             <AnimatePresence>
-                {isOpen && (
+                {mobileMenuOpen && (
                     <motion.div
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: "auto" }}
                         exit={{ opacity: 0, height: 0 }}
-                        className="md:hidden bg-background border-b border-white/10 overflow-hidden"
+                        className="md:hidden bg-background border-b border-foreground/10 overflow-hidden"
                     >
-                        <nav className="flex flex-col items-center gap-6 py-8">
+                        <div className="flex flex-col items-center gap-6 py-8">
                             {navLinks.map((link) => (
                                 <Link
                                     key={link.name}
                                     href={link.href}
                                     className="text-lg font-medium text-secondary-foreground hover:text-primary transition-colors"
-                                    onClick={() => setIsOpen(false)}
+                                    onClick={() => setMobileMenuOpen(false)}
                                 >
                                     {link.name}
                                 </Link>
                             ))}
-                            <Button onClick={() => setIsOpen(false)} asChild>
+                            <Button onClick={() => setMobileMenuOpen(false)} asChild>
                                 <Link href="#contact">{t.header.hireMe}</Link>
                             </Button>
-                        </nav>
+                        </div>
                     </motion.div>
                 )}
             </AnimatePresence>

@@ -5,6 +5,10 @@ import * as LucideIcons from "lucide-react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { useLanguage } from "@/context/LanguageContext";
 
+/**
+ * Services Section Component
+ * Displays a grid of services offered, dynamically rendering icons based on data configuration.
+ */
 export function Services() {
     const { t } = useLanguage();
     const { services } = t;
@@ -31,7 +35,7 @@ export function Services() {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                                className="group p-8 bg-background border border-white/5 hover:border-primary/50 rounded-2xl transition-all duration-300 hover:-translate-y-2 hover:shadow-lg hover:shadow-primary/5"
+                                className="group p-8 bg-background border border-foreground/5 hover:border-primary/50 rounded-2xl transition-all duration-300 hover:-translate-y-2 hover:shadow-lg hover:shadow-primary/5"
                             >
                                 <div className="mb-6 inline-flex p-4 rounded-full bg-secondary text-primary group-hover:bg-primary group-hover:text-white transition-colors">
                                     <Icon size={32} />
