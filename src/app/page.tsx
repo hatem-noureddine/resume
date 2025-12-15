@@ -3,6 +3,9 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Hero } from "@/components/sections/Hero";
 import { getSortedPostsData } from "@/lib/posts";
+import { WaveDivider } from "@/components/ui/WaveDivider";
+import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import { FloatingActions } from "@/components/layout/FloatingActions";
 
 // Lazy load below-the-fold sections to improve initial load performance
 const Services = dynamic(() => import("@/components/sections/Services").then((mod) => mod.Services));
@@ -20,14 +23,46 @@ export default function Home() {
     <main id="main-content" className="min-h-screen">
       <Header hasBlogPosts={hasBlogPosts} />
       <Hero />
-      <Services />
-      <Experience />
-      <Skills />
-      <Portfolio />
 
-      <Blog posts={posts} />
-      <Contact />
+      {/* Wave divider after Hero */}
+      <div className="bg-secondary/10">
+        <WaveDivider className="-mt-1" color="background" flip />
+      </div>
+
+      <ScrollReveal>
+        <Services />
+      </ScrollReveal>
+
+      {/* Wave divider after Services */}
+      <WaveDivider color="secondary" />
+
+      <ScrollReveal>
+        <Experience />
+      </ScrollReveal>
+
+      <ScrollReveal>
+        <Skills />
+      </ScrollReveal>
+
+      {/* Wave divider before Portfolio */}
+      <WaveDivider color="background" flip />
+
+      <ScrollReveal>
+        <Portfolio />
+      </ScrollReveal>
+
+      <ScrollReveal>
+        <Blog posts={posts} />
+      </ScrollReveal>
+
+      {/* Wave divider before Contact */}
+      <WaveDivider color="secondary" />
+
+      <ScrollReveal>
+        <Contact />
+      </ScrollReveal>
       <Footer hasBlogPosts={hasBlogPosts} />
+      <FloatingActions />
     </main>
   );
 }

@@ -66,6 +66,69 @@ body {
   overflow-x: hidden;
 }
 
+/* ========================================
+   CUSTOM SELECTION COLOR
+   ======================================== */
+::selection {
+  background: var(--color-primary);
+  color: #ffffff;
+}
+
+::-moz-selection {
+  background: var(--color-primary);
+  color: #ffffff;
+}
+
+/* ========================================
+   GLASSMORPHISM EFFECT
+   ======================================== */
+.glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dark .glass {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.dark .glass-card {
+  background: rgba(31, 31, 31, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* ========================================
+   3D CARD TILT EFFECT
+   ======================================== */
+.tilt-card {
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease;
+}
+
+.tilt-card:hover {
+  transform: perspective(1000px) rotateX(var(--rotateX, 0deg)) rotateY(var(--rotateY, 0deg));
+}
+
+.tilt-card-content {
+  transform: translateZ(20px);
+  transition: transform 0.3s ease;
+}
+
+.tilt-card:hover .tilt-card-content {
+  transform: translateZ(40px);
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 10px;
@@ -197,5 +260,324 @@ a:focus-visible {
   .touch-target {
     min-width: 44px;
     min-height: 44px;
+  }
+}
+
+/* ========================================
+   TEXT GRADIENTS
+   ======================================== */
+.text-gradient {
+  background: linear-gradient(135deg, var(--color-primary), #8b5cf6, var(--color-primary));
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-shift 3s ease-in-out infinite;
+}
+
+.text-gradient-static {
+  background: linear-gradient(135deg, var(--color-primary), #8b5cf6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@keyframes gradient-shift {
+
+  0%,
+  100% {
+    background-position: 0% center;
+  }
+
+  50% {
+    background-position: 100% center;
+  }
+}
+
+/* ========================================
+   ENHANCED SHADOWS
+   ======================================== */
+.shadow-card {
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.05),
+    0 2px 4px rgba(0, 0, 0, 0.05),
+    0 4px 8px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.shadow-card:hover {
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.08),
+    0 8px 16px rgba(0, 0, 0, 0.08),
+    0 16px 32px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+.dark .shadow-card {
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.2),
+    0 2px 4px rgba(0, 0, 0, 0.2),
+    0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.dark .shadow-card:hover {
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.3),
+    0 8px 16px rgba(0, 0, 0, 0.3),
+    0 16px 32px rgba(44, 117, 255, 0.1);
+}
+
+.shadow-glow {
+  box-shadow: 0 0 20px rgba(44, 117, 255, 0.2);
+}
+
+.shadow-glow:hover {
+  box-shadow: 0 0 40px rgba(44, 117, 255, 0.4);
+}
+
+/* ========================================
+   KEN BURNS IMAGE EFFECT
+   ======================================== */
+.ken-burns {
+  overflow: hidden;
+}
+
+.ken-burns img {
+  transition: transform 8s ease-out;
+}
+
+.ken-burns:hover img {
+  transform: scale(1.1);
+}
+
+/* ========================================
+   SKELETON LOADER
+   ======================================== */
+.skeleton-box {
+  background: linear-gradient(90deg,
+      var(--color-secondary) 0%,
+      rgba(255, 255, 255, 0.1) 50%,
+      var(--color-secondary) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+
+.skeleton-text {
+  height: 1em;
+  border-radius: 4px;
+}
+
+.skeleton-circle {
+  border-radius: 50%;
+}
+
+/* ========================================
+   PAGE TRANSITIONS
+   ======================================== */
+.page-enter {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.page-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.page-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.page-exit-active {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+/* ========================================
+   WAVE DIVIDERS
+   ======================================== */
+.wave-divider {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.wave-divider svg {
+  position: relative;
+  display: block;
+  width: calc(100% + 1.3px);
+  height: 60px;
+}
+
+.wave-divider .shape-fill {
+  fill: var(--color-background);
+}
+
+.wave-divider-top {
+  transform: rotate(180deg);
+}
+
+/* ========================================
+   BLUR PLACEHOLDER FOR IMAGES
+   ======================================== */
+.image-blur-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.image-blur-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--color-secondary);
+  filter: blur(20px);
+  transform: scale(1.1);
+  z-index: 1;
+  transition: opacity 0.3s ease;
+}
+
+.image-blur-wrapper.loaded::before {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.image-blur-wrapper img {
+  position: relative;
+  z-index: 2;
+}
+
+/* ========================================
+   PRINT STYLESHEET
+   ======================================== */
+@media print {
+
+  /* Reset colors for printing */
+  :root {
+    --color-background: #ffffff;
+    --color-foreground: #000000;
+    --color-primary: #000000;
+    --color-secondary: #f0f0f0;
+    --color-secondary-foreground: #333333;
+  }
+
+  /* Hide non-essential elements */
+  header,
+  footer,
+  .back-to-top,
+  .theme-toggle,
+  .language-selector,
+  nav,
+  button:not(.print-visible),
+  .animate-spin-slow,
+  .animate-pulse-slow,
+  .no-print {
+    display: none !important;
+  }
+
+  /* Reset backgrounds */
+  body,
+  main,
+  section {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  /* Ensure text is readable */
+  * {
+    color: #000000 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  /* Links */
+  a {
+    text-decoration: underline;
+  }
+
+  a[href]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    color: #666 !important;
+  }
+
+  a[href^="#"]::after,
+  a[href^="javascript:"]::after {
+    content: "";
+  }
+
+  /* Page breaks */
+  section {
+    page-break-inside: avoid;
+    page-break-after: auto;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    page-break-after: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Ensure images fit */
+  img {
+    max-width: 100% !important;
+    page-break-inside: avoid;
+  }
+
+  /* Resume-specific print layout */
+  .hero-section {
+    padding-top: 0 !important;
+    padding-bottom: 1rem !important;
+  }
+
+  .container {
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+
+  /* Font sizes for print */
+  h1 {
+    font-size: 24pt !important;
+  }
+
+  h2 {
+    font-size: 18pt !important;
+  }
+
+  h3 {
+    font-size: 14pt !important;
+  }
+
+  body {
+    font-size: 11pt !important;
+  }
+}
+
+/* ========================================
+   REDUCED MOTION PREFERENCES
+   ======================================== */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .text-gradient {
+    animation: none;
+    background-position: 0% center;
   }
 }

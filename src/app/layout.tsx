@@ -4,6 +4,7 @@ import './globals.css';
 import { cn } from '@/lib/utils';
 import { ThemeProvider } from "@/context/ThemeContext";
 import { LanguageProvider } from "@/context/LanguageContext";
+import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' });
@@ -93,6 +94,7 @@ export default function RootLayout({
         <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
           <LanguageProvider>
             {children}
+            <GoogleAnalytics />
           </LanguageProvider>
         </ThemeProvider>
       </body>

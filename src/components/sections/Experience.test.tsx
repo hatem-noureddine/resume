@@ -12,6 +12,8 @@ jest.mock('framer-motion', () => ({
     motion: {
         div: ({ children, className, onClick }: any) => <div className={className} onClick={onClick}>{children}</div>,
         h2: ({ children, className }: any) => <h2 className={className}>{children}</h2>,
+        li: ({ children, className }: any) => <li className={className}>{children}</li>,
+        button: ({ children, className, onClick }: any) => <button className={className} onClick={onClick}>{children}</button>,
     },
     AnimatePresence: ({ children }: any) => <>{children}</>,
 }));
@@ -23,6 +25,9 @@ jest.mock('lucide-react', () => ({
     ChevronRight: () => <div data-testid="icon-chevron-right" />,
     ChevronDown: () => <div data-testid="icon-chevron-down" />,
     ChevronUp: () => <div data-testid="icon-chevron-up" />,
+    Clock: () => <div data-testid="icon-clock" />,
+    Filter: () => <div data-testid="icon-filter" />,
+    X: () => <div data-testid="icon-x" />,
 }));
 
 jest.mock('@/components/ui/Button', () => ({
@@ -39,6 +44,7 @@ jest.mock('@/context/LanguageContext', () => ({
     useLanguage: () => ({
         t: {
             experience: {
+                title: 'My Experience Resume',
                 items: [
                     {
                         id: 1,

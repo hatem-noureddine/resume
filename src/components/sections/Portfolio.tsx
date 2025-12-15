@@ -129,7 +129,7 @@ export function Portfolio() {
                                 animate="animate"
                                 exit="exit"
                                 transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
-                                className="group relative overflow-hidden rounded-xl md:rounded-2xl aspect-video md:aspect-4/3 bg-secondary/20"
+                                className="group relative overflow-hidden rounded-xl md:rounded-2xl aspect-video md:aspect-4/3 bg-secondary/20 shadow-card ken-burns"
                             >
                                 <Image
                                     src={project.image}

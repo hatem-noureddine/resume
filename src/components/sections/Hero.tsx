@@ -157,7 +157,7 @@ export function Hero() {
                 >
                     <h1 className="text-4xl md:text-7xl lg:text-8xl font-bold font-outfit mb-4 leading-[1.1] text-center lg:text-left">
                         <span className="block text-foreground">{hero.name.split(' ')[0]}</span>
-                        <span className="block text-transparent bg-clip-text bg-linear-to-r from-primary to-purple-500">
+                        <span className="block text-gradient">
                             {hero.name.split(' ').slice(1).join(' ')}
                         </span>
                     </h1>
@@ -294,7 +294,7 @@ export function Hero() {
                             initial={{ opacity: 0, x: 50 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: 0.5, duration: 0.5 }}
-                            className="absolute right-0 sm:-right-2 md:-right-4 top-8 sm:top-12 md:top-20 z-20 bg-background/80 backdrop-blur-xl p-2 md:p-4 rounded-xl md:rounded-2xl border border-foreground/10 shadow-xl"
+                            className="absolute right-0 sm:-right-2 md:-right-4 top-8 sm:top-12 md:top-20 z-20 glass-card p-2 md:p-4 rounded-xl md:rounded-2xl shadow-xl"
                         >
                             <div className="flex items-center gap-2 md:gap-3">
                                 <div className="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-full bg-green-500/20 flex items-center justify-center text-green-500">
@@ -311,7 +311,7 @@ export function Hero() {
                             initial={{ opacity: 0, x: -50 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: 0.7, duration: 0.5 }}
-                            className="absolute left-0 sm:-left-2 md:-left-4 bottom-8 sm:bottom-12 md:bottom-20 z-20 bg-background/80 backdrop-blur-xl p-2 md:p-4 rounded-xl md:rounded-2xl border border-foreground/10 shadow-xl"
+                            className="absolute left-0 sm:-left-2 md:-left-4 bottom-8 sm:bottom-12 md:bottom-20 z-20 glass-card p-2 md:p-4 rounded-xl md:rounded-2xl shadow-xl"
                         >
                             <div className="flex items-center gap-2 md:gap-3">
                                 <div className="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary">
@@ -333,14 +333,32 @@ export function Hero() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1.2 }}
-                className="hidden sm:flex absolute bottom-24 md:bottom-32 left-1/2 -translate-x-1/2 flex-col items-center gap-2 text-secondary-foreground/60 hover:text-primary transition-colors cursor-pointer z-20"
+                className="hidden sm:flex absolute bottom-8 md:bottom-12 left-1/2 -translate-x-1/2 flex-col items-center gap-2 text-secondary-foreground/60 hover:text-primary transition-colors cursor-pointer z-30 group"
+                aria-label={scrollDownText}
             >
-                <span className="text-xs uppercase tracking-widest">{scrollDownText}</span>
+                {/* Mouse Icon Animation */}
+                <div className="w-[30px] h-[50px] rounded-[15px] border-2 border-current flex justify-center p-2 box-border opacity-70 group-hover:opacity-100 transition-opacity">
+                    <motion.div
+                        animate={{ y: [0, 12, 0] }}
+                        transition={{
+                            duration: 1.5,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                        }}
+                        className="w-1.5 h-1.5 bg-current rounded-full mb-1"
+                    />
+                </div>
+                {/* Arrow below mouse */}
                 <motion.div
-                    animate={{ y: [0, 8, 0] }}
-                    transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                    animate={{ y: [0, 5, 0], opacity: [0.5, 1, 0.5] }}
+                    transition={{
+                        duration: 1.5,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                        delay: 0.2
+                    }}
                 >
-                    <ChevronDown size={24} />
+                    <ChevronDown size={20} className="stroke-3" />
                 </motion.div>
             </motion.button>
 

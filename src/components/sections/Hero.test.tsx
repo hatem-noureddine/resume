@@ -21,14 +21,17 @@ jest.mock('next/image', () => ({
 
 jest.mock('framer-motion', () => ({
     motion: {
-        div: ({ children, className }: any) => <div className={className}>{children}</div>,
+        div: ({ children, className, style }: any) => <div className={className} style={style}>{children}</div>,
         h1: ({ children, className }: any) => <h1 className={className}>{children}</h1>,
         h2: ({ children, className }: any) => <h2 className={className}>{children}</h2>,
         h3: ({ children, className }: any) => <h3 className={className}>{children}</h3>,
         p: ({ children, className }: any) => <p className={className}>{children}</p>,
         span: ({ children, className }: any) => <span className={className}>{children}</span>,
         a: ({ children, className, href }: any) => <a className={className} href={href}>{children}</a>,
+        button: ({ children, className, onClick }: any) => <button className={className} onClick={onClick}>{children}</button>,
     },
+    useScroll: () => ({ scrollYProgress: { get: () => 0 } }),
+    useTransform: () => 0,
 }));
 
 jest.mock('@/components/sections/ClientCarousel', () => ({

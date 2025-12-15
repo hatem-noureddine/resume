@@ -67,6 +67,35 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Analyze Bundle Size
+        run: |
+          echo "## 📦 Bundle Size Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # Calculate total size
+          TOTAL_SIZE=$(du -sh out/ | cut -f1)
+          echo "**Total Output Size:** $TOTAL_SIZE" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # List largest files
+          echo "### Largest Files" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          find out/ -type f -exec du -h {} + | sort -rh | head -15 >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # Check JS bundle sizes
+          echo "### JavaScript Chunks" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          find out/_next/static -name "*.js" -exec du -h {} + 2>/dev/null | sort -rh | head -10 >> $GITHUB_STEP_SUMMARY || echo "No JS chunks found" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+
+          # Warn if bundle is too large (> 5MB)
+          TOTAL_BYTES=$(du -sb out/ | cut -f1)
+          if [ $TOTAL_BYTES -gt 5242880 ]; then
+            echo "::warning::Bundle size ($TOTAL_SIZE) exceeds recommended 5MB limit"
+          fi
+
       - name: Upload build artifact for E2E
         uses: actions/upload-artifact@v4
         with:

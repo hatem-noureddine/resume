@@ -1,173 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="81" failures="11" errors="0" time="1.647">
-  <testsuite name="Skills Component" errors="0" failures="4" skipped="0" timestamp="2025-12-15T10:52:43" time="0.232" tests="4">
-    <testcase classname="Skills Component renders the skills section title" name="Skills Component renders the skills section title" time="0.031">
-      <failure>Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it&apos;s defined in, or you might have mixed up default and named imports.
-
-Check the render method of `DesktopCategoryGrid`.
-    at createFiberFromTypeAndProps (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:5021:28)
-    at createFiberFromElement (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:5035:14)
-    at createChild (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:6338:26)
-    at reconcileChildrenArray (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:6670:25)
-    at reconcileChildFibersImpl (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:6993:30)
-    at /Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:7098:33
-    at reconcileChildren (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:9701:13)
-    at beginWork (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:12049:13)
-    at runWithFiberInDEV (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
-    at performUnitOfWork (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:17641:22)
-    at workLoopSync (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:17469:41)
-    at renderRootSync (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:17450:11)
-    at performWorkOnRoot (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:16583:35)
-    at performWorkOnRootViaSchedulerTask (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:18957:7)
-    at flushActQueue (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react/cjs/react.development.js:590:34)
-    at Object.&lt;anonymous&gt;.process.env.NODE_ENV.exports.act (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react/cjs/react.development.js:884:10)
-    at /Users/hatemnoureddine/workspace/web/resume_1/node_modules/@testing-library/react/dist/act-compat.js:47:25
-    at renderRoot (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/@testing-library/react/dist/pure.js:190:26)
-    at render (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/@testing-library/react/dist/pure.js:292:10)
-    at renderWithContext (/Users/hatemnoureddine/workspace/web/resume_1/src/components/sections/Skills.test.tsx:43:22)
-    at Object.renderWithContext (/Users/hatemnoureddine/workspace/web/resume_1/src/components/sections/Skills.test.tsx:51:9)
-    at Promise.then.completed (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/utils.js:298:28)
-    at new Promise (&lt;anonymous&gt;)
-    at callAsyncCircusFn (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/utils.js:231:10)
-    at _callCircusTest (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:316:40)
-    at _runTest (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:252:3)
-    at _runTestsForDescribeBlock (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:126:9)
-    at _runTestsForDescribeBlock (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:121:9)
-    at run (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:71:3)
-    at runAndTransformResultsToJestFormat (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
-    at jestAdapter (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
-    at runTestInternal (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-runner/build/runTest.js:367:16)
-    at runTest (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-runner/build/runTest.js:444:34)</failure>
+<testsuites name="jest tests" tests="81" failures="0" errors="0" time="1.775">
+  <testsuite name="Skills Component" errors="0" failures="0" skipped="0" timestamp="2025-12-15T12:08:48" time="0.303" tests="4">
+    <testcase classname="Skills Component renders the skills section title" name="Skills Component renders the skills section title" time="0.03">
     </testcase>
-    <testcase classname="Skills Component renders professional skills" name="Skills Component renders professional skills" time="0.007">
-      <failure>Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it&apos;s defined in, or you might have mixed up default and named imports.
-
-Check the render method of `DesktopCategoryGrid`.
-    at createFiberFromTypeAndProps (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:5021:28)
-    at createFiberFromElement (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:5035:14)
-    at createChild (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:6338:26)
-    at reconcileChildrenArray (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:6670:25)
-    at reconcileChildFibersImpl (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:6993:30)
-    at /Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:7098:33
-    at reconcileChildren (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:9701:13)
-    at beginWork (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:12049:13)
-    at runWithFiberInDEV (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
-    at performUnitOfWork (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:17641:22)
-    at workLoopSync (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:17469:41)
-    at renderRootSync (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:17450:11)
-    at performWorkOnRoot (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:16583:35)
-    at performWorkOnRootViaSchedulerTask (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:18957:7)
-    at flushActQueue (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react/cjs/react.development.js:590:34)
-    at Object.&lt;anonymous&gt;.process.env.NODE_ENV.exports.act (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react/cjs/react.development.js:884:10)
-    at /Users/hatemnoureddine/workspace/web/resume_1/node_modules/@testing-library/react/dist/act-compat.js:47:25
-    at renderRoot (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/@testing-library/react/dist/pure.js:190:26)
-    at render (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/@testing-library/react/dist/pure.js:292:10)
-    at renderWithContext (/Users/hatemnoureddine/workspace/web/resume_1/src/components/sections/Skills.test.tsx:43:22)
-    at Object.renderWithContext (/Users/hatemnoureddine/workspace/web/resume_1/src/components/sections/Skills.test.tsx:56:9)
-    at Promise.then.completed (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/utils.js:298:28)
-    at new Promise (&lt;anonymous&gt;)
-    at callAsyncCircusFn (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/utils.js:231:10)
-    at _callCircusTest (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:316:40)
-    at _runTest (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:252:3)
-    at _runTestsForDescribeBlock (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:126:9)
-    at _runTestsForDescribeBlock (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:121:9)
-    at run (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:71:3)
-    at runAndTransformResultsToJestFormat (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
-    at jestAdapter (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
-    at runTestInternal (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-runner/build/runTest.js:367:16)
-    at runTest (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-runner/build/runTest.js:444:34)</failure>
+    <testcase classname="Skills Component renders professional skills" name="Skills Component renders professional skills" time="0.026">
     </testcase>
-    <testcase classname="Skills Component renders technical skill categories" name="Skills Component renders technical skill categories" time="0.006">
-      <failure>Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it&apos;s defined in, or you might have mixed up default and named imports.
-
-Check the render method of `DesktopCategoryGrid`.
-    at createFiberFromTypeAndProps (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:5021:28)
-    at createFiberFromElement (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:5035:14)
-    at createChild (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:6338:26)
-    at reconcileChildrenArray (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:6670:25)
-    at reconcileChildFibersImpl (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:6993:30)
-    at /Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:7098:33
-    at reconcileChildren (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:9701:13)
-    at beginWork (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:12049:13)
-    at runWithFiberInDEV (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
-    at performUnitOfWork (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:17641:22)
-    at workLoopSync (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:17469:41)
-    at renderRootSync (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:17450:11)
-    at performWorkOnRoot (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:16583:35)
-    at performWorkOnRootViaSchedulerTask (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:18957:7)
-    at flushActQueue (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react/cjs/react.development.js:590:34)
-    at Object.&lt;anonymous&gt;.process.env.NODE_ENV.exports.act (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react/cjs/react.development.js:884:10)
-    at /Users/hatemnoureddine/workspace/web/resume_1/node_modules/@testing-library/react/dist/act-compat.js:47:25
-    at renderRoot (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/@testing-library/react/dist/pure.js:190:26)
-    at render (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/@testing-library/react/dist/pure.js:292:10)
-    at renderWithContext (/Users/hatemnoureddine/workspace/web/resume_1/src/components/sections/Skills.test.tsx:43:22)
-    at Object.renderWithContext (/Users/hatemnoureddine/workspace/web/resume_1/src/components/sections/Skills.test.tsx:61:9)
-    at Promise.then.completed (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/utils.js:298:28)
-    at new Promise (&lt;anonymous&gt;)
-    at callAsyncCircusFn (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/utils.js:231:10)
-    at _callCircusTest (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:316:40)
-    at _runTest (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:252:3)
-    at _runTestsForDescribeBlock (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:126:9)
-    at _runTestsForDescribeBlock (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:121:9)
-    at run (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:71:3)
-    at runAndTransformResultsToJestFormat (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
-    at jestAdapter (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
-    at runTestInternal (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-runner/build/runTest.js:367:16)
-    at runTest (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-runner/build/runTest.js:444:34)</failure>
+    <testcase classname="Skills Component renders technical skill categories" name="Skills Component renders technical skill categories" time="0.012">
     </testcase>
-    <testcase classname="Skills Component toggles technical skill category on click" name="Skills Component toggles technical skill category on click" time="0.007">
-      <failure>Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it&apos;s defined in, or you might have mixed up default and named imports.
-
-Check the render method of `DesktopCategoryGrid`.
-    at createFiberFromTypeAndProps (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:5021:28)
-    at createFiberFromElement (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:5035:14)
-    at createChild (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:6338:26)
-    at reconcileChildrenArray (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:6670:25)
-    at reconcileChildFibersImpl (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:6993:30)
-    at /Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:7098:33
-    at reconcileChildren (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:9701:13)
-    at beginWork (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:12049:13)
-    at runWithFiberInDEV (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
-    at performUnitOfWork (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:17641:22)
-    at workLoopSync (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:17469:41)
-    at renderRootSync (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:17450:11)
-    at performWorkOnRoot (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:16583:35)
-    at performWorkOnRootViaSchedulerTask (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:18957:7)
-    at flushActQueue (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react/cjs/react.development.js:590:34)
-    at Object.&lt;anonymous&gt;.process.env.NODE_ENV.exports.act (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react/cjs/react.development.js:884:10)
-    at /Users/hatemnoureddine/workspace/web/resume_1/node_modules/@testing-library/react/dist/act-compat.js:47:25
-    at renderRoot (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/@testing-library/react/dist/pure.js:190:26)
-    at render (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/@testing-library/react/dist/pure.js:292:10)
-    at renderWithContext (/Users/hatemnoureddine/workspace/web/resume_1/src/components/sections/Skills.test.tsx:43:22)
-    at Object.renderWithContext (/Users/hatemnoureddine/workspace/web/resume_1/src/components/sections/Skills.test.tsx:68:9)
-    at Promise.then.completed (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/utils.js:298:28)
-    at new Promise (&lt;anonymous&gt;)
-    at callAsyncCircusFn (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/utils.js:231:10)
-    at _callCircusTest (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:316:40)
-    at _runTest (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:252:3)
-    at _runTestsForDescribeBlock (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:126:9)
-    at _runTestsForDescribeBlock (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:121:9)
-    at run (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:71:3)
-    at runAndTransformResultsToJestFormat (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
-    at jestAdapter (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
-    at runTestInternal (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-runner/build/runTest.js:367:16)
-    at runTest (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-runner/build/runTest.js:444:34)</failure>
+    <testcase classname="Skills Component toggles technical skill category on click" name="Skills Component toggles technical skill category on click" time="0.015">
     </testcase>
   </testsuite>
-  <testsuite name="Services Component" errors="0" failures="0" skipped="0" timestamp="2025-12-15T10:52:43" time="0.125" tests="4">
-    <testcase classname="Services Component renders the section with correct id" name="Services Component renders the section with correct id" time="0.016">
+  <testsuite name="BlogList Component" errors="0" failures="0" skipped="0" timestamp="2025-12-15T12:08:48" time="0.137" tests="8">
+    <testcase classname="BlogList Component renders post titles" name="BlogList Component renders post titles" time="0.018">
     </testcase>
-    <testcase classname="Services Component displays section heading with title" name="Services Component displays section heading with title" time="0.012">
-    </testcase>
-    <testcase classname="Services Component renders service cards on desktop" name="Services Component renders service cards on desktop" time="0.008">
-    </testcase>
-    <testcase classname="Services Component displays service descriptions" name="Services Component displays service descriptions" time="0.008">
-    </testcase>
-  </testsuite>
-  <testsuite name="BlogList Component" errors="0" failures="0" skipped="0" timestamp="2025-12-15T10:52:43" time="0.123" tests="8">
-    <testcase classname="BlogList Component renders post titles" name="BlogList Component renders post titles" time="0.012">
-    </testcase>
-    <testcase classname="BlogList Component renders post descriptions" name="BlogList Component renders post descriptions" time="0.005">
+    <testcase classname="BlogList Component renders post descriptions" name="BlogList Component renders post descriptions" time="0.004">
     </testcase>
     <testcase classname="BlogList Component renders search input" name="BlogList Component renders search input" time="0.003">
     </testcase>
@@ -175,479 +21,55 @@ Check the render method of `DesktopCategoryGrid`.
     </testcase>
     <testcase classname="BlogList Component shows no results message when no posts match" name="BlogList Component shows no results message when no posts match" time="0.006">
     </testcase>
-    <testcase classname="BlogList Component renders post tags" name="BlogList Component renders post tags" time="0.007">
+    <testcase classname="BlogList Component renders post tags" name="BlogList Component renders post tags" time="0.005">
     </testcase>
-    <testcase classname="BlogList Component renders post dates" name="BlogList Component renders post dates" time="0.004">
+    <testcase classname="BlogList Component renders post dates" name="BlogList Component renders post dates" time="0.003">
     </testcase>
-    <testcase classname="BlogList Component clears search when clear button is clicked" name="BlogList Component clears search when clear button is clicked" time="0.025">
+    <testcase classname="BlogList Component clears search when clear button is clicked" name="BlogList Component clears search when clear button is clicked" time="0.017">
     </testcase>
   </testsuite>
-  <testsuite name="Footer Component" errors="0" failures="0" skipped="0" timestamp="2025-12-15T10:52:43" time="0.095" tests="6">
-    <testcase classname="Footer Component renders the footer element" name="Footer Component renders the footer element" time="0.01">
+  <testsuite name="Contact Component" errors="0" failures="0" skipped="0" timestamp="2025-12-15T12:08:48" time="0.08" tests="3">
+    <testcase classname="Contact Component renders contact information" name="Contact Component renders contact information" time="0.01">
     </testcase>
-    <testcase classname="Footer Component displays the logo" name="Footer Component displays the logo" time="0.003">
+    <testcase classname="Contact Component renders contact form fields" name="Contact Component renders contact form fields" time="0.004">
+    </testcase>
+    <testcase classname="Contact Component submits form with mailto link" name="Contact Component submits form with mailto link" time="0.016">
+    </testcase>
+  </testsuite>
+  <testsuite name="Footer Component" errors="0" failures="0" skipped="0" timestamp="2025-12-15T12:08:48" time="0.09" tests="6">
+    <testcase classname="Footer Component renders the footer element" name="Footer Component renders the footer element" time="0.008">
+    </testcase>
+    <testcase classname="Footer Component displays the logo" name="Footer Component displays the logo" time="0.002">
     </testcase>
     <testcase classname="Footer Component displays copyright text with current year" name="Footer Component displays copyright text with current year" time="0.003">
     </testcase>
-    <testcase classname="Footer Component renders navigation links" name="Footer Component renders navigation links" time="0.004">
+    <testcase classname="Footer Component renders navigation links" name="Footer Component renders navigation links" time="0.002">
     </testcase>
     <testcase classname="Footer Component hides blog link when hasBlogPosts is false" name="Footer Component hides blog link when hasBlogPosts is false" time="0.002">
     </testcase>
     <testcase classname="Footer Component renders social media links" name="Footer Component renders social media links" time="0.008">
     </testcase>
   </testsuite>
-  <testsuite name="Contact Component" errors="0" failures="3" skipped="0" timestamp="2025-12-15T10:52:44" time="0.076" tests="3">
-    <testcase classname="Contact Component renders contact information" name="Contact Component renders contact information" time="0.014">
-      <failure>Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it&apos;s defined in, or you might have mixed up default and named imports.
-
-Check the render method of `Contact`.
-    at createFiberFromTypeAndProps (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:5021:28)
-    at createFiberFromElement (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:5035:14)
-    at createChild (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:6338:26)
-    at reconcileChildrenArray (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:6670:25)
-    at reconcileChildFibersImpl (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:6993:30)
-    at /Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:7098:33
-    at reconcileChildren (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:9701:13)
-    at beginWork (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:12049:13)
-    at runWithFiberInDEV (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
-    at performUnitOfWork (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:17641:22)
-    at workLoopSync (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:17469:41)
-    at renderRootSync (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:17450:11)
-    at performWorkOnRoot (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:16583:35)
-    at performWorkOnRootViaSchedulerTask (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:18957:7)
-    at flushActQueue (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react/cjs/react.development.js:590:34)
-    at Object.&lt;anonymous&gt;.process.env.NODE_ENV.exports.act (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react/cjs/react.development.js:884:10)
-    at /Users/hatemnoureddine/workspace/web/resume_1/node_modules/@testing-library/react/dist/act-compat.js:47:25
-    at renderRoot (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/@testing-library/react/dist/pure.js:190:26)
-    at render (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/@testing-library/react/dist/pure.js:292:10)
-    at renderWithContext (/Users/hatemnoureddine/workspace/web/resume_1/src/components/sections/Contact.test.tsx:30:22)
-    at Object.renderWithContext (/Users/hatemnoureddine/workspace/web/resume_1/src/components/sections/Contact.test.tsx:50:9)
-    at Promise.then.completed (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/utils.js:298:28)
-    at new Promise (&lt;anonymous&gt;)
-    at callAsyncCircusFn (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/utils.js:231:10)
-    at _callCircusTest (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:316:40)
-    at _runTest (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:252:3)
-    at _runTestsForDescribeBlock (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:126:9)
-    at _runTestsForDescribeBlock (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:121:9)
-    at run (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:71:3)
-    at runAndTransformResultsToJestFormat (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
-    at jestAdapter (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
-    at runTestInternal (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-runner/build/runTest.js:367:16)
-    at runTest (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-runner/build/runTest.js:444:34)</failure>
+  <testsuite name="Services Component" errors="0" failures="0" skipped="0" timestamp="2025-12-15T12:08:48" time="0.084" tests="4">
+    <testcase classname="Services Component renders the section with correct id" name="Services Component renders the section with correct id" time="0.009">
     </testcase>
-    <testcase classname="Contact Component renders contact form fields" name="Contact Component renders contact form fields" time="0.004">
-      <failure>Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it&apos;s defined in, or you might have mixed up default and named imports.
-
-Check the render method of `Contact`.
-    at createFiberFromTypeAndProps (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:5021:28)
-    at createFiberFromElement (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:5035:14)
-    at createChild (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:6338:26)
-    at reconcileChildrenArray (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:6670:25)
-    at reconcileChildFibersImpl (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:6993:30)
-    at /Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:7098:33
-    at reconcileChildren (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:9701:13)
-    at beginWork (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:12049:13)
-    at runWithFiberInDEV (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
-    at performUnitOfWork (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:17641:22)
-    at workLoopSync (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:17469:41)
-    at renderRootSync (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:17450:11)
-    at performWorkOnRoot (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:16583:35)
-    at performWorkOnRootViaSchedulerTask (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:18957:7)
-    at flushActQueue (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react/cjs/react.development.js:590:34)
-    at Object.&lt;anonymous&gt;.process.env.NODE_ENV.exports.act (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react/cjs/react.development.js:884:10)
-    at /Users/hatemnoureddine/workspace/web/resume_1/node_modules/@testing-library/react/dist/act-compat.js:47:25
-    at renderRoot (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/@testing-library/react/dist/pure.js:190:26)
-    at render (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/@testing-library/react/dist/pure.js:292:10)
-    at renderWithContext (/Users/hatemnoureddine/workspace/web/resume_1/src/components/sections/Contact.test.tsx:30:22)
-    at Object.renderWithContext (/Users/hatemnoureddine/workspace/web/resume_1/src/components/sections/Contact.test.tsx:58:9)
-    at Promise.then.completed (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/utils.js:298:28)
-    at new Promise (&lt;anonymous&gt;)
-    at callAsyncCircusFn (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/utils.js:231:10)
-    at _callCircusTest (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:316:40)
-    at _runTest (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:252:3)
-    at _runTestsForDescribeBlock (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:126:9)
-    at _runTestsForDescribeBlock (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:121:9)
-    at run (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:71:3)
-    at runAndTransformResultsToJestFormat (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
-    at jestAdapter (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
-    at runTestInternal (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-runner/build/runTest.js:367:16)
-    at runTest (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-runner/build/runTest.js:444:34)</failure>
+    <testcase classname="Services Component displays section heading with title" name="Services Component displays section heading with title" time="0.006">
     </testcase>
-    <testcase classname="Contact Component submits form with mailto link" name="Contact Component submits form with mailto link" time="0.003">
-      <failure>Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it&apos;s defined in, or you might have mixed up default and named imports.
-
-Check the render method of `Contact`.
-    at createFiberFromTypeAndProps (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:5021:28)
-    at createFiberFromElement (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:5035:14)
-    at createChild (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:6338:26)
-    at reconcileChildrenArray (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:6670:25)
-    at reconcileChildFibersImpl (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:6993:30)
-    at /Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:7098:33
-    at reconcileChildren (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:9701:13)
-    at beginWork (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:12049:13)
-    at runWithFiberInDEV (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
-    at performUnitOfWork (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:17641:22)
-    at workLoopSync (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:17469:41)
-    at renderRootSync (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:17450:11)
-    at performWorkOnRoot (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:16583:35)
-    at performWorkOnRootViaSchedulerTask (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:18957:7)
-    at flushActQueue (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react/cjs/react.development.js:590:34)
-    at Object.&lt;anonymous&gt;.process.env.NODE_ENV.exports.act (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react/cjs/react.development.js:884:10)
-    at /Users/hatemnoureddine/workspace/web/resume_1/node_modules/@testing-library/react/dist/act-compat.js:47:25
-    at renderRoot (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/@testing-library/react/dist/pure.js:190:26)
-    at render (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/@testing-library/react/dist/pure.js:292:10)
-    at renderWithContext (/Users/hatemnoureddine/workspace/web/resume_1/src/components/sections/Contact.test.tsx:30:22)
-    at Object.renderWithContext (/Users/hatemnoureddine/workspace/web/resume_1/src/components/sections/Contact.test.tsx:65:9)
-    at Promise.then.completed (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/utils.js:298:28)
-    at new Promise (&lt;anonymous&gt;)
-    at callAsyncCircusFn (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/utils.js:231:10)
-    at _callCircusTest (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:316:40)
-    at _runTest (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:252:3)
-    at _runTestsForDescribeBlock (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:126:9)
-    at _runTestsForDescribeBlock (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:121:9)
-    at run (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:71:3)
-    at runAndTransformResultsToJestFormat (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
-    at jestAdapter (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
-    at runTestInternal (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-runner/build/runTest.js:367:16)
-    at runTest (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-runner/build/runTest.js:444:34)</failure>
+    <testcase classname="Services Component renders service cards on desktop" name="Services Component renders service cards on desktop" time="0.005">
+    </testcase>
+    <testcase classname="Services Component displays service descriptions" name="Services Component displays service descriptions" time="0.005">
     </testcase>
   </testsuite>
-  <testsuite name="Experience Component" errors="0" failures="1" skipped="0" timestamp="2025-12-15T10:52:44" time="0.072" tests="3">
-    <testcase classname="Experience Component renders the section title" name="Experience Component renders the section title" time="0.009">
-      <failure>TestingLibraryElementError: Unable to find an element with the text: My Experience Resume. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
-
-Ignored nodes: comments, script, style
-&lt;body&gt;
-  &lt;div&gt;
-    &lt;div&gt;
-      &lt;section
-        class=&quot;py-24 relative bg-secondary/10&quot;
-        id=&quot;experience&quot;
-        tabindex=&quot;0&quot;
-      &gt;
-        &lt;div
-          class=&quot;container mx-auto px-4&quot;
-        &gt;
-          &lt;div
-            data-testid=&quot;section-heading&quot;
-          /&gt;
-          &lt;div
-            class=&quot;max-w-6xl mx-auto&quot;
-          &gt;
-            &lt;div
-              class=&quot;md:hidden flex flex-col gap-4&quot;
-            &gt;
-              &lt;div
-                class=&quot;bg-background border border-foreground/5 rounded-xl overflow-hidden&quot;
-              &gt;
-                &lt;button
-                  class=&quot;w-full flex items-center justify-between p-4 text-left bg-secondary/30&quot;
-                &gt;
-                  &lt;div
-                    class=&quot;flex items-start gap-3&quot;
-                  &gt;
-                    &lt;div
-                      class=&quot;w-10 h-10 text-sm rounded-xl bg-linear-to-br from-primary/20 to-primary/5 flex items-center justify-center border border-primary/10 font-bold text-primary shrink-0 uppercase&quot;
-                    &gt;
-                      T
-                    &lt;/div&gt;
-                    &lt;div&gt;
-                      &lt;span
-                        class=&quot;block text-foreground font-bold font-outfit text-sm mb-0.5&quot;
-                      &gt;
-                        Lead Developer
-                      &lt;/span&gt;
-                      &lt;span
-                        class=&quot;block text-secondary-foreground text-xs&quot;
-                      &gt;
-                        Tech Corp
-                      &lt;/span&gt;
-                      &lt;div
-                        class=&quot;flex items-center gap-2 mt-1 text-xs text-muted-foreground&quot;
-                      &gt;
-                        &lt;div
-                          data-testid=&quot;icon-calendar&quot;
-                        /&gt;
-                        &lt;span&gt;
-                          2023
-                        &lt;/span&gt;
-                      &lt;/div&gt;
-                    &lt;/div&gt;
-                  &lt;/div&gt;
-                  &lt;div
-                    data-testid=&quot;icon-chevron-up&quot;
-                  /&gt;
-                &lt;/button&gt;
-                &lt;div&gt;
-                  &lt;div
-                    class=&quot;p-4 pt-0 border-t border-foreground/5&quot;
-                  &gt;
-                    &lt;div
-                      class=&quot;mt-4&quot;
-                    &gt;
-                      &lt;p
-                        class=&quot;text-secondary-foreground text-sm leading-relaxed mb-3&quot;
-                      &gt;
-                        Desc
-                      &lt;/p&gt;
-                    &lt;/div&gt;
-                  &lt;/div&gt;
-                &lt;/div&gt;
-              &lt;/div&gt;
-            &lt;/div&gt;
-            &lt;div
-              class=&quot;hidden md:flex gap-8 lg:gap-16&quot;
-            &gt;
-              &lt;div
-                class=&quot;md:w-1/3 relative&quot;
-              &gt;
-                &lt;div
-                  class=&quot;absolute left-5 top-8 bottom-8 w-0.5 bg-linear-to-b from-primary via-primary/50 to-primary/10 rounded-full&quot;
-                /&gt;
-                &lt;div
-                  class=&quot;flex flex-col gap-2 relative z-10&quot;
-                &gt;
-                  &lt;button
-                    class=&quot;text-left p-4 pl-12 rounded-xl transition-all duration-300 border relative group focus:outline-none focus:ring-2 focus:ring-primary/50 bg-primary text-white border-primary shadow-lg&quot;
-                  &gt;
-                    &lt;div
-                      class=&quot;absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 transition-all bg-white border-primary scale-125&quot;
-                    &gt;
-                      &lt;div
-                        class=&quot;absolute inset-1 rounded-full bg-primary&quot;
-                      /&gt;
-                    &lt;/div&gt;
-                    &lt;div
-                      class=&quot;flex items-center gap-2 mb-1&quot;
-                    &gt;
-                      &lt;div
-                        data-testid=&quot;icon-briefcase&quot;
-                      /&gt;
-                      &lt;span
-                        class=&quot;text-sm font-bold font-outfit&quot;
-                      &gt;
-                        Lead Developer
-                      &lt;/span&gt;
-                    &lt;/div&gt;
-                    &lt;span
-                      class=&quot;block text-xs mb-1 text-white/80&quot;
-                    &gt;
-                      Tech Corp
-                    &lt;/span&gt;
-                    &lt;div
-                      class=&quot;flex items-center gap-2 text-xs text-white/70&quot;
-                    &gt;
-                      &lt;div
-                        data-testid=&quot;icon-calendar&quot;
-                      /&gt;
-                      &lt;span&gt;
-                        2023
-                      &lt;/span&gt;
-                    &lt;/div&gt;
-                  &lt;/button&gt;
-                &lt;/div&gt;
-              &lt;/div&gt;
-              &lt;div
-                class=&quot;md:w-2/3 flex flex-col relative&quot;
-              &gt;
-                &lt;div
-                  class=&quot;bg-background border border-foreground/5 p-8 md:p-10 rounded-2xl relative overflow-hidden&quot;
-                &gt;
-                  &lt;div
-                    class=&quot;absolute top-0 right-0 w-40 h-40 bg-primary/5 rounded-bl-full -mr-10 -mt-10&quot;
-                  /&gt;
-                  &lt;div
-                    class=&quot;absolute bottom-0 left-0 w-24 h-24 bg-primary/3 rounded-tr-full -ml-6 -mb-6&quot;
-                  /&gt;
-                  &lt;div
-                    class=&quot;relative z-10&quot;
-                  &gt;
-                    &lt;div
-                      class=&quot;flex flex-col md:flex-row gap-6 md:items-start mb-6&quot;
-                    &gt;
-                      &lt;div
-                        class=&quot;w-16 h-16 text-2xl rounded-xl bg-linear-to-br from-primary/20 to-primary/5 flex items-center justify-center border border-primary/10 font-bold text-primary shrink-0 uppercase shadow-lg&quot;
-                      &gt;
-                        T
-                      &lt;/div&gt;
-                      &lt;div
-                        class=&quot;flex-1&quot;
-                      &gt;
-                        &lt;h3
-                          class=&quot;text-2xl lg:text-3xl font-bold font-outfit text-foreground mb-2&quot;
-                        &gt;
-                          Lead Developer
-                        &lt;/h3&gt;
-                        &lt;div
-                          class=&quot;flex flex-wrap items-center gap-3 text-sm&quot;
-                        &gt;
-                          &lt;span
-                            class=&quot;text-primary font-medium&quot;
-                          &gt;
-                            Tech Corp
-                          &lt;/span&gt;
-                          &lt;span
-                            class=&quot;w-1.5 h-1.5 rounded-full bg-foreground/20&quot;
-                          /&gt;
-                          &lt;span
-                            class=&quot;flex items-center gap-1.5 text-secondary-foreground&quot;
-                          &gt;
-                            &lt;div
-                              data-testid=&quot;icon-calendar&quot;
-                            /&gt;
-                            2023
-                          &lt;/span&gt;
-                        &lt;/div&gt;
-                      &lt;/div&gt;
-                    &lt;/div&gt;
-                    &lt;div
-                      class=&quot;mb-6&quot;
-                    &gt;
-                      &lt;p
-                        class=&quot;text-lg text-secondary-foreground leading-relaxed&quot;
-                      &gt;
-                        Desc
-                      &lt;/p&gt;
-                    &lt;/div&gt;
-                  &lt;/div&gt;
-                &lt;/div&gt;
-              &lt;/div&gt;
-            &lt;/div&gt;
-          &lt;/div&gt;
-        &lt;/div&gt;
-      &lt;/section&gt;
-    &lt;/div&gt;
-  &lt;/div&gt;
-&lt;/body&gt;
-    at Object.getElementError (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/@testing-library/dom/dist/config.js:37:19)
-    at /Users/hatemnoureddine/workspace/web/resume_1/node_modules/@testing-library/dom/dist/query-helpers.js:76:38
-    at /Users/hatemnoureddine/workspace/web/resume_1/node_modules/@testing-library/dom/dist/query-helpers.js:109:15
-    at Object.getAllByText (/Users/hatemnoureddine/workspace/web/resume_1/src/components/sections/Experience.test.tsx:70:23)
-    at Promise.then.completed (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/utils.js:298:28)
-    at new Promise (&lt;anonymous&gt;)
-    at callAsyncCircusFn (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/utils.js:231:10)
-    at _callCircusTest (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:316:40)
-    at _runTest (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:252:3)
-    at _runTestsForDescribeBlock (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:126:9)
-    at _runTestsForDescribeBlock (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:121:9)
-    at run (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:71:3)
-    at runAndTransformResultsToJestFormat (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
-    at jestAdapter (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
-    at runTestInternal (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-runner/build/runTest.js:367:16)
-    at runTest (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-runner/build/runTest.js:444:34)</failure>
+  <testsuite name="Hero Component" errors="0" failures="0" skipped="0" timestamp="2025-12-15T12:08:48" time="0.083" tests="3">
+    <testcase classname="Hero Component renders the main heading" name="Hero Component renders the main heading" time="0.015">
     </testcase>
-    <testcase classname="Experience Component renders experience items" name="Experience Component renders experience items" time="0.005">
+    <testcase classname="Hero Component renders social links" name="Hero Component renders social links" time="0.013">
     </testcase>
-    <testcase classname="Experience Component handles mobile accordion interaction" name="Experience Component handles mobile accordion interaction" time="0.008">
+    <testcase classname="Hero Component renders call to action buttons" name="Hero Component renders call to action buttons" time="0.006">
     </testcase>
   </testsuite>
-  <testsuite name="Hero Component" errors="0" failures="3" skipped="0" timestamp="2025-12-15T10:52:44" time="0.076" tests="3">
-    <testcase classname="Hero Component renders the main heading" name="Hero Component renders the main heading" time="0.009">
-      <failure>TypeError: (0 , _framermotion.useScroll) is not a function
-    at Hero (/Users/hatemnoureddine/workspace/web/resume_1/src/components/sections/Hero.tsx:112:42)
-    at Object.react_stack_bottom_frame (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:25904:20)
-    at renderWithHooks (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:7662:22)
-    at updateFunctionComponent (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:10166:19)
-    at beginWork (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:11778:18)
-    at runWithFiberInDEV (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
-    at performUnitOfWork (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:17641:22)
-    at workLoopSync (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:17469:41)
-    at renderRootSync (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:17450:11)
-    at performWorkOnRoot (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:16583:35)
-    at performWorkOnRootViaSchedulerTask (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:18957:7)
-    at flushActQueue (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react/cjs/react.development.js:590:34)
-    at Object.&lt;anonymous&gt;.process.env.NODE_ENV.exports.act (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react/cjs/react.development.js:884:10)
-    at /Users/hatemnoureddine/workspace/web/resume_1/node_modules/@testing-library/react/dist/act-compat.js:47:25
-    at renderRoot (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/@testing-library/react/dist/pure.js:190:26)
-    at render (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/@testing-library/react/dist/pure.js:292:10)
-    at renderWithContext (/Users/hatemnoureddine/workspace/web/resume_1/src/components/sections/Hero.test.tsx:69:22)
-    at Object.renderWithContext (/Users/hatemnoureddine/workspace/web/resume_1/src/components/sections/Hero.test.tsx:77:9)
-    at Promise.then.completed (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/utils.js:298:28)
-    at new Promise (&lt;anonymous&gt;)
-    at callAsyncCircusFn (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/utils.js:231:10)
-    at _callCircusTest (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:316:40)
-    at _runTest (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:252:3)
-    at _runTestsForDescribeBlock (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:126:9)
-    at _runTestsForDescribeBlock (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:121:9)
-    at run (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:71:3)
-    at runAndTransformResultsToJestFormat (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
-    at jestAdapter (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
-    at runTestInternal (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-runner/build/runTest.js:367:16)
-    at runTest (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-runner/build/runTest.js:444:34)</failure>
-    </testcase>
-    <testcase classname="Hero Component renders social links" name="Hero Component renders social links" time="0.003">
-      <failure>TypeError: (0 , _framermotion.useScroll) is not a function
-    at Hero (/Users/hatemnoureddine/workspace/web/resume_1/src/components/sections/Hero.tsx:112:42)
-    at Object.react_stack_bottom_frame (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:25904:20)
-    at renderWithHooks (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:7662:22)
-    at updateFunctionComponent (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:10166:19)
-    at beginWork (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:11778:18)
-    at runWithFiberInDEV (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
-    at performUnitOfWork (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:17641:22)
-    at workLoopSync (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:17469:41)
-    at renderRootSync (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:17450:11)
-    at performWorkOnRoot (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:16583:35)
-    at performWorkOnRootViaSchedulerTask (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:18957:7)
-    at flushActQueue (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react/cjs/react.development.js:590:34)
-    at Object.&lt;anonymous&gt;.process.env.NODE_ENV.exports.act (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react/cjs/react.development.js:884:10)
-    at /Users/hatemnoureddine/workspace/web/resume_1/node_modules/@testing-library/react/dist/act-compat.js:47:25
-    at renderRoot (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/@testing-library/react/dist/pure.js:190:26)
-    at render (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/@testing-library/react/dist/pure.js:292:10)
-    at renderWithContext (/Users/hatemnoureddine/workspace/web/resume_1/src/components/sections/Hero.test.tsx:69:22)
-    at Object.renderWithContext (/Users/hatemnoureddine/workspace/web/resume_1/src/components/sections/Hero.test.tsx:91:9)
-    at Promise.then.completed (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/utils.js:298:28)
-    at new Promise (&lt;anonymous&gt;)
-    at callAsyncCircusFn (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/utils.js:231:10)
-    at _callCircusTest (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:316:40)
-    at _runTest (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:252:3)
-    at _runTestsForDescribeBlock (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:126:9)
-    at _runTestsForDescribeBlock (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:121:9)
-    at run (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:71:3)
-    at runAndTransformResultsToJestFormat (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
-    at jestAdapter (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
-    at runTestInternal (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-runner/build/runTest.js:367:16)
-    at runTest (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-runner/build/runTest.js:444:34)</failure>
-    </testcase>
-    <testcase classname="Hero Component renders call to action buttons" name="Hero Component renders call to action buttons" time="0.001">
-      <failure>TypeError: (0 , _framermotion.useScroll) is not a function
-    at Hero (/Users/hatemnoureddine/workspace/web/resume_1/src/components/sections/Hero.tsx:112:42)
-    at Object.react_stack_bottom_frame (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:25904:20)
-    at renderWithHooks (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:7662:22)
-    at updateFunctionComponent (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:10166:19)
-    at beginWork (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:11778:18)
-    at runWithFiberInDEV (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
-    at performUnitOfWork (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:17641:22)
-    at workLoopSync (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:17469:41)
-    at renderRootSync (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:17450:11)
-    at performWorkOnRoot (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:16583:35)
-    at performWorkOnRootViaSchedulerTask (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react-dom/cjs/react-dom-client.development.js:18957:7)
-    at flushActQueue (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react/cjs/react.development.js:590:34)
-    at Object.&lt;anonymous&gt;.process.env.NODE_ENV.exports.act (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/react/cjs/react.development.js:884:10)
-    at /Users/hatemnoureddine/workspace/web/resume_1/node_modules/@testing-library/react/dist/act-compat.js:47:25
-    at renderRoot (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/@testing-library/react/dist/pure.js:190:26)
-    at render (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/@testing-library/react/dist/pure.js:292:10)
-    at renderWithContext (/Users/hatemnoureddine/workspace/web/resume_1/src/components/sections/Hero.test.tsx:69:22)
-    at Object.renderWithContext (/Users/hatemnoureddine/workspace/web/resume_1/src/components/sections/Hero.test.tsx:101:9)
-    at Promise.then.completed (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/utils.js:298:28)
-    at new Promise (&lt;anonymous&gt;)
-    at callAsyncCircusFn (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/utils.js:231:10)
-    at _callCircusTest (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:316:40)
-    at _runTest (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:252:3)
-    at _runTestsForDescribeBlock (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:126:9)
-    at _runTestsForDescribeBlock (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:121:9)
-    at run (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/run.js:71:3)
-    at runAndTransformResultsToJestFormat (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
-    at jestAdapter (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
-    at runTestInternal (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-runner/build/runTest.js:367:16)
-    at runTest (/Users/hatemnoureddine/workspace/web/resume_1/node_modules/jest-runner/build/runTest.js:444:34)</failure>
-    </testcase>
-  </testsuite>
-  <testsuite name="Portfolio Component" errors="0" failures="0" skipped="0" timestamp="2025-12-15T10:52:44" time="0.052" tests="1">
-    <testcase classname="Portfolio Component renders portfolio projects" name="Portfolio Component renders portfolio projects" time="0.005">
-    </testcase>
-  </testsuite>
-  <testsuite name="Button Component" errors="0" failures="0" skipped="0" timestamp="2025-12-15T10:52:44" time="0.071" tests="8">
-    <testcase classname="Button Component renders button with children" name="Button Component renders button with children" time="0.007">
+  <testsuite name="Button Component" errors="0" failures="0" skipped="0" timestamp="2025-12-15T12:08:48" time="0.058" tests="8">
+    <testcase classname="Button Component renders button with children" name="Button Component renders button with children" time="0.005">
     </testcase>
     <testcase classname="Button Component applies default variant classes" name="Button Component applies default variant classes" time="0.001">
     </testcase>
@@ -655,23 +77,91 @@ Ignored nodes: comments, script, style
     </testcase>
     <testcase classname="Button Component applies ghost variant classes" name="Button Component applies ghost variant classes" time="0.001">
     </testcase>
-    <testcase classname="Button Component applies size classes correctly" name="Button Component applies size classes correctly" time="0.004">
+    <testcase classname="Button Component applies size classes correctly" name="Button Component applies size classes correctly" time="0.002">
     </testcase>
     <testcase classname="Button Component renders as child component when asChild is true" name="Button Component renders as child component when asChild is true" time="0.002">
     </testcase>
-    <testcase classname="Button Component accepts additional className" name="Button Component accepts additional className" time="0.002">
+    <testcase classname="Button Component accepts additional className" name="Button Component accepts additional className" time="0.001">
     </testcase>
-    <testcase classname="Button Component forwards onClick handler" name="Button Component forwards onClick handler" time="0.006">
+    <testcase classname="Button Component forwards onClick handler" name="Button Component forwards onClick handler" time="0.001">
     </testcase>
   </testsuite>
-  <testsuite name="ThemeContext" errors="0" failures="0" skipped="0" timestamp="2025-12-15T10:52:44" time="0.061" tests="7">
-    <testcase classname="ThemeContext provides default theme value" name="ThemeContext provides default theme value" time="0.003">
+  <testsuite name="Experience Component" errors="0" failures="0" skipped="0" timestamp="2025-12-15T12:08:48" time="0.061" tests="3">
+    <testcase classname="Experience Component renders the section title" name="Experience Component renders the section title" time="0.008">
+    </testcase>
+    <testcase classname="Experience Component renders experience items" name="Experience Component renders experience items" time="0.002">
+    </testcase>
+    <testcase classname="Experience Component handles mobile accordion interaction" name="Experience Component handles mobile accordion interaction" time="0.007">
+    </testcase>
+  </testsuite>
+  <testsuite name="Header Component" errors="0" failures="0" skipped="0" timestamp="2025-12-15T12:08:48" time="0.059" tests="3">
+    <testcase classname="Header Component renders navigation links" name="Header Component renders navigation links" time="0.006">
+    </testcase>
+    <testcase classname="Header Component toggles language menu" name="Header Component toggles language menu" time="0.003">
+    </testcase>
+    <testcase classname="Header Component changes language on click" name="Header Component changes language on click" time="0.005">
+    </testcase>
+  </testsuite>
+  <testsuite name="LanguageContext" errors="0" failures="0" skipped="0" timestamp="2025-12-15T12:08:49" time="0.056" tests="7">
+    <testcase classname="LanguageContext provides default language (en)" name="LanguageContext provides default language (en)" time="0.003">
+    </testcase>
+    <testcase classname="LanguageContext provides list of available languages" name="LanguageContext provides list of available languages" time="0">
+    </testcase>
+    <testcase classname="LanguageContext allows setting language to French" name="LanguageContext allows setting language to French" time="0.002">
+    </testcase>
+    <testcase classname="LanguageContext allows setting language to English" name="LanguageContext allows setting language to English" time="0.001">
+    </testcase>
+    <testcase classname="LanguageContext toggleLanguage cycles through available languages" name="LanguageContext toggleLanguage cycles through available languages" time="0.001">
+    </testcase>
+    <testcase classname="LanguageContext provides translation object" name="LanguageContext provides translation object" time="0.001">
+    </testcase>
+    <testcase classname="LanguageContext throws error when useLanguage is used outside provider" name="LanguageContext throws error when useLanguage is used outside provider" time="0.008">
+    </testcase>
+  </testsuite>
+  <testsuite name="TechCarousel" errors="0" failures="0" skipped="0" timestamp="2025-12-15T12:08:49" time="0.062" tests="5">
+    <testcase classname="TechCarousel renders the carousel container" name="TechCarousel renders the carousel container" time="0.004">
+    </testcase>
+    <testcase classname="TechCarousel renders tech items with their names" name="TechCarousel renders tech items with their names" time="0.002">
+    </testcase>
+    <testcase classname="TechCarousel renders gradient overlays for fade effect" name="TechCarousel renders gradient overlays for fade effect" time="0.001">
+    </testcase>
+    <testcase classname="TechCarousel renders icon elements with mask styles" name="TechCarousel renders icon elements with mask styles" time="0.002">
+    </testcase>
+    <testcase classname="TechCarousel renders animation container for infinite scroll" name="TechCarousel renders animation container for infinite scroll" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="posts" errors="0" failures="0" skipped="0" timestamp="2025-12-15T12:08:49" time="0.044" tests="6">
+    <testcase classname="posts getSortedPostsData returns empty array when posts directory does not exist" name="posts getSortedPostsData returns empty array when posts directory does not exist" time="0.001">
+    </testcase>
+    <testcase classname="posts getSortedPostsData returns parsed posts sorted by date descending" name="posts getSortedPostsData returns parsed posts sorted by date descending" time="0.002">
+    </testcase>
+    <testcase classname="posts getSortedPostsData handles posts without category by defaulting to General" name="posts getSortedPostsData handles posts without category by defaulting to General" time="0">
+    </testcase>
+    <testcase classname="posts getSortedPostsData handles posts without tags by defaulting to empty array" name="posts getSortedPostsData handles posts without tags by defaulting to empty array" time="0">
+    </testcase>
+    <testcase classname="posts getPostData returns null for non-existent post" name="posts getPostData returns null for non-existent post" time="0">
+    </testcase>
+    <testcase classname="posts getPostData returns post data for existing post" name="posts getPostData returns post data for existing post" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="ThemeToggle Component" errors="0" failures="0" skipped="0" timestamp="2025-12-15T12:08:49" time="0.051" tests="2">
+    <testcase classname="ThemeToggle Component renders toggle button" name="ThemeToggle Component renders toggle button" time="0.006">
+    </testcase>
+    <testcase classname="ThemeToggle Component toggles theme on click" name="ThemeToggle Component toggles theme on click" time="0.003">
+    </testcase>
+  </testsuite>
+  <testsuite name="Blog Component" errors="0" failures="0" skipped="0" timestamp="2025-12-15T12:08:49" time="0.045" tests="1">
+    <testcase classname="Blog Component renders blog posts" name="Blog Component renders blog posts" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="ThemeContext" errors="0" failures="0" skipped="0" timestamp="2025-12-15T12:08:49" time="0.047" tests="7">
+    <testcase classname="ThemeContext provides default theme value" name="ThemeContext provides default theme value" time="0.002">
     </testcase>
     <testcase classname="ThemeContext applies custom default theme" name="ThemeContext applies custom default theme" time="0.001">
     </testcase>
-    <testcase classname="ThemeContext allows setting theme to dark" name="ThemeContext allows setting theme to dark" time="0.002">
+    <testcase classname="ThemeContext allows setting theme to dark" name="ThemeContext allows setting theme to dark" time="0.001">
     </testcase>
-    <testcase classname="ThemeContext allows setting theme to light" name="ThemeContext allows setting theme to light" time="0.001">
+    <testcase classname="ThemeContext allows setting theme to light" name="ThemeContext allows setting theme to light" time="0.003">
     </testcase>
     <testcase classname="ThemeContext uses custom storage key" name="ThemeContext uses custom storage key" time="0.001">
     </testcase>
@@ -680,88 +170,32 @@ Ignored nodes: comments, script, style
     <testcase classname="ThemeContext returns initial state when used outside provider (context undefined check)" name="ThemeContext returns initial state when used outside provider (context undefined check)" time="0">
     </testcase>
   </testsuite>
-  <testsuite name="Header Component" errors="0" failures="0" skipped="0" timestamp="2025-12-15T10:52:44" time="0.064" tests="3">
-    <testcase classname="Header Component renders navigation links" name="Header Component renders navigation links" time="0.006">
-    </testcase>
-    <testcase classname="Header Component toggles language menu" name="Header Component toggles language menu" time="0.005">
-    </testcase>
-    <testcase classname="Header Component changes language on click" name="Header Component changes language on click" time="0.005">
-    </testcase>
-  </testsuite>
-  <testsuite name="SectionHeading Component" errors="0" failures="0" skipped="0" timestamp="2025-12-15T10:52:44" time="0.054" tests="6">
+  <testsuite name="SectionHeading Component" errors="0" failures="0" skipped="0" timestamp="2025-12-15T12:08:49" time="0.049" tests="6">
     <testcase classname="SectionHeading Component renders title and subtitle" name="SectionHeading Component renders title and subtitle" time="0.003">
     </testcase>
-    <testcase classname="SectionHeading Component renders h2 element for title" name="SectionHeading Component renders h2 element for title" time="0.005">
+    <testcase classname="SectionHeading Component renders h2 element for title" name="SectionHeading Component renders h2 element for title" time="0.003">
     </testcase>
-    <testcase classname="SectionHeading Component applies center alignment by default" name="SectionHeading Component applies center alignment by default" time="0.001">
+    <testcase classname="SectionHeading Component applies center alignment by default" name="SectionHeading Component applies center alignment by default" time="0.003">
     </testcase>
     <testcase classname="SectionHeading Component applies left alignment when specified" name="SectionHeading Component applies left alignment when specified" time="0.001">
     </testcase>
-    <testcase classname="SectionHeading Component applies custom className" name="SectionHeading Component applies custom className" time="0.001">
+    <testcase classname="SectionHeading Component applies custom className" name="SectionHeading Component applies custom className" time="0">
     </testcase>
     <testcase classname="SectionHeading Component renders subtitle with uppercase styling" name="SectionHeading Component renders subtitle with uppercase styling" time="0.001">
     </testcase>
   </testsuite>
-  <testsuite name="LanguageContext" errors="0" failures="0" skipped="0" timestamp="2025-12-15T10:52:44" time="0.056" tests="7">
-    <testcase classname="LanguageContext provides default language (en)" name="LanguageContext provides default language (en)" time="0.002">
-    </testcase>
-    <testcase classname="LanguageContext provides list of available languages" name="LanguageContext provides list of available languages" time="0">
-    </testcase>
-    <testcase classname="LanguageContext allows setting language to French" name="LanguageContext allows setting language to French" time="0.002">
-    </testcase>
-    <testcase classname="LanguageContext allows setting language to English" name="LanguageContext allows setting language to English" time="0.002">
-    </testcase>
-    <testcase classname="LanguageContext toggleLanguage cycles through available languages" name="LanguageContext toggleLanguage cycles through available languages" time="0.003">
-    </testcase>
-    <testcase classname="LanguageContext provides translation object" name="LanguageContext provides translation object" time="0">
-    </testcase>
-    <testcase classname="LanguageContext throws error when useLanguage is used outside provider" name="LanguageContext throws error when useLanguage is used outside provider" time="0.005">
+  <testsuite name="Portfolio Component" errors="0" failures="0" skipped="0" timestamp="2025-12-15T12:08:49" time="0.045" tests="1">
+    <testcase classname="Portfolio Component renders portfolio projects" name="Portfolio Component renders portfolio projects" time="0.006">
     </testcase>
   </testsuite>
-  <testsuite name="ThemeToggle Component" errors="0" failures="0" skipped="0" timestamp="2025-12-15T10:52:44" time="0.053" tests="2">
-    <testcase classname="ThemeToggle Component renders toggle button" name="ThemeToggle Component renders toggle button" time="0.009">
-    </testcase>
-    <testcase classname="ThemeToggle Component toggles theme on click" name="ThemeToggle Component toggles theme on click" time="0.003">
-    </testcase>
-  </testsuite>
-  <testsuite name="TechCarousel" errors="0" failures="0" skipped="0" timestamp="2025-12-15T10:52:44" time="0.053" tests="5">
-    <testcase classname="TechCarousel renders the carousel container" name="TechCarousel renders the carousel container" time="0.003">
-    </testcase>
-    <testcase classname="TechCarousel renders tech items with their names" name="TechCarousel renders tech items with their names" time="0.001">
-    </testcase>
-    <testcase classname="TechCarousel renders gradient overlays for fade effect" name="TechCarousel renders gradient overlays for fade effect" time="0.004">
-    </testcase>
-    <testcase classname="TechCarousel renders icon elements with mask styles" name="TechCarousel renders icon elements with mask styles" time="0.001">
-    </testcase>
-    <testcase classname="TechCarousel renders animation container for infinite scroll" name="TechCarousel renders animation container for infinite scroll" time="0.001">
-    </testcase>
-  </testsuite>
-  <testsuite name="Logo Component" errors="0" failures="0" skipped="0" timestamp="2025-12-15T10:52:44" time="0.047" tests="4">
-    <testcase classname="Logo Component renders an SVG element" name="Logo Component renders an SVG element" time="0.004">
+  <testsuite name="Logo Component" errors="0" failures="0" skipped="0" timestamp="2025-12-15T12:08:49" time="0.044" tests="4">
+    <testcase classname="Logo Component renders an SVG element" name="Logo Component renders an SVG element" time="0.003">
     </testcase>
     <testcase classname="Logo Component applies additional className when provided" name="Logo Component applies additional className when provided" time="0.001">
     </testcase>
-    <testcase classname="Logo Component has default width and height classes" name="Logo Component has default width and height classes" time="0">
+    <testcase classname="Logo Component has default width and height classes" name="Logo Component has default width and height classes" time="0.001">
     </testcase>
-    <testcase classname="Logo Component renders path elements with fill-primary class" name="Logo Component renders path elements with fill-primary class" time="0.003">
-    </testcase>
-  </testsuite>
-  <testsuite name="Blog Component" errors="0" failures="0" skipped="0" timestamp="2025-12-15T10:52:44" time="0.044" tests="1">
-    <testcase classname="Blog Component renders blog posts" name="Blog Component renders blog posts" time="0.004">
-    </testcase>
-  </testsuite>
-  <testsuite name="posts" errors="0" failures="0" skipped="0" timestamp="2025-12-15T10:52:44" time="0.044" tests="6">
-    <testcase classname="posts getSortedPostsData returns empty array when posts directory does not exist" name="posts getSortedPostsData returns empty array when posts directory does not exist" time="0">
-    </testcase>
-    <testcase classname="posts getSortedPostsData returns parsed posts sorted by date descending" name="posts getSortedPostsData returns parsed posts sorted by date descending" time="0.002">
-    </testcase>
-    <testcase classname="posts getSortedPostsData handles posts without category by defaulting to General" name="posts getSortedPostsData handles posts without category by defaulting to General" time="0.001">
-    </testcase>
-    <testcase classname="posts getSortedPostsData handles posts without tags by defaulting to empty array" name="posts getSortedPostsData handles posts without tags by defaulting to empty array" time="0">
-    </testcase>
-    <testcase classname="posts getPostData returns null for non-existent post" name="posts getPostData returns null for non-existent post" time="0">
-    </testcase>
-    <testcase classname="posts getPostData returns post data for existing post" name="posts getPostData returns post data for existing post" time="0">
+    <testcase classname="Logo Component renders path elements with fill-primary class" name="Logo Component renders path elements with fill-primary class" time="0.001">
     </testcase>
   </testsuite>
 </testsuites>

@@ -58,6 +58,9 @@ jobs:
         run: npm ci
 
       - name: Build with Next.js
+        # Inject the GA ID from secrets into the environment during build
+        env:
+          NEXT_PUBLIC_GA_ID: ${{ secrets.NEXT_PUBLIC_GA_ID }}
         run: npm run build
 
       - name: Upload artifact
