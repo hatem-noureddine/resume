@@ -7,24 +7,9 @@ import { Calendar, ChevronDown, ChevronUp, Clock, Briefcase, Filter, X } from "l
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/context/LanguageContext";
 import Image from "next/image";
+import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
 const INITIAL_VISIBLE_COUNT = 3;
-
-// Reduced motion hook
-function usePrefersReducedMotion() {
-    const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-
-    useEffect(() => {
-        const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-        setPrefersReducedMotion(mediaQuery.matches);
-
-        const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
-        mediaQuery.addEventListener("change", handler);
-        return () => mediaQuery.removeEventListener("change", handler);
-    }, []);
-
-    return prefersReducedMotion;
-}
 
 interface ExperienceItem {
     id: number;
@@ -190,7 +175,7 @@ export function Experience() {
                 {/* Skill Filter */}
                 {allSkills.length > 0 && (
                     <motion.div
-                        initial={{ opacity: 0, y: 10 }}
+                        initial={prefersReducedMotion ? {} : { opacity: 0, y: 10 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         className="max-w-6xl mx-auto mb-8"
@@ -247,7 +232,7 @@ export function Experience() {
                         {visibleItems.map((item, index) => (
                             <motion.div
                                 key={item.id}
-                                initial={{ opacity: 0, y: 20 }}
+                                initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: index * 0.1 }}
@@ -448,9 +433,9 @@ export function Experience() {
                             <AnimatePresence mode="wait">
                                 <motion.div
                                     key={activeExperience.id}
-                                    initial={{ opacity: 0, x: 20 }}
+                                    initial={prefersReducedMotion ? {} : { opacity: 0, x: 20 }}
                                     animate={{ opacity: 1, x: 0 }}
-                                    exit={{ opacity: 0, x: -20 }}
+                                    exit={prefersReducedMotion ? {} : { opacity: 0, x: -20 }}
                                     transition={{ duration: 0.3 }}
                                     className="bg-background border border-foreground/5 p-8 md:p-10 rounded-2xl relative overflow-hidden"
                                 >
@@ -504,7 +489,7 @@ export function Experience() {
                                                     {activeExperience.highlights.map((highlight, idx) => (
                                                         <motion.li
                                                             key={idx}
-                                                            initial={{ opacity: 0, x: -10 }}
+                                                            initial={prefersReducedMotion ? {} : { opacity: 0, x: -10 }}
                                                             animate={{ opacity: 1, x: 0 }}
                                                             transition={{ delay: idx * 0.1 }}
                                                             className="flex items-start gap-3 text-secondary-foreground"

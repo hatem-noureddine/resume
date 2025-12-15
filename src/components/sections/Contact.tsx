@@ -16,22 +16,7 @@ import {
     FileText
 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
-
-// Reduced motion hook
-function usePrefersReducedMotion() {
-    const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-
-    useEffect(() => {
-        const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-        setPrefersReducedMotion(mediaQuery.matches);
-
-        const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
-        mediaQuery.addEventListener("change", handler);
-        return () => mediaQuery.removeEventListener("change", handler);
-    }, []);
-
-    return prefersReducedMotion;
-}
+import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
 // Social icons
 const GithubIcon = ({ size = 24 }: { size?: number }) => (

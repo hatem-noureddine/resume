@@ -37,21 +37,9 @@ interface SkillCategory {
     items: (string | SkillItem)[];
 }
 
-// Reduced motion hook
-function usePrefersReducedMotion() {
-    const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
-    useEffect(() => {
-        const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-        setPrefersReducedMotion(mediaQuery.matches);
 
-        const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
-        mediaQuery.addEventListener("change", handler);
-        return () => mediaQuery.removeEventListener("change", handler);
-    }, []);
-
-    return prefersReducedMotion;
-}
 
 // Mobile detection hook
 function useIsMobile(breakpoint = 1024) {
@@ -328,8 +316,8 @@ const DesktopCategoryGrid = ({
                 <button
                     onClick={() => setActiveFilter(null)}
                     className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${activeFilter === null
-                            ? 'bg-primary text-white'
-                            : 'bg-secondary/50 text-foreground hover:bg-secondary'
+                        ? 'bg-primary text-white'
+                        : 'bg-secondary/50 text-foreground hover:bg-secondary'
                         }`}
                 >
                     <Filter className="w-3 h-3" />
@@ -340,8 +328,8 @@ const DesktopCategoryGrid = ({
                         key={index}
                         onClick={() => setActiveFilter(activeFilter === index ? null : index)}
                         className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${activeFilter === index
-                                ? `${categoryDotColors[index % categoryDotColors.length]} text-white`
-                                : `bg-secondary/50 text-foreground hover:bg-secondary border ${categoryBorderColors[index % categoryBorderColors.length]}`
+                            ? `${categoryDotColors[index % categoryDotColors.length]} text-white`
+                            : `bg-secondary/50 text-foreground hover:bg-secondary border ${categoryBorderColors[index % categoryBorderColors.length]}`
                             }`}
                     >
                         <span className={`w-2 h-2 rounded-full ${activeFilter === index ? 'bg-white' : categoryDotColors[index % categoryDotColors.length]}`} />

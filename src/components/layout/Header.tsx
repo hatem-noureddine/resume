@@ -73,7 +73,8 @@ export function Header({ hasBlogPosts = true }: { hasBlogPosts?: boolean }) {
 
     useEffect(() => {
         window.addEventListener("scroll", handleScroll, { passive: true });
-        handleScroll(); // Initial check
+        // Use requestAnimationFrame to avoid synchronous setState warning
+        requestAnimationFrame(() => handleScroll());
         return () => window.removeEventListener("scroll", handleScroll);
     }, [handleScroll]);
 

@@ -3,6 +3,8 @@
 import { useEffect, useState, useRef } from "react";
 import { cn } from "@/lib/utils";
 
+import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
+
 interface AnimatedCounterProps {
     value: number | string;
     duration?: number;
@@ -22,34 +24,7 @@ export function AnimatedCounter({
     const [hasAnimated, setHasAnimated] = useState(false);
     const ref = useRef<HTMLSpanElement>(null);
     const numericValue = typeof value === "string" ? parseInt(value, 10) : value;
-
-    useEffect(() => {
-        // Check for reduced motion preference
-        const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-        if (prefersReducedMotion) {
-            setDisplayValue(numericValue);
-            return;
-        }
-
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting && !hasAnimated) {
-                        setHasAnimated(true);
-                        animateValue(0, numericValue, duration);
-                    }
-                });
-            },
-            { threshold: 0.5 }
-        );
-
-        if (ref.current) {
-            observer.observe(ref.current);
-        }
-
-        return () => observer.disconnect();
-    }, [numericValue, duration, hasAnimated]);
+    const prefersReducedMotion = usePrefersReducedMotion();
 
     const animateValue = (start: number, end: number, duration: number) => {
         const startTime = performance.now();
@@ -72,9 +47,35 @@ export function AnimatedCounter({
         requestAnimationFrame(step);
     };
 
+    useEffect(() => {
+        if (prefersReducedMotion) {
+            return;
+        }
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting && !hasAnimated) {
+                        setHasAnimated(true);
+                        animateValue(0, numericValue, duration);
+                    }
+                });
+            },
+            { threshold: 0.5 }
+        );
+
+        if (ref.current) {
+            observer.observe(ref.current);
+        }
+
+        return () => observer.disconnect();
+    }, [numericValue, duration, hasAnimated, prefersReducedMotion]);
+
+    const valueToDisplay = prefersReducedMotion ? numericValue : displayValue;
+
     return (
         <span ref={ref} className={cn("tabular-nums", className)}>
-            {prefix}{displayValue}{suffix}
+            {prefix}{valueToDisplay}{suffix}
         </span>
     );
 }

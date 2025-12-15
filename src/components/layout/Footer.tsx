@@ -7,22 +7,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import * as LucideIcons from "lucide-react";
 import { Logo } from "@/components/ui/Logo";
 import { ArrowUp } from "lucide-react";
-
-// Reduced motion hook
-function usePrefersReducedMotion() {
-    const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-
-    useEffect(() => {
-        const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-        setPrefersReducedMotion(mediaQuery.matches);
-
-        const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
-        mediaQuery.addEventListener("change", handler);
-        return () => mediaQuery.removeEventListener("change", handler);
-    }, []);
-
-    return prefersReducedMotion;
-}
+import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
 export function Footer({ hasBlogPosts = true }: { hasBlogPosts?: boolean }) {
     const { t } = useLanguage();

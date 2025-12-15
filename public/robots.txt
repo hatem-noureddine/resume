@@ -7,3 +7,6 @@ Sitemap: https://hatemnoureddine.github.io/resume/sitemap.xml
 
 # Crawl-delay
 Crawl-delay: 1
+
+# License
+License: https://hatemnoureddine.github.io/resume/license.xml

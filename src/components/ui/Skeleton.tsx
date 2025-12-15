@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 interface SkeletonProps {
@@ -57,7 +58,7 @@ export function ImageWithSkeleton({
     const [loaded, setLoaded] = useState(false);
     const [error, setError] = useState(false);
 
-    const NextImage = require("next/image").default;
+    const NextImage = Image;
 
     return (
         <div className={cn("relative", className)}>

@@ -1,32 +1,18 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, Filter, X, ChevronLeft, ChevronRight, Tag, Clock, Home } from "lucide-react";
 import { Post } from "@/lib/posts";
 import { useLanguage } from "@/context/LanguageContext";
 
-interface BlogListProps {
-    initialPosts: Post[];
-}
+import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
 const POSTS_PER_PAGE = 6;
 
-// Reduced motion hook
-function usePrefersReducedMotion() {
-    const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-
-    useEffect(() => {
-        const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-        setPrefersReducedMotion(mediaQuery.matches);
-
-        const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
-        mediaQuery.addEventListener("change", handler);
-        return () => mediaQuery.removeEventListener("change", handler);
-    }, []);
-
-    return prefersReducedMotion;
+interface BlogListProps {
+    initialPosts: Post[];
 }
 
 // Reading time estimation

@@ -8,22 +8,8 @@ import { useLanguage } from "@/context/LanguageContext";
 import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import Link from "next/link";
+import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
-// Reduced motion hook
-function usePrefersReducedMotion() {
-    const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-
-    useEffect(() => {
-        const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-        setPrefersReducedMotion(mediaQuery.matches);
-
-        const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
-        mediaQuery.addEventListener("change", handler);
-        return () => mediaQuery.removeEventListener("change", handler);
-    }, []);
-
-    return prefersReducedMotion;
-}
 
 /**
  * Services Section Component
@@ -203,8 +189,8 @@ export function Services() {
                                     key={index}
                                     onClick={() => setCurrentIndex(index)}
                                     className={`w-2.5 h-2.5 rounded-full transition-all ${index === currentIndex
-                                            ? "bg-primary scale-125"
-                                            : "bg-foreground/20 hover:bg-foreground/40"
+                                        ? "bg-primary scale-125"
+                                        : "bg-foreground/20 hover:bg-foreground/40"
                                         }`}
                                     aria-label={`Go to slide ${index + 1}`}
                                     aria-current={index === currentIndex ? "true" : "false"}
