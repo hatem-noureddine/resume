@@ -75,7 +75,7 @@ export const en = {
                 period: "2020 - Present",
                 role: "Lead Developer",
                 company: "Tech Solutions Inc.",
-                logo: "/resume/logos/tech-solutions.png",
+                logo: "/resume/logo_HN.svg",
                 description: "Leading the frontend team and architecting scalable solutions for enterprise clients.",
                 duration: "4+ years",
                 startDate: "2020-01",
@@ -91,7 +91,7 @@ export const en = {
                 period: "2018 - 2020",
                 role: "Senior Android Developer",
                 company: "Creative Agency",
-                logo: "/resume/logos/creative-agency.png",
+                logo: "/resume/logo_HN.svg",
                 description: "Developed high-performance mobile applications for global brands.",
                 duration: "2 years",
                 startDate: "2018-01",
@@ -108,7 +108,7 @@ export const en = {
                 period: "2016 - 2018",
                 role: "Android Developer",
                 company: "StartUp Hub",
-                logo: "/resume/logos/startup-hub.png",
+                logo: "/resume/logo_HN.svg",
                 description: "Collaborated with senior developers to build MVP products for startups.",
                 duration: "2 years",
                 startDate: "2016-01",
@@ -125,7 +125,7 @@ export const en = {
                 period: "2014 - 2016",
                 role: "Junior Android Developer",
                 company: "First Company",
-                logo: "/resume/logos/first-company.png",
+                logo: "/resume/logo_HN.svg",
                 description: "Started my career...",
                 duration: "2 years",
                 startDate: "2014-01",
@@ -139,6 +139,20 @@ export const en = {
         title: "My Projects",
         viewAll: "View All Projects",
         allCategory: "All",
+        pageTitle: "All Projects",
+        pageDescription: "Explore my complete portfolio of projects across development, design, and mobile apps.",
+        backToHome: "Back to Home",
+        showing: "Showing",
+        projects: "projects",
+        inCategory: "in",
+        noProjects: "No projects found",
+        tryDifferentFilter: "Try selecting a different category.",
+        showAll: "Show All Projects",
+        viewProject: "View",
+        breadcrumb: {
+            home: "Home",
+            portfolio: "Portfolio"
+        },
         items: [
             {
                 id: 1,
@@ -187,7 +201,18 @@ export const en = {
         clearFilters: "Clear Filters",
         notFound: "No posts found matching your criteria.",
         previous: "Previous",
-        next: "Next"
+        next: "Next",
+        breadcrumb: {
+            home: "Home",
+            blog: "Blog"
+        },
+        showing: "Showing",
+        posts: "posts",
+        taggedWith: "tagged with",
+        minRead: "min read",
+        tryAdjusting: "Try adjusting your search or filters to find what you're looking for.",
+        page: "Page",
+        of: "of"
     },
     skills: {
         title: "My Skills",
@@ -267,6 +292,7 @@ export const en = {
         emailLabel: "Email",
         phoneLabel: "Phone",
         address: "123 Street, New York, USA",
+        followMe: "Follow me on social media",
         socials: [
             { icon: "Github", link: "https://github.com" },
             { icon: "Linkedin", link: "https://linkedin.com" },
@@ -279,6 +305,7 @@ export const en = {
             subject: "Subject",
             message: "Message",
             send: "Send Message",
+            success: "Email client opened! Your message is ready to send.",
             validation: {
                 emailInvalid: "Please enter a valid email address",
                 required: "This field is required"
@@ -286,6 +313,7 @@ export const en = {
         }
     },
     footer: {
-        rights: "All rights reserved."
+        rights: "All rights reserved.",
+        backToTop: "Back to top"
     }
 };

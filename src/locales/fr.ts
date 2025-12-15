@@ -123,6 +123,20 @@ export const fr = {
         title: "Mes Projets",
         viewAll: "Voir Tous les Projets",
         allCategory: "Tous",
+        pageTitle: "Tous les Projets",
+        pageDescription: "Explorez mon portfolio complet de projets de développement, design et applications mobiles.",
+        backToHome: "Retour à l'accueil",
+        showing: "Affichage de",
+        projects: "projets",
+        inCategory: "dans",
+        noProjects: "Aucun projet trouvé",
+        tryDifferentFilter: "Essayez de sélectionner une autre catégorie.",
+        showAll: "Afficher Tous les Projets",
+        viewProject: "Voir",
+        breadcrumb: {
+            home: "Accueil",
+            portfolio: "Portfolio"
+        },
         items: [
             {
                 id: 1,
@@ -171,7 +185,18 @@ export const fr = {
         clearFilters: "Effacer les filtres",
         notFound: "Aucun article trouvé correspondant à vos critères.",
         previous: "Précédent",
-        next: "Suivant"
+        next: "Suivant",
+        breadcrumb: {
+            home: "Accueil",
+            blog: "Blog"
+        },
+        showing: "Affichage de",
+        posts: "articles",
+        taggedWith: "avec le tag",
+        minRead: "min de lecture",
+        tryAdjusting: "Essayez d'ajuster votre recherche ou vos filtres pour trouver ce que vous cherchez.",
+        page: "Page",
+        of: "sur"
     },
     skills: {
         title: "Mes Compétences",
@@ -264,7 +289,8 @@ export const fr = {
         addressLabel: "Adresse Postale",
         emailLabel: "Email",
         phoneLabel: "Téléphone",
-        address: "123 Street, New York, USA",
+        address: "123 Rue, Paris, France",
+        followMe: "Suivez-moi sur les réseaux sociaux",
         socials: [
             { icon: "Github", link: "https://github.com" },
             { icon: "Linkedin", link: "https://linkedin.com" },
@@ -277,6 +303,7 @@ export const fr = {
             subject: "Sujet",
             message: "Message",
             send: "Envoyer le Message",
+            success: "Client email ouvert ! Votre message est prêt à être envoyé.",
             validation: {
                 emailInvalid: "Veuillez entrer une adresse email valide",
                 required: "Ce champ est requis"
@@ -284,6 +311,7 @@ export const fr = {
         }
     },
     footer: {
-        rights: "Tous droits réservés."
+        rights: "Tous droits réservés.",
+        backToTop: "Retour en haut"
     }
 };

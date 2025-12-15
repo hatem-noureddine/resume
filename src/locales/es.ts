@@ -123,6 +123,20 @@ export const es = {
         title: "Mis Proyectos",
         viewAll: "Ver Todos los Proyectos",
         allCategory: "Todos",
+        pageTitle: "Todos los Proyectos",
+        pageDescription: "Explore mi portafolio completo de proyectos de desarrollo, diseño y aplicaciones móviles.",
+        backToHome: "Volver al Inicio",
+        showing: "Mostrando",
+        projects: "proyectos",
+        inCategory: "en",
+        noProjects: "No se encontraron proyectos",
+        tryDifferentFilter: "Intente seleccionar una categoría diferente.",
+        showAll: "Mostrar Todos los Proyectos",
+        viewProject: "Ver",
+        breadcrumb: {
+            home: "Inicio",
+            portfolio: "Portafolio"
+        },
         items: [
             {
                 id: 1,
@@ -171,7 +185,18 @@ export const es = {
         clearFilters: "Limpiar filtros",
         notFound: "No se encontraron artículos que coincidan con sus criterios.",
         previous: "Anterior",
-        next: "Siguiente"
+        next: "Siguiente",
+        breadcrumb: {
+            home: "Inicio",
+            blog: "Blog"
+        },
+        showing: "Mostrando",
+        posts: "publicaciones",
+        taggedWith: "con etiqueta",
+        minRead: "min de lectura",
+        tryAdjusting: "Intente ajustar su búsqueda o filtros para encontrar lo que está buscando.",
+        page: "Página",
+        of: "de"
     },
     skills: {
         title: "Mis Habilidades",
@@ -264,7 +289,8 @@ export const es = {
         addressLabel: "Adresse Postale",
         emailLabel: "Email",
         phoneLabel: "Téléphone",
-        address: "123 Street, New York, USA",
+        address: "123 Calle, Madrid, España",
+        followMe: "Sígueme en las redes sociales",
         socials: [
             { icon: "Github", link: "https://github.com" },
             { icon: "Linkedin", link: "https://linkedin.com" },
@@ -277,6 +303,7 @@ export const es = {
             subject: "Sujet",
             message: "Mensaje",
             send: "Enviar Mensaje",
+            success: "¡Cliente de correo abierto! Tu mensaje está listo para enviar.",
             validation: {
                 emailInvalid: "Por favor introduzca una dirección de correo válida",
                 required: "Este campo es obligatorio"
@@ -284,6 +311,7 @@ export const es = {
         }
     },
     footer: {
-        rights: "Tous droits réservés."
+        rights: "Todos los derechos reservados.",
+        backToTop: "Volver arriba"
     }
 };

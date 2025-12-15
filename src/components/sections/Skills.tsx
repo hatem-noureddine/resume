@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/context/LanguageContext";
 import {
     Layout,
@@ -18,7 +19,11 @@ import {
     Globe,
     BarChart,
     Wrench,
-    Bot
+    Bot,
+    ChevronDown,
+    ChevronUp,
+    Filter,
+    X
 } from "lucide-react";
 
 interface SkillItem {
@@ -30,6 +35,36 @@ interface SkillItem {
 interface SkillCategory {
     name: string;
     items: (string | SkillItem)[];
+}
+
+// Reduced motion hook
+function usePrefersReducedMotion() {
+    const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
+    useEffect(() => {
+        const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+        setPrefersReducedMotion(mediaQuery.matches);
+
+        const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
+        mediaQuery.addEventListener("change", handler);
+        return () => mediaQuery.removeEventListener("change", handler);
+    }, []);
+
+    return prefersReducedMotion;
+}
+
+// Mobile detection hook
+function useIsMobile(breakpoint = 1024) {
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < breakpoint);
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+        return () => window.removeEventListener("resize", checkMobile);
+    }, [breakpoint]);
+
+    return isMobile;
 }
 
 /**
@@ -82,10 +117,18 @@ const getSkillIcon = (skillName: string, explicitIcon?: string) => {
 /**
  * Professional Skills - Grid of skill cards
  */
-const ProfessionalSkillsColumn = ({ items, title }: { items: (string | SkillItem)[], title: string }) => (
+const ProfessionalSkillsColumn = ({
+    items,
+    title,
+    prefersReducedMotion
+}: {
+    items: (string | SkillItem)[],
+    title: string,
+    prefersReducedMotion: boolean
+}) => (
     <div className="w-full">
         <motion.div
-            initial={{ opacity: 0, x: -20 }}
+            initial={prefersReducedMotion ? {} : { opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             className="mb-6"
@@ -106,10 +149,10 @@ const ProfessionalSkillsColumn = ({ items, title }: { items: (string | SkillItem
                 return (
                     <motion.div
                         key={index}
-                        initial={{ opacity: 0, x: -20 }}
+                        initial={prefersReducedMotion ? {} : { opacity: 0, x: -20 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
-                        transition={{ delay: index * 0.05 }}
+                        transition={{ delay: prefersReducedMotion ? 0 : index * 0.05 }}
                         className="bg-secondary/30 p-3 rounded-xl font-medium border border-foreground/5 hover:border-primary/50 hover:bg-secondary/50 transition-all duration-300 flex items-center gap-3 group hover-lift"
                     >
                         <div className="text-primary group-hover:scale-110 transition-transform shrink-0 w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
@@ -142,24 +185,133 @@ const categoryDotColors = [
     'bg-cyan-500',
 ];
 
+const categoryBorderColors = [
+    'border-blue-500/50',
+    'border-purple-500/50',
+    'border-emerald-500/50',
+    'border-orange-500/50',
+    'border-pink-500/50',
+    'border-cyan-500/50',
+];
+
 /**
- * Technical Skills - Color-coded Tag Cloud
- * All skills visible at once with category color differentiation
+ * Skill Tag with Tooltip
  */
-const TechnicalSkillsColumn = ({ categories, title }: { categories: SkillCategory[], title: string }) => {
-    // Flatten all skills with their category index for coloring
-    const allSkills = categories.flatMap((category, catIndex) =>
-        category.items.map((skill) => ({
-            skill,
-            categoryIndex: catIndex,
-            categoryName: category.name,
-        }))
+const SkillTag = ({
+    skill,
+    categoryIndex,
+    index,
+    prefersReducedMotion,
+    isFiltered
+}: {
+    skill: string | SkillItem,
+    categoryIndex: number,
+    index: number,
+    prefersReducedMotion: boolean,
+    isFiltered: boolean
+}) => {
+    const [showTooltip, setShowTooltip] = useState(false);
+    const isLink = typeof skill === 'object' && !!(skill as SkillItem).link;
+    const content = typeof skill === 'object' ? (skill as SkillItem).name : (skill as string);
+    const link = typeof skill === 'object' ? (skill as SkillItem).link : undefined;
+    const colorClass = categoryColors[categoryIndex % categoryColors.length];
+
+    const baseClass = `text-xs md:text-sm px-2 md:px-3 py-1 md:py-1.5 rounded-full border font-medium transition-all duration-200 ${colorClass} ${isFiltered ? 'ring-2 ring-primary ring-offset-1' : ''}`;
+
+    const animationProps = prefersReducedMotion
+        ? {}
+        : {
+            initial: { opacity: 0, scale: 0.8 },
+            whileInView: { opacity: 1, scale: 1 },
+            viewport: { once: true },
+            transition: { delay: index * 0.01 }
+        };
+
+    const tooltipContent = (
+        <AnimatePresence>
+            {showTooltip && (
+                <motion.div
+                    initial={{ opacity: 0, y: 5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 5 }}
+                    className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-foreground text-background text-xs rounded-lg shadow-lg whitespace-nowrap z-50"
+                >
+                    <div className="flex items-center gap-2">
+                        {getSkillIcon(content)}
+                        <span>{content}</span>
+                    </div>
+                    <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-4 border-transparent border-t-foreground" />
+                </motion.div>
+            )}
+        </AnimatePresence>
     );
+
+    if (isLink) {
+        return (
+            <motion.a
+                {...animationProps}
+                href={link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`${baseClass} cursor-pointer hover:scale-105 relative`}
+                onMouseEnter={() => setShowTooltip(true)}
+                onMouseLeave={() => setShowTooltip(false)}
+            >
+                {tooltipContent}
+                {content}
+            </motion.a>
+        );
+    }
+
+    return (
+        <motion.span
+            {...animationProps}
+            className={`${baseClass} relative`}
+            onMouseEnter={() => setShowTooltip(true)}
+            onMouseLeave={() => setShowTooltip(false)}
+        >
+            {tooltipContent}
+            {content}
+        </motion.span>
+    );
+};
+
+/**
+ * Desktop: Category-based collapsible grid
+ */
+const DesktopCategoryGrid = ({
+    categories,
+    title,
+    prefersReducedMotion,
+    activeFilter,
+    setActiveFilter
+}: {
+    categories: SkillCategory[],
+    title: string,
+    prefersReducedMotion: boolean,
+    activeFilter: number | null,
+    setActiveFilter: (filter: number | null) => void
+}) => {
+    const [expandedCategories, setExpandedCategories] = useState<Set<number>>(new Set([0, 1, 2])); // First 3 expanded by default
+
+    const toggleCategory = (index: number) => {
+        const newExpanded = new Set(expandedCategories);
+        if (newExpanded.has(index)) {
+            newExpanded.delete(index);
+        } else {
+            newExpanded.add(index);
+        }
+        setExpandedCategories(newExpanded);
+    };
+
+    const filteredCategories = activeFilter !== null
+        ? categories.filter((_, i) => i === activeFilter)
+        : categories;
 
     return (
         <div className="w-full">
             <motion.div
-                initial={{ opacity: 0, x: 20 }}
+                initial={prefersReducedMotion ? {} : { opacity: 0, x: 20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 className="mb-4 md:mb-6"
@@ -171,52 +323,163 @@ const TechnicalSkillsColumn = ({ categories, title }: { categories: SkillCategor
                 <div className="w-16 h-1 bg-primary/30 rounded-full mt-2" />
             </motion.div>
 
-            {/* Tag Cloud - All skills visible */}
-            <div className="bg-secondary/10 rounded-xl border border-foreground/5 p-3 md:p-4">
-                <div className="flex flex-wrap gap-1.5 md:gap-2">
-                    {allSkills.map(({ skill, categoryIndex }, index) => {
-                        const isLink = typeof skill === 'object' && !!(skill as SkillItem).link;
-                        const content = typeof skill === 'object' ? (skill as SkillItem).name : (skill as string);
-                        const link = typeof skill === 'object' ? (skill as SkillItem).link : undefined;
-                        const colorClass = categoryColors[categoryIndex % categoryColors.length];
+            {/* Category Filter Pills */}
+            <div className="flex flex-wrap gap-2 mb-4">
+                <button
+                    onClick={() => setActiveFilter(null)}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${activeFilter === null
+                            ? 'bg-primary text-white'
+                            : 'bg-secondary/50 text-foreground hover:bg-secondary'
+                        }`}
+                >
+                    <Filter className="w-3 h-3" />
+                    All
+                </button>
+                {categories.map((category, index) => (
+                    <button
+                        key={index}
+                        onClick={() => setActiveFilter(activeFilter === index ? null : index)}
+                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${activeFilter === index
+                                ? `${categoryDotColors[index % categoryDotColors.length]} text-white`
+                                : `bg-secondary/50 text-foreground hover:bg-secondary border ${categoryBorderColors[index % categoryBorderColors.length]}`
+                            }`}
+                    >
+                        <span className={`w-2 h-2 rounded-full ${activeFilter === index ? 'bg-white' : categoryDotColors[index % categoryDotColors.length]}`} />
+                        {category.name}
+                        <span className="opacity-60">({category.items.length})</span>
+                    </button>
+                ))}
+                {activeFilter !== null && (
+                    <button
+                        onClick={() => setActiveFilter(null)}
+                        className="flex items-center gap-1 px-2 py-1.5 rounded-full text-xs text-secondary-foreground hover:text-foreground transition-colors"
+                    >
+                        <X className="w-3 h-3" />
+                        Clear
+                    </button>
+                )}
+            </div>
 
-                        const baseClass = `text-xs md:text-sm px-2 md:px-3 py-1 md:py-1.5 rounded-full border font-medium transition-all duration-200 ${colorClass}`;
-
-                        if (isLink) {
-                            return (
-                                <motion.a
-                                    key={`${categoryIndex}-${index}`}
-                                    href={link}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    initial={{ opacity: 0, scale: 0.8 }}
-                                    whileInView={{ opacity: 1, scale: 1 }}
-                                    viewport={{ once: true }}
-                                    transition={{ delay: index * 0.01 }}
-                                    className={`${baseClass} cursor-pointer hover:scale-105`}
-                                >
-                                    {content}
-                                </motion.a>
-                            );
-                        }
+            {/* Collapsible Category Sections */}
+            <div className="space-y-3">
+                <AnimatePresence mode="popLayout">
+                    {filteredCategories.map((category, catIndex) => {
+                        const originalIndex = categories.indexOf(category);
+                        const isExpanded = expandedCategories.has(originalIndex);
+                        const colorClass = categoryBorderColors[originalIndex % categoryBorderColors.length];
+                        const dotColor = categoryDotColors[originalIndex % categoryDotColors.length];
 
                         return (
-                            <motion.span
-                                key={`${categoryIndex}-${index}`}
-                                initial={{ opacity: 0, scale: 0.8 }}
-                                whileInView={{ opacity: 1, scale: 1 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: index * 0.01 }}
-                                className={baseClass}
+                            <motion.div
+                                key={category.name}
+                                initial={prefersReducedMotion ? {} : { opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={prefersReducedMotion ? {} : { opacity: 0, y: -10 }}
+                                transition={{ delay: catIndex * 0.05 }}
+                                className={`bg-secondary/10 rounded-xl border ${colorClass} overflow-hidden`}
                             >
-                                {content}
-                            </motion.span>
+                                {/* Category Header */}
+                                <button
+                                    onClick={() => toggleCategory(originalIndex)}
+                                    className="w-full flex items-center justify-between p-3 hover:bg-secondary/20 transition-colors"
+                                >
+                                    <div className="flex items-center gap-2">
+                                        <span className={`w-3 h-3 rounded-full ${dotColor}`} />
+                                        <span className="font-medium text-sm">{category.name}</span>
+                                        <span className="text-xs text-secondary-foreground">({category.items.length})</span>
+                                    </div>
+                                    {isExpanded ? (
+                                        <ChevronUp className="w-4 h-4 text-secondary-foreground" />
+                                    ) : (
+                                        <ChevronDown className="w-4 h-4 text-secondary-foreground" />
+                                    )}
+                                </button>
+
+                                {/* Skills Grid */}
+                                <AnimatePresence>
+                                    {isExpanded && (
+                                        <motion.div
+                                            initial={prefersReducedMotion ? {} : { height: 0, opacity: 0 }}
+                                            animate={{ height: "auto", opacity: 1 }}
+                                            exit={prefersReducedMotion ? {} : { height: 0, opacity: 0 }}
+                                            transition={{ duration: 0.2 }}
+                                            className="px-3 pb-3"
+                                        >
+                                            <div className="flex flex-wrap gap-2 pt-1">
+                                                {category.items.map((skill, skillIndex) => (
+                                                    <SkillTag
+                                                        key={skillIndex}
+                                                        skill={skill}
+                                                        categoryIndex={originalIndex}
+                                                        index={skillIndex}
+                                                        prefersReducedMotion={prefersReducedMotion}
+                                                        isFiltered={activeFilter === originalIndex}
+                                                    />
+                                                ))}
+                                            </div>
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+                            </motion.div>
                         );
                     })}
+                </AnimatePresence>
+            </div>
+        </div>
+    );
+};
+
+/**
+ * Mobile: Tag Cloud (original design)
+ */
+const MobileTagCloud = ({
+    categories,
+    title,
+    prefersReducedMotion
+}: {
+    categories: SkillCategory[],
+    title: string,
+    prefersReducedMotion: boolean
+}) => {
+    const allSkills = categories.flatMap((category, catIndex) =>
+        category.items.map((skill) => ({
+            skill,
+            categoryIndex: catIndex,
+            categoryName: category.name,
+        }))
+    );
+
+    return (
+        <div className="w-full">
+            <motion.div
+                initial={prefersReducedMotion ? {} : { opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                className="mb-4 md:mb-6"
+            >
+                <h3 className="text-xl md:text-2xl font-bold text-primary font-outfit flex items-center gap-2">
+                    <Code className="w-5 h-5" />
+                    {title}
+                </h3>
+                <div className="w-16 h-1 bg-primary/30 rounded-full mt-2" />
+            </motion.div>
+
+            <div className="bg-secondary/10 rounded-xl border border-foreground/5 p-3">
+                <div className="flex flex-wrap gap-1.5">
+                    {allSkills.map(({ skill, categoryIndex }, index) => (
+                        <SkillTag
+                            key={index}
+                            skill={skill}
+                            categoryIndex={categoryIndex}
+                            index={index}
+                            prefersReducedMotion={prefersReducedMotion}
+                            isFiltered={false}
+                        />
+                    ))}
                 </div>
 
-                {/* Category Legend - Compact */}
-                <div className="mt-3 md:mt-4 pt-3 border-t border-foreground/5 flex flex-wrap gap-2 md:gap-3">
+                {/* Category Legend */}
+                <div className="mt-3 pt-3 border-t border-foreground/5 flex flex-wrap gap-2">
                     {categories.map((category, index) => (
                         <div key={index} className="flex items-center gap-1.5 text-xs text-muted-foreground">
                             <span className={`w-2 h-2 rounded-full ${categoryDotColors[index % categoryDotColors.length]}`} />
@@ -233,13 +496,16 @@ const TechnicalSkillsColumn = ({ categories, title }: { categories: SkillCategor
 export function Skills() {
     const { t } = useLanguage();
     const { skills } = t;
+    const prefersReducedMotion = usePrefersReducedMotion();
+    const isMobile = useIsMobile();
+    const [activeFilter, setActiveFilter] = useState<number | null>(null);
 
     return (
         <section id="skills" className="py-16 md:py-24 relative overflow-hidden bg-background">
             <div className="container mx-auto px-4">
                 {/* Section Header */}
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     className="text-center mb-12 md:mb-16"
@@ -258,13 +524,25 @@ export function Skills() {
                     <ProfessionalSkillsColumn
                         items={skills.professional.items}
                         title={skills.professional.title}
+                        prefersReducedMotion={prefersReducedMotion}
                     />
 
                     {/* Right Column - Technical Skills */}
-                    <TechnicalSkillsColumn
-                        categories={skills.technical.categories}
-                        title={skills.technical.title}
-                    />
+                    {isMobile ? (
+                        <MobileTagCloud
+                            categories={skills.technical.categories}
+                            title={skills.technical.title}
+                            prefersReducedMotion={prefersReducedMotion}
+                        />
+                    ) : (
+                        <DesktopCategoryGrid
+                            categories={skills.technical.categories}
+                            title={skills.technical.title}
+                            prefersReducedMotion={prefersReducedMotion}
+                            activeFilter={activeFilter}
+                            setActiveFilter={setActiveFilter}
+                        />
+                    )}
                 </div>
             </div>
         </section>

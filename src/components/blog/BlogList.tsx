@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, Filter, X, ChevronLeft, ChevronRight, Tag } from "lucide-react";
+import { Search, Filter, X, ChevronLeft, ChevronRight, Tag, Clock, Home } from "lucide-react";
 import { Post } from "@/lib/posts";
 import { useLanguage } from "@/context/LanguageContext";
 
@@ -13,9 +13,33 @@ interface BlogListProps {
 
 const POSTS_PER_PAGE = 6;
 
+// Reduced motion hook
+function usePrefersReducedMotion() {
+    const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
+    useEffect(() => {
+        const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+        setPrefersReducedMotion(mediaQuery.matches);
+
+        const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
+        mediaQuery.addEventListener("change", handler);
+        return () => mediaQuery.removeEventListener("change", handler);
+    }, []);
+
+    return prefersReducedMotion;
+}
+
+// Reading time estimation
+function getReadingTime(content: string): number {
+    const wordsPerMinute = 200;
+    const wordCount = content.split(/\s+/).length;
+    return Math.max(1, Math.ceil(wordCount / wordsPerMinute));
+}
+
 export function BlogList({ initialPosts }: BlogListProps) {
     const { t } = useLanguage();
     const { blog } = t;
+    const prefersReducedMotion = usePrefersReducedMotion();
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedTag, setSelectedTag] = useState<string | null>(null);
     const [currentPage, setCurrentPage] = useState(1);
@@ -73,8 +97,43 @@ export function BlogList({ initialPosts }: BlogListProps) {
         setCurrentPage(1);
     };
 
+    const animationProps = prefersReducedMotion
+        ? {}
+        : {
+            initial: { height: 0, opacity: 0 },
+            animate: { height: "auto", opacity: 1 },
+            exit: { height: 0, opacity: 0 }
+        };
+
+    const cardAnimationProps = (index: number) => prefersReducedMotion
+        ? {}
+        : {
+            initial: { opacity: 0, scale: 0.9 },
+            animate: { opacity: 1, scale: 1 },
+            exit: { opacity: 0, scale: 0.9 },
+            transition: { duration: 0.3, delay: index * 0.05 }
+        };
+
     return (
         <div className="space-y-12">
+            {/* Breadcrumbs */}
+            <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-sm text-secondary-foreground">
+                <Link href="/" className="flex items-center gap-1 hover:text-primary transition-colors">
+                    <Home size={14} />
+                    {blog.breadcrumb?.home || "Home"}
+                </Link>
+                <ChevronRight size={14} className="text-muted-foreground" />
+                <span className="text-foreground font-medium">{blog.breadcrumb?.blog || "Blog"}</span>
+            </nav>
+
+            {/* Results count */}
+            <div className="text-sm text-secondary-foreground">
+                {blog.showing || "Showing"} <span className="font-medium text-foreground">{filteredPosts.length}</span> {blog.posts || "posts"}
+                {selectedTag && (
+                    <span> {blog.taggedWith || "tagged with"} <span className="text-primary font-medium">{selectedTag}</span></span>
+                )}
+            </div>
+
             {/* Search and Filter Controls */}
             <div className="space-y-6">
                 <div className="flex flex-col md:flex-row gap-4 max-w-2xl mx-auto">
@@ -85,7 +144,7 @@ export function BlogList({ initialPosts }: BlogListProps) {
                             placeholder={blog.searchPlaceholder}
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full pl-12 pr-4 py-4 bg-secondary/30 border border-foreground/10 rounded-xl focus:outline-none focus:border-primary/50 transition-all text-lg"
+                            className="w-full pl-12 pr-4 py-4 bg-secondary/30 border border-foreground/10 rounded-xl focus:outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all text-lg"
                         />
                         {searchQuery && (
                             <button
@@ -112,9 +171,7 @@ export function BlogList({ initialPosts }: BlogListProps) {
                 <AnimatePresence>
                     {(isFilterOpen || selectedTag) && (
                         <motion.div
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: "auto", opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}
+                            {...animationProps}
                             className="overflow-hidden"
                         >
                             <div className="bg-secondary/20 border border-foreground/5 rounded-2xl p-6 max-w-4xl mx-auto backdrop-blur-sm">
@@ -159,48 +216,52 @@ export function BlogList({ initialPosts }: BlogListProps) {
             <div className="min-h-[400px]">
                 {paginatedPosts.length > 0 ? (
                     <motion.div
-                        layout
+                        layout={!prefersReducedMotion}
                         className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
                     >
                         <AnimatePresence mode="popLayout">
-                            {paginatedPosts.map((post) => (
-                                <motion.article
-                                    layout
-                                    initial={{ opacity: 0, scale: 0.9 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    exit={{ opacity: 0, scale: 0.9 }}
-                                    transition={{ duration: 0.3 }}
-                                    key={post.slug}
-                                    className="group bg-secondary/30 rounded-2xl overflow-hidden border border-foreground/5 hover:border-primary/50 transition-colors flex flex-col"
-                                >
-                                    <div className="p-6 flex flex-col h-full">
-                                        <div className="flex flex-wrap gap-2 mb-4">
-                                            {post.tags.slice(0, 3).map(tag => (
-                                                <span key={tag} className="text-xs font-medium bg-primary/10 text-primary px-2 py-1 rounded">
-                                                    #{tag}
+                            {paginatedPosts.map((post, index) => {
+                                const readingTime = getReadingTime(post.description || post.title);
+                                return (
+                                    <motion.article
+                                        layout={!prefersReducedMotion}
+                                        {...cardAnimationProps(index)}
+                                        key={post.slug}
+                                        className="group bg-secondary/30 rounded-2xl overflow-hidden border border-foreground/5 hover:border-primary/50 transition-colors flex flex-col"
+                                    >
+                                        <div className="p-6 flex flex-col h-full">
+                                            <div className="flex flex-wrap gap-2 mb-4">
+                                                {post.tags.slice(0, 3).map(tag => (
+                                                    <span key={tag} className="text-xs font-medium bg-primary/10 text-primary px-2 py-1 rounded">
+                                                        #{tag}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                            <div className="flex items-center gap-4 text-sm text-muted-foreground mb-2">
+                                                <span>{post.date}</span>
+                                                <span className="flex items-center gap-1">
+                                                    <Clock size={14} />
+                                                    {readingTime} {blog.minRead || "min read"}
                                                 </span>
-                                            ))}
-                                        </div>
-                                        <div className="text-sm text-muted-foreground mb-2">
-                                            {post.date}
-                                        </div>
-                                        <h3 className="text-xl font-bold font-outfit mb-3 group-hover:text-primary transition-colors">
-                                            <Link href={`/blog/${post.slug}`}>
-                                                {post.title}
+                                            </div>
+                                            <h3 className="text-xl font-bold font-outfit mb-3 group-hover:text-primary transition-colors">
+                                                <Link href={`/blog/${post.slug}`}>
+                                                    {post.title}
+                                                </Link>
+                                            </h3>
+                                            <p className="text-secondary-foreground mb-6 line-clamp-3 grow">
+                                                {post.description}
+                                            </p>
+                                            <Link
+                                                href={`/blog/${post.slug}`}
+                                                className="inline-flex items-center gap-2 text-primary font-medium hover:gap-3 transition-all mt-auto"
+                                            >
+                                                {blog.readMore} <ChevronRight size={16} />
                                             </Link>
-                                        </h3>
-                                        <p className="text-secondary-foreground mb-6 line-clamp-3 grow">
-                                            {post.description}
-                                        </p>
-                                        <Link
-                                            href={`/blog/${post.slug}`}
-                                            className="inline-flex items-center gap-2 text-primary font-medium hover:gap-3 transition-all mt-auto"
-                                        >
-                                            {blog.readMore} <ChevronRight size={16} />
-                                        </Link>
-                                    </div>
-                                </motion.article>
-                            ))}
+                                        </div>
+                                    </motion.article>
+                                );
+                            })}
                         </AnimatePresence>
                     </motion.div>
                 ) : (
@@ -209,7 +270,7 @@ export function BlogList({ initialPosts }: BlogListProps) {
                             <Search size={32} className="text-muted-foreground" />
                         </div>
                         <h3 className="text-xl font-bold mb-2">{blog.notFound}</h3>
-                        <p className="text-muted-foreground mb-6">Try adjusting your search or filters to find what you&apos;re looking for.</p>
+                        <p className="text-muted-foreground mb-6">{blog.tryAdjusting || "Try adjusting your search or filters to find what you're looking for."}</p>
                         <button
                             onClick={clearFilters}
                             className="bg-primary hover:bg-primary-dark text-white px-6 py-2 rounded-full transition-colors font-medium"
@@ -232,7 +293,7 @@ export function BlogList({ initialPosts }: BlogListProps) {
                         <ChevronLeft size={20} />
                     </button>
                     <div className="text-sm font-medium">
-                        Page {currentPage} of {totalPages}
+                        {blog.page || "Page"} {currentPage} {blog.of || "of"} {totalPages}
                     </div>
                     <button
                         onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}

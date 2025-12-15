@@ -147,7 +147,7 @@ export function Hero() {
             <div className="absolute top-0 right-0 w-[300px] h-[300px] md:w-[600px] md:h-[600px] bg-primary/10 blur-[60px] md:blur-[120px] rounded-full -z-10 opacity-30 md:opacity-50 animate-pulse-slow" />
             <div className="absolute bottom-0 left-0 w-[300px] h-[300px] md:w-[600px] md:h-[600px] bg-purple-500/10 blur-[60px] md:blur-[120px] rounded-full -z-10 opacity-30 md:opacity-50 animate-pulse-slow delay-75" />
 
-            <div className="container mx-auto px-4 flex flex-col-reverse lg:grid lg:grid-cols-2 gap-8 lg:gap-12 items-center grow py-8 lg:py-12">
+            <div className="container mx-auto px-4 flex flex-col-reverse lg:grid lg:grid-cols-2 gap-8 lg:gap-12 items-center grow py-8 lg:py-12 relative">
                 <motion.div
                     initial={{ opacity: 0, x: -50 }}
                     animate={{ opacity: 1, x: 0 }}

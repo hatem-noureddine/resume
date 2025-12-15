@@ -10,6 +10,22 @@ import Image from "next/image";
 
 const INITIAL_VISIBLE_COUNT = 3;
 
+// Reduced motion hook
+function usePrefersReducedMotion() {
+    const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
+    useEffect(() => {
+        const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+        setPrefersReducedMotion(mediaQuery.matches);
+
+        const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
+        mediaQuery.addEventListener("change", handler);
+        return () => mediaQuery.removeEventListener("change", handler);
+    }, []);
+
+    return prefersReducedMotion;
+}
+
 interface ExperienceItem {
     id: number;
     period: string;
@@ -39,6 +55,7 @@ interface ExperienceLocale {
 export function Experience() {
     const { t } = useLanguage();
     const experience = t.experience as ExperienceLocale;
+    const prefersReducedMotion = usePrefersReducedMotion();
 
     // Sort items by startDate descending
     const sortedItems = [...experience.items].sort((a, b) => {
