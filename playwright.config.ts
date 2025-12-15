@@ -8,7 +8,8 @@ export default defineConfig({
     workers: process.env.CI ? 1 : undefined,
     reporter: [
         ['html', { open: 'never' }],
-        ['json', { outputFile: 'reports/playwright-results.json' }]
+        ['json', { outputFile: 'reports/playwright-results.json' }],
+        ['junit', { outputFile: 'playwright-report/results.xml' }]
     ],
     use: {
         baseURL: 'http://localhost:3001/resume',

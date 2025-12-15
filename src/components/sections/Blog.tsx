@@ -146,7 +146,7 @@ export function Blog({ posts }: { posts: Post[] }) {
                 <div className="mt-12 flex justify-center">
                     <Button variant="secondary" size="lg" asChild className="rounded-full px-8 border border-foreground/10 hover:border-primary/30">
                         <Link href="/blog" className="inline-flex items-center gap-2">
-                            {t.header.nav.find(n => n.href === '/blog')?.name || "View all posts"} <ArrowRight size={16} />
+                            {blog.viewAll || "View All Posts"} <ArrowRight size={16} />
                         </Link>
                     </Button>
                 </div>

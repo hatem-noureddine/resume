@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/Button";
-import { Download, Mail, ChevronDown } from "lucide-react";
+import { Download, Mail, ChevronDown, ChevronUp } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { localeMetadata } from "@/locales";
 
@@ -24,6 +24,20 @@ const LinkedinIcon = ({ size = 24, className = "" }: { size?: number, className?
 const TwitterIcon = ({ size = 24, className = "" }: { size?: number, className?: string }) => (
     <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" /></svg>
 );
+
+// Custom hook for mobile detection
+function useIsMobile(breakpoint = 768) {
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < breakpoint);
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+        return () => window.removeEventListener("resize", checkMobile);
+    }, [breakpoint]);
+
+    return isMobile;
+}
 
 // Typing animation hook
 function useTypingAnimation(texts: string[], typingSpeed = 100, deletingSpeed = 50, pauseTime = 2000) {
@@ -68,6 +82,8 @@ interface HeroLocale {
     followMe?: string;
     availableForHire?: string;
     scrollDown?: string;
+    readMore?: string;
+    readLess?: string;
     stats: { value: string; label: string }[];
     floatingCards?: {
         projects: { value: string; label: string; sublabel: string };
@@ -82,10 +98,16 @@ export function Hero() {
     const stats = (hero && Array.isArray(hero.stats)) ? hero.stats : [];
     const roles = hero.roles || ["Developer"];
 
+    // Mobile detection for performance optimizations
+    const isMobile = useIsMobile();
+
+    // State for expandable description on mobile
+    const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
+
     // Typing animation for roles
     const typedRole = useTypingAnimation(roles, 80, 40, 2500);
 
-    // Parallax effect
+    // Parallax effect - only on desktop for performance
     const sectionRef = useRef<HTMLElement>(null);
     const { scrollYProgress } = useScroll({
         target: sectionRef,
@@ -98,6 +120,8 @@ export function Hero() {
     const downloadCVText = hero.downloadCV || "Download CV";
     const followMeText = hero.followMe || "Follow Me";
     const scrollDownText = hero.scrollDown || "Scroll to explore";
+    const readMoreText = hero.readMore || "Read more";
+    const readLessText = hero.readLess || "Read less";
     const floatingCards = hero.floatingCards || {
         projects: { value: "50+", label: "Projects", sublabel: "Completed" },
         experience: { value: "12", label: "Years", sublabel: "Experience" }
@@ -119,19 +143,19 @@ export function Hero() {
 
     return (
         <section ref={sectionRef} className="min-h-screen flex flex-col pt-20 relative overflow-hidden bg-background">
-            {/* Background elements */}
-            <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/10 blur-[120px] rounded-full -z-10 opacity-50 animate-pulse-slow" />
-            <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-purple-500/10 blur-[120px] rounded-full -z-10 opacity-50 animate-pulse-slow delay-75" />
+            {/* Background elements - optimized for mobile (smaller blur, reduced intensity) */}
+            <div className="absolute top-0 right-0 w-[300px] h-[300px] md:w-[600px] md:h-[600px] bg-primary/10 blur-[60px] md:blur-[120px] rounded-full -z-10 opacity-30 md:opacity-50 animate-pulse-slow" />
+            <div className="absolute bottom-0 left-0 w-[300px] h-[300px] md:w-[600px] md:h-[600px] bg-purple-500/10 blur-[60px] md:blur-[120px] rounded-full -z-10 opacity-30 md:opacity-50 animate-pulse-slow delay-75" />
 
-            <div className="container mx-auto px-4 flex flex-col-reverse lg:grid lg:grid-cols-2 gap-12 items-center grow py-12">
+            <div className="container mx-auto px-4 flex flex-col-reverse lg:grid lg:grid-cols-2 gap-8 lg:gap-12 items-center grow py-8 lg:py-12">
                 <motion.div
                     initial={{ opacity: 0, x: -50 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.8, ease: "easeOut" }}
-                    style={{ y: textY }}
+                    style={isMobile ? undefined : { y: textY }}
                     className="relative z-10"
                 >
-                    <h1 className="text-4xl md:text-7xl lg:text-8xl font-bold font-outfit mb-4 leading-[1.1]">
+                    <h1 className="text-4xl md:text-7xl lg:text-8xl font-bold font-outfit mb-4 leading-[1.1] text-center lg:text-left">
                         <span className="block text-foreground">{hero.name.split(' ')[0]}</span>
                         <span className="block text-transparent bg-clip-text bg-linear-to-r from-primary to-purple-500">
                             {hero.name.split(' ').slice(1).join(' ')}
@@ -143,7 +167,7 @@ export function Hero() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.3, duration: 0.5 }}
-                        className="h-8 md:h-10 mb-4"
+                        className="h-8 md:h-10 mb-4 text-center lg:text-left"
                     >
                         <span className="text-lg md:text-2xl text-primary font-medium">
                             {typedRole}
@@ -151,51 +175,77 @@ export function Hero() {
                         </span>
                     </motion.div>
 
-                    <motion.p
+                    {/* Description with expandable functionality on mobile */}
+                    <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.4, duration: 0.5 }}
-                        className="text-base md:text-xl text-secondary-foreground mb-8 text-justify leading-relaxed line-clamp-4 md:line-clamp-none"
+                        className="mb-6 md:mb-8"
                     >
-                        {hero.description}
-                    </motion.p>
+                        <p className={`text-base md:text-xl text-secondary-foreground text-left md:text-justify leading-relaxed ${!isDescriptionExpanded ? 'line-clamp-3 md:line-clamp-none' : ''
+                            }`}>
+                            {hero.description}
+                        </p>
+                        {/* Read more/less button - only visible on mobile when text is long */}
+                        {hero.description && hero.description.length > 150 && (
+                            <button
+                                onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
+                                className="md:hidden mt-2 text-sm text-primary font-medium flex items-center gap-1 hover:underline"
+                            >
+                                {isDescriptionExpanded ? (
+                                    <>
+                                        {readLessText}
+                                        <ChevronUp size={14} />
+                                    </>
+                                ) : (
+                                    <>
+                                        {readMoreText}
+                                        <ChevronDown size={14} />
+                                    </>
+                                )}
+                            </button>
+                        )}
+                    </motion.div>
 
-                    <div className="grid grid-cols-3 gap-4 md:gap-6 border-t border-foreground/10 pt-6 md:pt-8 mb-8">
+                    {/* Stats Grid - improved mobile readability */}
+                    <div className="grid grid-cols-3 gap-3 md:gap-6 border-t border-foreground/10 pt-5 md:pt-8 mb-6 md:mb-8">
                         {stats.map((stat, index) => (
                             <motion.div
                                 key={index}
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.5 + index * 0.1 }}
+                                className="text-center lg:text-left"
                             >
-                                <h3 className="text-xl md:text-3xl font-bold font-outfit mb-1 text-foreground">{stat.value}</h3>
-                                <p className="text-[10px] md:text-sm text-secondary-foreground uppercase tracking-wider">{stat.label}</p>
+                                <h3 className="text-2xl md:text-3xl font-bold font-outfit mb-1 text-foreground">{stat.value}</h3>
+                                <p className="text-xs md:text-sm text-secondary-foreground uppercase tracking-wider">{stat.label}</p>
                             </motion.div>
                         ))}
                     </div>
 
+                    {/* CTA & Social Links - improved mobile layout */}
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.8 }}
-                        className="flex flex-col md:flex-row items-center gap-8 text-secondary-foreground"
+                        className="flex flex-col items-center lg:flex-row lg:items-center gap-6 md:gap-8 text-secondary-foreground"
                     >
-                        <Button variant="outline" size="lg" asChild className="border-primary/20 hover:bg-primary/10 gap-2 rounded-full px-6">
+                        <Button variant="outline" size="lg" asChild className="border-primary/20 hover:bg-primary/10 gap-2 rounded-full px-6 w-full sm:w-auto">
                             <a href={localeMetadata[language].resume} download target="_blank" rel="noopener noreferrer">
                                 <Download size={18} />
                                 <span>{downloadCVText}</span>
                             </a>
                         </Button>
 
-                        <div className="flex items-center gap-6">
-                            <span className="text-sm uppercase tracking-widest opacity-60">{followMeText}</span>
-                            <div className="w-12 h-px bg-secondary-foreground/30" />
-                            <div className="flex gap-4">
+                        <div className="flex items-center gap-4 md:gap-6">
+                            <span className="text-xs md:text-sm uppercase tracking-widest opacity-60 hidden sm:inline">{followMeText}</span>
+                            <div className="w-8 md:w-12 h-px bg-secondary-foreground/30 hidden sm:block" />
+                            <div className="flex gap-3 md:gap-4">
                                 {socialLinks.map((social, index) => (
                                     <Link
                                         key={index}
                                         href={social.href}
-                                        className="hover:text-primary transition-colors hover:scale-110 transform duration-200"
+                                        className="p-2 rounded-full hover:bg-foreground/5 hover:text-primary transition-colors hover:scale-110 transform duration-200"
                                     >
                                         <social.icon size={20} />
                                     </Link>
@@ -205,53 +255,54 @@ export function Hero() {
                     </motion.div>
                 </motion.div>
 
-                <div className="relative flex justify-center lg:justify-end mt-8 lg:mt-0">
+                {/* Image Section with floating cards */}
+                <div className="relative flex justify-center lg:justify-end mt-4 lg:mt-0">
                     <motion.div
                         initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
                         animate={{ opacity: 1, scale: 1, rotate: 0 }}
                         transition={{ duration: 0.8, ease: "easeOut" }}
-                        style={{ y: imageY }}
-                        className="relative w-[280px] h-[280px] md:w-[500px] md:h-[500px]"
+                        style={isMobile ? undefined : { y: imageY }}
+                        className="relative w-[260px] h-[260px] sm:w-[320px] sm:h-[320px] md:w-[500px] md:h-[500px]"
                     >
-                        {/* Orbiting elements */}
-                        <div className="absolute inset-0 animate-spin-slow">
-                            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-4 h-4 bg-primary rounded-full blur-[2px]" />
-                            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3 h-3 bg-purple-500 rounded-full blur-[2px]" />
-                            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-2 h-2 bg-foreground rounded-full blur-[1px]" />
+                        {/* Orbiting elements - simplified on mobile */}
+                        <div className={`absolute inset-0 ${isMobile ? '' : 'animate-spin-slow'}`}>
+                            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3 md:w-4 h-3 md:h-4 bg-primary rounded-full blur-[2px]" />
+                            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2 md:w-3 h-2 md:h-3 bg-purple-500 rounded-full blur-[2px]" />
+                            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 md:w-2 h-1.5 md:h-2 bg-foreground rounded-full blur-[1px]" />
                         </div>
 
-                        <div className="absolute inset-4 border border-foreground/5 rounded-full animate-spin-reverse-slower" />
-                        <div className="absolute inset-12 border border-foreground/10 rounded-full animate-spin-slow" />
+                        <div className={`absolute inset-4 border border-foreground/5 rounded-full ${isMobile ? '' : 'animate-spin-reverse-slower'}`} />
+                        <div className={`absolute inset-12 border border-foreground/10 rounded-full ${isMobile ? '' : 'animate-spin-slow'}`} />
 
                         {/* Main Image Container */}
-                        <div className="absolute inset-8 rounded-full overflow-hidden border-2 border-foreground/10 bg-secondary/30 backdrop-blur-sm z-10 shadow-2xl shadow-primary/20">
+                        <div className="absolute inset-6 sm:inset-8 rounded-full overflow-hidden border-2 border-foreground/10 bg-secondary/30 backdrop-blur-sm z-10 shadow-2xl shadow-primary/20">
                             <div className="relative w-full h-full">
                                 <Image
                                     src={hero.image}
                                     alt={hero.name}
                                     fill
                                     className="object-cover hover:scale-105 transition-transform duration-700"
-                                    sizes="(max-width: 768px) 280px, 500px"
+                                    sizes="(max-width: 640px) 260px, (max-width: 768px) 320px, 500px"
                                     unoptimized
                                     loading="eager"
                                 />
                             </div>
                         </div>
 
-                        {/* Mobile Floating Cards - Visible on all screens */}
+                        {/* Floating Cards - improved positioning to prevent clipping */}
                         <motion.div
                             initial={{ opacity: 0, x: 50 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: 0.5, duration: 0.5 }}
-                            className="absolute -right-2 md:-right-4 top-12 md:top-20 z-20 bg-background/80 backdrop-blur-xl p-2 md:p-4 rounded-xl md:rounded-2xl border border-foreground/10 shadow-xl"
+                            className="absolute right-0 sm:-right-2 md:-right-4 top-8 sm:top-12 md:top-20 z-20 bg-background/80 backdrop-blur-xl p-2 md:p-4 rounded-xl md:rounded-2xl border border-foreground/10 shadow-xl"
                         >
                             <div className="flex items-center gap-2 md:gap-3">
-                                <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-green-500/20 flex items-center justify-center text-green-500">
-                                    <span className="text-sm md:text-xl font-bold">{floatingCards.projects.value}</span>
+                                <div className="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-full bg-green-500/20 flex items-center justify-center text-green-500">
+                                    <span className="text-xs sm:text-sm md:text-xl font-bold">{floatingCards.projects.value}</span>
                                 </div>
                                 <div>
-                                    <p className="text-[10px] md:text-xs text-secondary-foreground">{floatingCards.projects.label}</p>
-                                    <p className="text-xs md:text-sm font-bold">{floatingCards.projects.sublabel}</p>
+                                    <p className="text-[9px] sm:text-[10px] md:text-xs text-secondary-foreground">{floatingCards.projects.label}</p>
+                                    <p className="text-[10px] sm:text-xs md:text-sm font-bold">{floatingCards.projects.sublabel}</p>
                                 </div>
                             </div>
                         </motion.div>
@@ -260,15 +311,15 @@ export function Hero() {
                             initial={{ opacity: 0, x: -50 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: 0.7, duration: 0.5 }}
-                            className="absolute -left-2 md:-left-4 bottom-12 md:bottom-20 z-20 bg-background/80 backdrop-blur-xl p-2 md:p-4 rounded-xl md:rounded-2xl border border-foreground/10 shadow-xl"
+                            className="absolute left-0 sm:-left-2 md:-left-4 bottom-8 sm:bottom-12 md:bottom-20 z-20 bg-background/80 backdrop-blur-xl p-2 md:p-4 rounded-xl md:rounded-2xl border border-foreground/10 shadow-xl"
                         >
                             <div className="flex items-center gap-2 md:gap-3">
-                                <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary">
-                                    <span className="text-sm md:text-xl font-bold">{floatingCards.experience.value}</span>
+                                <div className="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary">
+                                    <span className="text-xs sm:text-sm md:text-xl font-bold">{floatingCards.experience.value}</span>
                                 </div>
                                 <div>
-                                    <p className="text-[10px] md:text-xs text-secondary-foreground">{floatingCards.experience.label}</p>
-                                    <p className="text-xs md:text-sm font-bold">{floatingCards.experience.sublabel}</p>
+                                    <p className="text-[9px] sm:text-[10px] md:text-xs text-secondary-foreground">{floatingCards.experience.label}</p>
+                                    <p className="text-[10px] sm:text-xs md:text-sm font-bold">{floatingCards.experience.sublabel}</p>
                                 </div>
                             </div>
                         </motion.div>
@@ -276,13 +327,13 @@ export function Hero() {
                 </div>
             </div>
 
-            {/* Scroll Indicator */}
+            {/* Scroll Indicator - hidden on small screens, responsive positioning */}
             <motion.button
                 onClick={scrollToContent}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1.2 }}
-                className="absolute bottom-32 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-secondary-foreground/60 hover:text-primary transition-colors cursor-pointer z-20"
+                className="hidden sm:flex absolute bottom-24 md:bottom-32 left-1/2 -translate-x-1/2 flex-col items-center gap-2 text-secondary-foreground/60 hover:text-primary transition-colors cursor-pointer z-20"
             >
                 <span className="text-xs uppercase tracking-widest">{scrollDownText}</span>
                 <motion.div

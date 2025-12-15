@@ -137,6 +137,8 @@ export const en = {
     },
     portfolio: {
         title: "My Projects",
+        viewAll: "View All Projects",
+        allCategory: "All",
         items: [
             {
                 id: 1,
@@ -179,6 +181,7 @@ export const en = {
         title: "Latest Posts",
         description: "Thoughts, ideas, and tutorials on web development, design, and technology.",
         readMore: "Read More",
+        viewAll: "View All Posts",
         searchPlaceholder: "Search for articles, tutorials, and insights...",
         filterByTopic: "Filter by Topic",
         clearFilters: "Clear Filters",

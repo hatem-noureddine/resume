@@ -12,7 +12,21 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Additional ignores for build artifacts:
+    "final_out/**",
+    "coverage/**",
+    "playwright-report/**",
+    ".lighthouseci/**",
+    "node_modules/**",
   ]),
+  // Relax rules for test files - mocks commonly need flexible typing
+  {
+    files: ["**/*.test.ts", "**/*.test.tsx", "**/*.spec.ts", "**/*.spec.tsx"],
+    rules: {
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/no-unused-vars": "warn",
+    },
+  },
 ]);
 
 export default eslintConfig;

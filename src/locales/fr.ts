@@ -121,6 +121,8 @@ export const fr = {
     },
     portfolio: {
         title: "Mes Projets",
+        viewAll: "Voir Tous les Projets",
+        allCategory: "Tous",
         items: [
             {
                 id: 1,
@@ -163,6 +165,7 @@ export const fr = {
         title: "Derniers articles du blog",
         description: "Réflexions, idées et tutoriels sur le développement web, le design et la technologie.",
         readMore: "Lire la suite",
+        viewAll: "Voir Tous les Articles",
         searchPlaceholder: "Rechercher des articles...",
         filterByTopic: "Filtrer par sujet",
         clearFilters: "Effacer les filtres",

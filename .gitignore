@@ -10,15 +10,25 @@
 !.yarn/releases
 !.yarn/versions
 
-# testing
+# testing & coverage
 /coverage
+/reports
+/test-results
+
+# playwright
+/playwright-report
+/playwright/.cache
+
+# lighthouse
+/.lighthouseci
 
 # next.js
 /.next/
 /out/
 
-# production
+# production builds
 /build
+/final_out
 
 # misc
 .DS_Store
@@ -39,3 +49,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo

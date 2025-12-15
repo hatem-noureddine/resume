@@ -9,6 +9,8 @@ jest.mock('lucide-react', () => ({
     Mail: () => <div data-testid="icon-mail" />,
     FileText: () => <div data-testid="icon-file-text" />,
     Download: () => <div data-testid="icon-download" />,
+    ChevronDown: () => <div data-testid="icon-chevron-down" />,
+    ChevronUp: () => <div data-testid="icon-chevron-up" />,
 }));
 
 // Mock Next.js Image

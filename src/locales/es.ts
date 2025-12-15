@@ -121,6 +121,8 @@ export const es = {
     },
     portfolio: {
         title: "Mis Proyectos",
+        viewAll: "Ver Todos los Proyectos",
+        allCategory: "Todos",
         items: [
             {
                 id: 1,
@@ -160,15 +162,16 @@ export const es = {
         ]
     },
     blog: {
-        title: "Derniers articles du blog",
-        description: "Réflexions, idées et tutoriels sur le développement web, le design et la technologie.",
-        readMore: "Lire la suite",
-        searchPlaceholder: "Rechercher des articles...",
-        filterByTopic: "Filtrer par sujet",
-        clearFilters: "Effacer les filtres",
-        notFound: "Aucun article trouvé correspondant à vos critères.",
-        previous: "Précédent",
-        next: "Suivant"
+        title: "Últimas Publicaciones",
+        description: "Reflexiones, ideas y tutoriales sobre desarrollo web, diseño y tecnología.",
+        readMore: "Leer Más",
+        viewAll: "Ver Todas las Publicaciones",
+        searchPlaceholder: "Buscar artículos...",
+        filterByTopic: "Filtrar por tema",
+        clearFilters: "Limpiar filtros",
+        notFound: "No se encontraron artículos que coincidan con sus criterios.",
+        previous: "Anterior",
+        next: "Siguiente"
     },
     skills: {
         title: "Mis Habilidades",

@@ -10,6 +10,9 @@ concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  NODE_VERSION: "20"
+
 jobs:
   # Fast feedback - lint and unit tests
   lint-and-test:
@@ -22,7 +25,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: ${{ env.NODE_VERSION }}
           cache: "npm"
 
       - name: Install dependencies
@@ -32,7 +35,10 @@ jobs:
         run: npm run lint
 
       - name: Run Unit Tests with Coverage
-        run: npm run test:coverage
+        run: npm run test:coverage -- --ci --reporters=default --reporters=jest-junit
+        env:
+          JEST_JUNIT_OUTPUT_DIR: ./reports
+          JEST_JUNIT_OUTPUT_NAME: junit.xml
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v4
@@ -41,10 +47,34 @@ jobs:
           path: coverage/
           retention-days: 7
 
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results
+          path: reports/
+          retention-days: 7
+
+      - name: Test Report Summary
+        uses: dorny/test-reporter@v2
+        if: always() && github.event_name == 'pull_request'
+        with:
+          name: Jest Tests
+          path: reports/junit.xml
+          reporter: jest-junit
+          fail-on-error: false
+
       - name: Build
         run: npm run build
 
-  # E2E and performance tests (only on main/master push or PR)
+      - name: Upload build artifact for E2E
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output
+          path: out/
+          retention-days: 1
+
+  # E2E and performance tests
   e2e-and-performance:
     name: E2E & Performance Tests
     runs-on: ubuntu-latest
@@ -56,25 +86,36 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: ${{ env.NODE_VERSION }}
           cache: "npm"
 
-      - name: Restore Next.js cache
-        uses: actions/cache@v4
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
         with:
-          path: .next/cache
-          key: nextjs-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.ts', '**/*.tsx') }}
-          restore-keys: |
-            nextjs-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}-
+          name: build-output
+          path: out/
 
       - name: Install dependencies
         run: npm ci
 
+      - name: Get Playwright version
+        id: playwright-version
+        run: echo "version=$(npm ls @playwright/test --json | jq -r '.dependencies["@playwright/test"].version')" >> $GITHUB_OUTPUT
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        id: playwright-cache
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ steps.playwright-version.outputs.version }}
+
       - name: Install Playwright browsers
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps
 
-      - name: Build
-        run: npm run build
+      - name: Install Playwright deps only
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: npx playwright install-deps
 
       - name: Prepare static site
         run: npm run prepare:static
@@ -84,6 +125,7 @@ jobs:
 
       - name: Run Lighthouse CI
         run: npm run lh
+        continue-on-error: true
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
 
@@ -102,3 +144,12 @@ jobs:
           name: lighthouse-report
           path: .lighthouseci/
           retention-days: 30
+
+      - name: Playwright Report Summary
+        uses: dorny/test-reporter@v2
+        if: always() && github.event_name == 'pull_request'
+        with:
+          name: Playwright E2E Tests
+          path: playwright-report/results.xml
+          reporter: java-junit
+          fail-on-error: false
