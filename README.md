@@ -1,84 +1,99 @@
-# Portfolio / Resume Website
+# Hatem Noureddine - Portfolio Website
 
-A modern, responsive, and localized portfolio website built with **Next.js**, **Tailwind CSS**, and **Framer Motion**.
+[![CI Pipeline](https://github.com/hatemnoureddine/resume/actions/workflows/ci.yml/badge.svg)](https://github.com/hatemnoureddine/resume/actions/workflows/ci.yml)
+[![Deploy](https://github.com/hatemnoureddine/resume/actions/workflows/deploy.yml/badge.svg)](https://github.com/hatemnoureddine/resume/actions/workflows/deploy.yml)
 
-## 🚀 Getting Started
+A modern, responsive, and localized portfolio website built with **Next.js 16**, **Tailwind CSS v4**, and **Framer Motion**.
 
-### Prerequisites
+## ✨ Features
 
-*   Node.js 18+ installed.
-*   npm or yarn package manager.
+- 🌍 **Multi-language** - English, French, Spanish support
+- 🌓 **Dark/Light Mode** - Automatic system preference detection
+- 📱 **Fully Responsive** - Mobile-first design
+- ⚡ **Performance Optimized** - Dynamic imports, image optimization
+- ♿ **Accessible** - WCAG 2.1 compliant with skip links
+- 📝 **Blog** - Markdown-powered blog with categories
+- 🔍 **SEO Ready** - Sitemap, meta tags, structured data
 
-### Installation
+## 🚀 Quick Start
 
-1.  Clone the repository:
-    ```bash
-    git clone <repository-url>
-    cd resume_1
-    ```
-2.  Install dependencies:
-    ```bash
-    npm install
-    ```
-3.  Run the development server:
-    ```bash
-    npm run dev
-    ```
-4.  Open [http://localhost:3000](http://localhost:3000) in your browser.
-
-### Running Tests
-
-To run the test suite:
 ```bash
-npm test
+# Clone the repository
+git clone https://github.com/hatemnoureddine/resume.git
+cd resume
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
 ```
 
-## 🛠️ Project Structure
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-*   `src/app`: Main application pages (Next.js App Router).
-*   `src/components`: Reusable UI components.
-    *   `sections`: High-level page sections (Hero, Skills, Experience, etc.).
-    *   `ui`: Atomic components (Buttons, etc.).
-*   `src/locales`: Localization files (`en.ts`, `fr.ts`, `es.ts`). **Update content here.**
-*   `src/context`: Global state (Theme, Language).
+## 📦 Available Scripts
 
-## 📝 How to Update Content
+| Script | Description |
+|--------|-------------|
+| `npm run dev` | Start development server |
+| `npm run build` | Build for production |
+| `npm run start` | Start production server |
+| `npm run lint` | Run ESLint |
+| `npm run test` | Run unit tests |
+| `npm run test:e2e` | Run Playwright E2E tests |
+| `npm run verify` | **Run all checks** (lint, test, build, e2e) |
+| `npm run verify:quick` | Quick local check (lint, test, build) |
 
-The website's content is separated from the code in the `src/locales` directory.
+## 🛠️ Tech Stack
 
-1.  **Skills**:
-    *   Open `src/locales/en.ts` (and other languages).
-    *   Navigate to the `skills` object.
-    *   Add/Remove items in `professional.items` or `technical.categories`.
-2.  **Experience/Education**:
-    *   Edit the `experience` array in the locale files.
-3.  **Contact Info**:
-    *   Update email, phone, and social links in the `contact` object.
-4.  **Icons**:
-    *   The `Skills` component automatically maps skill names to icons. To force a specific icon, use an object format: `{ name: "Your Skill", icon: "IconName" }` where `IconName` matches a Lucide React icon.
+- **Framework**: [Next.js 16](https://nextjs.org/) (App Router)
+- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
+- **Animation**: [Framer Motion](https://www.framer.com/motion/)
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **Testing**: Jest, Playwright, axe-core
+- **CI/CD**: GitHub Actions
+
+## 📁 Project Structure
+
+```
+src/
+├── app/               # Next.js App Router pages
+├── components/        # React components
+│   ├── layout/        # Header, Footer
+│   ├── sections/      # Page sections
+│   └── ui/            # Reusable UI atoms
+├── context/           # Global state (Theme, Language)
+├── data/              # Static data files
+├── lib/               # Utilities
+└── locales/           # Translation files
+```
+
+## 📝 Updating Content
+
+Content is managed in the `src/locales/` directory:
+
+1. **Personal Info** - Edit `hero` section in locale files
+2. **Skills** - Update `skills.professional` and `skills.technical`
+3. **Experience** - Modify `experience` array
+4. **Contact** - Update `contact` object
+
+See [TECHNICAL.md](./TECHNICAL.md) for detailed architecture documentation.
 
 ## 🚢 Deployment
 
-This project is optimized for static deployment (e.g., Vercel, Netlify, GitHub Pages).
+See [DEPLOYMENT.md](./DEPLOYMENT.md) for deployment instructions to:
+- GitHub Pages
+- Vercel
+- Netlify
 
-### Vercel (Recommended)
+## 🤝 Contributing
 
-1.  Push your code to GitHub.
-2.  Import the project in Vercel.
-3.  Vercel will detect Next.js and configure the build automatically.
+Contributions are welcome! Please read [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
 
-### GitHub Pages
+## 📄 License
 
-1.  Update `next.config.ts` to enable static export:
-    ```typescript
-    const nextConfig = {
-      output: 'export',
-      images: { unoptimized: true } // Required for static export
-    };
-    ```
-2.  Run `npm run build`.
-3.  Deploy the `out` directory.
+MIT License - see [LICENSE](./LICENSE) for details.
 
-## 📄 Documentation
+---
 
-For more detailed technical choices, see [TECHNICAL.md](./TECHNICAL.md).
+Built with ❤️ by [Hatem Noureddine](https://hatemnoureddine.github.io/resume/)

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import '@testing-library/jest-dom';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Contact } from './Contact';
 import { LanguageProvider } from '@/context/LanguageContext';
@@ -13,7 +15,14 @@ jest.mock('lucide-react', () => ({
 jest.mock('framer-motion', () => ({
     motion: {
         div: ({ children, className }: any) => <div className={className}>{children}</div>,
-    }
+        span: ({ children, className }: any) => <span className={className}>{children}</span>,
+        h1: ({ children, className }: any) => <h1 className={className}>{children}</h1>,
+        h2: ({ children, className }: any) => <h2 className={className}>{children}</h2>,
+        h3: ({ children, className }: any) => <h3 className={className}>{children}</h3>,
+        p: ({ children, className }: any) => <p className={className}>{children}</p>,
+        a: ({ children, className, href }: any) => <a className={className} href={href}>{children}</a>,
+    },
+    AnimatePresence: ({ children }: any) => <>{children}</>,
 }));
 
 describe('Contact Component', () => {
@@ -25,7 +34,7 @@ describe('Contact Component', () => {
         );
     };
 
-    const mockLocationAssign = jest.fn();
+    // const mockLocationAssign = jest.fn();
 
     beforeAll(() => {
         // Mock window.location

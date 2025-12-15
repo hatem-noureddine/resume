@@ -1,5 +1,3 @@
-import { Github, Linkedin, Mail, Twitter } from "lucide-react";
-
 export const en = {
     header: {
         logo: "HN",
@@ -15,13 +13,22 @@ export const en = {
     hero: {
         name: "Hatem Noureddine",
         title: "Creative Designer & Developer",
+        roles: ["Android Developer", "Mobile Architect", "Tech Lead", "Kotlin Expert"],
         description:
             "I break down complex user experience problems to create integrity focussed solutions that connect billions of people",
+        downloadCV: "Download CV",
+        followMe: "Follow Me",
+        availableForHire: "Available for Hire",
+        scrollDown: "Scroll to explore",
         stats: [
             { value: "12", label: "Years of Experience" },
             { value: "50+", label: "Projects Completed" },
             { value: "1.5k", label: "Happy Clients" },
         ],
+        floatingCards: {
+            projects: { value: "50+", label: "Projects", sublabel: "Completed" },
+            experience: { value: "12", label: "Years", sublabel: "Experience" }
+        },
         image: "/resume/profile.png",
     },
     services: {
@@ -55,88 +62,117 @@ export const en = {
     },
     experience: {
         title: "My Experience",
+        subtitle: "Work History",
+        roleDescription: "Key Responsibilities",
+        showMore: "Show More",
+        showLess: "Show Less",
+        filterBySkill: "Filter by Skill",
+        allSkills: "All",
+        clearFilter: "Clear",
         items: [
             {
                 id: 1,
                 period: "2020 - Present",
                 role: "Lead Developer",
                 company: "Tech Solutions Inc.",
-                description: "Leading the frontend team and architecting scalable solutions.",
+                logo: "/resume/logos/tech-solutions.png",
+                description: "Leading the frontend team and architecting scalable solutions for enterprise clients.",
+                duration: "4+ years",
+                startDate: "2020-01",
+                highlights: [
+                    "Led a team of 8 developers to deliver 15+ projects on time",
+                    "Architected microservices reducing load time by 40%",
+                    "Implemented CI/CD pipeline improving deployment frequency by 3x"
+                ],
+                skills: ["Kotlin", "Android", "Jetpack Compose", "MVVM", "CI/CD"]
             },
             {
                 id: 2,
                 period: "2018 - 2020",
-                role: "Senior UI/UX Designer",
+                role: "Senior Android Developer",
                 company: "Creative Agency",
-                description: "Designed award-winning interfaces for global brands.",
+                logo: "/resume/logos/creative-agency.png",
+                description: "Developed high-performance mobile applications for global brands.",
+                duration: "2 years",
+                startDate: "2018-01",
+                endDate: "2020-01",
+                highlights: [
+                    "Built 5 production apps with 1M+ combined downloads",
+                    "Reduced app crash rate by 85% through proper error handling",
+                    "Mentored 3 junior developers in best practices"
+                ],
+                skills: ["Kotlin", "Android", "Room", "Retrofit", "Koin"]
             },
             {
                 id: 3,
                 period: "2016 - 2018",
-                role: "Junior Developer",
+                role: "Android Developer",
                 company: "StartUp Hub",
-                description: "Collaborated with senior developers to build MVP products.",
+                logo: "/resume/logos/startup-hub.png",
+                description: "Collaborated with senior developers to build MVP products for startups.",
+                duration: "2 years",
                 startDate: "2016-01",
-                endDate: "2018-05", // Added date for sorting since logic depends on it
+                endDate: "2018-01",
+                highlights: [
+                    "Developed 3 MVP applications from scratch",
+                    "Integrated RESTful APIs and third-party SDKs",
+                    "Participated in agile sprints and code reviews"
+                ],
+                skills: ["Java", "Android", "SQLite", "REST APIs"]
             },
             {
                 id: 4,
-                period: "2018 - 2020",
-                role: "Senior UI/UX Designer",
-                company: "Creative Agency (Duplicate)",
-                description: "Designed award-winning interfaces for global brands.",
-                startDate: "2018-01",
-                endDate: "2020-01",
-            },
-            {
-                id: 5,
-                period: "2016 - 2018",
-                role: "Junior Developer",
-                company: "StartUp Hub (Duplicate)",
-                description: "Collaborated with senior developers to build MVP products.",
-                startDate: "2015-01",
+                period: "2014 - 2016",
+                role: "Junior Android Developer",
+                company: "First Company",
+                logo: "/resume/logos/first-company.png",
+                description: "Started my career...",
+                duration: "2 years",
+                startDate: "2014-01",
                 endDate: "2016-01",
-            },
+                highlights: ["Learned Android fundamentals"],
+                skills: ["Java", "Android"]
+            }
         ]
     },
     portfolio: {
         title: "My Projects",
         items: [
-            // {
-            //     id: 1,
-            //     title: "E-commerce Platform",
-            //     category: "Development",
-            //     image: "https://placehold.co/600x400/1f1f1f/FFF",
-            //     link: "#",
-            // },
-            // {
-            //     id: 2,
-            //     title: "Finance Dashboard",
-            //     category: "UI/UX",
-            //     image: "https://placehold.co/600x400/1f1f1f/FFF",
-            //     link: "#",
-            // },
-            // {
-            //     id: 3,
-            //     title: "Travel App",
-            //     category: "Mobile",
-            //     image: "https://placehold.co/600x400/1f1f1f/FFF",
-            //     link: "#",
-            // },
-            // {
-            //     id: 4,
-            //     title: "Social Media App",
-            //     category: "Mobile",
-            //     image: "https://placehold.co/600x400/1f1f1f/FFF",
-            //     link: "#",
-            // },
-            // {
-            //     id: 5,
-            //     title: "Corporate Website",
-            //     category: "Web Design",
-            //     image: "https://placehold.co/600x400/1f1f1f/FFF",
-            //     link: "#",
-            // }
+            {
+                id: 1,
+                title: "E-commerce Platform",
+                category: "Development",
+                image: "https://placehold.co/600x400/1f1f1f/FFF",
+                link: "#",
+            },
+            {
+                id: 2,
+                title: "Finance Dashboard",
+                category: "UI/UX",
+                image: "https://placehold.co/600x400/1f1f1f/FFF",
+                link: "#",
+            },
+            {
+                id: 3,
+                title: "Travel App",
+                category: "Mobile",
+                image: "https://placehold.co/600x400/1f1f1f/FFF",
+                link: "#",
+            },
+            {
+                id: 4,
+                title: "Social Media App",
+                category: "Mobile",
+                image: "https://placehold.co/600x400/1f1f1f/FFF",
+                link: "#",
+            },
+            {
+                id: 5,
+                title: "Corporate Website",
+                category: "Web Design",
+                image: "https://placehold.co/600x400/1f1f1f/FFF",
+                link: "#",
+            }
         ]
     },
     blog: {

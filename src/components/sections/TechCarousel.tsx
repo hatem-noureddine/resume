@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import carouselData from "@/data/carousels.json";
 
 

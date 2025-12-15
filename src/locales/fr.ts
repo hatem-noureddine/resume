@@ -13,13 +13,22 @@ export const fr = {
     hero: {
         name: "Hatem Noureddine",
         title: "Designer Créatif & Développeur",
+        roles: ["Développeur Android", "Architecte Mobile", "Lead Tech", "Expert Kotlin"],
         description:
             "Je décompose les problèmes d'expérience utilisateur complexes pour créer des solutions intègres qui connectent des milliards de personnes",
+        downloadCV: "Télécharger CV",
+        followMe: "Suivez-moi",
+        availableForHire: "Disponible",
+        scrollDown: "Défiler pour explorer",
         stats: [
             { value: "12", label: "Années d'Expérience" },
             { value: "50+", label: "Projets Terminés" },
             { value: "1.5k", label: "Clients Satisfaits" },
         ],
+        floatingCards: {
+            projects: { value: "50+", label: "Projets", sublabel: "Terminés" },
+            experience: { value: "12", label: "Années", sublabel: "d'Expérience" }
+        },
         image: "/resume/profile.png",
     },
     services: {
@@ -53,48 +62,61 @@ export const fr = {
     },
     experience: {
         title: "Mon Expérience",
+        subtitle: "Parcours Professionnel",
+        roleDescription: "Responsabilités Clés",
+        showMore: "Voir Plus",
+        showLess: "Voir Moins",
+        filterBySkill: "Filtrer par Compétence",
+        allSkills: "Toutes",
+        clearFilter: "Effacer",
         items: [
             {
                 id: 1,
                 period: "2020 - Présent",
                 role: "Développeur Lead",
                 company: "Tech Solutions Inc.",
-                description: "Direction de l'équipe frontend et architecture de solutions évolutives.",
+                description: "Direction de l'équipe frontend et architecture de solutions évolutives pour les clients entreprise.",
+                duration: "4+ ans",
+                startDate: "2020-01",
+                highlights: [
+                    "Direction d'une équipe de 8 développeurs pour livrer 15+ projets dans les délais",
+                    "Architecture de microservices réduisant le temps de chargement de 40%",
+                    "Implémentation du pipeline CI/CD améliorant la fréquence de déploiement par 3x"
+                ],
+                skills: ["Kotlin", "Android", "Jetpack Compose", "MVVM", "CI/CD"]
             },
             {
                 id: 2,
                 period: "2018 - 2020",
-                role: "Senior UI/UX Designer",
+                role: "Développeur Android Senior",
                 company: "Creative Agency",
-                description: "Conception d'interfaces primées pour des marques mondiales.",
+                description: "Développement d'applications mobiles haute performance pour des marques mondiales.",
+                duration: "2 ans",
+                startDate: "2018-01",
+                endDate: "2020-01",
+                highlights: [
+                    "Construction de 5 applications avec 1M+ téléchargements combinés",
+                    "Réduction du taux de crash de 85% grâce à une gestion d'erreurs appropriée",
+                    "Mentorat de 3 développeurs juniors sur les meilleures pratiques"
+                ],
+                skills: ["Kotlin", "Android", "Room", "Retrofit", "Koin"]
             },
             {
                 id: 3,
                 period: "2016 - 2018",
-                role: "Développeur Junior",
+                role: "Développeur Android",
                 company: "StartUp Hub",
-                description: "Collaboration avec des développeurs seniors pour construire des produits MVP.",
+                description: "Collaboration avec des développeurs seniors pour construire des produits MVP pour startups.",
+                duration: "2 ans",
                 startDate: "2016-01",
-                endDate: "2018-05",
-            },
-            {
-                id: 4,
-                period: "2018 - 2020",
-                role: "Senior UI/UX Designer",
-                company: "Creative Agency (Duplicate)",
-                description: "Conception d'interfaces primées pour des marques mondiales.",
-                startDate: "2018-01",
-                endDate: "2020-01",
-            },
-            {
-                id: 5,
-                period: "2016 - 2018",
-                role: "Développeur Junior",
-                company: "StartUp Hub (Duplicate)",
-                description: "Collaboration avec des développeurs seniors pour construire des produits MVP.",
-                startDate: "2015-01",
-                endDate: "2016-01",
-            },
+                endDate: "2018-01",
+                highlights: [
+                    "Développement de 3 applications MVP from scratch",
+                    "Intégration d'APIs REST et SDKs tiers",
+                    "Participation aux sprints agiles et revues de code"
+                ],
+                skills: ["Java", "Android", "SQLite", "APIs REST"]
+            }
         ]
     },
     portfolio: {

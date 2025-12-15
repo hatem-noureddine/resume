@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 const nextJest = require('next/jest')
 
 const createJestConfig = nextJest({
@@ -9,6 +10,23 @@ const createJestConfig = nextJest({
 const customJestConfig = {
     setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
     testEnvironment: 'jest-environment-jsdom',
+    roots: ['<rootDir>/src'],
+    testMatch: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(test).[jt]s?(x)'],
+    moduleNameMapper: {
+        '^@/(.*)$': '<rootDir>/src/$1',
+    },
+    collectCoverage: true,
+    collectCoverageFrom: [
+        'src/**/*.{js,jsx,ts,tsx}',
+        '!src/**/*.d.ts',
+        '!src/**/*.stories.{js,jsx,ts,tsx}',
+        '!src/e2e/**/*',
+        '!**/node_modules/**',
+    ],
+    reporters: [
+        'default',
+        ['jest-junit', { outputDirectory: 'reports', outputName: 'jest-junit.xml' }]
+    ]
 }
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async

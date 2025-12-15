@@ -12,15 +12,24 @@ export const es = {
     },
     hero: {
         name: "Hatem Noureddine",
-        title: "Designer Créatif & Développeur",
+        title: "Diseñador Creativo y Desarrollador",
+        roles: ["Desarrollador Android", "Arquitecto Móvil", "Tech Lead", "Experto Kotlin"],
         description:
-            "Je décompose les problèmes d'expérience utilisateur complexes pour créer des solutions intègres qui connectent des milliards de personnes",
+            "Descompongo problemas complejos de experiencia de usuario para crear soluciones íntegras que conectan a miles de millones de personas",
+        downloadCV: "Descargar CV",
+        followMe: "Sígueme",
+        availableForHire: "Disponible",
+        scrollDown: "Desplázate para explorar",
         stats: [
-            { value: "12", label: "Années d'Expérience" },
-            { value: "50+", label: "Projets Terminés" },
-            { value: "1.5k", label: "Clients Satisfaits" },
+            { value: "12", label: "Años de Experiencia" },
+            { value: "50+", label: "Proyectos Completados" },
+            { value: "1.5k", label: "Clientes Satisfechos" },
         ],
-        image: "/profile.png",
+        floatingCards: {
+            projects: { value: "50+", label: "Proyectos", sublabel: "Completados" },
+            experience: { value: "12", label: "Años", sublabel: "Experiencia" }
+        },
+        image: "/resume/profile.png",
     },
     services: {
         title: "Mes Services",
@@ -52,29 +61,62 @@ export const es = {
         ]
     },
     experience: {
-        title: "Mon Expérience",
+        title: "Mi Experiencia",
+        subtitle: "Historial Laboral",
+        roleDescription: "Responsabilidades Clave",
+        showMore: "Ver Más",
+        showLess: "Ver Menos",
+        filterBySkill: "Filtrar por Habilidad",
+        allSkills: "Todas",
+        clearFilter: "Limpiar",
         items: [
             {
                 id: 1,
-                period: "2020 - Présent",
-                role: "Développeur Lead",
+                period: "2020 - Presente",
+                role: "Desarrollador Líder",
                 company: "Tech Solutions Inc.",
-                description: "Direction de l'équipe frontend et architecture de solutions évolutives.",
+                description: "Liderando el equipo frontend y arquitectando soluciones escalables para clientes empresariales.",
+                duration: "4+ años",
+                startDate: "2020-01",
+                highlights: [
+                    "Lideré un equipo de 8 desarrolladores entregando 15+ proyectos a tiempo",
+                    "Arquitectura de microservicios reduciendo el tiempo de carga en 40%",
+                    "Implementación de pipeline CI/CD mejorando la frecuencia de despliegue 3x"
+                ],
+                skills: ["Kotlin", "Android", "Jetpack Compose", "MVVM", "CI/CD"]
             },
             {
                 id: 2,
                 period: "2018 - 2020",
-                role: "Senior UI/UX Designer",
+                role: "Desarrollador Android Senior",
                 company: "Creative Agency",
-                description: "Conception d'interfaces primées pour des marques mondiales.",
+                description: "Desarrollo de aplicaciones móviles de alto rendimiento para marcas globales.",
+                duration: "2 años",
+                startDate: "2018-01",
+                endDate: "2020-01",
+                highlights: [
+                    "Construí 5 aplicaciones con 1M+ descargas combinadas",
+                    "Reducción de la tasa de fallos en 85% mediante manejo de errores apropiado",
+                    "Mentoría de 3 desarrolladores junior en mejores prácticas"
+                ],
+                skills: ["Kotlin", "Android", "Room", "Retrofit", "Koin"]
             },
             {
                 id: 3,
                 period: "2016 - 2018",
-                role: "Développeur Junior",
+                role: "Desarrollador Android",
                 company: "StartUp Hub",
-                description: "Collaboration avec des développeurs seniors pour construire des produits MVP.",
-            },
+                description: "Colaboración con desarrolladores senior para construir productos MVP para startups.",
+                duration: "2 años",
+                startDate: "2016-01",
+                endDate: "2018-01",
+                highlights: [
+                    "Desarrollo de 3 aplicaciones MVP desde cero",
+                    "Integración de APIs REST y SDKs de terceros",
+                    "Participación en sprints ágiles y revisiones de código"
+                ],
+                skills: ["Java", "Android", "SQLite", "APIs REST"]
+            }
         ]
     },
     portfolio: {

@@ -209,7 +209,7 @@ export function BlogList({ initialPosts }: BlogListProps) {
                             <Search size={32} className="text-muted-foreground" />
                         </div>
                         <h3 className="text-xl font-bold mb-2">{blog.notFound}</h3>
-                        <p className="text-muted-foreground mb-6">Try adjusting your search or filters to find what you're looking for.</p>
+                        <p className="text-muted-foreground mb-6">Try adjusting your search or filters to find what you&apos;re looking for.</p>
                         <button
                             onClick={clearFilters}
                             className="bg-primary hover:bg-primary-dark text-white px-6 py-2 rounded-full transition-colors font-medium"

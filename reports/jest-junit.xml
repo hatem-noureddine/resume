@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="3" failures="0" errors="0" time="0.412">
+  <testsuite name="Header Component" errors="0" failures="0" skipped="0" timestamp="2025-12-15T08:44:31" time="0.242" tests="3">
+    <testcase classname="Header Component renders navigation links" name="Header Component renders navigation links" time="0.027">
+    </testcase>
+    <testcase classname="Header Component toggles language menu" name="Header Component toggles language menu" time="0.009">
+    </testcase>
+    <testcase classname="Header Component changes language on click" name="Header Component changes language on click" time="0.007">
+    </testcase>
+  </testsuite>
+</testsuites>

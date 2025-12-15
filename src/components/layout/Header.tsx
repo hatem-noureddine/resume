@@ -1,12 +1,11 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Menu, X, Globe, ChevronDown, Check } from "lucide-react";
+import { Menu, X, ChevronDown, Check, Sparkles } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/Button";
 import { useLanguage } from "@/context/LanguageContext";
 import { localeMetadata } from "@/locales";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
@@ -17,7 +16,13 @@ export function Header({ hasBlogPosts = true }: { hasBlogPosts?: boolean }) {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
     const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false);
+    const [mounted, setMounted] = useState(false);
     const languageMenuRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setMounted(true);
+    }, []);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -40,6 +45,18 @@ export function Header({ hasBlogPosts = true }: { hasBlogPosts?: boolean }) {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
+    // Body scroll lock which fixes the "malformed" background scroll issue
+    useEffect(() => {
+        if (mobileMenuOpen) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "unset";
+        }
+        return () => {
+            document.body.style.overflow = "unset";
+        }
+    }, [mobileMenuOpen]);
+
     const portfolioItems = t.portfolio.items || [];
     const showPortfolio = portfolioItems.length > 0;
 
@@ -53,7 +70,7 @@ export function Header({ hasBlogPosts = true }: { hasBlogPosts?: boolean }) {
         <header
             className={cn(
                 "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-                isScrolled ? "bg-background/80 backdrop-blur-md shadow-sm" : "bg-transparent"
+                isScrolled ? "bg-background/80 backdrop-blur-md shadow-sm py-4" : "bg-transparent py-6"
             )}
         >
             <div className="container mx-auto px-4 flex items-center justify-between">
@@ -132,65 +149,100 @@ export function Header({ hasBlogPosts = true }: { hasBlogPosts?: boolean }) {
 
                     <ThemeToggle />
 
-                    <Button variant="default" size="sm" asChild>
-                        <Link href="#contact">{t.header.hireMe}</Link>
-                    </Button>
+                    <Link
+                        href="#contact"
+                        className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/10 border border-green-500/20 text-green-600 dark:text-green-400 text-sm font-medium hover:bg-green-500/20 transition-colors"
+                    >
+                        <span className="relative flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                        </span>
+                        <Sparkles size={14} />
+                        {t.hero.availableForHire || "Available for Hire"}
+                    </Link>
                 </nav>
 
                 {/* Mobile Menu Toggle */}
                 <div className="flex items-center gap-4 md:hidden">
-                    <ThemeToggle />
-
-                    {availableLanguages.length > 1 && (
-                        <button
-                            onClick={() => {
-                                const currentIndex = availableLanguages.indexOf(language);
-                                const nextIndex = (currentIndex + 1) % availableLanguages.length;
-                                setLanguage(availableLanguages[nextIndex]);
-                            }}
-                            className="text-foreground p-2 flex items-center gap-2"
-                        >
-                            <span className="text-lg leading-none">{localeMetadata[language].flag}</span>
-                            <span className="uppercase text-sm font-bold">{language}</span>
-                        </button>
-                    )}
                     <button
                         className="text-foreground p-2"
-                        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                        aria-label="Toggle menu"
+                        onClick={() => setMobileMenuOpen(true)}
+                        aria-label="Open menu"
                     >
-                        {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                        <Menu size={24} />
                     </button>
                 </div>
             </div>
 
-            {/* Mobile Nav */}
-            <AnimatePresence>
-                {mobileMenuOpen && (
-                    <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        exit={{ opacity: 0, height: 0 }}
-                        className="md:hidden bg-background border-b border-foreground/10 overflow-hidden"
-                    >
-                        <div className="flex flex-col items-center gap-6 py-8">
-                            {navLinks.map((link) => (
-                                <Link
-                                    key={link.name}
-                                    href={link.href}
-                                    className="text-lg font-medium text-secondary-foreground hover:text-primary transition-colors"
+            {/* Mobile Nav Overlay */}
+            {mounted && createPortal(
+                <AnimatePresence>
+                    {mobileMenuOpen && (
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.95 }}
+                            transition={{ duration: 0.2 }}
+                            className="fixed inset-0 z-50 bg-background md:hidden flex flex-col"
+                        >
+                            <div className="container mx-auto px-4 h-20 flex items-center justify-end">
+                                <button
+                                    className="p-2 text-foreground hover:text-primary transition-colors cursor-pointer relative z-50"
                                     onClick={() => setMobileMenuOpen(false)}
+                                    aria-label="Close menu"
                                 >
-                                    {link.name}
+                                    <X size={32} />
+                                </button>
+                            </div>
+
+                            <div className="flex-1 flex flex-col items-center justify-center gap-8 -mt-20">
+                                {navLinks.map((link) => (
+                                    <Link
+                                        key={link.name}
+                                        href={link.href}
+                                        className="text-3xl font-bold font-outfit text-foreground hover:text-primary transition-colors"
+                                        onClick={() => setMobileMenuOpen(false)}
+                                    >
+                                        {link.name}
+                                    </Link>
+                                ))}
+
+                                <Link
+                                    href="#contact"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                    className="mt-4 inline-flex items-center gap-3 px-6 py-3 rounded-full bg-green-500/10 border border-green-500/20 text-green-600 dark:text-green-400 text-lg font-medium hover:bg-green-500/20 transition-colors"
+                                >
+                                    <span className="relative flex h-3 w-3">
+                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                        <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                                    </span>
+                                    <Sparkles size={18} />
+                                    {t.hero.availableForHire || "Available for Hire"}
                                 </Link>
-                            ))}
-                            <Button onClick={() => setMobileMenuOpen(false)} asChild>
-                                <Link href="#contact">{t.header.hireMe}</Link>
-                            </Button>
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
+
+                                <div className="flex items-center gap-8 mt-12 bg-secondary/30 p-4 rounded-full">
+                                    {availableLanguages.length > 1 && (
+                                        <button
+                                            onClick={() => {
+                                                const currentIndex = availableLanguages.indexOf(language);
+                                                const nextIndex = (currentIndex + 1) % availableLanguages.length;
+                                                setLanguage(availableLanguages[nextIndex]);
+                                            }}
+                                            className="flex items-center gap-2 text-lg font-medium"
+                                        >
+                                            <span className="text-2xl">{localeMetadata[language].flag}</span>
+                                            <span className="uppercase">{language}</span>
+                                        </button>
+                                    )}
+                                    <div className="w-px h-6 bg-foreground/20" />
+                                    <ThemeToggle />
+                                </div>
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>,
+                document.body
+            )}
         </header>
     );
 }

@@ -2,21 +2,7 @@
 
 @layer base {
   :root {
-    --color-background: #0f0f0f;
-    /* Default dark for resume_1? user mentioned portfolio redesign ... wait. The current globals says bg #0f0f0f which is dark. */
-    /* original was dark default. user wants light/dark. 
-       Let's assume current is "Dark". I should define Light colors in :root (or .light) and Dark in .dark 
-       OR if default is dark, I make :root dark and .light light?
-       Standard is usually :root is light.
-       Let's define :root as LIGHT and .dark as DARK.
-       
-       Current values:
-       --color-background: #0f0f0f; (Dark)
-       --color-foreground: #ededed; (Light text)
-       
-       So the current site IS Dark mode by default.
-       I will set :root to be Light Mode values, and .dark to be these current values.
-    */
+    /* Light mode colors */
     --color-background: #fafafa;
     --color-foreground: #171717;
 
@@ -25,13 +11,13 @@
 
     --color-secondary: #f4f4f5;
     --color-secondary-foreground: #52525b;
-    /* Zinc-600 */
 
     --font-sans: var(--font-inter);
     --font-display: var(--font-outfit);
   }
 
   .dark {
+    /* Dark mode colors */
     --color-background: #0f0f0f;
     --color-foreground: #ededed;
 
@@ -40,7 +26,6 @@
 
     --color-secondary: #1f1f1f;
     --color-secondary-foreground: #a1a1aa;
-    /* Zinc-400 */
   }
 }
 
@@ -150,4 +135,44 @@ body {
 
 .animate-infinite-scroll-reverse {
   animation: infinite-scroll 25s linear infinite reverse;
+}
+
+/* Hover utilities for interactive elements */
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.2);
+}
+
+.dark .hover-lift:hover {
+  box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.4);
+}
+
+/* Loading skeleton animation */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(90deg,
+      var(--color-secondary) 25%,
+      var(--color-secondary-foreground) 50%,
+      var(--color-secondary) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Focus visible styles for accessibility */
+.focus-ring:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }

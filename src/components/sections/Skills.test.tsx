@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Skills } from './Skills';
 import { LanguageProvider } from '@/context/LanguageContext';
@@ -27,10 +28,14 @@ jest.mock('lucide-react', () => ({
 jest.mock('framer-motion', () => ({
     motion: {
         div: ({ children, className, onClick }: any) => <div className={className} onClick={onClick}>{children}</div>,
-        h3: ({ children, className }: any) => <h3 className={className}>{children}</h3>,
-        a: ({ children, href, className }: any) => <a href={href} className={className}>{children}</a>,
         span: ({ children, className }: any) => <span className={className}>{children}</span>,
-    }
+        h1: ({ children, className }: any) => <h1 className={className}>{children}</h1>,
+        h2: ({ children, className }: any) => <h2 className={className}>{children}</h2>,
+        h3: ({ children, className }: any) => <h3 className={className}>{children}</h3>,
+        p: ({ children, className }: any) => <p className={className}>{children}</p>,
+        a: ({ children, className, href }: any) => <a className={className} href={href}>{children}</a>,
+    },
+    AnimatePresence: ({ children }: any) => <>{children}</>,
 }));
 
 describe('Skills Component', () => {
@@ -49,13 +54,12 @@ describe('Skills Component', () => {
 
     it('renders professional skills', () => {
         renderWithContext(<Skills />);
-        // Assuming "Team Management" is in the default en.ts
-        expect(screen.getByText('Professional')).toBeInTheDocument();
+        expect(screen.getAllByRole('heading', { name: 'Professional' })[0]).toBeInTheDocument();
     });
 
     it('renders technical skill categories', () => {
         renderWithContext(<Skills />);
-        expect(screen.getByText('Technical')).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: 'Technical' })).toBeInTheDocument();
         // Check for a category like "Architecture"
         expect(screen.getByText(/Architecture/i)).toBeInTheDocument();
     });
