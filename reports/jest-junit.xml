@@ -1,127 +1,159 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="279" failures="0" errors="0" time="2.292">
-  <testsuite name="Global Error Page" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:09:05" time="0.637" tests="7">
-    <testcase classname="Global Error Page renders error message" name="Global Error Page renders error message" time="0.028">
+<testsuites name="jest tests" tests="288" failures="0" errors="0" time="2.097">
+  <testsuite name="Global Error Page" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:31:14" time="0.579" tests="7">
+    <testcase classname="Global Error Page renders error message" name="Global Error Page renders error message" time="0.036">
     </testcase>
-    <testcase classname="Global Error Page renders error description" name="Global Error Page renders error description" time="0.005">
+    <testcase classname="Global Error Page renders error description" name="Global Error Page renders error description" time="0.004">
     </testcase>
-    <testcase classname="Global Error Page displays error.message in a code block" name="Global Error Page displays error.message in a code block" time="0.002">
+    <testcase classname="Global Error Page displays error.message in a code block" name="Global Error Page displays error.message in a code block" time="0.014">
     </testcase>
-    <testcase classname="Global Error Page calls reset when Try again is clicked" name="Global Error Page calls reset when Try again is clicked" time="0.007">
+    <testcase classname="Global Error Page calls reset when Try again is clicked" name="Global Error Page calls reset when Try again is clicked" time="0.008">
     </testcase>
-    <testcase classname="Global Error Page navigates home when Go Home is clicked" name="Global Error Page navigates home when Go Home is clicked" time="0.004">
+    <testcase classname="Global Error Page navigates home when Go Home is clicked" name="Global Error Page navigates home when Go Home is clicked" time="0.007">
     </testcase>
-    <testcase classname="Global Error Page displays &quot;Unknown error&quot; when error.message is empty" name="Global Error Page displays &quot;Unknown error&quot; when error.message is empty" time="0.001">
+    <testcase classname="Global Error Page displays &quot;Unknown error&quot; when error.message is empty" name="Global Error Page displays &quot;Unknown error&quot; when error.message is empty" time="0.002">
     </testcase>
     <testcase classname="Global Error Page logs error to console on mount" name="Global Error Page logs error to console on mount" time="0.006">
     </testcase>
   </testsuite>
-  <testsuite name="Header Component" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:09:05" time="0.765" tests="11">
-    <testcase classname="Header Component renders navigation links" name="Header Component renders navigation links" time="0.048">
+  <testsuite name="ErrorBoundary" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:31:14" time="0.723" tests="9">
+    <testcase classname="ErrorBoundary renders children when there is no error" name="ErrorBoundary renders children when there is no error" time="0.02">
     </testcase>
-    <testcase classname="Header Component renders logo" name="Header Component renders logo" time="0.003">
+    <testcase classname="ErrorBoundary renders fallback UI when an error occurs" name="ErrorBoundary renders fallback UI when an error occurs" time="0.025">
     </testcase>
-    <testcase classname="Header Component renders theme toggle" name="Header Component renders theme toggle" time="0.015">
+    <testcase classname="ErrorBoundary renders custom fallback when provided" name="ErrorBoundary renders custom fallback when provided" time="0.003">
     </testcase>
-    <testcase classname="Header Component toggles language menu" name="Header Component toggles language menu" time="0.038">
+    <testcase classname="ErrorBoundary shows error message when showError is true" name="ErrorBoundary shows error message when showError is true" time="0.003">
     </testcase>
-    <testcase classname="Header Component changes language on click" name="Header Component changes language on click" time="0.012">
+    <testcase classname="ErrorBoundary calls onError callback when error occurs" name="ErrorBoundary calls onError callback when error occurs" time="0.004">
+    </testcase>
+    <testcase classname="ErrorBoundary resets error state when Try Again is clicked" name="ErrorBoundary resets error state when Try Again is clicked" time="0.022">
+    </testcase>
+    <testcase classname="withErrorBoundary wraps component with error boundary" name="withErrorBoundary wraps component with error boundary" time="0">
+    </testcase>
+    <testcase classname="withErrorBoundary catches errors in wrapped component" name="withErrorBoundary catches errors in wrapped component" time="0.057">
+    </testcase>
+    <testcase classname="withErrorBoundary uses custom fallback in HOC" name="withErrorBoundary uses custom fallback in HOC" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Blog Component" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:31:14" time="0.773" tests="2">
+    <testcase classname="Blog Component renders blog posts" name="Blog Component renders blog posts" time="0.045">
+    </testcase>
+    <testcase classname="Blog Component filters posts by category" name="Blog Component filters posts by category" time="0.193">
+    </testcase>
+  </testsuite>
+  <testsuite name="Header Component" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:31:14" time="0.738" tests="11">
+    <testcase classname="Header Component renders navigation links" name="Header Component renders navigation links" time="0.054">
+    </testcase>
+    <testcase classname="Header Component renders logo" name="Header Component renders logo" time="0.008">
+    </testcase>
+    <testcase classname="Header Component renders theme toggle" name="Header Component renders theme toggle" time="0.007">
+    </testcase>
+    <testcase classname="Header Component toggles language menu" name="Header Component toggles language menu" time="0.019">
+    </testcase>
+    <testcase classname="Header Component changes language on click" name="Header Component changes language on click" time="0.034">
     </testcase>
     <testcase classname="Header Component handles scroll events" name="Header Component handles scroll events" time="0.007">
     </testcase>
-    <testcase classname="Header Component renders mobile menu button on small screens" name="Header Component renders mobile menu button on small screens" time="0.002">
+    <testcase classname="Header Component renders mobile menu button on small screens" name="Header Component renders mobile menu button on small screens" time="0.004">
     </testcase>
-    <testcase classname="Header Component shows hire me link" name="Header Component shows hire me link" time="0.013">
+    <testcase classname="Header Component shows hire me link" name="Header Component shows hire me link" time="0.012">
     </testcase>
-    <testcase classname="Header Component shows blog link" name="Header Component shows blog link" time="0.014">
+    <testcase classname="Header Component shows blog link" name="Header Component shows blog link" time="0.03">
     </testcase>
-    <testcase classname="Header Component handles scrolling up after scrolling down" name="Header Component handles scrolling up after scrolling down" time="0.008">
+    <testcase classname="Header Component handles scrolling up after scrolling down" name="Header Component handles scrolling up after scrolling down" time="0.009">
     </testcase>
-    <testcase classname="Header Component applies correct classes on scroll" name="Header Component applies correct classes on scroll" time="0.01">
-    </testcase>
-  </testsuite>
-  <testsuite name="ErrorBoundary" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:09:05" time="0.786" tests="9">
-    <testcase classname="ErrorBoundary renders children when there is no error" name="ErrorBoundary renders children when there is no error" time="0.016">
-    </testcase>
-    <testcase classname="ErrorBoundary renders fallback UI when an error occurs" name="ErrorBoundary renders fallback UI when an error occurs" time="0.054">
-    </testcase>
-    <testcase classname="ErrorBoundary renders custom fallback when provided" name="ErrorBoundary renders custom fallback when provided" time="0.006">
-    </testcase>
-    <testcase classname="ErrorBoundary shows error message when showError is true" name="ErrorBoundary shows error message when showError is true" time="0.019">
-    </testcase>
-    <testcase classname="ErrorBoundary calls onError callback when error occurs" name="ErrorBoundary calls onError callback when error occurs" time="0.006">
-    </testcase>
-    <testcase classname="ErrorBoundary resets error state when Try Again is clicked" name="ErrorBoundary resets error state when Try Again is clicked" time="0.035">
-    </testcase>
-    <testcase classname="withErrorBoundary wraps component with error boundary" name="withErrorBoundary wraps component with error boundary" time="0.001">
-    </testcase>
-    <testcase classname="withErrorBoundary catches errors in wrapped component" name="withErrorBoundary catches errors in wrapped component" time="0.015">
-    </testcase>
-    <testcase classname="withErrorBoundary uses custom fallback in HOC" name="withErrorBoundary uses custom fallback in HOC" time="0.003">
+    <testcase classname="Header Component applies correct classes on scroll" name="Header Component applies correct classes on scroll" time="0.008">
     </testcase>
   </testsuite>
-  <testsuite name="Blog Component" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:09:05" time="0.807" tests="2">
-    <testcase classname="Blog Component renders blog posts" name="Blog Component renders blog posts" time="0.063">
+  <testsuite name="Services Component" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:31:14" time="0.79" tests="4">
+    <testcase classname="Services Component renders the section with correct id" name="Services Component renders the section with correct id" time="0.08">
     </testcase>
-    <testcase classname="Blog Component filters posts by category" name="Blog Component filters posts by category" time="0.167">
+    <testcase classname="Services Component displays section heading with title" name="Services Component displays section heading with title" time="0.037">
     </testcase>
-  </testsuite>
-  <testsuite name="Services Component" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:09:05" time="0.827" tests="4">
-    <testcase classname="Services Component renders the section with correct id" name="Services Component renders the section with correct id" time="0.084">
-    </testcase>
-    <testcase classname="Services Component displays section heading with title" name="Services Component displays section heading with title" time="0.033">
-    </testcase>
-    <testcase classname="Services Component renders service cards on desktop" name="Services Component renders service cards on desktop" time="0.011">
+    <testcase classname="Services Component renders service cards on desktop" name="Services Component renders service cards on desktop" time="0.037">
     </testcase>
     <testcase classname="Services Component displays service descriptions" name="Services Component displays service descriptions" time="0.014">
     </testcase>
   </testsuite>
-  <testsuite name="UI Components" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:09:05" time="0.823" tests="26">
-    <testcase classname="UI Components AnimatedCounter renders with initial value 0 and animates to target" name="UI Components AnimatedCounter renders with initial value 0 and animates to target" time="0.057">
+  <testsuite name="Experience Component" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:31:14" time="0.809" tests="4">
+    <testcase classname="Experience Component renders the section title" name="Experience Component renders the section title" time="0.053">
     </testcase>
-    <testcase classname="UI Components AnimatedCounter renders with prefix and suffix" name="UI Components AnimatedCounter renders with prefix and suffix" time="0.004">
+    <testcase classname="Experience Component renders experience items" name="Experience Component renders experience items" time="0.088">
     </testcase>
-    <testcase classname="UI Components AnimatedCounter renders with custom duration" name="UI Components AnimatedCounter renders with custom duration" time="0.002">
+    <testcase classname="Experience Component renders company logos or icons" name="Experience Component renders company logos or icons" time="0.08">
     </testcase>
-    <testcase classname="UI Components FloatingActions renders but is initially hidden" name="UI Components FloatingActions renders but is initially hidden" time="0.039">
+    <testcase classname="Experience Component handles mobile accordion interaction" name="Experience Component handles mobile accordion interaction" time="0.043">
     </testcase>
-    <testcase classname="UI Components FloatingActions shows after scroll" name="UI Components FloatingActions shows after scroll" time="0.014">
+  </testsuite>
+  <testsuite name="Footer Component" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:31:14" time="0.829" tests="6">
+    <testcase classname="Footer Component renders the footer element" name="Footer Component renders the footer element" time="0.123">
     </testcase>
-    <testcase classname="UI Components LoadingScreen renders loading text" name="UI Components LoadingScreen renders loading text" time="0.003">
+    <testcase classname="Footer Component displays the logo" name="Footer Component displays the logo" time="0.004">
     </testcase>
-    <testcase classname="UI Components ScrollProgress renders progress bar" name="UI Components ScrollProgress renders progress bar" time="0.002">
+    <testcase classname="Footer Component displays copyright text with current year" name="Footer Component displays copyright text with current year" time="0.005">
     </testcase>
-    <testcase classname="UI Components ScrollReveal renders children" name="UI Components ScrollReveal renders children" time="0.005">
+    <testcase classname="Footer Component renders navigation links" name="Footer Component renders navigation links" time="0.004">
     </testcase>
-    <testcase classname="UI Components ScrollReveal renders with custom delay" name="UI Components ScrollReveal renders with custom delay" time="0.001">
+    <testcase classname="Footer Component hides blog link when hasBlogPosts is false" name="Footer Component hides blog link when hasBlogPosts is false" time="0.009">
     </testcase>
-    <testcase classname="UI Components ScrollReveal renders with custom direction" name="UI Components ScrollReveal renders with custom direction" time="0">
+    <testcase classname="Footer Component renders social media links" name="Footer Component renders social media links" time="0.029">
+    </testcase>
+  </testsuite>
+  <testsuite name="Hero Component" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:31:14" time="0.803" tests="3">
+    <testcase classname="Hero Component renders the main heading" name="Hero Component renders the main heading" time="0.142">
+    </testcase>
+    <testcase classname="Hero Component renders social links" name="Hero Component renders social links" time="0.04">
+    </testcase>
+    <testcase classname="Hero Component renders call to action buttons" name="Hero Component renders call to action buttons" time="0.016">
+    </testcase>
+  </testsuite>
+  <testsuite name="UI Components" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:31:14" time="0.823" tests="26">
+    <testcase classname="UI Components AnimatedCounter renders with initial value 0 and animates to target" name="UI Components AnimatedCounter renders with initial value 0 and animates to target" time="0.07">
+    </testcase>
+    <testcase classname="UI Components AnimatedCounter renders with prefix and suffix" name="UI Components AnimatedCounter renders with prefix and suffix" time="0.002">
+    </testcase>
+    <testcase classname="UI Components AnimatedCounter renders with custom duration" name="UI Components AnimatedCounter renders with custom duration" time="0.008">
+    </testcase>
+    <testcase classname="UI Components FloatingActions renders but is initially hidden" name="UI Components FloatingActions renders but is initially hidden" time="0.007">
+    </testcase>
+    <testcase classname="UI Components FloatingActions shows after scroll" name="UI Components FloatingActions shows after scroll" time="0.028">
+    </testcase>
+    <testcase classname="UI Components LoadingScreen renders loading text" name="UI Components LoadingScreen renders loading text" time="0.015">
+    </testcase>
+    <testcase classname="UI Components ScrollProgress renders progress bar" name="UI Components ScrollProgress renders progress bar" time="0.003">
+    </testcase>
+    <testcase classname="UI Components ScrollReveal renders children" name="UI Components ScrollReveal renders children" time="0.003">
+    </testcase>
+    <testcase classname="UI Components ScrollReveal renders with custom delay" name="UI Components ScrollReveal renders with custom delay" time="0.002">
+    </testcase>
+    <testcase classname="UI Components ScrollReveal renders with custom direction" name="UI Components ScrollReveal renders with custom direction" time="0.001">
     </testcase>
     <testcase classname="UI Components Skeletons renders SectionSkeleton" name="UI Components Skeletons renders SectionSkeleton" time="0.002">
     </testcase>
-    <testcase classname="UI Components Skeletons renders PortfolioSkeleton" name="UI Components Skeletons renders PortfolioSkeleton" time="0.003">
+    <testcase classname="UI Components Skeletons renders PortfolioSkeleton" name="UI Components Skeletons renders PortfolioSkeleton" time="0.006">
     </testcase>
-    <testcase classname="UI Components Skeletons renders ExperienceSkeleton" name="UI Components Skeletons renders ExperienceSkeleton" time="0.003">
+    <testcase classname="UI Components Skeletons renders ExperienceSkeleton" name="UI Components Skeletons renders ExperienceSkeleton" time="0.008">
     </testcase>
-    <testcase classname="UI Components Skeletons renders SkillsSkeleton" name="UI Components Skeletons renders SkillsSkeleton" time="0.002">
+    <testcase classname="UI Components Skeletons renders SkillsSkeleton" name="UI Components Skeletons renders SkillsSkeleton" time="0.003">
     </testcase>
-    <testcase classname="UI Components Skeleton renders with custom class" name="UI Components Skeleton renders with custom class" time="0">
+    <testcase classname="UI Components Skeleton renders with custom class" name="UI Components Skeleton renders with custom class" time="0.001">
     </testcase>
-    <testcase classname="UI Components Skeleton renders text variant" name="UI Components Skeleton renders text variant" time="0.001">
+    <testcase classname="UI Components Skeleton renders text variant" name="UI Components Skeleton renders text variant" time="0.002">
     </testcase>
-    <testcase classname="UI Components Skeleton renders circle variant" name="UI Components Skeleton renders circle variant" time="0">
+    <testcase classname="UI Components Skeleton renders circle variant" name="UI Components Skeleton renders circle variant" time="0.001">
     </testcase>
-    <testcase classname="UI Components Skeleton renders with custom width and height" name="UI Components Skeleton renders with custom width and height" time="0">
+    <testcase classname="UI Components Skeleton renders with custom width and height" name="UI Components Skeleton renders with custom width and height" time="0.004">
     </testcase>
-    <testcase classname="UI Components ImageWithSkeleton renders image and shows skeleton while loading" name="UI Components ImageWithSkeleton renders image and shows skeleton while loading" time="0.001">
+    <testcase classname="UI Components ImageWithSkeleton renders image and shows skeleton while loading" name="UI Components ImageWithSkeleton renders image and shows skeleton while loading" time="0.003">
     </testcase>
-    <testcase classname="UI Components ImageWithSkeleton hides skeleton after image loads" name="UI Components ImageWithSkeleton hides skeleton after image loads" time="0.005">
+    <testcase classname="UI Components ImageWithSkeleton hides skeleton after image loads" name="UI Components ImageWithSkeleton hides skeleton after image loads" time="0.004">
     </testcase>
-    <testcase classname="UI Components ImageWithSkeleton hides skeleton on error" name="UI Components ImageWithSkeleton hides skeleton on error" time="0.005">
+    <testcase classname="UI Components ImageWithSkeleton hides skeleton on error" name="UI Components ImageWithSkeleton hides skeleton on error" time="0.003">
     </testcase>
-    <testcase classname="UI Components ImageWithSkeleton renders with fill prop" name="UI Components ImageWithSkeleton renders with fill prop" time="0.002">
+    <testcase classname="UI Components ImageWithSkeleton renders with fill prop" name="UI Components ImageWithSkeleton renders with fill prop" time="0.001">
     </testcase>
-    <testcase classname="UI Components TiltCard renders children" name="UI Components TiltCard renders children" time="0.004">
+    <testcase classname="UI Components TiltCard renders children" name="UI Components TiltCard renders children" time="0.001">
     </testcase>
     <testcase classname="UI Components TiltCard handles mouse move events" name="UI Components TiltCard handles mouse move events" time="0.002">
     </testcase>
@@ -130,146 +162,138 @@
     <testcase classname="UI Components WaveDivider renders SVG" name="UI Components WaveDivider renders SVG" time="0.001">
     </testcase>
   </testsuite>
-  <testsuite name="Experience Component" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:09:05" time="0.861" tests="4">
-    <testcase classname="Experience Component renders the section title" name="Experience Component renders the section title" time="0.053">
+  <testsuite name="ChatWidget" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:31:14" time="0.88" tests="8">
+    <testcase classname="ChatWidget renders the floating chat button" name="ChatWidget renders the floating chat button" time="0.063">
     </testcase>
-    <testcase classname="Experience Component renders experience items" name="Experience Component renders experience items" time="0.174">
+    <testcase classname="ChatWidget shows unread badge on initial load" name="ChatWidget shows unread badge on initial load" time="0.015">
     </testcase>
-    <testcase classname="Experience Component renders company logos or icons" name="Experience Component renders company logos or icons" time="0.013">
+    <testcase classname="ChatWidget opens chat window when button is clicked" name="ChatWidget opens chat window when button is clicked" time="0.077">
     </testcase>
-    <testcase classname="Experience Component handles mobile accordion interaction" name="Experience Component handles mobile accordion interaction" time="0.039">
+    <testcase classname="ChatWidget shows quick action buttons in header when open" name="ChatWidget shows quick action buttons in header when open" time="0.023">
     </testcase>
-  </testsuite>
-  <testsuite name="Footer Component" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:09:05" time="0.847" tests="6">
-    <testcase classname="Footer Component renders the footer element" name="Footer Component renders the footer element" time="0.083">
+    <testcase classname="ChatWidget shows input field when chat is open" name="ChatWidget shows input field when chat is open" time="0.024">
     </testcase>
-    <testcase classname="Footer Component displays the logo" name="Footer Component displays the logo" time="0.004">
-    </testcase>
-    <testcase classname="Footer Component displays copyright text with current year" name="Footer Component displays copyright text with current year" time="0.027">
-    </testcase>
-    <testcase classname="Footer Component renders navigation links" name="Footer Component renders navigation links" time="0.011">
-    </testcase>
-    <testcase classname="Footer Component hides blog link when hasBlogPosts is false" name="Footer Component hides blog link when hasBlogPosts is false" time="0.007">
-    </testcase>
-    <testcase classname="Footer Component renders social media links" name="Footer Component renders social media links" time="0.021">
-    </testcase>
-  </testsuite>
-  <testsuite name="Hero Component" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:09:05" time="0.857" tests="3">
-    <testcase classname="Hero Component renders the main heading" name="Hero Component renders the main heading" time="0.165">
-    </testcase>
-    <testcase classname="Hero Component renders social links" name="Hero Component renders social links" time="0.042">
-    </testcase>
-    <testcase classname="Hero Component renders call to action buttons" name="Hero Component renders call to action buttons" time="0.01">
-    </testcase>
-  </testsuite>
-  <testsuite name="BlogList Component" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:09:05" time="0.898" tests="8">
-    <testcase classname="BlogList Component renders post titles" name="BlogList Component renders post titles" time="0.085">
-    </testcase>
-    <testcase classname="BlogList Component renders post descriptions" name="BlogList Component renders post descriptions" time="0.058">
-    </testcase>
-    <testcase classname="BlogList Component renders search input" name="BlogList Component renders search input" time="0.009">
-    </testcase>
-    <testcase classname="BlogList Component filters posts by search query" name="BlogList Component filters posts by search query" time="0.014">
-    </testcase>
-    <testcase classname="BlogList Component shows no results message when no posts match" name="BlogList Component shows no results message when no posts match" time="0.015">
-    </testcase>
-    <testcase classname="BlogList Component renders post tags" name="BlogList Component renders post tags" time="0.014">
-    </testcase>
-    <testcase classname="BlogList Component renders post dates" name="BlogList Component renders post dates" time="0.019">
-    </testcase>
-    <testcase classname="BlogList Component clears search when clear button is clicked" name="BlogList Component clears search when clear button is clicked" time="0.044">
-    </testcase>
-  </testsuite>
-  <testsuite name="ChatWidget" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:09:05" time="0.93" tests="8">
-    <testcase classname="ChatWidget renders the floating chat button" name="ChatWidget renders the floating chat button" time="0.142">
-    </testcase>
-    <testcase classname="ChatWidget shows unread badge on initial load" name="ChatWidget shows unread badge on initial load" time="0.005">
-    </testcase>
-    <testcase classname="ChatWidget opens chat window when button is clicked" name="ChatWidget opens chat window when button is clicked" time="0.037">
-    </testcase>
-    <testcase classname="ChatWidget shows quick action buttons in header when open" name="ChatWidget shows quick action buttons in header when open" time="0.026">
-    </testcase>
-    <testcase classname="ChatWidget shows input field when chat is open" name="ChatWidget shows input field when chat is open" time="0.016">
-    </testcase>
-    <testcase classname="ChatWidget allows typing in the input field" name="ChatWidget allows typing in the input field" time="0.029">
+    <testcase classname="ChatWidget allows typing in the input field" name="ChatWidget allows typing in the input field" time="0.027">
     </testcase>
     <testcase classname="ChatWidget has accessible aria-label on chat button" name="ChatWidget has accessible aria-label on chat button" time="0.008">
     </testcase>
-    <testcase classname="ChatWidget email quick action link has correct href" name="ChatWidget email quick action link has correct href" time="0.023">
+    <testcase classname="ChatWidget email quick action link has correct href" name="ChatWidget email quick action link has correct href" time="0.026">
     </testcase>
   </testsuite>
-  <testsuite name="App Directory" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:09:05" time="0.938" tests="5">
-    <testcase classname="App Directory Home Page renders all sections" name="App Directory Home Page renders all sections" time="0.085">
+  <testsuite name="BlogList Component" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:31:14" time="0.886" tests="8">
+    <testcase classname="BlogList Component renders post titles" name="BlogList Component renders post titles" time="0.081">
     </testcase>
-    <testcase classname="App Directory RootLayout renders children and layout components" name="App Directory RootLayout renders children and layout components" time="0.025">
+    <testcase classname="BlogList Component renders post descriptions" name="BlogList Component renders post descriptions" time="0.066">
     </testcase>
-    <testcase classname="App Directory NotFound renders 404 content" name="App Directory NotFound renders 404 content" time="0.027">
+    <testcase classname="BlogList Component renders search input" name="BlogList Component renders search input" time="0.013">
     </testcase>
-    <testcase classname="App Directory GlobalError renders error content" name="App Directory GlobalError renders error content" time="0.016">
+    <testcase classname="BlogList Component filters posts by search query" name="BlogList Component filters posts by search query" time="0.026">
     </testcase>
-    <testcase classname="App Directory ErrorPage renders error content" name="App Directory ErrorPage renders error content" time="0.008">
+    <testcase classname="BlogList Component shows no results message when no posts match" name="BlogList Component shows no results message when no posts match" time="0.017">
     </testcase>
-  </testsuite>
-  <testsuite name="CodeBlock" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:09:06" time="0.146" tests="11">
-    <testcase classname="CodeBlock renders code content" name="CodeBlock renders code content" time="0.015">
+    <testcase classname="BlogList Component renders post tags" name="BlogList Component renders post tags" time="0.011">
     </testcase>
-    <testcase classname="CodeBlock shows language badge when className contains language" name="CodeBlock shows language badge when className contains language" time="0.001">
+    <testcase classname="BlogList Component renders post dates" name="BlogList Component renders post dates" time="0.007">
     </testcase>
-    <testcase classname="CodeBlock renders copy button" name="CodeBlock renders copy button" time="0.004">
-    </testcase>
-    <testcase classname="CodeBlock copies code to clipboard when copy button is clicked" name="CodeBlock copies code to clipboard when copy button is clicked" time="0.007">
-    </testcase>
-    <testcase classname="CodeBlock shows check icon after copying" name="CodeBlock shows check icon after copying" time="0.009">
-    </testcase>
-    <testcase classname="CodeBlock does not show language badge when no language class" name="CodeBlock does not show language badge when no language class" time="0.001">
-    </testcase>
-    <testcase classname="CodeBlock handles nested elements in extractText" name="CodeBlock handles nested elements in extractText" time="0.01">
-    </testcase>
-    <testcase classname="CodeBlock handles number children" name="CodeBlock handles number children" time="0.009">
-    </testcase>
-    <testcase classname="CodeBlock handles array children" name="CodeBlock handles array children" time="0.001">
-    </testcase>
-    <testcase classname="CodeBlock handles empty/null children gracefully" name="CodeBlock handles empty/null children gracefully" time="0.001">
-    </testcase>
-    <testcase classname="CodeBlock handles clipboard error gracefully" name="CodeBlock handles clipboard error gracefully" time="0.006">
+    <testcase classname="BlogList Component clears search when clear button is clicked" name="BlogList Component clears search when clear button is clicked" time="0.055">
     </testcase>
   </testsuite>
-  <testsuite name="Skills Component" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:09:06" time="0.29" tests="4">
-    <testcase classname="Skills Component renders the skills section title" name="Skills Component renders the skills section title" time="0.04">
+  <testsuite name="App Directory" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:31:14" time="0.915" tests="5">
+    <testcase classname="App Directory Home Page renders all sections" name="App Directory Home Page renders all sections" time="0.103">
     </testcase>
-    <testcase classname="Skills Component renders professional skills" name="Skills Component renders professional skills" time="0.043">
+    <testcase classname="App Directory RootLayout renders children and layout components" name="App Directory RootLayout renders children and layout components" time="0.028">
+    </testcase>
+    <testcase classname="App Directory NotFound renders 404 content" name="App Directory NotFound renders 404 content" time="0.041">
+    </testcase>
+    <testcase classname="App Directory GlobalError renders error content" name="App Directory GlobalError renders error content" time="0.01">
+    </testcase>
+    <testcase classname="App Directory ErrorPage renders error content" name="App Directory ErrorPage renders error content" time="0.006">
+    </testcase>
+  </testsuite>
+  <testsuite name="Toast" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:31:14" time="0.133" tests="9">
+    <testcase classname="Toast renders when isVisible is true" name="Toast renders when isVisible is true" time="0.008">
+    </testcase>
+    <testcase classname="Toast does not render when isVisible is false" name="Toast does not render when isVisible is false" time="0.001">
+    </testcase>
+    <testcase classname="Toast renders success toast with correct styling" name="Toast renders success toast with correct styling" time="0.002">
+    </testcase>
+    <testcase classname="Toast renders error toast with correct styling" name="Toast renders error toast with correct styling" time="0.001">
+    </testcase>
+    <testcase classname="Toast renders info toast with correct styling" name="Toast renders info toast with correct styling" time="0.002">
+    </testcase>
+    <testcase classname="Toast calls onClose after duration" name="Toast calls onClose after duration" time="0.002">
+    </testcase>
+    <testcase classname="Toast uses default duration of 4000ms" name="Toast uses default duration of 4000ms" time="0.001">
+    </testcase>
+    <testcase classname="Toast defaults to success type" name="Toast defaults to success type" time="0.001">
+    </testcase>
+    <testcase classname="Toast renders correct icon for each type" name="Toast renders correct icon for each type" time="0.009">
+    </testcase>
+  </testsuite>
+  <testsuite name="BookmarkButton" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:31:14" time="0.168" tests="6">
+    <testcase classname="BookmarkButton renders bookmark button" name="BookmarkButton renders bookmark button" time="0.038">
+    </testcase>
+    <testcase classname="BookmarkButton shows correct aria-label when not bookmarked" name="BookmarkButton shows correct aria-label when not bookmarked" time="0.002">
+    </testcase>
+    <testcase classname="BookmarkButton shows correct aria-label when bookmarked" name="BookmarkButton shows correct aria-label when bookmarked" time="0.001">
+    </testcase>
+    <testcase classname="BookmarkButton calls toggleBookmark when clicked" name="BookmarkButton calls toggleBookmark when clicked" time="0.009">
+    </testcase>
+    <testcase classname="BookmarkButton stops event propagation when clicked" name="BookmarkButton stops event propagation when clicked" time="0.008">
+    </testcase>
+    <testcase classname="BookmarkButton applies custom className" name="BookmarkButton applies custom className" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="SectionHeading Component" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:31:14" time="0.137" tests="6">
+    <testcase classname="SectionHeading Component renders title and subtitle" name="SectionHeading Component renders title and subtitle" time="0.009">
+    </testcase>
+    <testcase classname="SectionHeading Component renders h2 element for title" name="SectionHeading Component renders h2 element for title" time="0.021">
+    </testcase>
+    <testcase classname="SectionHeading Component applies center alignment by default" name="SectionHeading Component applies center alignment by default" time="0.001">
+    </testcase>
+    <testcase classname="SectionHeading Component applies left alignment when specified" name="SectionHeading Component applies left alignment when specified" time="0.001">
+    </testcase>
+    <testcase classname="SectionHeading Component applies custom className" name="SectionHeading Component applies custom className" time="0.007">
+    </testcase>
+    <testcase classname="SectionHeading Component renders subtitle with uppercase styling" name="SectionHeading Component renders subtitle with uppercase styling" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="ThemeToggle Component" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:31:14" time="0.165" tests="2">
+    <testcase classname="ThemeToggle Component renders toggle button" name="ThemeToggle Component renders toggle button" time="0.019">
+    </testcase>
+    <testcase classname="ThemeToggle Component toggles theme on click" name="ThemeToggle Component toggles theme on click" time="0.005">
+    </testcase>
+  </testsuite>
+  <testsuite name="Skills Component" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:31:14" time="0.235" tests="4">
+    <testcase classname="Skills Component renders the skills section title" name="Skills Component renders the skills section title" time="0.056">
+    </testcase>
+    <testcase classname="Skills Component renders professional skills" name="Skills Component renders professional skills" time="0.05">
     </testcase>
     <testcase classname="Skills Component renders technical skill categories" name="Skills Component renders technical skill categories" time="0.032">
     </testcase>
-    <testcase classname="Skills Component toggles technical skill category on click" name="Skills Component toggles technical skill category on click" time="0.038">
+    <testcase classname="Skills Component toggles technical skill category on click" name="Skills Component toggles technical skill category on click" time="0.023">
     </testcase>
   </testsuite>
-  <testsuite name="Blog Sections" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:09:06" time="0.208" tests="1">
-    <testcase classname="Blog Sections Blog Page renders blog list" name="Blog Sections Blog Page renders blog list" time="0.04">
+  <testsuite name="ShareButtons" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:31:14" time="0.183" tests="5">
+    <testcase classname="ShareButtons renders share buttons" name="ShareButtons renders share buttons" time="0.014">
+    </testcase>
+    <testcase classname="ShareButtons has correct share links" name="ShareButtons has correct share links" time="0.006">
+    </testcase>
+    <testcase classname="ShareButtons copies link to clipboard when copy button is clicked" name="ShareButtons copies link to clipboard when copy button is clicked" time="0.021">
+    </testcase>
+    <testcase classname="ShareButtons shows check icon after copying" name="ShareButtons shows check icon after copying" time="0.02">
+    </testcase>
+    <testcase classname="ShareButtons applies custom className" name="ShareButtons applies custom className" time="0.002">
     </testcase>
   </testsuite>
-  <testsuite name="RelatedPosts" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:09:06" time="0.162" tests="8">
-    <testcase classname="RelatedPosts renders related posts section" name="RelatedPosts renders related posts section" time="0.014">
-    </testcase>
-    <testcase classname="RelatedPosts shows posts matching by category" name="RelatedPosts shows posts matching by category" time="0.008">
-    </testcase>
-    <testcase classname="RelatedPosts excludes current post from related posts" name="RelatedPosts excludes current post from related posts" time="0.003">
-    </testcase>
-    <testcase classname="RelatedPosts returns null when current post not found" name="RelatedPosts returns null when current post not found" time="0.001">
-    </testcase>
-    <testcase classname="RelatedPosts returns null when no related posts found" name="RelatedPosts returns null when no related posts found" time="0.001">
-    </testcase>
-    <testcase classname="RelatedPosts limits related posts to 3" name="RelatedPosts limits related posts to 3" time="0.02">
-    </testcase>
-    <testcase classname="RelatedPosts shows post category and date" name="RelatedPosts shows post category and date" time="0.003">
-    </testcase>
-    <testcase classname="RelatedPosts renders read more links" name="RelatedPosts renders read more links" time="0.01">
+  <testsuite name="Blog Sections" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:31:14" time="0.203" tests="1">
+    <testcase classname="Blog Sections Blog Page renders blog list" name="Blog Sections Blog Page renders blog list" time="0.022">
     </testcase>
   </testsuite>
-  <testsuite name="Button Component" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:09:06" time="0.163" tests="8">
-    <testcase classname="Button Component renders button with children" name="Button Component renders button with children" time="0.039">
+  <testsuite name="Button Component" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:31:14" time="0.142" tests="8">
+    <testcase classname="Button Component renders button with children" name="Button Component renders button with children" time="0.025">
     </testcase>
-    <testcase classname="Button Component applies default variant classes" name="Button Component applies default variant classes" time="0.011">
+    <testcase classname="Button Component applies default variant classes" name="Button Component applies default variant classes" time="0.004">
     </testcase>
     <testcase classname="Button Component applies outline variant classes" name="Button Component applies outline variant classes" time="0.003">
     </testcase>
@@ -277,235 +301,157 @@
     </testcase>
     <testcase classname="Button Component applies size classes correctly" name="Button Component applies size classes correctly" time="0.008">
     </testcase>
-    <testcase classname="Button Component renders as child component when asChild is true" name="Button Component renders as child component when asChild is true" time="0.006">
+    <testcase classname="Button Component renders as child component when asChild is true" name="Button Component renders as child component when asChild is true" time="0.004">
     </testcase>
-    <testcase classname="Button Component accepts additional className" name="Button Component accepts additional className" time="0.002">
+    <testcase classname="Button Component accepts additional className" name="Button Component accepts additional className" time="0.005">
     </testcase>
-    <testcase classname="Button Component forwards onClick handler" name="Button Component forwards onClick handler" time="0.009">
-    </testcase>
-  </testsuite>
-  <testsuite name="LanguageContext" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:09:06" time="0.138" tests="7">
-    <testcase classname="LanguageContext provides default language (en)" name="LanguageContext provides default language (en)" time="0.015">
-    </testcase>
-    <testcase classname="LanguageContext provides list of available languages" name="LanguageContext provides list of available languages" time="0.007">
-    </testcase>
-    <testcase classname="LanguageContext allows setting language to French" name="LanguageContext allows setting language to French" time="0.004">
-    </testcase>
-    <testcase classname="LanguageContext allows setting language to English" name="LanguageContext allows setting language to English" time="0.013">
-    </testcase>
-    <testcase classname="LanguageContext toggleLanguage cycles through available languages" name="LanguageContext toggleLanguage cycles through available languages" time="0.004">
-    </testcase>
-    <testcase classname="LanguageContext provides translation object" name="LanguageContext provides translation object" time="0.002">
-    </testcase>
-    <testcase classname="LanguageContext throws error when useLanguage is used outside provider" name="LanguageContext throws error when useLanguage is used outside provider" time="0.029">
+    <testcase classname="Button Component forwards onClick handler" name="Button Component forwards onClick handler" time="0.003">
     </testcase>
   </testsuite>
-  <testsuite name="PortfolioPage" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:09:05" time="1.017" tests="9">
-    <testcase classname="PortfolioPage renders header and footer" name="PortfolioPage renders header and footer" time="0.105">
+  <testsuite name="BlogPost Page" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:31:14" time="0.209" tests="2">
+    <testcase classname="BlogPost Page generateStaticParams returns array of slug params" name="BlogPost Page generateStaticParams returns array of slug params" time="0.001">
     </testcase>
-    <testcase classname="PortfolioPage renders page title" name="PortfolioPage renders page title" time="0.036">
-    </testcase>
-    <testcase classname="PortfolioPage renders category filters" name="PortfolioPage renders category filters" time="0.024">
-    </testcase>
-    <testcase classname="PortfolioPage filters projects when category is clicked" name="PortfolioPage filters projects when category is clicked" time="0.048">
-    </testcase>
-    <testcase classname="PortfolioPage resets filter when All is clicked" name="PortfolioPage resets filter when All is clicked" time="0.048">
-    </testcase>
-    <testcase classname="PortfolioPage renders breadcrumbs correctly" name="PortfolioPage renders breadcrumbs correctly" time="0.006">
-    </testcase>
-    <testcase classname="PortfolioPage shows project count in category badges" name="PortfolioPage shows project count in category badges" time="0.02">
-    </testcase>
-    <testcase classname="PortfolioPage handles mobile viewport" name="PortfolioPage handles mobile viewport" time="0.017">
-    </testcase>
-    <testcase classname="PortfolioPage applies reduced motion preferences" name="PortfolioPage applies reduced motion preferences" time="0.009">
+    <testcase classname="BlogPost Page generateStaticParams returns empty array on error" name="BlogPost Page generateStaticParams returns empty array on error" time="0.006">
     </testcase>
   </testsuite>
-  <testsuite name="ShareButtons" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:09:06" time="0.169" tests="5">
-    <testcase classname="ShareButtons renders share buttons" name="ShareButtons renders share buttons" time="0.028">
+  <testsuite name="RelatedPosts" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:31:15" time="0.163" tests="8">
+    <testcase classname="RelatedPosts renders related posts section" name="RelatedPosts renders related posts section" time="0.009">
     </testcase>
-    <testcase classname="ShareButtons has correct share links" name="ShareButtons has correct share links" time="0.005">
+    <testcase classname="RelatedPosts shows posts matching by category" name="RelatedPosts shows posts matching by category" time="0.003">
     </testcase>
-    <testcase classname="ShareButtons copies link to clipboard when copy button is clicked" name="ShareButtons copies link to clipboard when copy button is clicked" time="0.005">
+    <testcase classname="RelatedPosts excludes current post from related posts" name="RelatedPosts excludes current post from related posts" time="0.005">
     </testcase>
-    <testcase classname="ShareButtons shows check icon after copying" name="ShareButtons shows check icon after copying" time="0.021">
+    <testcase classname="RelatedPosts returns null when current post not found" name="RelatedPosts returns null when current post not found" time="0.001">
     </testcase>
-    <testcase classname="ShareButtons applies custom className" name="ShareButtons applies custom className" time="0.002">
+    <testcase classname="RelatedPosts returns null when no related posts found" name="RelatedPosts returns null when no related posts found" time="0">
     </testcase>
-  </testsuite>
-  <testsuite name="Toast" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:09:06" time="0.166" tests="9">
-    <testcase classname="Toast renders when isVisible is true" name="Toast renders when isVisible is true" time="0.02">
+    <testcase classname="RelatedPosts limits related posts to 3" name="RelatedPosts limits related posts to 3" time="0.022">
     </testcase>
-    <testcase classname="Toast does not render when isVisible is false" name="Toast does not render when isVisible is false" time="0.004">
+    <testcase classname="RelatedPosts shows post category and date" name="RelatedPosts shows post category and date" time="0.003">
     </testcase>
-    <testcase classname="Toast renders success toast with correct styling" name="Toast renders success toast with correct styling" time="0.005">
-    </testcase>
-    <testcase classname="Toast renders error toast with correct styling" name="Toast renders error toast with correct styling" time="0.013">
-    </testcase>
-    <testcase classname="Toast renders info toast with correct styling" name="Toast renders info toast with correct styling" time="0.003">
-    </testcase>
-    <testcase classname="Toast calls onClose after duration" name="Toast calls onClose after duration" time="0.007">
-    </testcase>
-    <testcase classname="Toast uses default duration of 4000ms" name="Toast uses default duration of 4000ms" time="0.005">
-    </testcase>
-    <testcase classname="Toast defaults to success type" name="Toast defaults to success type" time="0.017">
-    </testcase>
-    <testcase classname="Toast renders correct icon for each type" name="Toast renders correct icon for each type" time="0.003">
+    <testcase classname="RelatedPosts renders read more links" name="RelatedPosts renders read more links" time="0.002">
     </testcase>
   </testsuite>
-  <testsuite name="TechCarousel" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:09:06" time="0.141" tests="5">
-    <testcase classname="TechCarousel renders the carousel container" name="TechCarousel renders the carousel container" time="0.019">
+  <testsuite name="ContactForm" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:31:14" time="0.43" tests="9">
+    <testcase classname="ContactForm renders form fields" name="ContactForm renders form fields" time="0.047">
     </testcase>
-    <testcase classname="TechCarousel renders tech items with their names" name="TechCarousel renders tech items with their names" time="0.004">
+    <testcase classname="ContactForm renders submit button" name="ContactForm renders submit button" time="0.041">
     </testcase>
-    <testcase classname="TechCarousel renders gradient overlays for fade effect" name="TechCarousel renders gradient overlays for fade effect" time="0.005">
+    <testcase classname="ContactForm updates form data on input change" name="ContactForm updates form data on input change" time="0.01">
     </testcase>
-    <testcase classname="TechCarousel renders icon elements with mask styles" name="TechCarousel renders icon elements with mask styles" time="0.003">
+    <testcase classname="ContactForm calls custom onSubmit handler" name="ContactForm calls custom onSubmit handler" time="0.032">
     </testcase>
-    <testcase classname="TechCarousel renders animation container for infinite scroll" name="TechCarousel renders animation container for infinite scroll" time="0.004">
+    <testcase classname="ContactForm shows success message after successful submission" name="ContactForm shows success message after successful submission" time="0.024">
     </testcase>
-  </testsuite>
-  <testsuite name="BookmarkButton" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:09:06" time="0.192" tests="6">
-    <testcase classname="BookmarkButton renders bookmark button" name="BookmarkButton renders bookmark button" time="0.036">
+    <testcase classname="ContactForm shows error message on submission failure" name="ContactForm shows error message on submission failure" time="0.033">
     </testcase>
-    <testcase classname="BookmarkButton shows correct aria-label when not bookmarked" name="BookmarkButton shows correct aria-label when not bookmarked" time="0.006">
+    <testcase classname="ContactForm shows error when no submission handler is configured" name="ContactForm shows error when no submission handler is configured" time="0.018">
     </testcase>
-    <testcase classname="BookmarkButton shows correct aria-label when bookmarked" name="BookmarkButton shows correct aria-label when bookmarked" time="0.002">
+    <testcase classname="ContactForm allows sending another message after success" name="ContactForm allows sending another message after success" time="0.033">
     </testcase>
-    <testcase classname="BookmarkButton calls toggleBookmark when clicked" name="BookmarkButton calls toggleBookmark when clicked" time="0.005">
-    </testcase>
-    <testcase classname="BookmarkButton stops event propagation when clicked" name="BookmarkButton stops event propagation when clicked" time="0.011">
-    </testcase>
-    <testcase classname="BookmarkButton applies custom className" name="BookmarkButton applies custom className" time="0.003">
+    <testcase classname="ContactForm submits to Formspree when formspreeId is provided" name="ContactForm submits to Formspree when formspreeId is provided" time="0.029">
     </testcase>
   </testsuite>
-  <testsuite name="Additional Coverage" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:09:06" time="0.143" tests="3">
-    <testcase classname="Additional Coverage ClientCarousel renders carousel items" name="Additional Coverage ClientCarousel renders carousel items" time="0.006">
+  <testsuite name="Additional Coverage" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:31:15" time="0.106" tests="3">
+    <testcase classname="Additional Coverage ClientCarousel renders carousel items" name="Additional Coverage ClientCarousel renders carousel items" time="0.013">
     </testcase>
-    <testcase classname="Additional Coverage TableOfContents renders toc items and handles clicks" name="Additional Coverage TableOfContents renders toc items and handles clicks" time="0.025">
+    <testcase classname="Additional Coverage TableOfContents renders toc items and handles clicks" name="Additional Coverage TableOfContents renders toc items and handles clicks" time="0.012">
     </testcase>
-    <testcase classname="Additional Coverage TableOfContents renders nothing if headings empty" name="Additional Coverage TableOfContents renders nothing if headings empty" time="0.001">
-    </testcase>
-  </testsuite>
-  <testsuite name="useChat" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:09:06" time="0.136" tests="9">
-    <testcase classname="useChat initializes with empty messages" name="useChat initializes with empty messages" time="0.002">
-    </testcase>
-    <testcase classname="useChat loads messages from localStorage on mount" name="useChat loads messages from localStorage on mount" time="0.001">
-    </testcase>
-    <testcase classname="useChat sets input value" name="useChat sets input value" time="0.001">
-    </testcase>
-    <testcase classname="useChat clears chat history" name="useChat clears chat history" time="0.009">
-    </testcase>
-    <testcase classname="useChat does not send empty messages" name="useChat does not send empty messages" time="0.007">
-    </testcase>
-    <testcase classname="useChat handles rate limiting" name="useChat handles rate limiting" time="0.016">
-    </testcase>
-    <testcase classname="useChat handles setMessages function" name="useChat handles setMessages function" time="0.001">
-    </testcase>
-    <testcase classname="useChat handles invalid JSON in localStorage gracefully" name="useChat handles invalid JSON in localStorage gracefully" time="0.002">
-    </testcase>
-    <testcase classname="useChat saves messages to localStorage when they change" name="useChat saves messages to localStorage when they change" time="0.005">
+    <testcase classname="Additional Coverage TableOfContents renders nothing if headings empty" name="Additional Coverage TableOfContents renders nothing if headings empty" time="0">
     </testcase>
   </testsuite>
-  <testsuite name="ThemeToggle Component" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:09:06" time="0.167" tests="2">
-    <testcase classname="ThemeToggle Component renders toggle button" name="ThemeToggle Component renders toggle button" time="0.032">
+  <testsuite name="CodeBlock" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:31:15" time="0.152" tests="11">
+    <testcase classname="CodeBlock renders code content" name="CodeBlock renders code content" time="0.004">
     </testcase>
-    <testcase classname="ThemeToggle Component toggles theme on click" name="ThemeToggle Component toggles theme on click" time="0.009">
+    <testcase classname="CodeBlock shows language badge when className contains language" name="CodeBlock shows language badge when className contains language" time="0.006">
     </testcase>
-  </testsuite>
-  <testsuite name="AnimatedCounter" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:09:06" time="0.103" tests="8">
-    <testcase classname="AnimatedCounter renders with default value" name="AnimatedCounter renders with default value" time="0.013">
+    <testcase classname="CodeBlock renders copy button" name="CodeBlock renders copy button" time="0.001">
     </testcase>
-    <testcase classname="AnimatedCounter renders with prefix" name="AnimatedCounter renders with prefix" time="0.003">
+    <testcase classname="CodeBlock copies code to clipboard when copy button is clicked" name="CodeBlock copies code to clipboard when copy button is clicked" time="0.008">
     </testcase>
-    <testcase classname="AnimatedCounter renders with suffix" name="AnimatedCounter renders with suffix" time="0.008">
+    <testcase classname="CodeBlock shows check icon after copying" name="CodeBlock shows check icon after copying" time="0.006">
     </testcase>
-    <testcase classname="AnimatedCounter applies custom className" name="AnimatedCounter applies custom className" time="0.003">
+    <testcase classname="CodeBlock does not show language badge when no language class" name="CodeBlock does not show language badge when no language class" time="0.004">
     </testcase>
-    <testcase classname="AnimatedCounter handles zero value" name="AnimatedCounter handles zero value" time="0.001">
+    <testcase classname="CodeBlock handles nested elements in extractText" name="CodeBlock handles nested elements in extractText" time="0.005">
     </testcase>
-    <testcase classname="AnimatedCounter handles large values" name="AnimatedCounter handles large values" time="0">
+    <testcase classname="CodeBlock handles number children" name="CodeBlock handles number children" time="0.002">
     </testcase>
-    <testcase classname="AnimatedCounter handles string value" name="AnimatedCounter handles string value" time="0.001">
+    <testcase classname="CodeBlock handles array children" name="CodeBlock handles array children" time="0.002">
     </testcase>
-    <testcase classname="AnimatedCounter applies tabular-nums class by default" name="AnimatedCounter applies tabular-nums class by default" time="0">
+    <testcase classname="CodeBlock handles empty/null children gracefully" name="CodeBlock handles empty/null children gracefully" time="0.001">
     </testcase>
-  </testsuite>
-  <testsuite name="ThemeContext" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:09:06" time="0.126" tests="7">
-    <testcase classname="ThemeContext provides default theme value" name="ThemeContext provides default theme value" time="0.01">
-    </testcase>
-    <testcase classname="ThemeContext applies custom default theme" name="ThemeContext applies custom default theme" time="0.002">
-    </testcase>
-    <testcase classname="ThemeContext allows setting theme to dark" name="ThemeContext allows setting theme to dark" time="0.013">
-    </testcase>
-    <testcase classname="ThemeContext allows setting theme to light" name="ThemeContext allows setting theme to light" time="0.002">
-    </testcase>
-    <testcase classname="ThemeContext uses custom storage key" name="ThemeContext uses custom storage key" time="0.008">
-    </testcase>
-    <testcase classname="ThemeContext restores theme from localStorage" name="ThemeContext restores theme from localStorage" time="0.001">
-    </testcase>
-    <testcase classname="ThemeContext returns initial state when used outside provider (context undefined check)" name="ThemeContext returns initial state when used outside provider (context undefined check)" time="0.001">
+    <testcase classname="CodeBlock handles clipboard error gracefully" name="CodeBlock handles clipboard error gracefully" time="0.009">
     </testcase>
   </testsuite>
-  <testsuite name="LoadingScreen" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:09:06" time="0.13" tests="5">
-    <testcase classname="LoadingScreen renders loading screen initially" name="LoadingScreen renders loading screen initially" time="0.014">
+  <testsuite name="TableOfContents" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:31:15" time="0.119" tests="6">
+    <testcase classname="TableOfContents renders table of contents" name="TableOfContents renders table of contents" time="0.006">
     </testcase>
-    <testcase classname="LoadingScreen shows logo" name="LoadingScreen shows logo" time="0.002">
+    <testcase classname="TableOfContents renders all headings" name="TableOfContents renders all headings" time="0.002">
     </testcase>
-    <testcase classname="LoadingScreen shows loading text" name="LoadingScreen shows loading text" time="0.003">
+    <testcase classname="TableOfContents handles empty headings array" name="TableOfContents handles empty headings array" time="0">
     </testcase>
-    <testcase classname="LoadingScreen hides after minDuration" name="LoadingScreen hides after minDuration" time="0.012">
+    <testcase classname="TableOfContents clicking a heading calls scroll handler" name="TableOfContents clicking a heading calls scroll handler" time="0.006">
     </testcase>
-    <testcase classname="LoadingScreen uses default minDuration of 1500ms" name="LoadingScreen uses default minDuration of 1500ms" time="0.002">
+    <testcase classname="TableOfContents highlights active heading based on scroll position" name="TableOfContents highlights active heading based on scroll position" time="0.003">
     </testcase>
-  </testsuite>
-  <testsuite name="TiltCard" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:09:06" time="0.126" tests="6">
-    <testcase classname="TiltCard renders children" name="TiltCard renders children" time="0.01">
-    </testcase>
-    <testcase classname="TiltCard applies custom className" name="TiltCard applies custom className" time="0.001">
-    </testcase>
-    <testcase classname="TiltCard handles mouse move for tilt effect" name="TiltCard handles mouse move for tilt effect" time="0.002">
-    </testcase>
-    <testcase classname="TiltCard handles mouse leave" name="TiltCard handles mouse leave" time="0.003">
-    </testcase>
-    <testcase classname="TiltCard handles mouse enter" name="TiltCard handles mouse enter" time="0.001">
-    </testcase>
-    <testcase classname="TiltCard applies default styles" name="TiltCard applies default styles" time="0.001">
+    <testcase classname="TableOfContents applies different styling for different heading levels" name="TableOfContents applies different styling for different heading levels" time="0.001">
     </testcase>
   </testsuite>
-  <testsuite name="TableOfContents" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:09:06" time="0.142" tests="6">
-    <testcase classname="TableOfContents renders table of contents" name="TableOfContents renders table of contents" time="0.017">
+  <testsuite name="TechCarousel" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:31:15" time="0.117" tests="5">
+    <testcase classname="TechCarousel renders the carousel container" name="TechCarousel renders the carousel container" time="0.008">
     </testcase>
-    <testcase classname="TableOfContents renders all headings" name="TableOfContents renders all headings" time="0.014">
+    <testcase classname="TechCarousel renders tech items with their names" name="TechCarousel renders tech items with their names" time="0.009">
     </testcase>
-    <testcase classname="TableOfContents handles empty headings array" name="TableOfContents handles empty headings array" time="0.001">
+    <testcase classname="TechCarousel renders gradient overlays for fade effect" name="TechCarousel renders gradient overlays for fade effect" time="0.003">
     </testcase>
-    <testcase classname="TableOfContents clicking a heading calls scroll handler" name="TableOfContents clicking a heading calls scroll handler" time="0.011">
+    <testcase classname="TechCarousel renders icon elements with mask styles" name="TechCarousel renders icon elements with mask styles" time="0.016">
     </testcase>
-    <testcase classname="TableOfContents highlights active heading based on scroll position" name="TableOfContents highlights active heading based on scroll position" time="0.001">
-    </testcase>
-    <testcase classname="TableOfContents applies different styling for different heading levels" name="TableOfContents applies different styling for different heading levels" time="0.002">
+    <testcase classname="TechCarousel renders animation container for infinite scroll" name="TechCarousel renders animation container for infinite scroll" time="0.003">
     </testcase>
   </testsuite>
-  <testsuite name="SectionHeading Component" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:09:06" time="0.165" tests="6">
-    <testcase classname="SectionHeading Component renders title and subtitle" name="SectionHeading Component renders title and subtitle" time="0.019">
+  <testsuite name="PortfolioPage" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:31:14" time="1.111" tests="9">
+    <testcase classname="PortfolioPage renders header and footer" name="PortfolioPage renders header and footer" time="0.06">
     </testcase>
-    <testcase classname="SectionHeading Component renders h2 element for title" name="SectionHeading Component renders h2 element for title" time="0.041">
+    <testcase classname="PortfolioPage renders page title" name="PortfolioPage renders page title" time="0.058">
     </testcase>
-    <testcase classname="SectionHeading Component applies center alignment by default" name="SectionHeading Component applies center alignment by default" time="0.002">
+    <testcase classname="PortfolioPage renders category filters" name="PortfolioPage renders category filters" time="0.016">
     </testcase>
-    <testcase classname="SectionHeading Component applies left alignment when specified" name="SectionHeading Component applies left alignment when specified" time="0">
+    <testcase classname="PortfolioPage filters projects when category is clicked" name="PortfolioPage filters projects when category is clicked" time="0.064">
     </testcase>
-    <testcase classname="SectionHeading Component applies custom className" name="SectionHeading Component applies custom className" time="0.001">
+    <testcase classname="PortfolioPage resets filter when All is clicked" name="PortfolioPage resets filter when All is clicked" time="0.129">
     </testcase>
-    <testcase classname="SectionHeading Component renders subtitle with uppercase styling" name="SectionHeading Component renders subtitle with uppercase styling" time="0.015">
+    <testcase classname="PortfolioPage renders breadcrumbs correctly" name="PortfolioPage renders breadcrumbs correctly" time="0.022">
+    </testcase>
+    <testcase classname="PortfolioPage shows project count in category badges" name="PortfolioPage shows project count in category badges" time="0.025">
+    </testcase>
+    <testcase classname="PortfolioPage handles mobile viewport" name="PortfolioPage handles mobile viewport" time="0.018">
+    </testcase>
+    <testcase classname="PortfolioPage applies reduced motion preferences" name="PortfolioPage applies reduced motion preferences" time="0.007">
     </testcase>
   </testsuite>
-  <testsuite name="posts" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:09:06" time="0.14" tests="8">
-    <testcase classname="posts getSortedPostsData returns empty array when posts directory does not exist" name="posts getSortedPostsData returns empty array when posts directory does not exist" time="0">
+  <testsuite name="LanguageContext" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:31:15" time="0.114" tests="7">
+    <testcase classname="LanguageContext provides default language (en)" name="LanguageContext provides default language (en)" time="0.003">
     </testcase>
-    <testcase classname="posts getSortedPostsData returns parsed posts sorted by date descending" name="posts getSortedPostsData returns parsed posts sorted by date descending" time="0.008">
+    <testcase classname="LanguageContext provides list of available languages" name="LanguageContext provides list of available languages" time="0.001">
     </testcase>
-    <testcase classname="posts getSortedPostsData handles posts without category by defaulting to General" name="posts getSortedPostsData handles posts without category by defaulting to General" time="0">
+    <testcase classname="LanguageContext allows setting language to French" name="LanguageContext allows setting language to French" time="0.003">
+    </testcase>
+    <testcase classname="LanguageContext allows setting language to English" name="LanguageContext allows setting language to English" time="0.004">
+    </testcase>
+    <testcase classname="LanguageContext toggleLanguage cycles through available languages" name="LanguageContext toggleLanguage cycles through available languages" time="0.002">
+    </testcase>
+    <testcase classname="LanguageContext provides translation object" name="LanguageContext provides translation object" time="0.001">
+    </testcase>
+    <testcase classname="LanguageContext throws error when useLanguage is used outside provider" name="LanguageContext throws error when useLanguage is used outside provider" time="0.01">
+    </testcase>
+  </testsuite>
+  <testsuite name="posts" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:31:15" time="0.141" tests="8">
+    <testcase classname="posts getSortedPostsData returns empty array when posts directory does not exist" name="posts getSortedPostsData returns empty array when posts directory does not exist" time="0.001">
+    </testcase>
+    <testcase classname="posts getSortedPostsData returns parsed posts sorted by date descending" name="posts getSortedPostsData returns parsed posts sorted by date descending" time="0.005">
+    </testcase>
+    <testcase classname="posts getSortedPostsData handles posts without category by defaulting to General" name="posts getSortedPostsData handles posts without category by defaulting to General" time="0.001">
     </testcase>
     <testcase classname="posts getSortedPostsData handles posts without tags by defaulting to empty array" name="posts getSortedPostsData handles posts without tags by defaulting to empty array" time="0">
     </testcase>
@@ -518,82 +464,168 @@
     <testcase classname="posts getPostSlugs returns list of slugs from md files" name="posts getPostSlugs returns list of slugs from md files" time="0">
     </testcase>
   </testsuite>
-  <testsuite name="Logo Component" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:09:06" time="0.101" tests="4">
-    <testcase classname="Logo Component renders an SVG element" name="Logo Component renders an SVG element" time="0.007">
-    </testcase>
-    <testcase classname="Logo Component applies additional className when provided" name="Logo Component applies additional className when provided" time="0">
-    </testcase>
-    <testcase classname="Logo Component has default width and height classes" name="Logo Component has default width and height classes" time="0.004">
-    </testcase>
-    <testcase classname="Logo Component renders path elements with fill-primary class" name="Logo Component renders path elements with fill-primary class" time="0.003">
+  <testsuite name="Portfolio Component" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:31:15" time="0.148" tests="1">
+    <testcase classname="Portfolio Component renders portfolio projects" name="Portfolio Component renders portfolio projects" time="0.036">
     </testcase>
   </testsuite>
-  <testsuite name="Portfolio Component" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:09:06" time="0.137" tests="1">
-    <testcase classname="Portfolio Component renders portfolio projects" name="Portfolio Component renders portfolio projects" time="0.015">
+  <testsuite name="LoadingScreen" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:31:15" time="0.14" tests="5">
+    <testcase classname="LoadingScreen renders loading screen initially" name="LoadingScreen renders loading screen initially" time="0.004">
+    </testcase>
+    <testcase classname="LoadingScreen shows logo" name="LoadingScreen shows logo" time="0.01">
+    </testcase>
+    <testcase classname="LoadingScreen shows loading text" name="LoadingScreen shows loading text" time="0.006">
+    </testcase>
+    <testcase classname="LoadingScreen hides after minDuration" name="LoadingScreen hides after minDuration" time="0.006">
+    </testcase>
+    <testcase classname="LoadingScreen uses default minDuration of 1500ms" name="LoadingScreen uses default minDuration of 1500ms" time="0.012">
     </testcase>
   </testsuite>
-  <testsuite name="ScrollReveal" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:09:06" time="0.105" tests="6">
-    <testcase classname="ScrollReveal renders children" name="ScrollReveal renders children" time="0.004">
+  <testsuite name="TiltCard" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:31:15" time="0.148" tests="6">
+    <testcase classname="TiltCard renders children" name="TiltCard renders children" time="0.009">
+    </testcase>
+    <testcase classname="TiltCard applies custom className" name="TiltCard applies custom className" time="0.002">
+    </testcase>
+    <testcase classname="TiltCard handles mouse move for tilt effect" name="TiltCard handles mouse move for tilt effect" time="0.019">
+    </testcase>
+    <testcase classname="TiltCard handles mouse leave" name="TiltCard handles mouse leave" time="0.013">
+    </testcase>
+    <testcase classname="TiltCard handles mouse enter" name="TiltCard handles mouse enter" time="0.001">
+    </testcase>
+    <testcase classname="TiltCard applies default styles" name="TiltCard applies default styles" time="0.007">
+    </testcase>
+  </testsuite>
+  <testsuite name="Error Page" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:31:15" time="0.103" tests="5">
+    <testcase classname="Error Page renders error message" name="Error Page renders error message" time="0.007">
+    </testcase>
+    <testcase classname="Error Page renders description text" name="Error Page renders description text" time="0.001">
+    </testcase>
+    <testcase classname="Error Page renders try again button" name="Error Page renders try again button" time="0.001">
+    </testcase>
+    <testcase classname="Error Page calls reset when try again is clicked" name="Error Page calls reset when try again is clicked" time="0">
+    </testcase>
+    <testcase classname="Error Page logs error to console on mount" name="Error Page logs error to console on mount" time="0.005">
+    </testcase>
+  </testsuite>
+  <testsuite name="JsonLd Components" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:31:15" time="0.114" tests="5">
+    <testcase classname="JsonLd Components JsonLd renders JSON-LD script with data" name="JsonLd Components JsonLd renders JSON-LD script with data" time="0.006">
+    </testcase>
+    <testcase classname="JsonLd Components BreadcrumbJsonLd renders breadcrumb structured data" name="JsonLd Components BreadcrumbJsonLd renders breadcrumb structured data" time="0.002">
+    </testcase>
+    <testcase classname="JsonLd Components ArticleJsonLd renders article structured data" name="JsonLd Components ArticleJsonLd renders article structured data" time="0.001">
+    </testcase>
+    <testcase classname="JsonLd Components ArticleJsonLd uses datePublished as dateModified when not provided" name="JsonLd Components ArticleJsonLd uses datePublished as dateModified when not provided" time="0.004">
+    </testcase>
+    <testcase classname="JsonLd Components ArticleJsonLd uses provided dateModified when available" name="JsonLd Components ArticleJsonLd uses provided dateModified when available" time="0.006">
+    </testcase>
+  </testsuite>
+  <testsuite name="useChat" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:31:15" time="0.186" tests="9">
+    <testcase classname="useChat initializes with empty messages" name="useChat initializes with empty messages" time="0.003">
+    </testcase>
+    <testcase classname="useChat loads messages from localStorage on mount" name="useChat loads messages from localStorage on mount" time="0.009">
+    </testcase>
+    <testcase classname="useChat sets input value" name="useChat sets input value" time="0.005">
+    </testcase>
+    <testcase classname="useChat clears chat history" name="useChat clears chat history" time="0.004">
+    </testcase>
+    <testcase classname="useChat does not send empty messages" name="useChat does not send empty messages" time="0.003">
+    </testcase>
+    <testcase classname="useChat handles rate limiting" name="useChat handles rate limiting" time="0.06">
+    </testcase>
+    <testcase classname="useChat handles setMessages function" name="useChat handles setMessages function" time="0.001">
+    </testcase>
+    <testcase classname="useChat handles invalid JSON in localStorage gracefully" name="useChat handles invalid JSON in localStorage gracefully" time="0.005">
+    </testcase>
+    <testcase classname="useChat saves messages to localStorage when they change" name="useChat saves messages to localStorage when they change" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="ThemeContext" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:31:15" time="0.137" tests="7">
+    <testcase classname="ThemeContext provides default theme value" name="ThemeContext provides default theme value" time="0.009">
+    </testcase>
+    <testcase classname="ThemeContext applies custom default theme" name="ThemeContext applies custom default theme" time="0.023">
+    </testcase>
+    <testcase classname="ThemeContext allows setting theme to dark" name="ThemeContext allows setting theme to dark" time="0.004">
+    </testcase>
+    <testcase classname="ThemeContext allows setting theme to light" name="ThemeContext allows setting theme to light" time="0.005">
+    </testcase>
+    <testcase classname="ThemeContext uses custom storage key" name="ThemeContext uses custom storage key" time="0.001">
+    </testcase>
+    <testcase classname="ThemeContext restores theme from localStorage" name="ThemeContext restores theme from localStorage" time="0.001">
+    </testcase>
+    <testcase classname="ThemeContext returns initial state when used outside provider (context undefined check)" name="ThemeContext returns initial state when used outside provider (context undefined check)" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="ScrollReveal" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:31:15" time="0.132" tests="6">
+    <testcase classname="ScrollReveal renders children" name="ScrollReveal renders children" time="0.005">
     </testcase>
     <testcase classname="ScrollReveal applies custom className" name="ScrollReveal applies custom className" time="0.001">
     </testcase>
-    <testcase classname="ScrollReveal renders with different animation directions" name="ScrollReveal renders with different animation directions" time="0.004">
+    <testcase classname="ScrollReveal renders with different animation directions" name="ScrollReveal renders with different animation directions" time="0.002">
     </testcase>
-    <testcase classname="ScrollReveal accepts delay prop" name="ScrollReveal accepts delay prop" time="0.002">
+    <testcase classname="ScrollReveal accepts delay prop" name="ScrollReveal accepts delay prop" time="0">
     </testcase>
     <testcase classname="ScrollReveal accepts duration prop" name="ScrollReveal accepts duration prop" time="0.001">
     </testcase>
-    <testcase classname="ScrollReveal accepts threshold prop" name="ScrollReveal accepts threshold prop" time="0">
+    <testcase classname="ScrollReveal accepts threshold prop" name="ScrollReveal accepts threshold prop" time="0.004">
     </testcase>
   </testsuite>
-  <testsuite name="BlogPost Page" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:09:06" time="0.214" tests="2">
-    <testcase classname="BlogPost Page generateStaticParams returns array of slug params" name="BlogPost Page generateStaticParams returns array of slug params" time="0.001">
+  <testsuite name="Logo Component" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:31:15" time="0.125" tests="4">
+    <testcase classname="Logo Component renders an SVG element" name="Logo Component renders an SVG element" time="0.009">
     </testcase>
-    <testcase classname="BlogPost Page generateStaticParams returns empty array on error" name="BlogPost Page generateStaticParams returns empty array on error" time="0.022">
+    <testcase classname="Logo Component applies additional className when provided" name="Logo Component applies additional className when provided" time="0.001">
     </testcase>
-  </testsuite>
-  <testsuite name="Error Page" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:09:06" time="0.11" tests="5">
-    <testcase classname="Error Page renders error message" name="Error Page renders error message" time="0.009">
+    <testcase classname="Logo Component has default width and height classes" name="Logo Component has default width and height classes" time="0.002">
     </testcase>
-    <testcase classname="Error Page renders description text" name="Error Page renders description text" time="0.004">
-    </testcase>
-    <testcase classname="Error Page renders try again button" name="Error Page renders try again button" time="0.003">
-    </testcase>
-    <testcase classname="Error Page calls reset when try again is clicked" name="Error Page calls reset when try again is clicked" time="0.001">
-    </testcase>
-    <testcase classname="Error Page logs error to console on mount" name="Error Page logs error to console on mount" time="0.001">
+    <testcase classname="Logo Component renders path elements with fill-primary class" name="Logo Component renders path elements with fill-primary class" time="0.001">
     </testcase>
   </testsuite>
-  <testsuite name="SEO Components" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:09:06" time="0.09" tests="2">
-    <testcase classname="SEO Components JsonLd renders valid JSON-LD" name="SEO Components JsonLd renders valid JSON-LD" time="0.005">
+  <testsuite name="SEO Components" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:31:15" time="0.119" tests="2">
+    <testcase classname="SEO Components JsonLd renders valid JSON-LD" name="SEO Components JsonLd renders valid JSON-LD" time="0.004">
     </testcase>
     <testcase classname="SEO Components BreadcrumbJsonLd renders breadcrumb schema" name="SEO Components BreadcrumbJsonLd renders breadcrumb schema" time="0.002">
     </testcase>
   </testsuite>
-  <testsuite name="JsonLd Components" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:09:06" time="0.108" tests="5">
-    <testcase classname="JsonLd Components JsonLd renders JSON-LD script with data" name="JsonLd Components JsonLd renders JSON-LD script with data" time="0.002">
-    </testcase>
-    <testcase classname="JsonLd Components BreadcrumbJsonLd renders breadcrumb structured data" name="JsonLd Components BreadcrumbJsonLd renders breadcrumb structured data" time="0.005">
-    </testcase>
-    <testcase classname="JsonLd Components ArticleJsonLd renders article structured data" name="JsonLd Components ArticleJsonLd renders article structured data" time="0.002">
-    </testcase>
-    <testcase classname="JsonLd Components ArticleJsonLd uses datePublished as dateModified when not provided" name="JsonLd Components ArticleJsonLd uses datePublished as dateModified when not provided" time="0.002">
-    </testcase>
-    <testcase classname="JsonLd Components ArticleJsonLd uses provided dateModified when available" name="JsonLd Components ArticleJsonLd uses provided dateModified when available" time="0.002">
-    </testcase>
-  </testsuite>
-  <testsuite name="Template" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:09:06" time="0.096" tests="4">
-    <testcase classname="Template renders children with scroll progress" name="Template renders children with scroll progress" time="0.002">
+  <testsuite name="Template" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:31:15" time="0.127" tests="4">
+    <testcase classname="Template renders children with scroll progress" name="Template renders children with scroll progress" time="0.005">
     </testcase>
     <testcase classname="Template applies animation variants when motion is not reduced" name="Template applies animation variants when motion is not reduced" time="0.001">
     </testcase>
     <testcase classname="Template skips animation variants when reduced motion is preferred" name="Template skips animation variants when reduced motion is preferred" time="0.001">
     </testcase>
-    <testcase classname="Template uses pathname as key for animations" name="Template uses pathname as key for animations" time="0.004">
+    <testcase classname="Template uses pathname as key for animations" name="Template uses pathname as key for animations" time="0.001">
     </testcase>
   </testsuite>
-  <testsuite name="Library Utils" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:09:06" time="0.051" tests="4">
-    <testcase classname="Library Utils string-utils slugify converts text to slug" name="Library Utils string-utils slugify converts text to slug" time="0.001">
+  <testsuite name="AnimatedCounter" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:31:15" time="0.144" tests="8">
+    <testcase classname="AnimatedCounter renders with default value" name="AnimatedCounter renders with default value" time="0.008">
+    </testcase>
+    <testcase classname="AnimatedCounter renders with prefix" name="AnimatedCounter renders with prefix" time="0.001">
+    </testcase>
+    <testcase classname="AnimatedCounter renders with suffix" name="AnimatedCounter renders with suffix" time="0.001">
+    </testcase>
+    <testcase classname="AnimatedCounter applies custom className" name="AnimatedCounter applies custom className" time="0.001">
+    </testcase>
+    <testcase classname="AnimatedCounter handles zero value" name="AnimatedCounter handles zero value" time="0.001">
+    </testcase>
+    <testcase classname="AnimatedCounter handles large values" name="AnimatedCounter handles large values" time="0.001">
+    </testcase>
+    <testcase classname="AnimatedCounter handles string value" name="AnimatedCounter handles string value" time="0.001">
+    </testcase>
+    <testcase classname="AnimatedCounter applies tabular-nums class by default" name="AnimatedCounter applies tabular-nums class by default" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="API Routes" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:31:15" time="0.119" tests="2">
+    <testcase classname="API Routes RSS Feed (feed.xml) generates RSS feed" name="API Routes RSS Feed (feed.xml) generates RSS feed" time="0.003">
+    </testcase>
+    <testcase classname="API Routes Sitemap generates sitemap entries" name="API Routes Sitemap generates sitemap entries" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="TypingIndicator" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:31:15" time="0.094" tests="2">
+    <testcase classname="TypingIndicator renders three dots" name="TypingIndicator renders three dots" time="0.003">
+    </testcase>
+    <testcase classname="TypingIndicator has correct styling classes" name="TypingIndicator has correct styling classes" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Library Utils" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:31:15" time="0.068" tests="4">
+    <testcase classname="Library Utils string-utils slugify converts text to slug" name="Library Utils string-utils slugify converts text to slug" time="0">
     </testcase>
     <testcase classname="Library Utils string-utils slugify handles special characters" name="Library Utils string-utils slugify handles special characters" time="0">
     </testcase>
@@ -602,44 +634,10 @@
     <testcase classname="Library Utils string-utils slugify handles mostly non-word chars" name="Library Utils string-utils slugify handles mostly non-word chars" time="0">
     </testcase>
   </testsuite>
-  <testsuite name="BlurImage" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:09:06" time="0.069" tests="5">
-    <testcase classname="BlurImage renders image with src and alt" name="BlurImage renders image with src and alt" time="0.005">
+  <testsuite name="useBookmarks" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:31:15" time="0.11" tests="7">
+    <testcase classname="useBookmarks initializes with empty bookmarks" name="useBookmarks initializes with empty bookmarks" time="0.002">
     </testcase>
-    <testcase classname="BlurImage applies custom className" name="BlurImage applies custom className" time="0.001">
-    </testcase>
-    <testcase classname="BlurImage handles image load event" name="BlurImage handles image load event" time="0.001">
-    </testcase>
-    <testcase classname="BlurImage renders with fill prop" name="BlurImage renders with fill prop" time="0.001">
-    </testcase>
-    <testcase classname="BlurImage renders with width and height props" name="BlurImage renders with width and height props" time="0">
-    </testcase>
-  </testsuite>
-  <testsuite name="API Routes" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:09:06" time="0.083" tests="2">
-    <testcase classname="API Routes RSS Feed (feed.xml) generates RSS feed" name="API Routes RSS Feed (feed.xml) generates RSS feed" time="0.002">
-    </testcase>
-    <testcase classname="API Routes Sitemap generates sitemap entries" name="API Routes Sitemap generates sitemap entries" time="0">
-    </testcase>
-  </testsuite>
-  <testsuite name="TypingIndicator" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:09:06" time="0.07" tests="2">
-    <testcase classname="TypingIndicator renders three dots" name="TypingIndicator renders three dots" time="0.003">
-    </testcase>
-    <testcase classname="TypingIndicator has correct styling classes" name="TypingIndicator has correct styling classes" time="0.001">
-    </testcase>
-  </testsuite>
-  <testsuite name="POST /api/chat" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:09:06" time="0.075" tests="4">
-    <testcase classname="POST /api/chat returns 400 if messages are missing" name="POST /api/chat returns 400 if messages are missing" time="0.003">
-    </testcase>
-    <testcase classname="POST /api/chat returns 500 if GROQ_API_KEY is not configured" name="POST /api/chat returns 500 if GROQ_API_KEY is not configured" time="0">
-    </testcase>
-    <testcase classname="POST /api/chat returns 500 if upstream API fails" name="POST /api/chat returns 500 if upstream API fails" time="0.001">
-    </testcase>
-    <testcase classname="POST /api/chat returns 200 and streams response on success" name="POST /api/chat returns 200 and streams response on success" time="0">
-    </testcase>
-  </testsuite>
-  <testsuite name="useBookmarks" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:09:06" time="0.079" tests="7">
-    <testcase classname="useBookmarks initializes with empty bookmarks" name="useBookmarks initializes with empty bookmarks" time="0.003">
-    </testcase>
-    <testcase classname="useBookmarks adds a bookmark" name="useBookmarks adds a bookmark" time="0.003">
+    <testcase classname="useBookmarks adds a bookmark" name="useBookmarks adds a bookmark" time="0.002">
     </testcase>
     <testcase classname="useBookmarks removes a bookmark" name="useBookmarks removes a bookmark" time="0">
     </testcase>
@@ -647,9 +645,31 @@
     </testcase>
     <testcase classname="useBookmarks checks if post is bookmarked" name="useBookmarks checks if post is bookmarked" time="0">
     </testcase>
-    <testcase classname="useBookmarks clears all bookmarks" name="useBookmarks clears all bookmarks" time="0.001">
+    <testcase classname="useBookmarks clears all bookmarks" name="useBookmarks clears all bookmarks" time="0">
     </testcase>
-    <testcase classname="useBookmarks does not add duplicate bookmarks" name="useBookmarks does not add duplicate bookmarks" time="0">
+    <testcase classname="useBookmarks does not add duplicate bookmarks" name="useBookmarks does not add duplicate bookmarks" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="POST /api/chat" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:31:15" time="0.105" tests="4">
+    <testcase classname="POST /api/chat returns 400 if messages are missing" name="POST /api/chat returns 400 if messages are missing" time="0.004">
+    </testcase>
+    <testcase classname="POST /api/chat returns 500 if GROQ_API_KEY is not configured" name="POST /api/chat returns 500 if GROQ_API_KEY is not configured" time="0">
+    </testcase>
+    <testcase classname="POST /api/chat returns 500 if upstream API fails" name="POST /api/chat returns 500 if upstream API fails" time="0.001">
+    </testcase>
+    <testcase classname="POST /api/chat returns 200 and streams response on success" name="POST /api/chat returns 200 and streams response on success" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="BlurImage" errors="0" failures="0" skipped="0" timestamp="2025-12-16T19:31:15" time="0.085" tests="5">
+    <testcase classname="BlurImage renders image with src and alt" name="BlurImage renders image with src and alt" time="0.004">
+    </testcase>
+    <testcase classname="BlurImage applies custom className" name="BlurImage applies custom className" time="0.001">
+    </testcase>
+    <testcase classname="BlurImage handles image load event" name="BlurImage handles image load event" time="0.001">
+    </testcase>
+    <testcase classname="BlurImage renders with fill prop" name="BlurImage renders with fill prop" time="0">
+    </testcase>
+    <testcase classname="BlurImage renders with width and height props" name="BlurImage renders with width and height props" time="0">
     </testcase>
   </testsuite>
 </testsuites>
