@@ -12,7 +12,7 @@ export type SupportedLanguage = keyof typeof locales;
 export const defaultLanguage: SupportedLanguage = 'en';
 
 export const localeMetadata = {
-    en: { name: "English", flag: "🇬🇧", resume: "/resume/files/resume_en.pdf" },
-    fr: { name: "Français", flag: "🇫🇷", resume: "/resume/files/resume_fr.pdf" },
-    es: { name: "Español", flag: "🇪🇸", resume: "/resume/files/resume_es.pdf" }
+    en: { name: "English", flag: "🇬🇧", resume: "/files/resume_en.pdf" },
+    fr: { name: "Français", flag: "🇫🇷", resume: "/files/resume_fr.pdf" },
+    es: { name: "Español", flag: "🇪🇸", resume: "/files/resume_es.pdf" }
 };

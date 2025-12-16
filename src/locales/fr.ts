@@ -31,7 +31,7 @@ export const fr = {
             projects: { value: "50+", label: "Projets", sublabel: "Terminés" },
             experience: { value: "12", label: "Années", sublabel: "d'Expérience" }
         },
-        image: "/resume/profile.webp",
+        image: "/profile.webp",
     },
     services: {
         title: "Mes Services",

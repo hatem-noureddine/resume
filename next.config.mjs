@@ -2,10 +2,10 @@ import withBundleAnalyzer from '@next/bundle-analyzer';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
-  basePath: "/resume",
+  // No output: 'export' - Vercel handles this automatically
+  // No basePath - deploying to root domain
   images: {
-    unoptimized: true,
+    formats: ['image/avif', 'image/webp'],
   },
 };
 

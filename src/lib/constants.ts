@@ -7,12 +7,12 @@ export const SITE_CONFIG = {
     email: "hatem.noureddine.pro@gmail.com",
     phone: "+33 6 66 88 70 79",
     address: "Paris, France",
-    url: "https://hatemnoureddine.github.io/resume/",
+    url: "https://hatem-noureddine.vercel.app/", // TODO: Update after Vercel deployment
     links: {
         github: "https://github.com/hatemnoureddine",
         linkedin: "https://linkedin.com/in/hatemnoureddine",
         twitter: "https://twitter.com/hatemnoureddine",
-        resume: "/resume/Hatem_Noureddine_Resume.pdf"
+        resume: "/files/Hatem_Noureddine_Resume.pdf"
     },
     formspree: {
         contactFormId: "mrbnvyrn"
@@ -42,7 +42,7 @@ export const SITE_METADATA: Metadata = {
         description: 'Personal portfolio website showcasing projects, skills, and experience in web development and design.',
         images: [
             {
-                url: '/resume/og-image.png',
+                url: '/og-image.png',
                 width: 1200,
                 height: 630,
                 alt: `${SITE_CONFIG.name} Portfolio`,
@@ -53,13 +53,13 @@ export const SITE_METADATA: Metadata = {
         card: 'summary_large_image',
         title: `${SITE_CONFIG.name} - Creative Designer & Developer`,
         description: 'Personal portfolio website showcasing projects, skills, and experience.',
-        images: ['/resume/og-image.png'],
+        images: ['/og-image.png'],
         creator: '@hatemnoureddine',
     },
     icons: {
-        icon: '/resume/logo_HN.svg',
+        icon: '/logo_HN.svg',
     },
-    metadataBase: new URL('https://hatemnoureddine.github.io'),
+    metadataBase: new URL('https://hatem-noureddine.vercel.app'), // TODO: Update after deployment
 };
 
 export const VIEWPORT_CONFIG = {

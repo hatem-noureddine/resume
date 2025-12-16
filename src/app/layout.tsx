@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils';
 import { ThemeProvider } from "@/context/ThemeContext";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
+import { ChatWidget } from "@/components/chat/ChatWidget";
 import { SITE_METADATA, VIEWPORT_CONFIG, JSON_LD } from "@/lib/constants";
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
@@ -46,6 +47,7 @@ export default function RootLayout({
         <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
           <LanguageProvider>
             {children}
+            <ChatWidget />
             <GoogleAnalytics />
           </LanguageProvider>
         </ThemeProvider>
