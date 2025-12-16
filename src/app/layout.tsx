@@ -5,71 +5,15 @@ import { cn } from '@/lib/utils';
 import { ThemeProvider } from "@/context/ThemeContext";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
+import { SITE_METADATA, VIEWPORT_CONFIG, JSON_LD } from "@/lib/constants";
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' });
 
-export const metadata: Metadata = {
-  title: 'Hatem Noureddine - Creative Designer & Developer',
-  description: 'Personal portfolio website showcasing projects, skills, and experience in web development and design.',
-  keywords: ['portfolio', 'web developer', 'designer', 'React', 'Next.js', 'Android', 'Kotlin'],
-  authors: [{ name: 'Hatem Noureddine' }],
-  creator: 'Hatem Noureddine',
-  alternates: {
-    canonical: 'https://hatemnoureddine.github.io/resume/',
-    languages: {
-      'en': 'https://hatemnoureddine.github.io/resume/',
-      'fr': 'https://hatemnoureddine.github.io/resume/?lang=fr',
-      'es': 'https://hatemnoureddine.github.io/resume/?lang=es',
-    },
-  },
-  openGraph: {
-    type: 'website',
-    locale: 'en_US',
-    url: 'https://hatemnoureddine.github.io/resume/',
-    siteName: 'Hatem Noureddine Portfolio',
-    title: 'Hatem Noureddine - Creative Designer & Developer',
-    description: 'Personal portfolio website showcasing projects, skills, and experience in web development and design.',
-    images: [
-      {
-        url: '/resume/og-image.png',
-        width: 1200,
-        height: 630,
-        alt: 'Hatem Noureddine Portfolio',
-      },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Hatem Noureddine - Creative Designer & Developer',
-    description: 'Personal portfolio website showcasing projects, skills, and experience.',
-    images: ['/resume/og-image.png'],
-    creator: '@hatemnoureddine',
-  },
-  icons: {
-    icon: '/resume/logo_HN.svg',
-  },
-  metadataBase: new URL('https://hatemnoureddine.github.io'),
-};
+export const metadata: Metadata = SITE_METADATA;
 
-export const viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  maximumScale: 1,
-};
+export const viewport = VIEWPORT_CONFIG;
 
-// JSON-LD structured data for Person schema
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'Person',
-  name: 'Hatem Noureddine',
-  url: 'https://hatemnoureddine.github.io/resume/',
-  jobTitle: 'Creative Designer & Developer',
-  sameAs: [
-    'https://github.com/hatemnoureddine',
-    'https://linkedin.com/in/hatem-noureddine',
-  ],
-};
 
 export default function RootLayout({
   children,
@@ -85,7 +29,7 @@ export default function RootLayout({
         {/* JSON-LD structured data */}
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
         />
       </head>
       <body

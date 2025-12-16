@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Download, Mail, Github, Linkedin, Twitter } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { localeMetadata } from "@/locales";
+import { SITE_CONFIG } from "@/lib/constants";
 
 export function FloatingActions() {
     const { t, language } = useLanguage();
@@ -26,10 +27,10 @@ export function FloatingActions() {
     }, []);
 
     const socialLinks = [
-        { icon: Github, href: "https://github.com", label: "GitHub" },
-        { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
-        { icon: Twitter, href: "https://twitter.com", label: "Twitter" },
-        { icon: Mail, href: "mailto:contact@example.com", label: "Email" },
+        { icon: Github, href: SITE_CONFIG.links.github, label: "GitHub" },
+        { icon: Linkedin, href: SITE_CONFIG.links.linkedin, label: "LinkedIn" },
+        { icon: Twitter, href: SITE_CONFIG.links.twitter, label: "Twitter" },
+        { icon: Mail, href: `mailto:${SITE_CONFIG.email}`, label: "Email" },
     ];
 
     return (

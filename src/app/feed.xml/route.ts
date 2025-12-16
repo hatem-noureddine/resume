@@ -1,8 +1,9 @@
 import { getSortedPostsData } from '@/lib/posts';
+import { SITE_CONFIG } from '@/lib/constants';
 
 export const dynamic = 'force-static';
 
-const BASE_URL = 'https://hatemnoureddine.github.io/resume';
+const BASE_URL = SITE_CONFIG.url.replace(/\/$/, ''); // Remove trailing slash
 
 export async function GET() {
   const allPosts = await getSortedPostsData();
@@ -25,9 +26,9 @@ export async function GET() {
   const rssXml = `<?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Hatem Noureddine - Blog</title>
+    <title>${SITE_CONFIG.name} - Blog</title>
     <link>${BASE_URL}</link>
-    <description>Thoughts, tutorials, and insights on web development and design.</description>
+    <description>${SITE_CONFIG.description}</description>
     <language>en-us</language>
     <atom:link href="${BASE_URL}/feed.xml" rel="self" type="application/rss+xml" />
     ${itemsXml}

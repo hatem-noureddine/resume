@@ -1,6 +1,7 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { getPostData, getPostSlugs } from "@/lib/posts";
+import { SITE_CONFIG } from "@/lib/constants";
 import { Calendar, Tag, Clock } from "lucide-react";
 import Link from 'next/link';
 import { BlurImage } from "@/components/ui/BlurImage";
@@ -123,9 +124,9 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
             </article>
             <BreadcrumbJsonLd
                 items={[
-                    { name: "Home", item: "https://hatemnoureddine.com" },
-                    { name: "Blog", item: "https://hatemnoureddine.com/blog" },
-                    { name: post.title, item: `https://hatemnoureddine.com/blog/${slug}` },
+                    { name: "Home", item: SITE_CONFIG.url },
+                    { name: "Blog", item: `${SITE_CONFIG.url}blog` },
+                    { name: post.title, item: `${SITE_CONFIG.url}blog/${slug}` },
                 ]}
             />
             <Footer />

@@ -1,11 +1,12 @@
 import { MetadataRoute } from 'next';
 import { getSortedPostsData } from '@/lib/posts';
+import { SITE_CONFIG } from '@/lib/constants';
 
 // Required for static export
 export const dynamic = 'force-static';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-    const baseUrl = 'https://hatemnoureddine.github.io/resume';
+    const baseUrl = SITE_CONFIG.url.replace(/\/$/, ''); // Remove trailing slash
     const posts = await getSortedPostsData();
 
     const blogUrls = posts.map((post) => ({
