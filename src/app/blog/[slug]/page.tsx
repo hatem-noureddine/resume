@@ -13,6 +13,7 @@ import { ShareButtons } from "@/components/ui/ShareButtons";
 import { TableOfContents } from "@/components/blog/TableOfContents";
 import { CodeBlock } from "@/components/ui/CodeBlock";
 import { RelatedPosts } from "@/components/blog/RelatedPosts";
+import { Comments } from "@/components/blog/Comments";
 
 
 
@@ -156,6 +157,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                 authorName={SITE_CONFIG.name}
             />
             <div className="container mx-auto max-w-6xl px-4 pb-16">
+                <Comments slug={slug} />
                 <RelatedPosts posts={allPosts} currentSlug={slug} />
             </div>
             <Footer />
