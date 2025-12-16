@@ -13,17 +13,6 @@ jest.mock('react-markdown', () => {
 
 jest.mock('remark-gfm', () => () => { });
 
-// Mock Giscus
-jest.mock('@giscus/react', () => ({
-    __esModule: true,
-    default: () => null,
-}));
-
-// Mock Comments component
-jest.mock('@/components/blog/Comments', () => ({
-    Comments: () => null,
-}));
-
 // Mock data fetching
 jest.mock('@/lib/posts', () => ({
     getSortedPostsData: jest.fn().mockResolvedValue([]),
