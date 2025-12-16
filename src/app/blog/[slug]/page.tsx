@@ -1,7 +1,7 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { getPostData, getPostSlugs } from "@/lib/posts";
-import { SITE_CONFIG } from "@/lib/constants";
+import { SITE_CONFIG } from "@/config/site";
 import { Calendar, Tag, Clock } from "lucide-react";
 import Link from 'next/link';
 import { BlurImage } from "@/components/ui/BlurImage";

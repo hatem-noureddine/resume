@@ -1,5 +1,5 @@
 
-import { SITE_CONFIG } from "@/lib/constants";
+import { SITE_CONFIG } from "@/config/site";
 
 export const en = {
     header: {

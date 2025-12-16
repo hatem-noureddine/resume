@@ -74,7 +74,7 @@ user-centric mobile applications with clean code and modern development practice
     portfolio: {
         github: "https://github.com/hatemnoureddine",
         linkedin: "https://linkedin.com/in/hatemnoureddine",
-        website: "https://hatem-noureddine.vercel.app"
+        website: "https://resume-cb6ssf9ve-hatem-noureddines-projects.vercel.app/"
     },
 
     availableForHiring: true,

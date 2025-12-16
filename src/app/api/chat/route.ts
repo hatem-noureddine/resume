@@ -1,4 +1,4 @@
-import { CHATBOT_SYSTEM_PROMPT } from '@/lib/resume-context';
+import { CHATBOT_SYSTEM_PROMPT } from '@/config/resume';
 
 export const runtime = 'edge';
 

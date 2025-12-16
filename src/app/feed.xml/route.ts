@@ -1,5 +1,5 @@
 import { getSortedPostsData } from '@/lib/posts';
-import { SITE_CONFIG } from '@/lib/constants';
+import { SITE_CONFIG } from '@/config/site';
 
 export const dynamic = 'force-static';
 

@@ -35,7 +35,7 @@ const TwitterIcon = ({ size = 24 }: { size?: number }) => (
 
 
 
-import { SITE_CONFIG } from "@/lib/constants";
+import { SITE_CONFIG } from "@/config/site";
 
 /**
  * Contact Section Component

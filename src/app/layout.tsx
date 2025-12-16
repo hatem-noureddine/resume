@@ -4,9 +4,9 @@ import './globals.css';
 import { cn } from '@/lib/utils';
 import { ThemeProvider } from "@/context/ThemeContext";
 import { LanguageProvider } from "@/context/LanguageContext";
-import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
+import { VercelAnalytics } from "@/components/analytics/VercelAnalytics";
 import { ChatWidget } from "@/components/chat/ChatWidget";
-import { SITE_METADATA, VIEWPORT_CONFIG, JSON_LD } from "@/lib/constants";
+import { SITE_METADATA, VIEWPORT_CONFIG, JSON_LD } from "@/config/site";
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' });
@@ -48,7 +48,7 @@ export default function RootLayout({
           <LanguageProvider>
             {children}
             <ChatWidget />
-            <GoogleAnalytics />
+            <VercelAnalytics />
           </LanguageProvider>
         </ThemeProvider>
       </body>

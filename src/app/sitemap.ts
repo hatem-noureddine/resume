@@ -1,6 +1,6 @@
 import { MetadataRoute } from 'next';
 import { getSortedPostsData } from '@/lib/posts';
-import { SITE_CONFIG } from '@/lib/constants';
+import { SITE_CONFIG } from '@/config/site';
 
 // Required for static export
 export const dynamic = 'force-static';

@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Download, Mail, Github, Linkedin, Twitter } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { localeMetadata } from "@/locales";
-import { SITE_CONFIG } from "@/lib/constants";
+import { SITE_CONFIG } from "@/config/site";
 
 export function FloatingActions() {
     const { t, language } = useLanguage();

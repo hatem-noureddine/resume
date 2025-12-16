@@ -2,27 +2,98 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, X, Send, Bot, User, Loader2 } from "lucide-react";
+import { MessageCircle, X, Send, Bot, User, Loader2, Mail, Linkedin, FileText, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { RESUME_CONTEXT } from "@/lib/resume-context";
+import { RESUME_CONTEXT } from "@/config/resume";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface Message {
     role: 'user' | 'assistant';
     content: string;
 }
 
+// Multilingual welcome messages
+const welcomeMessages = {
+    en: {
+        greeting: `Hi! I'm ${RESUME_CONTEXT.name}'s assistant. 👋`,
+        intro: "I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.",
+        askMe: "Feel free to ask me about skills, experience, or just say hello!",
+        header: "Let's Connect",
+        subtitle: "Ask about skills & experience",
+        placeholder: "Ask about experience, skills...",
+        contactMe: "Contact Me",
+        viewResume: "View Resume",
+        thinking: "Thinking..."
+    },
+    fr: {
+        greeting: `Bonjour ! Je suis l'assistant de ${RESUME_CONTEXT.name}. 👋`,
+        intro: "Je suis toujours ouvert à la discussion de nouveaux projets, d'idées créatives ou d'opportunités de faire partie de vos visions.",
+        askMe: "N'hésitez pas à me poser des questions sur mes compétences, mon expérience, ou simplement à dire bonjour !",
+        header: "Discutons",
+        subtitle: "Posez vos questions",
+        placeholder: "Posez une question...",
+        contactMe: "Me contacter",
+        viewResume: "Voir le CV",
+        thinking: "Réflexion..."
+    },
+    es: {
+        greeting: `¡Hola! Soy el asistente de ${RESUME_CONTEXT.name}. 👋`,
+        intro: "Siempre estoy abierto a discutir nuevos proyectos, ideas creativas u oportunidades para ser parte de tu visión.",
+        askMe: "¡No dudes en preguntarme sobre habilidades, experiencia, o simplemente saludar!",
+        header: "Conectemos",
+        subtitle: "Pregunta sobre habilidades",
+        placeholder: "Pregunta sobre experiencia...",
+        contactMe: "Contactar",
+        viewResume: "Ver CV",
+        thinking: "Pensando..."
+    }
+};
+
+const suggestedQuestions = {
+    en: [
+        "What are your main skills?",
+        "Tell me about your experience",
+        "Are you available for hire?",
+        "What projects have you worked on?"
+    ],
+    fr: [
+        "Quelles sont vos compétences ?",
+        "Parlez-moi de votre expérience",
+        "Êtes-vous disponible ?",
+        "Sur quels projets avez-vous travaillé ?"
+    ],
+    es: [
+        "¿Cuáles son tus habilidades?",
+        "Cuéntame sobre tu experiencia",
+        "¿Estás disponible para contratar?",
+        "¿En qué proyectos has trabajado?"
+    ]
+};
+
 export function ChatWidget() {
+    const { language } = useLanguage();
+    const t = welcomeMessages[language as keyof typeof welcomeMessages] || welcomeMessages.en;
+    const questions = suggestedQuestions[language as keyof typeof suggestedQuestions] || suggestedQuestions.en;
+
     const [isOpen, setIsOpen] = useState(false);
-    const [messages, setMessages] = useState<Message[]>([
-        {
-            role: 'assistant',
-            content: `Hi! I'm here to help you learn about ${RESUME_CONTEXT.name}. Ask me about their skills, experience, or projects!`
-        }
-    ]);
+    const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [hasInteracted, setHasInteracted] = useState(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
+
+    // Set initial message when language changes or on mount
+    useEffect(() => {
+        if (!hasInteracted) {
+            setMessages([
+                {
+                    role: 'assistant',
+                    content: `${t.greeting}\n\n${t.intro}\n\n${t.askMe}`
+                }
+            ]);
+        }
+    }, [language, t, hasInteracted]);
 
     const scrollToBottom = useCallback(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -38,11 +109,12 @@ export function ChatWidget() {
         }
     }, [isOpen]);
 
-    const sendMessage = async () => {
-        if (!input.trim() || isLoading) return;
+    const sendMessage = async (messageText?: string) => {
+        const userMessage = (messageText || input).trim();
+        if (!userMessage || isLoading) return;
 
-        const userMessage = input.trim();
         setInput('');
+        setHasInteracted(true);
 
         const newMessages: Message[] = [...messages, { role: 'user', content: userMessage }];
         setMessages(newMessages);
@@ -109,7 +181,7 @@ export function ChatWidget() {
                 ...prev,
                 {
                     role: 'assistant',
-                    content: 'Sorry, I had trouble responding. Please try again or contact directly at ' + RESUME_CONTEXT.email
+                    content: `Sorry, I had trouble responding. Please contact directly at ${RESUME_CONTEXT.email}`
                 }
             ]);
         } finally {
@@ -124,27 +196,25 @@ export function ChatWidget() {
         }
     };
 
-    const suggestedQuestions = [
-        "What are your main skills?",
-        "Tell me about your experience",
-        "Are you available for hire?",
-        "How can I contact you?"
-    ];
-
     return (
         <>
-            {/* Floating Button */}
+            {/* Floating Button with pulse animation */}
             <motion.button
                 onClick={() => setIsOpen(!isOpen)}
                 className={cn(
                     "fixed bottom-6 right-6 z-50 p-4 rounded-full shadow-lg",
-                    "bg-primary text-white hover:bg-primary/90",
-                    "transition-colors duration-200"
+                    "bg-gradient-to-r from-primary to-primary/80 text-white",
+                    "hover:shadow-xl hover:shadow-primary/25",
+                    "transition-all duration-300"
                 )}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 aria-label={isOpen ? "Close chat" : "Open chat"}
             >
+                {/* Pulse ring when closed */}
+                {!isOpen && (
+                    <span className="absolute inset-0 rounded-full animate-ping bg-primary/30" />
+                )}
                 <AnimatePresence mode="wait">
                     {isOpen ? (
                         <motion.div
@@ -163,8 +233,10 @@ export function ChatWidget() {
                             animate={{ rotate: 0, opacity: 1 }}
                             exit={{ rotate: -90, opacity: 0 }}
                             transition={{ duration: 0.15 }}
+                            className="relative"
                         >
                             <MessageCircle size={24} />
+                            <Sparkles size={12} className="absolute -top-1 -right-1 text-yellow-300" />
                         </motion.div>
                     )}
                 </AnimatePresence>
@@ -180,20 +252,51 @@ export function ChatWidget() {
                         transition={{ duration: 0.2 }}
                         className={cn(
                             "fixed bottom-24 right-6 z-50",
-                            "w-[360px] h-[500px] max-h-[80vh]",
+                            "w-[360px] h-[520px] max-h-[80vh]",
                             "bg-background border border-border rounded-2xl shadow-2xl",
                             "flex flex-col overflow-hidden",
-                            "md:w-[400px]"
+                            "md:w-[420px]"
                         )}
                     >
                         {/* Header */}
-                        <div className="p-4 bg-primary text-primary-foreground rounded-t-2xl flex items-center gap-3">
-                            <div className="p-2 bg-white/20 rounded-full">
-                                <Bot size={20} />
+                        <div className="p-4 bg-gradient-to-r from-primary to-primary/80 text-primary-foreground rounded-t-2xl">
+                            <div className="flex items-center gap-3">
+                                <div className="p-2 bg-white/20 rounded-full">
+                                    <Bot size={20} />
+                                </div>
+                                <div className="flex-1">
+                                    <h3 className="font-semibold">{t.header}</h3>
+                                    <p className="text-sm opacity-80">{t.subtitle}</p>
+                                </div>
                             </div>
-                            <div>
-                                <h3 className="font-semibold">Resume Assistant</h3>
-                                <p className="text-sm opacity-80">Ask about skills & experience</p>
+
+                            {/* Quick Actions */}
+                            <div className="flex gap-2 mt-3">
+                                <a
+                                    href={`mailto:${RESUME_CONTEXT.email}`}
+                                    className="flex items-center gap-1.5 px-3 py-1.5 bg-white/20 hover:bg-white/30 rounded-full text-xs transition-colors"
+                                >
+                                    <Mail size={12} />
+                                    {t.contactMe}
+                                </a>
+                                <a
+                                    href={RESUME_CONTEXT.portfolio.linkedin}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center gap-1.5 px-3 py-1.5 bg-white/20 hover:bg-white/30 rounded-full text-xs transition-colors"
+                                >
+                                    <Linkedin size={12} />
+                                    LinkedIn
+                                </a>
+                                <a
+                                    href={RESUME_CONTEXT.portfolio.website}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center gap-1.5 px-3 py-1.5 bg-white/20 hover:bg-white/30 rounded-full text-xs transition-colors"
+                                >
+                                    <FileText size={12} />
+                                    {t.viewResume}
+                                </a>
                             </div>
                         </div>
 
@@ -216,7 +319,7 @@ export function ChatWidget() {
                                     )}
                                     <div
                                         className={cn(
-                                            "max-w-[80%] p-3 rounded-2xl text-sm",
+                                            "max-w-[80%] p-3 rounded-2xl text-sm whitespace-pre-line",
                                             msg.role === 'user'
                                                 ? 'bg-primary text-primary-foreground rounded-br-sm'
                                                 : 'bg-secondary text-secondary-foreground rounded-bl-sm'
@@ -225,7 +328,7 @@ export function ChatWidget() {
                                         {msg.content || (
                                             <span className="flex items-center gap-2">
                                                 <Loader2 size={14} className="animate-spin" />
-                                                Thinking...
+                                                {t.thinking}
                                             </span>
                                         )}
                                     </div>
@@ -243,13 +346,10 @@ export function ChatWidget() {
                         {messages.length <= 2 && (
                             <div className="px-4 pb-2">
                                 <div className="flex flex-wrap gap-2">
-                                    {suggestedQuestions.slice(0, 2).map((q, i) => (
+                                    {questions.slice(0, 3).map((q, i) => (
                                         <button
                                             key={i}
-                                            onClick={() => {
-                                                setInput(q);
-                                                sendMessage();
-                                            }}
+                                            onClick={() => sendMessage(q)}
                                             disabled={isLoading}
                                             className="text-xs px-3 py-1.5 rounded-full bg-secondary hover:bg-secondary/80 transition-colors"
                                         >
@@ -268,7 +368,7 @@ export function ChatWidget() {
                                     value={input}
                                     onChange={(e) => setInput(e.target.value)}
                                     onKeyDown={handleKeyDown}
-                                    placeholder="Ask about experience, skills..."
+                                    placeholder={t.placeholder}
                                     disabled={isLoading}
                                     className={cn(
                                         "flex-1 px-4 py-2.5 rounded-full text-sm",
@@ -278,7 +378,7 @@ export function ChatWidget() {
                                     )}
                                 />
                                 <button
-                                    onClick={sendMessage}
+                                    onClick={() => sendMessage()}
                                     disabled={!input.trim() || isLoading}
                                     className={cn(
                                         "p-2.5 rounded-full bg-primary text-white",

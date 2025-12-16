@@ -7,7 +7,7 @@ export const SITE_CONFIG = {
     email: "hatem.noureddine.pro@gmail.com",
     phone: "+33 6 66 88 70 79",
     address: "Paris, France",
-    url: "https://hatem-noureddine.vercel.app/", // TODO: Update after Vercel deployment
+    url: "https://resume-cb6ssf9ve-hatem-noureddines-projects.vercel.app/",
     links: {
         github: "https://github.com/hatemnoureddine",
         linkedin: "https://linkedin.com/in/hatemnoureddine",
