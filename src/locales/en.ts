@@ -9,7 +9,6 @@ export const en = {
             { name: "Experience", href: "/#experience" },
             { name: "Projects", href: "/#portfolio" },
             { name: "Blog", href: "/#blog" },
-            { name: "Contact", href: "/#contact" },
         ],
         hireMe: "Hire Me",
     },
@@ -318,5 +317,30 @@ export const en = {
     footer: {
         rights: "All rights reserved.",
         backToTop: "Back to top"
+    },
+    chat: {
+        greeting: "Hi! I'm Hatem's assistant. 👋",
+        intro: "I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.",
+        askMe: "Feel free to ask me about skills, experience, or just say hello!",
+        header: "Let's Connect",
+        subtitle: "Ask about skills & experience",
+        placeholder: "Ask about experience, skills...",
+        contactMe: "Contact Me",
+        viewResume: "View Resume",
+        thinking: "Thinking...",
+        errorMessage: "Sorry, I had trouble responding. Please contact directly at",
+        suggestedQuestions: [
+            "What are your main skills?",
+            "Tell me about your experience",
+            "Are you available for hire?",
+            "What projects have you worked on?"
+        ]
+    },
+    notFound: {
+        title: "404",
+        subtitle: "Page Not Found",
+        message: "Sorry, the page you're looking for doesn't exist or has been moved.",
+        home: "Go Home",
+        contact: "Contact Me"
     }
 };

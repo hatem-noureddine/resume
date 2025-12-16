@@ -82,3 +82,30 @@ export async function getPostData(slug: string): Promise<Post | null> {
         readingTime: readingTime(matterResult.content).text,
     };
 }
+
+export interface TocHeading {
+    id: string;
+    text: string;
+    level: number;
+}
+
+export function extractHeadings(content: string): TocHeading[] {
+    const headingRegex = /^(#{1,6})\s+(.+)$/gm;
+    const headings: TocHeading[] = [];
+    let match;
+
+    while ((match = headingRegex.exec(content)) !== null) {
+        const level = match[1].length;
+        const text = match[2].trim();
+        // Create a URL-friendly ID from the heading text
+        const id = text
+            .toLowerCase()
+            .replace(/[^a-z0-9\s-]/g, '')
+            .replace(/\s+/g, '-')
+            .replace(/-+/g, '-');
+
+        headings.push({ id, text, level });
+    }
+
+    return headings;
+}

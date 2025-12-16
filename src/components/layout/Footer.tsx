@@ -46,10 +46,11 @@ export function Footer({ hasBlogPosts = true }: { hasBlogPosts?: boolean }) {
             <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-6">
 
                 <div className="flex flex-col items-center md:items-start gap-2">
-                    <Link href="/" className="flex items-center gap-2">
+                    <Link href="/" className="flex items-center gap-2" aria-label="Home">
                         <div className="relative h-8 w-8">
                             <Logo className="h-full w-full" />
                         </div>
+                        <span className="sr-only">Home</span>
                     </Link>
                     <p className="text-sm text-secondary-foreground">
                         © {new Date().getFullYear()} {footer.rights}
@@ -79,6 +80,7 @@ export function Footer({ hasBlogPosts = true }: { hasBlogPosts?: boolean }) {
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="p-2 rounded-full border border-foreground/10 text-secondary-foreground hover:bg-primary hover:text-white hover:border-primary transition-all duration-300"
+                                aria-label={social.icon}
                             >
                                 <Icon size={18} />
                             </a>

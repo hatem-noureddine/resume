@@ -60,7 +60,7 @@ jest.mock('framer-motion', () => {
     const actual = jest.requireActual('framer-motion');
     return {
         ...actual,
-         
+
         AnimatePresence: ({ children }) => <>{children}</>,
         motion: new Proxy({}, {
             get: (target, prop) => {
@@ -88,3 +88,14 @@ jest.mock('framer-motion', () => {
         }),
     };
 });
+
+// Mock Vercel Analytics
+jest.mock('@vercel/analytics/react', () => ({
+    Analytics: () => null,
+}));
+jest.mock('@vercel/analytics/next', () => ({
+    Analytics: () => null,
+}));
+jest.mock('@vercel/speed-insights/next', () => ({
+    SpeedInsights: () => null,
+}));

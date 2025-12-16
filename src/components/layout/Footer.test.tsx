@@ -54,7 +54,6 @@ describe('Footer Component', () => {
         renderWithProviders();
         expect(screen.getByText('Services')).toBeInTheDocument();
         expect(screen.getByText('Experience')).toBeInTheDocument();
-        expect(screen.getByText('Contact')).toBeInTheDocument();
     });
 
     it('hides blog link when hasBlogPosts is false', () => {

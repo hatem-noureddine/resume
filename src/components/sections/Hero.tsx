@@ -134,10 +134,10 @@ export function Hero() {
     };
 
     const socialLinks = [
-        { icon: GithubIcon, href: SITE_CONFIG.links.github },
-        { icon: LinkedinIcon, href: SITE_CONFIG.links.linkedin },
-        { icon: TwitterIcon, href: SITE_CONFIG.links.twitter },
-        { icon: Mail, href: `mailto:${SITE_CONFIG.email}` },
+        { icon: GithubIcon, href: SITE_CONFIG.links.github, label: "GitHub" },
+        { icon: LinkedinIcon, href: SITE_CONFIG.links.linkedin, label: "LinkedIn" },
+        { icon: TwitterIcon, href: SITE_CONFIG.links.twitter, label: "Twitter" },
+        { icon: Mail, href: `mailto:${SITE_CONFIG.email}`, label: "Email" },
     ];
 
     const scrollToContent = () => {
@@ -250,6 +250,7 @@ export function Hero() {
                                         key={index}
                                         href={social.href}
                                         className="p-2 rounded-full hover:bg-foreground/5 hover:text-primary transition-colors hover:scale-110 transform duration-200"
+                                        aria-label={social.label}
                                     >
                                         <social.icon size={20} />
                                     </Link>

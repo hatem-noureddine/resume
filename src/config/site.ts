@@ -26,7 +26,7 @@ export const SITE_METADATA: Metadata = {
     authors: [{ name: SITE_CONFIG.name }],
     creator: SITE_CONFIG.name,
     alternates: {
-        canonical: SITE_CONFIG.url,
+        canonical: './',
         languages: {
             'en': SITE_CONFIG.url,
             'fr': `${SITE_CONFIG.url}?lang=fr`,
@@ -58,14 +58,19 @@ export const SITE_METADATA: Metadata = {
     },
     icons: {
         icon: '/logo_HN.svg',
+        apple: '/icon-192.png',
     },
-    metadataBase: new URL('https://hatem-noureddine.vercel.app'), // TODO: Update after deployment
+    metadataBase: new URL(SITE_CONFIG.url),
 };
 
 export const VIEWPORT_CONFIG = {
     width: 'device-width',
     initialScale: 1,
     maximumScale: 1,
+    themeColor: [
+        { media: '(prefers-color-scheme: light)', color: 'white' },
+        { media: '(prefers-color-scheme: dark)', color: 'black' },
+    ],
 };
 
 export const JSON_LD = {

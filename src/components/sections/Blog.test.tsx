@@ -60,30 +60,79 @@ jest.mock('next/image', () => ({
 
 jest.mock('next/link', () => ({
     __esModule: true,
-    default: ({ children }: any) => <a href="#">{children}</a>,
+    default: ({ children }: any) => <a href="/">{children}</a>,
 }));
 
 // Mock blog data
 const mockPosts = [
     {
         id: '1',
-        title: 'Test Post',
+        title: 'Tech Post',
         excerpt: 'Excerpt',
         description: 'Desc',
         date: '2023-01-01',
-        readTime: '5 min',
+        readingTime: '5 min',
         category: 'Tech',
         image: '/img.png',
-        slug: 'test-post',
+        slug: 'tech-post',
         tags: ['React'],
+        content: 'Content'
+    },
+    {
+        id: '2',
+        title: 'Design Post',
+        excerpt: 'Excerpt',
+        description: 'Desc',
+        date: '2023-01-02',
+        readingTime: '5 min',
+        category: 'Design',
+        image: '/img.png',
+        slug: 'design-post',
+        tags: ['Figma'],
         content: 'Content'
     }
 ];
 
 describe('Blog Component', () => {
-    it('renders blog posts', () => {
+    it('renders blog posts', async () => {
         render(<Blog posts={mockPosts} />);
         expect(screen.getByText('Latest Posts')).toBeInTheDocument();
-        expect(screen.getAllByText('Test Post')[0]).toBeInTheDocument();
+        const techPosts = await screen.findAllByText('Tech Post');
+        expect(techPosts.length).toBeGreaterThan(0);
+        const designPosts = await screen.findAllByText('Design Post');
+        expect(designPosts.length).toBeGreaterThan(0);
+    });
+
+    it('filters posts by category', async () => {
+        render(<Blog posts={mockPosts} />);
+
+        // Use findByText to handle potential async rendering from AnimatePresence/motion
+        const techPosts = await screen.findAllByText('Tech Post');
+        expect(techPosts.length).toBeGreaterThan(0);
+
+        const designPosts = await screen.findAllByText('Design Post');
+        expect(designPosts.length).toBeGreaterThan(0);
+
+        // Click 'Tech' filter
+        const techFilterButton = screen.getByRole('button', { name: 'Tech' });
+        techFilterButton.click();
+
+        // Should show Tech Post (might be multiple: grid + carousel)
+        const techPostsAfterFilter = await screen.findAllByText('Tech Post');
+        expect(techPostsAfterFilter.length).toBeGreaterThan(0);
+
+        // Verify Design Post is gone
+        expect(screen.queryByText('Design Post')).not.toBeInTheDocument();
+
+        // Click 'All' filter
+        const allFilterButton = screen.getByRole('button', { name: 'All' });
+        allFilterButton.click();
+
+        // Should show both again
+        const techPostsAfterAll = await screen.findAllByText('Tech Post');
+        expect(techPostsAfterAll.length).toBeGreaterThan(0);
+
+        const designPostsAfterAll = await screen.findAllByText('Design Post');
+        expect(designPostsAfterAll.length).toBeGreaterThan(0);
     });
 });

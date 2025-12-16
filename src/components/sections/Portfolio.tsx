@@ -9,6 +9,7 @@ import { ArrowUpRight, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { useLanguage } from "@/context/LanguageContext";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
+import { container } from "@/lib/animations";
 
 // Mobile detection hook
 function useIsMobile(breakpoint = 768) {
@@ -65,10 +66,10 @@ export function Portfolio() {
 
     // Animation variants with reduced motion support
     const cardVariants = prefersReducedMotion
-        ? { initial: {}, animate: {}, exit: {} }
+        ? { hidden: { opacity: 1 }, show: { opacity: 1 }, exit: { opacity: 0 } }
         : {
-            initial: { opacity: 0, scale: 0.8 },
-            animate: { opacity: 1, scale: 1 },
+            hidden: { opacity: 0, scale: 0.8 },
+            show: { opacity: 1, scale: 1 },
             exit: { opacity: 0, scale: 0.8 }
         };
 
@@ -102,16 +103,20 @@ export function Portfolio() {
                 {/* Grid - responsive gaps and aspect ratios */}
                 <motion.div
                     layout={!prefersReducedMotion}
+                    variants={prefersReducedMotion ? {} : container}
+                    initial="hidden"
+                    whileInView="show"
+                    viewport={{ once: true }}
                     className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 mb-8 md:mb-12"
                 >
-                    <AnimatePresence>
+                    <AnimatePresence mode="popLayout">
                         {displayProjects.map((project, index) => (
                             <motion.div
                                 key={project.id}
                                 layout={!prefersReducedMotion}
                                 variants={cardVariants}
-                                initial="initial"
-                                animate="animate"
+                                initial="hidden"
+                                animate="show"
                                 exit="exit"
                                 transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
                                 className="group relative overflow-hidden rounded-xl md:rounded-2xl aspect-video md:aspect-4/3 bg-secondary/20 shadow-card ken-burns"

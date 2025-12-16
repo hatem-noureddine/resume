@@ -127,10 +127,11 @@ export function Header({ hasBlogPosts = true }: { hasBlogPosts?: boolean }) {
             </div>
 
             <div className="container mx-auto px-4 flex items-center justify-between">
-                <Link href="/" className="text-2xl font-bold font-outfit text-foreground flex items-center gap-2">
+                <Link href="/" className="text-2xl font-bold font-outfit text-foreground flex items-center gap-2" aria-label="Home">
                     <div className="relative h-8 w-8">
                         <Logo className="h-full w-full" />
                     </div>
+                    <span className="sr-only">Home</span>
                 </Link>
 
                 {/* Desktop Nav */}
@@ -166,6 +167,9 @@ export function Header({ hasBlogPosts = true }: { hasBlogPosts?: boolean }) {
                             <button
                                 onClick={() => setIsLanguageMenuOpen(!isLanguageMenuOpen)}
                                 className="flex items-center gap-2 text-sm font-medium text-secondary-foreground hover:text-primary transition-colors px-3 py-2 rounded-full hover:bg-foreground/5 active:bg-foreground/10"
+                                aria-label="Select language"
+                                aria-expanded={isLanguageMenuOpen}
+                                aria-haspopup="true"
                             >
                                 <span className="text-lg leading-none">{localeMetadata[language].flag}</span>
                                 <span className="uppercase">{language}</span>

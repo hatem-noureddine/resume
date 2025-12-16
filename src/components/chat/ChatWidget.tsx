@@ -2,98 +2,58 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, X, Send, Bot, User, Loader2, Mail, Linkedin, FileText, Sparkles } from "lucide-react";
+import { MessageCircle, X, Send, Bot, User, Loader2, Mail, Linkedin, FileText, Sparkles, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { RESUME_CONTEXT } from "@/config/resume";
 import { useLanguage } from "@/context/LanguageContext";
+import { en } from "@/locales/en";
+import { useChat } from "@/hooks/useChat";
+import { TypingIndicator } from "@/components/ui/TypingIndicator";
 
 interface Message {
     role: 'user' | 'assistant';
     content: string;
 }
 
-// Multilingual welcome messages
-const welcomeMessages = {
-    en: {
-        greeting: `Hi! I'm ${RESUME_CONTEXT.name}'s assistant. 👋`,
-        intro: "I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.",
-        askMe: "Feel free to ask me about skills, experience, or just say hello!",
-        header: "Let's Connect",
-        subtitle: "Ask about skills & experience",
-        placeholder: "Ask about experience, skills...",
-        contactMe: "Contact Me",
-        viewResume: "View Resume",
-        thinking: "Thinking..."
-    },
-    fr: {
-        greeting: `Bonjour ! Je suis l'assistant de ${RESUME_CONTEXT.name}. 👋`,
-        intro: "Je suis toujours ouvert à la discussion de nouveaux projets, d'idées créatives ou d'opportunités de faire partie de vos visions.",
-        askMe: "N'hésitez pas à me poser des questions sur mes compétences, mon expérience, ou simplement à dire bonjour !",
-        header: "Discutons",
-        subtitle: "Posez vos questions",
-        placeholder: "Posez une question...",
-        contactMe: "Me contacter",
-        viewResume: "Voir le CV",
-        thinking: "Réflexion..."
-    },
-    es: {
-        greeting: `¡Hola! Soy el asistente de ${RESUME_CONTEXT.name}. 👋`,
-        intro: "Siempre estoy abierto a discutir nuevos proyectos, ideas creativas u oportunidades para ser parte de tu visión.",
-        askMe: "¡No dudes en preguntarme sobre habilidades, experiencia, o simplemente saludar!",
-        header: "Conectemos",
-        subtitle: "Pregunta sobre habilidades",
-        placeholder: "Pregunta sobre experiencia...",
-        contactMe: "Contactar",
-        viewResume: "Ver CV",
-        thinking: "Pensando..."
-    }
-};
-
-const suggestedQuestions = {
-    en: [
-        "What are your main skills?",
-        "Tell me about your experience",
-        "Are you available for hire?",
-        "What projects have you worked on?"
-    ],
-    fr: [
-        "Quelles sont vos compétences ?",
-        "Parlez-moi de votre expérience",
-        "Êtes-vous disponible ?",
-        "Sur quels projets avez-vous travaillé ?"
-    ],
-    es: [
-        "¿Cuáles son tus habilidades?",
-        "Cuéntame sobre tu experiencia",
-        "¿Estás disponible para contratar?",
-        "¿En qué proyectos has trabajado?"
-    ]
-};
-
 export function ChatWidget() {
-    const { language } = useLanguage();
-    const t = welcomeMessages[language as keyof typeof welcomeMessages] || welcomeMessages.en;
-    const questions = suggestedQuestions[language as keyof typeof suggestedQuestions] || suggestedQuestions.en;
+    const { t } = useLanguage();
+
+    // Get chat translations with English locale as fallback (single source of truth)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const chat = (t as any).chat || en.chat;
+
+    const {
+        messages,
+        input,
+        setInput,
+        isLoading,
+        hasInteracted,
+        sendMessage,
+        rateLimitWarning,
+        clearHistory,
+        setMessages
+    } = useChat();
 
     const [isOpen, setIsOpen] = useState(false);
-    const [messages, setMessages] = useState<Message[]>([]);
-    const [input, setInput] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
-    const [hasInteracted, setHasInteracted] = useState(false);
+    const [unreadCount, setUnreadCount] = useState(0);
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
 
     // Set initial message when language changes or on mount
     useEffect(() => {
-        if (!hasInteracted) {
+        if (!hasInteracted && messages.length === 0) {
             setMessages([
                 {
                     role: 'assistant',
-                    content: `${t.greeting}\n\n${t.intro}\n\n${t.askMe}`
+                    content: `${chat.greeting}\n\n${chat.intro}\n\n${chat.askMe}`
                 }
             ]);
+            // Show unread badge for initial message if chat is closed
+            if (!isOpen) {
+                setUnreadCount(1);
+            }
         }
-    }, [language, t, hasInteracted]);
+    }, [chat.greeting, chat.intro, chat.askMe, hasInteracted, isOpen, messages.length, setMessages]);
 
     const scrollToBottom = useCallback(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -107,87 +67,11 @@ export function ChatWidget() {
         if (isOpen && inputRef.current) {
             inputRef.current.focus();
         }
-    }, [isOpen]);
-
-    const sendMessage = async (messageText?: string) => {
-        const userMessage = (messageText || input).trim();
-        if (!userMessage || isLoading) return;
-
-        setInput('');
-        setHasInteracted(true);
-
-        const newMessages: Message[] = [...messages, { role: 'user', content: userMessage }];
-        setMessages(newMessages);
-        setIsLoading(true);
-
-        try {
-            const response = await fetch('/api/chat', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    messages: newMessages.map(m => ({ role: m.role, content: m.content }))
-                }),
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to get response');
-            }
-
-            // Handle streaming response
-            const reader = response.body?.getReader();
-            const decoder = new TextDecoder();
-            let assistantMessage = '';
-
-            // Add empty assistant message that we'll update
-            setMessages(prev => [...prev, { role: 'assistant', content: '' }]);
-
-            if (reader) {
-                while (true) {
-                    const { done, value } = await reader.read();
-                    if (done) break;
-
-                    const chunk = decoder.decode(value, { stream: true });
-                    const lines = chunk.split('\n');
-
-                    for (const line of lines) {
-                        if (line.startsWith('data: ')) {
-                            const data = line.slice(6);
-                            if (data === '[DONE]') continue;
-
-                            try {
-                                const parsed = JSON.parse(data);
-                                const content = parsed.choices?.[0]?.delta?.content || '';
-                                assistantMessage += content;
-
-                                // Update the last message with accumulated content
-                                setMessages(prev => {
-                                    const updated = [...prev];
-                                    updated[updated.length - 1] = {
-                                        role: 'assistant',
-                                        content: assistantMessage
-                                    };
-                                    return updated;
-                                });
-                            } catch {
-                                // Ignore parse errors for incomplete chunks
-                            }
-                        }
-                    }
-                }
-            }
-        } catch (error) {
-            console.error('Chat error:', error);
-            setMessages(prev => [
-                ...prev,
-                {
-                    role: 'assistant',
-                    content: `Sorry, I had trouble responding. Please contact directly at ${RESUME_CONTEXT.email}`
-                }
-            ]);
-        } finally {
-            setIsLoading(false);
+        // Clear unread count when chat is opened
+        if (isOpen) {
+            setUnreadCount(0);
         }
-    };
+    }, [isOpen]);
 
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter' && !e.shiftKey) {
@@ -196,6 +80,8 @@ export function ChatWidget() {
         }
     };
 
+    const suggestedQuestions = chat.suggestedQuestions || [];
+
     return (
         <>
             {/* Floating Button with pulse animation */}
@@ -203,7 +89,7 @@ export function ChatWidget() {
                 onClick={() => setIsOpen(!isOpen)}
                 className={cn(
                     "fixed bottom-6 right-6 z-50 p-4 rounded-full shadow-lg",
-                    "bg-gradient-to-r from-primary to-primary/80 text-white",
+                    "bg-linear-to-r from-primary to-primary/80 text-white",
                     "hover:shadow-xl hover:shadow-primary/25",
                     "transition-all duration-300"
                 )}
@@ -211,8 +97,14 @@ export function ChatWidget() {
                 whileTap={{ scale: 0.95 }}
                 aria-label={isOpen ? "Close chat" : "Open chat"}
             >
-                {/* Pulse ring when closed */}
-                {!isOpen && (
+                {/* Unread message badge */}
+                {!isOpen && unreadCount > 0 && (
+                    <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center animate-bounce">
+                        {unreadCount > 9 ? '9+' : unreadCount}
+                    </span>
+                )}
+                {/* Pulse ring when closed and no unread */}
+                {!isOpen && unreadCount === 0 && (
                     <span className="absolute inset-0 rounded-full animate-ping bg-primary/30" />
                 )}
                 <AnimatePresence mode="wait">
@@ -251,23 +143,37 @@ export function ChatWidget() {
                         exit={{ opacity: 0, y: 20, scale: 0.95 }}
                         transition={{ duration: 0.2 }}
                         className={cn(
-                            "fixed bottom-24 right-6 z-50",
-                            "w-[360px] h-[520px] max-h-[80vh]",
+                            "fixed z-50",
+                            // Mobile: full screen with some padding
+                            "inset-4 bottom-20",
+                            // Tablet and up: positioned widget
+                            "sm:inset-auto sm:bottom-24 sm:right-6",
+                            "sm:w-[360px] sm:h-[520px] sm:max-h-[80vh]",
+                            "md:w-[420px]",
+                            // Shared styles
                             "bg-background border border-border rounded-2xl shadow-2xl",
-                            "flex flex-col overflow-hidden",
-                            "md:w-[420px]"
+                            "flex flex-col overflow-hidden"
                         )}
                     >
                         {/* Header */}
-                        <div className="p-4 bg-gradient-to-r from-primary to-primary/80 text-primary-foreground rounded-t-2xl">
-                            <div className="flex items-center gap-3">
-                                <div className="p-2 bg-white/20 rounded-full">
-                                    <Bot size={20} />
+                        <div className="p-4 bg-linear-to-r from-primary to-primary/80 text-primary-foreground rounded-t-2xl">
+                            <div className="flex justify-between items-start">
+                                <div className="flex items-center gap-3">
+                                    <div className="p-2 bg-white/20 rounded-full">
+                                        <Bot size={20} />
+                                    </div>
+                                    <div>
+                                        <h3 className="font-semibold">{chat.header}</h3>
+                                        <p className="text-sm opacity-80">{chat.subtitle}</p>
+                                    </div>
                                 </div>
-                                <div className="flex-1">
-                                    <h3 className="font-semibold">{t.header}</h3>
-                                    <p className="text-sm opacity-80">{t.subtitle}</p>
-                                </div>
+                                <button
+                                    onClick={clearHistory}
+                                    className="p-1.5 hover:bg-white/20 rounded-full transition-colors opacity-80 hover:opacity-100"
+                                    title="Clear History"
+                                >
+                                    <Trash2 size={16} />
+                                </button>
                             </div>
 
                             {/* Quick Actions */}
@@ -277,7 +183,7 @@ export function ChatWidget() {
                                     className="flex items-center gap-1.5 px-3 py-1.5 bg-white/20 hover:bg-white/30 rounded-full text-xs transition-colors"
                                 >
                                     <Mail size={12} />
-                                    {t.contactMe}
+                                    {chat.contactMe}
                                 </a>
                                 <a
                                     href={RESUME_CONTEXT.portfolio.linkedin}
@@ -295,7 +201,7 @@ export function ChatWidget() {
                                     className="flex items-center gap-1.5 px-3 py-1.5 bg-white/20 hover:bg-white/30 rounded-full text-xs transition-colors"
                                 >
                                     <FileText size={12} />
-                                    {t.viewResume}
+                                    {chat.viewResume}
                                 </a>
                             </div>
                         </div>
@@ -326,10 +232,7 @@ export function ChatWidget() {
                                         )}
                                     >
                                         {msg.content || (
-                                            <span className="flex items-center gap-2">
-                                                <Loader2 size={14} className="animate-spin" />
-                                                {t.thinking}
-                                            </span>
+                                            <TypingIndicator />
                                         )}
                                     </div>
                                     {msg.role === 'user' && (
@@ -343,10 +246,10 @@ export function ChatWidget() {
                         </div>
 
                         {/* Suggested Questions (only show if few messages) */}
-                        {messages.length <= 2 && (
+                        {messages.length <= 2 && suggestedQuestions.length > 0 && (
                             <div className="px-4 pb-2">
                                 <div className="flex flex-wrap gap-2">
-                                    {questions.slice(0, 3).map((q, i) => (
+                                    {suggestedQuestions.slice(0, 3).map((q: string, i: number) => (
                                         <button
                                             key={i}
                                             onClick={() => sendMessage(q)}
@@ -362,13 +265,19 @@ export function ChatWidget() {
 
                         {/* Input */}
                         <div className="p-4 border-t border-border">
+                            {/* Rate limit warning */}
+                            {rateLimitWarning && (
+                                <div className="mb-2 text-xs text-red-500 text-center animate-pulse">
+                                    Too many messages. Please wait a moment.
+                                </div>
+                            )}
                             <div className="flex gap-2">
                                 <input
                                     ref={inputRef}
                                     value={input}
                                     onChange={(e) => setInput(e.target.value)}
                                     onKeyDown={handleKeyDown}
-                                    placeholder={t.placeholder}
+                                    placeholder={chat.placeholder}
                                     disabled={isLoading}
                                     className={cn(
                                         "flex-1 px-4 py-2.5 rounded-full text-sm",
@@ -380,6 +289,7 @@ export function ChatWidget() {
                                 <button
                                     onClick={() => sendMessage()}
                                     disabled={!input.trim() || isLoading}
+                                    aria-label="Send message"
                                     className={cn(
                                         "p-2.5 rounded-full bg-primary text-white",
                                         "hover:bg-primary/90 transition-colors",

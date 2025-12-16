@@ -28,8 +28,9 @@ jest.mock('@/components/sections/Services', () => ({ Services: () => <div data-t
 jest.mock('@/components/sections/Experience', () => ({ Experience: () => <div data-testid="experience" /> }));
 jest.mock('@/components/sections/Skills', () => ({ Skills: () => <div data-testid="skills" /> }));
 jest.mock('@/components/sections/Portfolio', () => ({ Portfolio: () => <div data-testid="portfolio" /> }));
-jest.mock('@/components/sections/Contact', () => ({ Contact: () => <div data-testid="contact" /> }));
 jest.mock('@/components/sections/Blog', () => ({ Blog: () => <div data-testid="blog" /> }));
+
+
 jest.mock('@/components/layout/Header', () => ({ Header: () => <div data-testid="header" /> }));
 jest.mock('@/components/layout/Footer', () => ({ Footer: () => <div data-testid="footer" /> }));
 jest.mock('@/components/layout/FloatingActions', () => ({ FloatingActions: () => <div data-testid="floating-actions" /> }));
@@ -39,7 +40,28 @@ jest.mock('@/context/ThemeContext', () => ({
     ThemeProvider: ({ children }: any) => <div>{children}</div>
 }));
 jest.mock('@/context/LanguageContext', () => ({
-    LanguageProvider: ({ children }: any) => <div>{children}</div>
+    LanguageProvider: ({ children }: any) => <div>{children}</div>,
+    useLanguage: () => ({
+        t: {
+            notFound: {
+                title: "404",
+                subtitle: "Page Not Found",
+                message: "Sorry, the page you're looking for doesn't exist.",
+                home: "Go Home",
+                contact: "Contact Support"
+            },
+            chat: {
+                welcome: "Welcome",
+                typing: "Typing...",
+                inputPlaceholder: "Ask me anything..."
+            },
+            blog: {
+                title: "Blog",
+                description: "My blog"
+            }
+        },
+        language: 'en',
+    })
 }));
 
 describe('App Directory', () => {
@@ -55,7 +77,6 @@ describe('App Directory', () => {
             expect(await screen.findByTestId('skills')).toBeInTheDocument();
             expect(await screen.findByTestId('portfolio')).toBeInTheDocument();
             expect(await screen.findByTestId('blog')).toBeInTheDocument();
-            expect(await screen.findByTestId('contact')).toBeInTheDocument();
         });
     });
 
