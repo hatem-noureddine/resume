@@ -1,7 +1,7 @@
 import { renderHook, act } from "@testing-library/react";
 import { useRating } from "./useRating";
 
-// Mock localStorage
+// Mock localStorage and Crypto
 const localStorageMock = (() => {
     let store: Record<string, string> = {};
     return {
@@ -24,22 +24,39 @@ const localStorageMock = (() => {
 
 Object.defineProperty(globalThis, "localStorage", { value: localStorageMock });
 
+// Mock crypto.randomUUID
+Object.defineProperty(globalThis, "crypto", {
+    value: {
+        randomUUID: jest.fn(() => "test-guest-uuid"),
+    },
+});
+
 describe("useRating", () => {
     beforeEach(() => {
         localStorageMock.clear();
         jest.clearAllMocks();
     });
 
-    it("initializes with default values when no existing rating", () => {
+    it("initializes with default values and generates guestId", () => {
         const { result } = renderHook(() => useRating("test-post"));
 
         expect(result.current.rating).toBe(0);
         expect(result.current.hasRated).toBe(false);
-        expect(result.current.averageRating).toBe(0);
-        expect(result.current.totalRatings).toBe(0);
+        expect(result.current.guestId).toBe("test-guest-uuid");
+        expect(localStorageMock.setItem).toHaveBeenCalledWith(
+            "blog-ratings-guest-id",
+            "test-guest-uuid"
+        );
     });
 
-    it("sets and persists a rating", () => {
+    it("uses existing guestId if present", () => {
+        localStorageMock.getItem.mockReturnValueOnce("existing-guest-id");
+        const { result } = renderHook(() => useRating("test-post"));
+
+        expect(result.current.guestId).toBe("existing-guest-id");
+    });
+
+    it("sets and persists a rating with guestId", () => {
         const { result } = renderHook(() => useRating("test-post"));
 
         act(() => {
@@ -47,10 +64,30 @@ describe("useRating", () => {
         });
 
         expect(result.current.rating).toBe(4);
-        expect(result.current.hasRated).toBe(true);
+        expect(localStorageMock.setItem).toHaveBeenCalledWith(
+            "blog-ratings-user-test-post",
+            expect.stringContaining('"guestId":"test-guest-uuid"')
+        );
+    });
+
+    it("respects initialRating as admin seed", () => {
+        const { result } = renderHook(() => useRating("test-post", { initialRating: 4.5 }));
+
+        expect(result.current.averageRating).toBe(4.5);
         expect(result.current.totalRatings).toBe(1);
-        expect(result.current.averageRating).toBe(4);
-        expect(localStorageMock.setItem).toHaveBeenCalled();
+        expect(result.current.rating).toBe(4.5); // Initial state mirrors seed
+    });
+
+    it("updates aggregate when using initialRating seed", () => {
+        const { result } = renderHook(() => useRating("test-post", { initialRating: 4 }));
+
+        act(() => {
+            result.current.setRating(5);
+        });
+
+        // 4 (seed) + 5 (new) = 9 total / 2 votes
+        expect(result.current.averageRating).toBe(4.5);
+        expect(result.current.totalRatings).toBe(2);
     });
 
     it("clamps rating to max value", () => {
@@ -110,10 +147,18 @@ describe("useRating", () => {
     });
 
     it("loads existing rating from localStorage", () => {
-        // Pre-populate localStorage
+        // Pre-populate localStorage with matching guestId
+        localStorageMock.setItem(
+            "blog-ratings-guest-id",
+            "test-guest-uuid"
+        );
         localStorageMock.setItem(
             "blog-ratings-user-existing-post",
-            JSON.stringify({ rating: 5, timestamp: new Date().toISOString() })
+            JSON.stringify({
+                rating: 5,
+                timestamp: new Date().toISOString(),
+                guestId: "test-guest-uuid"
+            })
         );
         localStorageMock.setItem(
             "blog-ratings-aggregate-existing-post",
