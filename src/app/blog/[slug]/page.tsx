@@ -1,13 +1,72 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { getPostData, getPostSlugs } from "@/lib/posts";
+import { getPostData, getPostSlugs, extractHeadings, getSortedPostsData } from "@/lib/posts";
 import { SITE_CONFIG } from "@/config/site";
 import { Calendar, Tag, Clock } from "lucide-react";
 import Link from 'next/link';
 import { BlurImage } from "@/components/ui/BlurImage";
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { BreadcrumbJsonLd } from "@/components/seo/JsonLd";
+import { BreadcrumbJsonLd, ArticleJsonLd } from "@/components/seo/JsonLd";
+import { ScrollProgress } from "@/components/ui/ScrollProgress";
+import { ShareButtons } from "@/components/ui/ShareButtons";
+import { TableOfContents } from "@/components/blog/TableOfContents";
+import { CodeBlock } from "@/components/ui/CodeBlock";
+import { RelatedPosts } from "@/components/blog/RelatedPosts";
+import type { Metadata } from 'next';
+
+// Generate unique metadata for each blog post
+export async function generateMetadata({
+    params
+}: {
+    params: Promise<{ slug: string }>
+}): Promise<Metadata> {
+    const { slug } = await params;
+    const post = await getPostData(slug);
+
+    if (!post) {
+        return {
+            title: 'Post Not Found',
+            description: 'The requested blog post could not be found.',
+        };
+    }
+
+    const ogImageUrl = `${SITE_CONFIG.url}api/og?title=${encodeURIComponent(post.title)}&category=${encodeURIComponent(post.category)}`;
+
+    return {
+        title: `${post.title} | ${SITE_CONFIG.name}`,
+        description: post.description,
+        keywords: post.tags,
+        authors: [{ name: SITE_CONFIG.name }],
+        openGraph: {
+            type: 'article',
+            title: post.title,
+            description: post.description,
+            url: `${SITE_CONFIG.url}blog/${slug}`,
+            siteName: SITE_CONFIG.name,
+            publishedTime: post.date,
+            authors: [SITE_CONFIG.name],
+            tags: post.tags,
+            images: [
+                {
+                    url: ogImageUrl,
+                    width: 1200,
+                    height: 630,
+                    alt: post.title,
+                },
+            ],
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: post.title,
+            description: post.description,
+            images: [ogImageUrl],
+        },
+        alternates: {
+            canonical: `${SITE_CONFIG.url}blog/${slug}`,
+        },
+    };
+}
 
 
 
@@ -19,24 +78,22 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
         return <div>Post not found</div>;
     }
 
-    // TOC generation might need adjustment for AST.
-    // For now, let's skip automatic TOC generation from AST or implement a simple one if possible.
-    // Keystatic doesn't expose raw text easily for regex.
-    // We will provide an empty array or try to traverse the AST if critical.
-    // Let's use empty headings for now to avoid build break, and mark as TODO.
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const headings: { id: string; text: string; level: number }[] = []; // TOC disabled pending markdown parsing
+    // Extract headings from markdown content for TOC
+    const headings = extractHeadings(post.content);
+
+    // Get all posts for related posts section
+    const allPosts = await getSortedPostsData();
 
     return (
         <main className="min-h-screen">
+            <ScrollProgress />
             <Header />
             <article className="pt-32 pb-20 px-4">
                 <div className="container mx-auto max-w-6xl flex flex-col xl:flex-row gap-12">
                     {/* Sticky TOC on Desktop */}
                     <aside className="hidden xl:block w-64 shrink-0 order-2">
                         <div className="sticky top-32">
-                            {/* TOC disabled temporarily due to AST change */}
-                            {/* <TableOfContents headings={headings} /> */}
+                            <TableOfContents headings={headings} />
                         </div>
                     </aside>
 
@@ -68,6 +125,12 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                                     </span>
                                 ))}
                             </div>
+                            <ShareButtons
+                                url={`${SITE_CONFIG.url}/blog/${slug}`}
+                                title={post.title}
+                                description={post.description}
+                                className="mt-6 justify-center"
+                            />
                         </div>
 
                         {/* Mobile TOC - Collapsible or Inline */}
@@ -106,13 +169,22 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                                             </a>
                                         ),
                                         code: ({ children, className }) => {
-                                            const match = /language-(\w+)/.exec(className || '');
+                                            // Check if this is a block code (inside pre) or inline
+                                            const isInline = !className;
+                                            if (isInline) {
+                                                return (
+                                                    <code className="px-1.5 py-0.5 rounded bg-secondary-foreground/20 text-primary font-mono text-sm">
+                                                        {children}
+                                                    </code>
+                                                );
+                                            }
                                             return (
-                                                <code className={`px-1.5 py-0.5 rounded bg-secondary-foreground/20 text-primary font-mono text-sm ${className || ''}`}>
+                                                <CodeBlock className={className}>
                                                     {children}
-                                                </code>
+                                                </CodeBlock>
                                             );
-                                        }
+                                        },
+                                        pre: ({ children }) => <>{children}</>,
                                     }}
                                 >
                                     {post.content}
@@ -129,6 +201,17 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                     { name: post.title, item: `${SITE_CONFIG.url}blog/${slug}` },
                 ]}
             />
+            <ArticleJsonLd
+                url={`${SITE_CONFIG.url}blog/${slug}`}
+                title={post.title}
+                images={[`${SITE_CONFIG.url}og-image.png`]}
+                datePublished={post.date}
+                description={post.description}
+                authorName={SITE_CONFIG.name}
+            />
+            <div className="container mx-auto max-w-6xl px-4 pb-16">
+                <RelatedPosts posts={allPosts} currentSlug={slug} />
+            </div>
             <Footer />
         </main>
     );

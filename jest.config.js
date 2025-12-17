@@ -22,7 +22,20 @@ const customJestConfig = {
         '!src/**/*.stories.{js,jsx,ts,tsx}',
         '!src/e2e/**/*',
         '!**/node_modules/**',
+        '!src/app/manifest.ts',
+        '!src/**/index.ts',
     ],
+    transformIgnorePatterns: [
+        '/node_modules/(?!(@vercel/analytics)/)',
+    ],
+    coverageThreshold: {
+        global: {
+            branches: 60,
+            functions: 70,
+            lines: 80,
+            statements: 80,
+        },
+    },
     reporters: [
         'default',
         ['jest-junit', { outputDirectory: 'reports', outputName: 'jest-junit.xml' }]

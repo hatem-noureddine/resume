@@ -13,7 +13,7 @@ export default defineConfig({
         ['junit', { outputFile: 'playwright-report/results.xml' }]
     ],
     use: {
-        baseURL: 'http://localhost:3001/resume/',
+        baseURL: 'http://localhost:3001/',
         trace: 'on-first-retry',
     },
     projects: [
@@ -32,8 +32,8 @@ export default defineConfig({
         // }
     ],
     webServer: {
-        command: 'npx serve final_out -p 3001',
-        url: 'http://localhost:3001/resume',
+        command: 'npm run start -- -p 3001',
+        url: 'http://localhost:3001',
         reuseExistingServer: true,
         timeout: 120 * 1000,
     },

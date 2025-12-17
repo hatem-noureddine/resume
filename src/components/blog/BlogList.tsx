@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Search, Filter, X, ChevronLeft, ChevronRight, Tag, Clock, Home } from "lucide-react";
 import { Post } from "@/lib/posts";
 import { useLanguage } from "@/context/LanguageContext";
+import { container } from "@/lib/animations";
 
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
@@ -194,13 +195,26 @@ export function BlogList({ initialPosts }: BlogListProps) {
             {/* Posts Grid */}
             <div className="min-h-[400px]">
                 {paginatedPosts.length > 0 ? (
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <motion.div
+                        key={currentPage + (selectedTag || "") + searchQuery}
+                        variants={prefersReducedMotion ? {} : container}
+                        initial="hidden"
+                        animate="show"
+                        className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+                    >
                         <AnimatePresence mode="popLayout">
-                            {paginatedPosts.map((post, index) => {
+                            {paginatedPosts.map((post) => {
                                 return (
                                     <motion.article
                                         layout={!prefersReducedMotion}
-                                        {...cardAnimationProps(index)}
+                                        variants={prefersReducedMotion ? {} : {
+                                            hidden: { opacity: 0, scale: 0.9 },
+                                            show: { opacity: 1, scale: 1 },
+                                            exit: { opacity: 0, scale: 0.9 }
+                                        }}
+                                        initial="hidden"
+                                        animate="show"
+                                        exit="exit"
                                         key={post.slug}
                                         className="group bg-secondary/30 rounded-2xl overflow-hidden border border-foreground/5 hover:border-primary/50 transition-colors flex flex-col"
                                     >
@@ -238,7 +252,7 @@ export function BlogList({ initialPosts }: BlogListProps) {
                                 );
                             })}
                         </AnimatePresence>
-                    </div>
+                    </motion.div>
                 ) : (
                     <div className="text-center py-20 bg-secondary/10 rounded-2xl border border-foreground/5 border-dashed">
                         <div className="inline-block p-4 bg-secondary/50 rounded-full mb-4">
@@ -253,7 +267,8 @@ export function BlogList({ initialPosts }: BlogListProps) {
                             {blog.clearFilters}
                         </button>
                     </div>
-                )}
+                )
+                }
             </div>
 
             {/* Pagination */}

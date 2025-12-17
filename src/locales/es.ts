@@ -8,7 +8,6 @@ export const es = {
             { name: "Expérience", href: "/#experience" },
             { name: "Projets", href: "/#portfolio" },
             { name: "Blog", href: "/#blog" },
-            { name: "Contact", href: "/#contact" },
         ],
         hireMe: "Engagez-moi",
     },
@@ -315,5 +314,30 @@ export const es = {
     footer: {
         rights: "Todos los derechos reservados.",
         backToTop: "Volver arriba"
+    },
+    chat: {
+        greeting: "¡Hola! Soy el asistente de Hatem. 👋",
+        intro: "Siempre estoy abierto a discutir nuevos proyectos, ideas creativas u oportunidades para ser parte de tu visión.",
+        askMe: "¡No dudes en preguntarme sobre habilidades, experiencia, o simplemente saludar!",
+        header: "Conectemos",
+        subtitle: "Pregunta sobre habilidades",
+        placeholder: "Pregunta sobre experiencia...",
+        contactMe: "Contactar",
+        viewResume: "Ver CV",
+        thinking: "Pensando...",
+        errorMessage: "Lo siento, tuve problemas para responder. Por favor contacta directamente a",
+        suggestedQuestions: [
+            "¿Cuáles son tus habilidades?",
+            "Cuéntame sobre tu experiencia",
+            "¿Estás disponible para contratar?",
+            "¿En qué proyectos has trabajado?"
+        ]
+    },
+    notFound: {
+        title: "404",
+        subtitle: "Página No Encontrada",
+        message: "Lo siento, la página que estás buscando no existe o ha sido movida.",
+        home: "Inicio",
+        contact: "Contactar"
     }
 };

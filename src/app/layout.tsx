@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/context/ThemeContext";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { VercelAnalytics } from "@/components/analytics/VercelAnalytics";
 import { ChatWidget } from "@/components/chat/ChatWidget";
+import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
 import { SITE_METADATA, VIEWPORT_CONFIG, JSON_LD } from "@/config/site";
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
@@ -24,9 +25,6 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* Preconnect hints for external resources */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         {/* JSON-LD structured data */}
         <script
           type="application/ld+json"
@@ -47,7 +45,9 @@ export default function RootLayout({
         <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
           <LanguageProvider>
             {children}
-            <ChatWidget />
+            <ErrorBoundary fallback={null}>
+              <ChatWidget />
+            </ErrorBoundary>
             <VercelAnalytics />
           </LanguageProvider>
         </ThemeProvider>

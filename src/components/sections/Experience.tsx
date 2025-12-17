@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { useLanguage } from "@/context/LanguageContext";
 import Image from "next/image";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
+import { container, fadeInUp, fadeIn } from "@/lib/animations";
 
 const INITIAL_VISIBLE_COUNT = 3;
 
@@ -228,24 +229,32 @@ export function Experience() {
 
                 <div className="max-w-6xl mx-auto">
                     {/* Mobile Accordion View */}
-                    <div className="md:hidden flex flex-col gap-4">
-                        {visibleItems.map((item, index) => (
+                    <motion.div
+                        className="md:hidden flex flex-col gap-4"
+                        variants={prefersReducedMotion ? {} : container}
+                        initial="hidden"
+                        whileInView="show"
+                        viewport={{ once: true }}
+                    >
+                        {visibleItems.map((item) => (
                             <motion.div
                                 key={item.id}
-                                initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: index * 0.1 }}
+                                variants={prefersReducedMotion ? {} : fadeInUp}
                                 className="bg-background border border-foreground/5 rounded-xl overflow-hidden"
                             >
                                 <button
                                     onClick={() => toggleAccordion(item.id)}
                                     className="w-full flex items-center justify-between p-4 text-left bg-secondary/30"
+                                    aria-expanded={expandedIds.includes(item.id)}
+                                    aria-controls={`experience-content-${item.id}`}
                                 >
                                     <div className="flex items-start gap-3">
                                         <CompanyLogo item={item} size="sm" />
                                         <div>
-                                            <span className="block text-foreground font-bold font-outfit text-sm mb-0.5">
+                                            <span
+                                                id={`experience-heading-${item.id}`}
+                                                className="block text-foreground font-bold font-outfit text-sm mb-0.5"
+                                            >
                                                 {item.role}
                                             </span>
                                             <span className="block text-secondary-foreground text-xs">
@@ -277,6 +286,9 @@ export function Experience() {
                                             animate={{ height: "auto", opacity: 1 }}
                                             exit={{ height: 0, opacity: 0 }}
                                             transition={{ duration: 0.3 }}
+                                            id={`experience-content-${item.id}`}
+                                            role="region"
+                                            aria-labelledby={`experience-heading-${item.id}`}
                                         >
                                             <div className="p-4 pt-0 border-t border-foreground/5">
                                                 <div className="mt-4">
@@ -342,7 +354,7 @@ export function Experience() {
                                 )}
                             </motion.button>
                         )}
-                    </div>
+                    </motion.div>
 
                     {/* Desktop Layout with Timeline */}
                     <div className="hidden md:flex gap-8 lg:gap-16">
@@ -550,6 +562,6 @@ export function Experience() {
                     )}
                 </div>
             </div>
-        </section>
+        </section >
     );
 }

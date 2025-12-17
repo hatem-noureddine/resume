@@ -15,10 +15,8 @@ test.describe('Accessibility', () => {
                 'link-in-text-block',
                 'heading-order',
                 'landmark-unique',
-                'link-name',
                 'region',
-                'meta-viewport',
-                'button-name'
+                'meta-viewport'
             ]) // Known issues that require design changes
             .analyze();
 
@@ -41,10 +39,8 @@ test.describe('Accessibility', () => {
                 'link-in-text-block',
                 'heading-order',
                 'landmark-unique',
-                'link-name',
                 'region',
-                'meta-viewport',
-                'button-name'
+                'meta-viewport'
             ]) // Known issues that require design changes
             .analyze();
         expect(accessibilityScanResults.violations).toEqual([]);

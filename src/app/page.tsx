@@ -18,9 +18,6 @@ const Experience = dynamic(() => import("@/components/sections/Experience").then
 const Portfolio = dynamic(() => import("@/components/sections/Portfolio").then((mod) => mod.Portfolio), {
   loading: () => <PortfolioSkeleton />
 });
-const Contact = dynamic(() => import("@/components/sections/Contact").then((mod) => mod.Contact), {
-  loading: () => <SectionSkeleton />
-});
 const Skills = dynamic(() => import("@/components/sections/Skills").then((mod) => mod.Skills), {
   loading: () => <SkillsSkeleton />
 });
@@ -68,12 +65,7 @@ export default async function Home() {
         <Blog posts={posts} />
       </ScrollReveal>
 
-      {/* Wave divider before Contact */}
-      <WaveDivider color="secondary" />
-
-      <ScrollReveal>
-        <Contact />
-      </ScrollReveal>
+      {/* Contact is now handled by the ChatWidget in layout.tsx */}
       <Footer hasBlogPosts={hasBlogPosts} />
       <FloatingActions />
     </main>

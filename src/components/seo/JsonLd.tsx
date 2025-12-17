@@ -25,3 +25,41 @@ export function BreadcrumbJsonLd({
 
     return <JsonLd data={jsonLd} />;
 }
+
+export function ArticleJsonLd({
+    url,
+    title,
+    images,
+    datePublished,
+    dateModified,
+    description,
+    authorName,
+}: {
+    url: string;
+    title: string;
+    images: string[];
+    datePublished: string;
+    dateModified?: string;
+    description: string;
+    authorName: string;
+}) {
+    const jsonLd = {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        headline: title,
+        image: images,
+        datePublished: datePublished,
+        dateModified: dateModified || datePublished,
+        description: description,
+        author: {
+            "@type": "Person",
+            name: authorName,
+        },
+        mainEntityOfPage: {
+            "@type": "WebPage",
+            "@id": url,
+        },
+    };
+
+    return <JsonLd data={jsonLd} />;
+}
