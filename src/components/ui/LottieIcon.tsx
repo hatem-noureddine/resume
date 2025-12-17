@@ -1,7 +1,7 @@
 "use client";
 
 import Lottie, { LottieRefCurrentProps } from "lottie-react";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
 interface LottieIconProps {
@@ -37,7 +37,6 @@ export function LottieIcon({
     onComplete,
 }: LottieIconProps) {
     const lottieRef = useRef<LottieRefCurrentProps>(null);
-    const [isHovered, setIsHovered] = useState(false);
     const prefersReducedMotion = usePrefersReducedMotion();
 
     // Set animation speed
@@ -54,14 +53,13 @@ export function LottieIcon({
     // Handle hover trigger
     const handleMouseEnter = () => {
         if (trigger === "hover" && lottieRef.current && !prefersReducedMotion) {
-            setIsHovered(true);
             lottieRef.current.goToAndPlay(0);
         }
     };
 
     const handleMouseLeave = () => {
-        if (trigger === "hover") {
-            setIsHovered(false);
+        if (trigger === "hover" && lottieRef.current) {
+            lottieRef.current.stop();
         }
     };
 

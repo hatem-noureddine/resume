@@ -3,6 +3,7 @@ import { markdownComponents } from './markdown-components';
 
 // Mock dependencies
 jest.mock('@/components/ui/BlurImage', () => ({
+    // eslint-disable-next-line @next/next/no-img-element
     BlurImage: (props: any) => <img {...props} alt={props.alt || ''} data-testid="blur-image" />
 }));
 jest.mock('@/components/ui/CodeBlock', () => ({
