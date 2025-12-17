@@ -23,6 +23,7 @@ const DEFAULT_FLAGS: FeatureFlags = {
     comments: false, // Giscus integration pending
     analytics: true,
     pwa: true,
+    projects: false, // Projects section - enable when ready
 };
 
 interface FeatureFlagProviderProps {
