@@ -13,6 +13,60 @@ import { ShareButtons } from "@/components/ui/ShareButtons";
 import { TableOfContents } from "@/components/blog/TableOfContents";
 import { CodeBlock } from "@/components/ui/CodeBlock";
 import { RelatedPosts } from "@/components/blog/RelatedPosts";
+import type { Metadata } from 'next';
+
+// Generate unique metadata for each blog post
+export async function generateMetadata({
+    params
+}: {
+    params: Promise<{ slug: string }>
+}): Promise<Metadata> {
+    const { slug } = await params;
+    const post = await getPostData(slug);
+
+    if (!post) {
+        return {
+            title: 'Post Not Found',
+            description: 'The requested blog post could not be found.',
+        };
+    }
+
+    const ogImageUrl = `${SITE_CONFIG.url}api/og?title=${encodeURIComponent(post.title)}&category=${encodeURIComponent(post.category)}`;
+
+    return {
+        title: `${post.title} | ${SITE_CONFIG.name}`,
+        description: post.description,
+        keywords: post.tags,
+        authors: [{ name: SITE_CONFIG.name }],
+        openGraph: {
+            type: 'article',
+            title: post.title,
+            description: post.description,
+            url: `${SITE_CONFIG.url}blog/${slug}`,
+            siteName: SITE_CONFIG.name,
+            publishedTime: post.date,
+            authors: [SITE_CONFIG.name],
+            tags: post.tags,
+            images: [
+                {
+                    url: ogImageUrl,
+                    width: 1200,
+                    height: 630,
+                    alt: post.title,
+                },
+            ],
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: post.title,
+            description: post.description,
+            images: [ogImageUrl],
+        },
+        alternates: {
+            canonical: `${SITE_CONFIG.url}blog/${slug}`,
+        },
+    };
+}
 
 
 
