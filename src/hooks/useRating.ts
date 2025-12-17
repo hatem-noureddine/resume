@@ -5,11 +5,13 @@ import { useState, useEffect, useCallback } from "react";
 interface UseRatingOptions {
     storageKey?: string;
     maxRating?: number;
+    initialRating?: number; // Admin override for testing
 }
 
 interface RatingData {
     rating: number;
     timestamp: string;
+    guestId: string;
 }
 
 interface UseRatingReturn {
@@ -19,56 +21,86 @@ interface UseRatingReturn {
     averageRating: number;
     totalRatings: number;
     resetRating: () => void;
+    guestId: string | null;
+}
+
+// Simple UUID generator (client-side only)
+function generateUUID() {
+    if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+        return crypto.randomUUID();
+    }
+    return 'user_' + Math.random().toString(36).substring(2, 15);
 }
 
 /**
  * Custom hook for managing blog post ratings with localStorage persistence.
- * Stores individual user rating and aggregates all ratings for a post.
+ * Uses persistent Guest ID for identity management.
  */
 export function useRating(postSlug: string, options: UseRatingOptions = {}): UseRatingReturn {
-    const { storageKey = "blog-ratings", maxRating = 5 } = options;
+    const {
+        storageKey = "blog-ratings",
+        maxRating = 5,
+        initialRating = 0
+    } = options;
 
-    const [rating, setRatingState] = useState<number>(0);
+    const [rating, setRatingState] = useState<number>(initialRating);
     const [hasRated, setHasRated] = useState<boolean>(false);
-    const [averageRating, setAverageRating] = useState<number>(0);
-    const [totalRatings, setTotalRatings] = useState<number>(0);
+    const [averageRating, setAverageRating] = useState<number>(initialRating || 0);
+    const [totalRatings, setTotalRatings] = useState<number>(initialRating ? 1 : 0);
+    const [guestId, setGuestId] = useState<string | null>(null);
 
-    // Get the user's rating key
+    // Get storage keys
+    const guestIdKey = `${storageKey}-guest-id`;
     const userRatingKey = `${storageKey}-user-${postSlug}`;
     const aggregateKey = `${storageKey}-aggregate-${postSlug}`;
 
-    // Load rating from localStorage on mount
+    // Initialize Guest ID and load ratings
     useEffect(() => {
         if (typeof window === "undefined") return;
 
         try {
-            // Load user's rating
+            // 1. Manage Guest Identity
+            let currentGuestId = localStorage.getItem(guestIdKey);
+            if (!currentGuestId) {
+                currentGuestId = generateUUID();
+                localStorage.setItem(guestIdKey, currentGuestId);
+            }
+            setGuestId(currentGuestId);
+
+            // 2. Load User Rating
             const savedRating = localStorage.getItem(userRatingKey);
             if (savedRating) {
                 const data: RatingData = JSON.parse(savedRating);
-                // eslint-disable-next-line react-hooks/set-state-in-effect
-                setRatingState(data.rating); // Suppress warning: necessary for hydration
-                setHasRated(true);
+                // Verify ownership with guestId (basic check)
+                if (data.guestId === currentGuestId) {
+                    // eslint-disable-next-line react-hooks/set-state-in-effect
+                    setRatingState(data.rating); // Suppress warning: necessary for hydration
+                    setHasRated(true);
+                }
             }
 
-            // Load aggregate ratings
+            // 3. Load Aggregate Ratings
             const aggregateData = localStorage.getItem(aggregateKey);
             if (aggregateData) {
                 const { sum, count } = JSON.parse(aggregateData);
                 setAverageRating(count > 0 ? sum / count : 0);
                 setTotalRatings(count);
+            } else if (initialRating > 0) {
+                // Admin Override: If no real data, use initialRating prop
+                setAverageRating(initialRating);
+                setTotalRatings(1);
             }
+
         } catch (error) {
-            console.error("Error loading rating from localStorage:", error);
+            console.error("Error initializing rating:", error);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [userRatingKey, aggregateKey]);
+    }, [userRatingKey, aggregateKey, guestIdKey, initialRating]);
 
-    // Set rating and persist to localStorage
+    // Set rating
     const setRating = useCallback((value: number) => {
-        if (typeof window === "undefined") return;
+        if (typeof window === "undefined" || !guestId) return;
 
-        // Clamp value between 1 and maxRating
         const clampedValue = Math.max(1, Math.min(value, maxRating));
 
         try {
@@ -81,25 +113,28 @@ export function useRating(postSlug: string, options: UseRatingOptions = {}): Use
                 const parsed = JSON.parse(aggregateData);
                 sum = parsed.sum;
                 count = parsed.count;
+            } else if (initialRating > 0) {
+                // Include admin "seed" value if it was the only data
+                sum = initialRating;
+                count = 1;
             }
 
-            // If user already rated, subtract old rating
+            // Check if upgrading existing rating
             const existingRating = localStorage.getItem(userRatingKey);
             if (existingRating) {
                 const oldData: RatingData = JSON.parse(existingRating);
-                sum -= oldData.rating;
+                sum -= oldData.rating; // Remove old score
             } else {
-                // New rating, increment count
-                count += 1;
+                count += 1; // New voter
             }
 
-            // Add new rating
             sum += clampedValue;
 
-            // Save user rating
+            // Save individual rating
             const ratingData: RatingData = {
                 rating: clampedValue,
                 timestamp: new Date().toISOString(),
+                guestId: guestId
             };
             localStorage.setItem(userRatingKey, JSON.stringify(ratingData));
 
@@ -111,22 +146,21 @@ export function useRating(postSlug: string, options: UseRatingOptions = {}): Use
             setHasRated(true);
             setAverageRating(count > 0 ? sum / count : 0);
             setTotalRatings(count);
-        } catch (error) {
-            console.error("Error saving rating to localStorage:", error);
-        }
-    }, [userRatingKey, aggregateKey, maxRating]);
 
-    // Reset user's rating
+        } catch (error) {
+            console.error("Error saving rating:", error);
+        }
+    }, [userRatingKey, aggregateKey, maxRating, guestId, initialRating]);
+
+    // Reset rating (Admin/Debug utility)
     const resetRating = useCallback(() => {
         if (typeof window === "undefined") return;
 
         try {
-            // Get current rating to subtract from aggregate
             const existingRating = localStorage.getItem(userRatingKey);
             if (existingRating) {
                 const oldData: RatingData = JSON.parse(existingRating);
 
-                // Update aggregate
                 const aggregateData = localStorage.getItem(aggregateKey);
                 if (aggregateData) {
                     const { sum, count } = JSON.parse(aggregateData);
@@ -142,20 +176,18 @@ export function useRating(postSlug: string, options: UseRatingOptions = {}): Use
                         setTotalRatings(newCount);
                     } else {
                         localStorage.removeItem(aggregateKey);
-                        setAverageRating(0);
-                        setTotalRatings(0);
+                        setAverageRating(initialRating || 0);
+                        setTotalRatings(initialRating ? 1 : 0);
                     }
                 }
-
                 localStorage.removeItem(userRatingKey);
             }
-
             setRatingState(0);
             setHasRated(false);
         } catch (error) {
             console.error("Error resetting rating:", error);
         }
-    }, [userRatingKey, aggregateKey]);
+    }, [userRatingKey, aggregateKey, initialRating]);
 
     return {
         rating,
@@ -164,5 +196,6 @@ export function useRating(postSlug: string, options: UseRatingOptions = {}): Use
         averageRating,
         totalRatings,
         resetRating,
+        guestId
     };
 }

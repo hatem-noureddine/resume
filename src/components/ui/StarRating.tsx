@@ -14,6 +14,7 @@ interface StarRatingProps {
     showCount?: boolean;
     showAverage?: boolean;
     className?: string;
+    initialRating?: number; // For demo/testing
 }
 
 const sizeClasses = {
@@ -39,8 +40,12 @@ export function StarRating({
     showCount = true,
     showAverage = true,
     className,
+    initialRating = 0
 }: StarRatingProps) {
-    const { rating, setRating, hasRated, averageRating, totalRatings } = useRating(postSlug);
+    const { rating, setRating, hasRated, averageRating, totalRatings } = useRating(postSlug, {
+        maxRating: maxStars,
+        initialRating // Pass down for admin simulation
+    });
     const prefersReducedMotion = usePrefersReducedMotion();
     const [hoverRating, setHoverRating] = useState<number>(0);
     const [isHovering, setIsHovering] = useState<boolean>(false);

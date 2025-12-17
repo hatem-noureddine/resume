@@ -1,55 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="24" failures="0" errors="0" time="1.043">
-  <testsuite name="useRating" errors="0" failures="0" skipped="0" timestamp="2025-12-17T08:42:37" time="0.436" tests="10">
-    <testcase classname="useRating initializes with default values when no existing rating" name="useRating initializes with default values when no existing rating" time="0.009">
+<testsuites name="jest tests" tests="13" failures="0" errors="0" time="0.624">
+  <testsuite name="useRating" errors="0" failures="0" skipped="0" timestamp="2025-12-17T09:53:26" time="0.24" tests="13">
+    <testcase classname="useRating initializes with default values and generates guestId" name="useRating initializes with default values and generates guestId" time="0.008">
     </testcase>
-    <testcase classname="useRating sets and persists a rating" name="useRating sets and persists a rating" time="0.003">
+    <testcase classname="useRating uses existing guestId if present" name="useRating uses existing guestId if present" time="0.002">
     </testcase>
-    <testcase classname="useRating clamps rating to max value" name="useRating clamps rating to max value" time="0.002">
+    <testcase classname="useRating sets and persists a rating with guestId" name="useRating sets and persists a rating with guestId" time="0.002">
     </testcase>
-    <testcase classname="useRating clamps rating to minimum of 1" name="useRating clamps rating to minimum of 1" time="0.001">
+    <testcase classname="useRating respects initialRating as admin seed" name="useRating respects initialRating as admin seed" time="0.001">
     </testcase>
-    <testcase classname="useRating updates existing rating without changing count" name="useRating updates existing rating without changing count" time="0.002">
+    <testcase classname="useRating updates aggregate when using initialRating seed" name="useRating updates aggregate when using initialRating seed" time="0.001">
     </testcase>
-    <testcase classname="useRating resets rating correctly" name="useRating resets rating correctly" time="0">
+    <testcase classname="useRating clamps rating to max value" name="useRating clamps rating to max value" time="0.001">
     </testcase>
-    <testcase classname="useRating loads existing rating from localStorage" name="useRating loads existing rating from localStorage" time="0">
+    <testcase classname="useRating clamps rating to minimum of 1" name="useRating clamps rating to minimum of 1" time="0.002">
+    </testcase>
+    <testcase classname="useRating updates existing rating without changing count" name="useRating updates existing rating without changing count" time="0">
+    </testcase>
+    <testcase classname="useRating resets rating correctly" name="useRating resets rating correctly" time="0.002">
+    </testcase>
+    <testcase classname="useRating loads existing rating from localStorage" name="useRating loads existing rating from localStorage" time="0.001">
     </testcase>
     <testcase classname="useRating uses custom storage key" name="useRating uses custom storage key" time="0.001">
     </testcase>
-    <testcase classname="useRating handles localStorage errors gracefully" name="useRating handles localStorage errors gracefully" time="0.002">
+    <testcase classname="useRating handles localStorage errors gracefully" name="useRating handles localStorage errors gracefully" time="0">
     </testcase>
     <testcase classname="useRating handles different posts independently" name="useRating handles different posts independently" time="0.001">
-    </testcase>
-  </testsuite>
-  <testsuite name="StarRating" errors="0" failures="0" skipped="0" timestamp="2025-12-17T08:42:37" time="0.51" tests="14">
-    <testcase classname="StarRating renders 5 stars by default" name="StarRating renders 5 stars by default" time="0.027">
-    </testcase>
-    <testcase classname="StarRating renders custom number of stars" name="StarRating renders custom number of stars" time="0.003">
-    </testcase>
-    <testcase classname="StarRating calls setRating when star is clicked" name="StarRating calls setRating when star is clicked" time="0.021">
-    </testcase>
-    <testcase classname="StarRating shows thank you message when hasRated is true" name="StarRating shows thank you message when hasRated is true" time="0.003">
-    </testcase>
-    <testcase classname="StarRating shows rating count when totalRatings &gt; 0" name="StarRating shows rating count when totalRatings &gt; 0" time="0.004">
-    </testcase>
-    <testcase classname="StarRating shows singular &apos;rating&apos; for 1 rating" name="StarRating shows singular &apos;rating&apos; for 1 rating" time="0.001">
-    </testcase>
-    <testcase classname="StarRating handles keyboard navigation with Enter" name="StarRating handles keyboard navigation with Enter" time="0.006">
-    </testcase>
-    <testcase classname="StarRating handles keyboard navigation with Space" name="StarRating handles keyboard navigation with Space" time="0.005">
-    </testcase>
-    <testcase classname="StarRating has proper accessibility attributes" name="StarRating has proper accessibility attributes" time="0.006">
-    </testcase>
-    <testcase classname="StarRating applies hover state on mouse enter" name="StarRating applies hover state on mouse enter" time="0.008">
-    </testcase>
-    <testcase classname="StarRating does not show count when showCount is false" name="StarRating does not show count when showCount is false" time="0.002">
-    </testcase>
-    <testcase classname="StarRating does not show average when showAverage is false" name="StarRating does not show average when showAverage is false" time="0.001">
-    </testcase>
-    <testcase classname="StarRating applies custom className" name="StarRating applies custom className" time="0.001">
-    </testcase>
-    <testcase classname="StarRating applies different size classes" name="StarRating applies different size classes" time="0.002">
     </testcase>
   </testsuite>
 </testsuites>
