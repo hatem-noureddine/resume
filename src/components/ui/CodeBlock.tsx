@@ -3,57 +3,86 @@
 import { useState } from "react";
 import { Copy, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Highlight, themes, Prism } from "prism-react-renderer";
+import { Highlight, Prism } from "prism-react-renderer";
 
 // Add Kotlin language support
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 (typeof global !== "undefined" ? global : window).Prism = Prism;
 require("prismjs/components/prism-kotlin");
 
-// Custom theme optimized for Kotlin (inspired by JetBrains Darcula)
-const kotlinTheme = {
-    ...themes.vsDark,
+// Android Studio Darcula theme - exact color values
+const androidStudioTheme = {
     plain: {
-        color: "#A9B7C6",
-        backgroundColor: "#1e1e2e",
+        color: "#A9B7C6",           // Default text
+        backgroundColor: "#2B2B2B", // Darcula background
     },
     styles: [
+        // Comments - gray italic
         {
             types: ["comment", "prolog", "doctype", "cdata"],
-            style: { color: "#6A9955", fontStyle: "italic" as const },
+            style: { color: "#808080", fontStyle: "italic" as const },
         },
+        // Punctuation
         {
             types: ["punctuation"],
             style: { color: "#A9B7C6" },
         },
+        // Keywords - orange (fun, val, var, class, if, else, when, etc.)
         {
-            types: ["property", "tag", "boolean", "number", "constant", "symbol"],
-            style: { color: "#6897BB" },
+            types: ["keyword", "atrule", "attr-value"],
+            style: { color: "#CC7832", fontWeight: "bold" as const },
         },
+        // Strings - green
         {
-            types: ["selector", "attr-name", "string", "char", "builtin"],
+            types: ["string", "char", "attr-name"],
             style: { color: "#6A8759" },
         },
+        // Numbers - blue
+        {
+            types: ["number", "constant"],
+            style: { color: "#6897BB" },
+        },
+        // Boolean, null
+        {
+            types: ["boolean"],
+            style: { color: "#CC7832" },
+        },
+        // Functions - yellow/gold
+        {
+            types: ["function", "function-variable"],
+            style: { color: "#FFC66D" },
+        },
+        // Class names - light blue
+        {
+            types: ["class-name", "maybe-class-name"],
+            style: { color: "#A9B7C6" },
+        },
+        // Annotations - yellow (@Composable, @Test, etc.)
+        {
+            types: ["annotation", "decorator"],
+            style: { color: "#BBB529" },
+        },
+        // Operators
         {
             types: ["operator", "entity", "url"],
             style: { color: "#A9B7C6" },
         },
+        // Properties and variables - purple
         {
-            types: ["atrule", "attr-value", "keyword"],
-            style: { color: "#CC7832", fontWeight: "bold" as const },
-        },
-        {
-            types: ["function", "class-name"],
-            style: { color: "#FFC66D" },
-        },
-        {
-            types: ["regex", "important", "variable"],
+            types: ["property", "variable", "tag", "symbol"],
             style: { color: "#9876AA" },
         },
+        // Regex
         {
-            types: ["annotation"],
-            style: { color: "#BBB529" },
+            types: ["regex", "important"],
+            style: { color: "#CC7832" },
         },
+        // Built-in types (Int, String, etc.)
+        {
+            types: ["builtin"],
+            style: { color: "#CC7832" },
+        },
+        // Namespace
         {
             types: ["namespace"],
             style: { color: "#A9B7C6", opacity: 0.7 },
@@ -119,7 +148,7 @@ export function CodeBlock({
 
             {/* Syntax highlighted code block */}
             <Highlight
-                theme={kotlinTheme}
+                theme={androidStudioTheme}
                 code={code.trim()}
                 language={normalizedLanguage}
             >
