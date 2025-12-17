@@ -7,6 +7,7 @@ import { WaveDivider } from "@/components/ui/WaveDivider";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { FloatingActions } from "@/components/layout/FloatingActions";
 import { SectionSkeleton, PortfolioSkeleton, ExperienceSkeleton, SkillsSkeleton } from "@/components/ui/SectionSkeleton";
+import { Feature } from "@/context/FeatureFlags";
 
 // Lazy load below-the-fold sections to improve initial load performance
 const Services = dynamic(() => import("@/components/sections/Services").then((mod) => mod.Services), {
@@ -55,11 +56,15 @@ export default async function Home() {
       </ScrollReveal>
 
       {/* Wave divider before Portfolio */}
-      <WaveDivider color="background" flip />
+      <Feature flag="projects">
+        <WaveDivider color="background" flip />
+      </Feature>
 
-      <ScrollReveal>
-        <Portfolio />
-      </ScrollReveal>
+      <Feature flag="projects">
+        <ScrollReveal>
+          <Portfolio />
+        </ScrollReveal>
+      </Feature>
 
       <ScrollReveal>
         <Blog posts={posts} />
