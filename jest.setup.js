@@ -1,13 +1,13 @@
 import '@testing-library/jest-dom'
 import React from 'react';
 
-import { TextEncoder, TextDecoder } from 'util';
+import { TextEncoder, TextDecoder } from 'node:util';
 
-Object.assign(global, { TextDecoder, TextEncoder });
+Object.assign(globalThis, { TextDecoder, TextEncoder });
 
-if (typeof window !== 'undefined') {
+if (globalThis.window !== undefined) {
     // Mock window.matchMedia for reduced motion hook
-    Object.defineProperty(window, 'matchMedia', {
+    Object.defineProperty(globalThis, 'matchMedia', {
         writable: true,
         value: jest.fn().mockImplementation(query => ({
             matches: false, // Default: no reduced motion preference
@@ -27,7 +27,7 @@ if (typeof window !== 'undefined') {
         unobserve = jest.fn();
         disconnect = jest.fn();
     }
-    Object.defineProperty(window, 'IntersectionObserver', {
+    Object.defineProperty(globalThis, 'IntersectionObserver', {
         writable: true,
         value: IntersectionObserver,
     });
@@ -38,7 +38,7 @@ if (typeof window !== 'undefined') {
         unobserve = jest.fn();
         disconnect = jest.fn();
     }
-    Object.defineProperty(window, 'ResizeObserver', {
+    Object.defineProperty(globalThis, 'ResizeObserver', {
         writable: true,
         value: ResizeObserver,
     });

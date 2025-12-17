@@ -50,7 +50,7 @@ self.addEventListener('install', (event) => {
         })
     );
     // Activate immediately
-    self.skipWaiting();
+    globalThis.skipWaiting();
 });
 
 // Activate event - clean old caches
@@ -65,7 +65,7 @@ self.addEventListener('activate', (event) => {
         })
     );
     // Take control of all pages immediately
-    self.clients.claim();
+    globalThis.clients.claim();
 });
 
 // Fetch event - handle requests with caching strategies
@@ -153,8 +153,8 @@ async function staleWhileRevalidate(request) {
 }
 
 // Listen for messages from the app
-self.addEventListener('message', (event) => {
+globalThis.addEventListener('message', (event) => {
     if (event.data.type === 'SKIP_WAITING') {
-        self.skipWaiting();
+        globalThis.skipWaiting();
     }
 });

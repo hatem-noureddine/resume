@@ -14,10 +14,10 @@ import { EmptyState } from "@/components/ui/EmptyState";
 const POSTS_PER_PAGE = 6;
 
 interface BlogListProps {
-    initialPosts: Post[];
+    readonly initialPosts: Post[];
 }
 
-export function BlogList({ initialPosts }: BlogListProps) {
+export function BlogList({ initialPosts }: Readonly<BlogListProps>) {
     const { t } = useLanguage();
     const { blog } = t;
     const prefersReducedMotion = usePrefersReducedMotion();
@@ -41,8 +41,8 @@ export function BlogList({ initialPosts }: BlogListProps) {
 
         // Convert Sets to arrays and sort keys
         const sortedGroups: Record<string, string[]> = {};
-        Object.keys(groups).sort().forEach(key => {
-            sortedGroups[key] = Array.from(groups[key]).sort();
+        Object.keys(groups).sort((a, b) => a.localeCompare(b)).forEach(key => {
+            sortedGroups[key] = Array.from(groups[key]).sort((a, b) => a.localeCompare(b));
         });
 
         return sortedGroups;
