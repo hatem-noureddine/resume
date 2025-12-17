@@ -121,7 +121,7 @@ export function Footer({ hasBlogPosts = true }: { hasBlogPosts?: boolean }) {
                         animate={{ opacity: 1, y: 0 }}
                         exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 20 }}
                         onClick={scrollToTop}
-                        className="fixed bottom-8 right-8 p-3 bg-primary text-white rounded-full shadow-lg hover:bg-primary-dark transition-colors z-50 focus:outline-none focus:ring-2 focus:ring-primary/50"
+                        className="fixed bottom-24 right-6 p-3 bg-primary text-white rounded-full shadow-lg hover:bg-primary-dark transition-colors z-40 focus:outline-none focus:ring-2 focus:ring-primary/50"
                         aria-label={footer.backToTop || "Back to top"}
                     >
                         <ArrowUp size={20} />
