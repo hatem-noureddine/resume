@@ -6,21 +6,13 @@ tags: ["Accessibility", "Jetpack Compose", "RGAA 4.1"]
 category: "Design"
 ---
 
-# Mastering Accessibility (RGAA 4.1) with Jetpack Compose: The Ultimate Guide
+## Introduction
 
 With the tightening of European standards (and the strict application of **RGAA 4.1** in France), digital accessibility is no longer an "optional feature." It is a legal requirement and an ethical necessity.
 
 As Android developers, we have a responsibility to leave no one behind. Fortunately, **Jetpack Compose** makes this task significantly easier thanks to its native semantics system.
 
 In this guide, we will explore how to build 100% accessible apps, from basic concepts to advanced component implementation and testing strategies.
-
-## Table of Contents
-1.  **Introduction:** The Urgency of Accessibility
-2.  **Understanding Users:** Beyond the Code
-3.  **Implementation:** Best Practices with Jetpack Compose
-4.  **Advanced Tutorial:** Creating an Accessible "Selection Card"
-5.  **Testing Strategy:** The 3-Level Rule
-6.  **Conclusion:** Coding for Inclusion
 
 ---
 
@@ -76,9 +68,7 @@ Image(
 
 If you create a `Box` that acts like a button, TalkBack won't know it's interactive unless you define its role.
 
-Kotlin
-
-```
+```kotlin
 Box(
     modifier = Modifier
         .clickable(onClick = { /* action */ })
@@ -99,9 +89,7 @@ Box(
 
 **Rule:** Never use `dp` for text size. Always use `sp`. Users must be able to scale text up to 200% via system settings without breaking the UI.
 
-Kotlin
-
-```
+```kotlin
 Text(
     text = "Welcome",
     fontSize = 18.sp // ✅ Adapts to user preferences
@@ -123,9 +111,7 @@ The contrast ratio between text and background must be at least **4.5:1** for sm
 
 If your icon is only 24dp, you should not necessarily make the icon bigger, but you must expand its "clickable" area.
 
-Kotlin
-
-```
+```kotlin
 IconButton(
     onClick = { /* ... */ },
     modifier = Modifier
@@ -143,9 +129,7 @@ IconButton(
 
 By default, TalkBack reads from top to bottom, left to right. Sometimes, the visual design does not match the logical reading order.
 
-Kotlin
-
-```
+```kotlin
 Column(
     // Forces TalkBack to read this group logically as a unit or in a specific order
     modifier = Modifier.semantics { isTraversalGroup = true }
@@ -171,9 +155,7 @@ Let's look at a complex, real-world example. Imagine a subscription card (Standa
 
 **The Solution:**
 
-Kotlin
-
-```
+```kotlin
 @Composable
 fun SubscriptionOptionCard(
     title: String,
@@ -232,9 +214,7 @@ Coding is not enough; validation is key. Use this three-pillar strategy.
 
 Verify semantic attributes without launching the full app.
 
-Kotlin
-
-```
+```kotlin
 @Test
 fun testButtonHasClickActionAndDescription() {
     composeTestRule.setContent {
@@ -252,9 +232,7 @@ fun testButtonHasClickActionAndDescription() {
 
 Use **Espresso** and the Google Accessibility framework to scan screens during integration tests.
 
-Kotlin
-
-```
+```kotlin
 @Test
 fun accessibilityCheck() {
     AccessibilityChecks.enable() // Enables automatic contrast and touch target checking

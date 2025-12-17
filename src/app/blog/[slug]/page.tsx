@@ -159,10 +159,22 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                                                 {children}
                                             </blockquote>
                                         ),
-                                        h1: ({ children }) => <h1 className="text-3xl font-bold mt-12 mb-6 text-foreground">{children}</h1>,
-                                        h2: ({ children }) => <h2 className="text-2xl font-bold mt-10 mb-5 text-foreground scroll-mt-32">{children}</h2>,
-                                        h3: ({ children }) => <h3 className="text-xl font-bold mt-8 mb-4 text-foreground scroll-mt-32">{children}</h3>,
-                                        h4: ({ children }) => <h4 className="text-lg font-bold mt-6 mb-3 text-foreground">{children}</h4>,
+                                        h1: ({ children }) => {
+                                            const id = String(children).toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
+                                            return <h1 id={id} className="text-3xl font-bold mt-12 mb-6 text-foreground scroll-mt-32">{children}</h1>;
+                                        },
+                                        h2: ({ children }) => {
+                                            const id = String(children).toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
+                                            return <h2 id={id} className="text-2xl font-bold mt-10 mb-5 text-foreground scroll-mt-32">{children}</h2>;
+                                        },
+                                        h3: ({ children }) => {
+                                            const id = String(children).toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
+                                            return <h3 id={id} className="text-xl font-bold mt-8 mb-4 text-foreground scroll-mt-32">{children}</h3>;
+                                        },
+                                        h4: ({ children }) => {
+                                            const id = String(children).toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
+                                            return <h4 id={id} className="text-lg font-bold mt-6 mb-3 text-foreground scroll-mt-32">{children}</h4>;
+                                        },
                                         a: ({ href, children }) => (
                                             <a href={href} className="text-primary hover:underline transition-colors font-medium cursor-pointer" target="_blank" rel="noopener noreferrer">
                                                 {children}

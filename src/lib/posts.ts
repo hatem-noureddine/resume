@@ -89,13 +89,16 @@ export interface TocHeading {
     level: number;
 }
 
-export function extractHeadings(content: string): TocHeading[] {
+export function extractHeadings(content: string, maxLevel: number = 2): TocHeading[] {
     const headingRegex = /^(#{1,6})\s+(.+)$/gm;
     const headings: TocHeading[] = [];
     let match;
 
     while ((match = headingRegex.exec(content)) !== null) {
         const level = match[1].length;
+        // Only include headings up to maxLevel (default: h1 and h2 only)
+        if (level > maxLevel) continue;
+
         const text = match[2].trim();
         // Create a URL-friendly ID from the heading text
         const id = text
