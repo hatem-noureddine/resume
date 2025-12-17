@@ -107,3 +107,13 @@ jest.mock('@giscus/react', () => {
         default: () => <div data-testid="giscus-mock" />,
     };
 });
+
+// Mock markdown libraries
+jest.mock('react-markdown', () => {
+    return {
+        __esModule: true,
+        default: ({ children }) => <>{children}</>,
+    };
+});
+
+jest.mock('remark-gfm', () => () => {});
