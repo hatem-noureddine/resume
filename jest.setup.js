@@ -99,3 +99,11 @@ jest.mock('@vercel/analytics/next', () => ({
 jest.mock('@vercel/speed-insights/next', () => ({
     SpeedInsights: () => null,
 }));
+
+// Mock Giscus
+jest.mock('@giscus/react', () => {
+    return {
+        __esModule: true,
+        default: () => <div data-testid="giscus-mock" />,
+    };
+});

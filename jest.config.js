@@ -26,7 +26,7 @@ const customJestConfig = {
         '!src/**/index.ts',
     ],
     transformIgnorePatterns: [
-        '/node_modules/(?!(@vercel/analytics)/)',
+        '/node_modules/(?!(@vercel/analytics|@giscus/react)/)',
     ],
     coverageThreshold: {
         global: {

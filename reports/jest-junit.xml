@@ -1,9 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="2" failures="0" errors="0" time="0.69">
-  <testsuite name="ReadingProgress" errors="0" failures="0" skipped="0" timestamp="2025-12-17T12:36:00" time="0.348" tests="2">
-    <testcase classname="ReadingProgress renders progress bar by default" name="ReadingProgress renders progress bar by default" time="0.024">
+<testsuites name="jest tests" tests="19" failures="0" errors="0" time="0.71">
+  <testsuite name="useServiceWorker" errors="0" failures="0" skipped="0" timestamp="2025-12-17T12:46:09" time="0.369" tests="19">
+    <testcase classname="useServiceWorker initialization detects service worker support" name="useServiceWorker initialization detects service worker support" time="0.032">
     </testcase>
-    <testcase classname="ReadingProgress returns null when reduced motion is preferred" name="ReadingProgress returns null when reduced motion is preferred" time="0.001">
+    <testcase classname="useServiceWorker initialization starts with online status" name="useServiceWorker initialization starts with online status" time="0.003">
+    </testcase>
+    <testcase classname="useServiceWorker initialization detects offline state on init" name="useServiceWorker initialization detects offline state on init" time="0.003">
+    </testcase>
+    <testcase classname="useServiceWorker initialization starts with no update available" name="useServiceWorker initialization starts with no update available" time="0.002">
+    </testcase>
+    <testcase classname="useServiceWorker initialization starts as not registered" name="useServiceWorker initialization starts as not registered" time="0.002">
+    </testcase>
+    <testcase classname="useServiceWorker registration registers service worker" name="useServiceWorker registration registers service worker" time="0.006">
+    </testcase>
+    <testcase classname="useServiceWorker registration updates state after successful registration" name="useServiceWorker registration updates state after successful registration" time="0.014">
+    </testcase>
+    <testcase classname="useServiceWorker registration handles registration failure gracefully" name="useServiceWorker registration handles registration failure gracefully" time="0.003">
+    </testcase>
+    <testcase classname="useServiceWorker online/offline events adds online/offline event listeners" name="useServiceWorker online/offline events adds online/offline event listeners" time="0.002">
+    </testcase>
+    <testcase classname="useServiceWorker online/offline events sets isOnline to true when online event fires" name="useServiceWorker online/offline events sets isOnline to true when online event fires" time="0.001">
+    </testcase>
+    <testcase classname="useServiceWorker online/offline events sets isOnline to false when offline event fires" name="useServiceWorker online/offline events sets isOnline to false when offline event fires" time="0">
+    </testcase>
+    <testcase classname="useServiceWorker online/offline events removes event listeners on unmount" name="useServiceWorker online/offline events removes event listeners on unmount" time="0">
+    </testcase>
+    <testcase classname="useServiceWorker update function provides update function" name="useServiceWorker update function provides update function" time="0.001">
+    </testcase>
+    <testcase classname="useServiceWorker update function sends SKIP_WAITING message when waiting worker exists" name="useServiceWorker update function sends SKIP_WAITING message when waiting worker exists" time="0.012">
+    </testcase>
+    <testcase classname="useServiceWorker update function does nothing when no waiting worker" name="useServiceWorker update function does nothing when no waiting worker" time="0.002">
+    </testcase>
+    <testcase classname="useServiceWorker update detection detects update when new worker is installed" name="useServiceWorker update detection detects update when new worker is installed" time="0.011">
+    </testcase>
+    <testcase classname="useServiceWorker update detection does not set hasUpdate if state is not installed" name="useServiceWorker update detection does not set hasUpdate if state is not installed" time="0.012">
+    </testcase>
+    <testcase classname="useServiceWorker update detection does not set hasUpdate if no controller (first install)" name="useServiceWorker update detection does not set hasUpdate if no controller (first install)" time="0.012">
+    </testcase>
+    <testcase classname="useServiceWorker handles unsupported environment" name="useServiceWorker handles unsupported environment" time="0.001">
     </testcase>
   </testsuite>
 </testsuites>
