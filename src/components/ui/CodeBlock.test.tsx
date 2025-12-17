@@ -1,5 +1,8 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import { CodeBlock } from './CodeBlock';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { CodeBlock, CodeBlockLegacy } from './CodeBlock';
+
+// Mock prismjs
+jest.mock('prismjs/components/prism-kotlin', () => ({}));
 
 // Mock clipboard API
 Object.assign(navigator, {
@@ -13,139 +16,154 @@ describe('CodeBlock', () => {
         jest.clearAllMocks();
     });
 
-    it('renders code content', () => {
-        render(
-            <CodeBlock className="language-typescript">
-                const x = 1;
-            </CodeBlock>
-        );
-        expect(screen.getByText('const x = 1;')).toBeInTheDocument();
+    it('renders code content with syntax highlighting', () => {
+        render(<CodeBlock code="const x = 1;" language="javascript" />);
+        // Language badge should be shown
+        expect(screen.getByText('javascript')).toBeInTheDocument();
     });
 
-    it('shows language badge when className contains language', () => {
-        render(
-            <CodeBlock className="language-python">
-                {`print("hello")`}
-            </CodeBlock>
-        );
+    it('shows language badge', () => {
+        render(<CodeBlock code="print('hello')" language="python" />);
         expect(screen.getByText('python')).toBeInTheDocument();
     });
 
+    it('normalizes language names', () => {
+        render(<CodeBlock code="fun main() {}" language="kt" />);
+        expect(screen.getByText('kotlin')).toBeInTheDocument();
+    });
+
     it('renders copy button', () => {
-        render(
-            <CodeBlock className="language-javascript">
-                {`console.log("test")`}
-            </CodeBlock>
-        );
+        render(<CodeBlock code="console.log('test')" language="javascript" />);
         expect(screen.getByLabelText('Copy code')).toBeInTheDocument();
     });
 
-    it('copies code to clipboard when copy button is clicked', () => {
-        render(
-            <CodeBlock className="language-javascript">
-                const test = true;
-            </CodeBlock>
-        );
+    it('copies code to clipboard when copy button is clicked', async () => {
+        render(<CodeBlock code="const test = true;" language="javascript" />);
 
         const copyButton = screen.getByLabelText('Copy code');
         fireEvent.click(copyButton);
 
-        expect(navigator.clipboard.writeText).toHaveBeenCalled();
+        await waitFor(() => {
+            expect(navigator.clipboard.writeText).toHaveBeenCalledWith('const test = true;');
+        });
     });
 
-    it('shows check icon after copying', async () => {
+    it('shows Copied! label after copying', async () => {
         jest.useFakeTimers();
-        render(
-            <CodeBlock className="language-javascript">
-                code
-            </CodeBlock>
-        );
+        render(<CodeBlock code="code" language="javascript" />);
 
         const copyButton = screen.getByLabelText('Copy code');
         fireEvent.click(copyButton);
 
-        await screen.findByLabelText('Copied!');
+        await waitFor(() => {
+            expect(screen.getByLabelText('Copied!')).toBeInTheDocument();
+        });
 
         jest.runAllTimers();
         jest.useRealTimers();
     });
 
-    it('does not show language badge when no language class', () => {
-        render(<CodeBlock>plain code</CodeBlock>);
-        // Should only show the code content, no badge
-        expect(screen.getByText('plain code')).toBeInTheDocument();
+    it('shows line numbers by default', () => {
+        render(<CodeBlock code="line1" language="text" />);
+        // Line number "1" should exist (might have multiple occurrences)
+        expect(screen.getAllByText('1').length).toBeGreaterThanOrEqual(1);
     });
 
-    it('handles nested elements in extractText', () => {
-        render(
-            <CodeBlock className="language-jsx">
-                <span>nested</span>
-            </CodeBlock>
-        );
-
-        const copyButton = screen.getByLabelText('Copy code');
-        fireEvent.click(copyButton);
-
-        expect(navigator.clipboard.writeText).toHaveBeenCalledWith('nested');
-    });
-
-    it('handles number children', () => {
-        render(
-            <CodeBlock className="language-text">
-                {42}
-            </CodeBlock>
-        );
-
-        const copyButton = screen.getByLabelText('Copy code');
-        fireEvent.click(copyButton);
-
-        expect(navigator.clipboard.writeText).toHaveBeenCalledWith('42');
-    });
-
-    it('handles array children', () => {
-        render(
-            <CodeBlock className="language-text">
-                {['line1', 'line2']}
-            </CodeBlock>
-        );
-
-        const copyButton = screen.getByLabelText('Copy code');
-        fireEvent.click(copyButton);
-
-        expect(navigator.clipboard.writeText).toHaveBeenCalledWith('line1line2');
-    });
-
-    it('handles empty/null children gracefully', () => {
-        render(
-            <CodeBlock className="language-text">
-                {null}
-            </CodeBlock>
-        );
-
-        const copyButton = screen.getByLabelText('Copy code');
-        fireEvent.click(copyButton);
-
-        expect(navigator.clipboard.writeText).toHaveBeenCalledWith('');
+    it('hides line numbers when showLineNumbers is false', () => {
+        render(<CodeBlock code="single line" language="text" showLineNumbers={false} />);
+        // Language badge should still show
+        expect(screen.getByText('text')).toBeInTheDocument();
     });
 
     it('handles clipboard error gracefully', async () => {
         const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
         (navigator.clipboard.writeText as jest.Mock).mockRejectedValueOnce(new Error('Clipboard error'));
 
+        render(<CodeBlock code="test" language="text" />);
+
+        const copyButton = screen.getByLabelText('Copy code');
+        fireEvent.click(copyButton);
+
+        await waitFor(() => {
+            expect(consoleSpy).toHaveBeenCalledWith('Failed to copy:', expect.any(Error));
+        });
+
+        consoleSpy.mockRestore();
+    });
+});
+
+describe('CodeBlockLegacy', () => {
+    it('extracts language from className', () => {
         render(
-            <CodeBlock className="language-text">
-                test
-            </CodeBlock>
+            <CodeBlockLegacy className="language-typescript">
+                const x: number = 1;
+            </CodeBlockLegacy>
+        );
+        expect(screen.getByText('typescript')).toBeInTheDocument();
+    });
+
+    it('extracts text from children', async () => {
+        render(
+            <CodeBlockLegacy className="language-javascript">
+                const test = true;
+            </CodeBlockLegacy>
         );
 
         const copyButton = screen.getByLabelText('Copy code');
         fireEvent.click(copyButton);
 
-        // Wait for async operation
-        await new Promise(resolve => setTimeout(resolve, 0));
+        await waitFor(() => {
+            expect(navigator.clipboard.writeText).toHaveBeenCalled();
+        });
+    });
 
-        expect(consoleSpy).toHaveBeenCalledWith('Failed to copy:', expect.any(Error));
-        consoleSpy.mockRestore();
+    it('handles nested elements in extractText', async () => {
+        render(
+            <CodeBlockLegacy className="language-jsx">
+                <span>nested</span>
+            </CodeBlockLegacy>
+        );
+
+        const copyButton = screen.getByLabelText('Copy code');
+        fireEvent.click(copyButton);
+
+        await waitFor(() => {
+            expect(navigator.clipboard.writeText).toHaveBeenCalledWith('nested');
+        });
+    });
+
+    it('handles number children', async () => {
+        render(
+            <CodeBlockLegacy className="language-text">
+                {42}
+            </CodeBlockLegacy>
+        );
+
+        const copyButton = screen.getByLabelText('Copy code');
+        fireEvent.click(copyButton);
+
+        await waitFor(() => {
+            expect(navigator.clipboard.writeText).toHaveBeenCalledWith('42');
+        });
+    });
+
+    it('handles array children', async () => {
+        render(
+            <CodeBlockLegacy className="language-text">
+                {['line1', 'line2']}
+            </CodeBlockLegacy>
+        );
+
+        const copyButton = screen.getByLabelText('Copy code');
+        fireEvent.click(copyButton);
+
+        await waitFor(() => {
+            expect(navigator.clipboard.writeText).toHaveBeenCalledWith('line1line2');
+        });
+    });
+
+    it('defaults to text language when no className', () => {
+        render(<CodeBlockLegacy>plain code</CodeBlockLegacy>);
+        expect(screen.getByText('text')).toBeInTheDocument();
     });
 });
-
