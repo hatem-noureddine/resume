@@ -13,6 +13,7 @@ import { ShareButtons } from "@/components/ui/ShareButtons";
 import { TableOfContents } from "@/components/blog/TableOfContents";
 import { CodeBlockLegacy } from "@/components/ui/CodeBlock";
 import { RelatedPosts } from "@/components/blog/RelatedPosts";
+import { StarRating } from "@/components/ui/StarRating";
 import type { Metadata } from 'next';
 
 // Generate unique metadata for each blog post
@@ -220,6 +221,14 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                                 >
                                     {post.content}
                                 </ReactMarkdown>
+                            </div>
+
+                            {/* Rating Section */}
+                            <div className="mt-16 pt-8 border-t border-white/10 flex flex-col items-center justify-center gap-4">
+                                <h3 className="text-lg font-semibold text-foreground">
+                                    Did you find this helpful?
+                                </h3>
+                                <StarRating postSlug={slug} size="lg" />
                             </div>
                         </div>
                     </div>
