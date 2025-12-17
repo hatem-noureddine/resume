@@ -16,6 +16,12 @@ export const SITE_CONFIG = {
     },
     formspree: {
         contactFormId: "mrbnvyrn"
+    },
+    giscus: {
+        repo: "hatemnoureddine/portfolio-comments",
+        repoId: "",
+        category: "Announcements",
+        categoryId: ""
     }
 };
 

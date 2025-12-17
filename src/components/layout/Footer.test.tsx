@@ -37,6 +37,9 @@ jest.mock('framer-motion', () => ({
                 {children}
             </button>
         ),
+        div: ({ children, className }: any) => (
+            <div className={className}>{children}</div>
+        ),
     },
     AnimatePresence: ({ children }: any) => <>{children}</>,
 }));
@@ -206,6 +209,39 @@ describe('Footer Component', () => {
             );
 
             removeEventListenerSpy.mockRestore();
+        });
+    });
+
+    describe('Newsletter Integration', () => {
+        it('renders the newsletter form', () => {
+            renderWithProviders();
+            expect(screen.getByText('Subscribe to my newsletter')).toBeInTheDocument();
+            expect(screen.getByPlaceholderText(/enter your email/i)).toBeInTheDocument();
+        });
+
+        it('calls newsletter API on subscription', async () => {
+            global.fetch = jest.fn(() =>
+                Promise.resolve({
+                    ok: true,
+                    json: () => Promise.resolve({ message: 'Success' }),
+                })
+            ) as jest.Mock;
+
+            renderWithProviders();
+
+            const emailInput = screen.getByPlaceholderText(/enter your email/i);
+            const submitButton = screen.getByRole('button', { name: /subscribe/i });
+
+            fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+            fireEvent.click(submitButton);
+
+            await waitFor(() => {
+                expect(global.fetch).toHaveBeenCalledWith('/api/newsletter', expect.objectContaining({
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: 'test@example.com' }),
+                }));
+            });
         });
     });
 });

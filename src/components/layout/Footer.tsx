@@ -8,6 +8,7 @@ import * as LucideIcons from "lucide-react";
 import { Logo } from "@/components/ui/Logo";
 import { ArrowUp } from "lucide-react";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
+import { NewsletterForm } from "@/components/ui/NewsletterForm";
 
 export function Footer({ hasBlogPosts = true }: { hasBlogPosts?: boolean }) {
     const { t } = useLanguage();
@@ -42,53 +43,75 @@ export function Footer({ hasBlogPosts = true }: { hasBlogPosts?: boolean }) {
     });
 
     return (
-        <footer className="bg-secondary py-12 border-t border-foreground/5 relative">
-            <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-6">
-
-                <div className="flex flex-col items-center md:items-start gap-2">
-                    <Link href="/" className="flex items-center gap-2" aria-label="Home">
-                        <div className="relative h-8 w-8">
-                            <Logo className="h-full w-full" />
-                        </div>
-                        <span className="sr-only">Home</span>
-                    </Link>
-                    <p className="text-sm text-secondary-foreground">
-                        © {new Date().getFullYear()} {footer.rights}
-                    </p>
+        <footer className="bg-secondary pt-16 pb-12 border-t border-foreground/5 relative">
+            <div className="container mx-auto px-4">
+                <div className="max-w-4xl mx-auto mb-16">
+                    <NewsletterForm
+                        title={footer.newsletter?.title || "Subscribe to my newsletter"}
+                        description={footer.newsletter?.description || "Get notified about new posts and updates."}
+                        onSubmit={async (email) => {
+                            const response = await fetch('/api/newsletter', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ email }),
+                            });
+                            const data = await response.json();
+                            if (!response.ok) throw new Error(data.error || 'Subscription failed');
+                        }}
+                        className="bg-background/50 rounded-2xl border border-foreground/5 p-8"
+                    />
                 </div>
 
-                <nav className="flex gap-6 flex-wrap justify-center">
-                    {navLinks.map((link) => (
-                        <Link
-                            key={link.name}
-                            href={link.href}
-                            className="text-sm text-secondary-foreground hover:text-primary transition-colors"
-                        >
-                            {link.name}
-                        </Link>
-                    ))}
-                </nav>
+                <div className="flex flex-col md:flex-row items-center justify-between gap-6">
 
-                <div className="flex gap-4">
-                    {contact.socials.map((social, index) => {
-                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                        const Icon = (LucideIcons as any)[social.icon] || LucideIcons.Link;
-                        return (
-                            <a
-                                key={index}
-                                href={social.link}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="p-2 rounded-full border border-foreground/10 text-secondary-foreground hover:bg-primary hover:text-white hover:border-primary transition-all duration-300"
-                                aria-label={social.icon}
+                    <div className="flex flex-col items-center md:items-start gap-2">
+                        <Link href="/" className="flex items-center gap-2" aria-label="Home">
+                            <div className="relative h-8 w-8">
+                                <Logo className="h-full w-full" />
+                            </div>
+                            <span className="sr-only">Home</span>
+                        </Link>
+                        <p className="text-sm text-secondary-foreground">
+                            © {new Date().getFullYear()} {footer.rights}
+                        </p>
+                    </div>
+
+                    <nav className="flex gap-6 flex-wrap justify-center">
+                        {navLinks.map((link) => (
+                            <Link
+                                key={link.name}
+                                href={link.href}
+                                className="text-sm text-secondary-foreground hover:text-primary transition-colors"
                             >
-                                <Icon size={18} />
-                            </a>
-                        );
-                    })}
+                                {link.name}
+                            </Link>
+                        ))}
+                    </nav>
+
+                    <div className="flex gap-4">
+                        {contact.socials.map((social, index) => {
+                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                            const Icon = (LucideIcons as any)[social.icon] || LucideIcons.Link;
+                            return (
+                                <a
+                                    key={index}
+                                    href={social.link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="p-2 rounded-full border border-foreground/10 text-secondary-foreground hover:bg-primary hover:text-white hover:border-primary transition-all duration-300"
+                                    aria-label={social.icon}
+                                >
+                                    <Icon size={18} />
+                                </a>
+                            );
+                        })}
+                    </div>
+
                 </div>
 
             </div>
+
+
 
             {/* Back to Top Button */}
             <AnimatePresence>
@@ -105,6 +128,6 @@ export function Footer({ hasBlogPosts = true }: { hasBlogPosts?: boolean }) {
                     </motion.button>
                 )}
             </AnimatePresence>
-        </footer>
+        </footer >
     );
 }

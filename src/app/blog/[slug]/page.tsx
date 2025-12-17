@@ -8,12 +8,14 @@ import { BlurImage } from "@/components/ui/BlurImage";
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { BreadcrumbJsonLd, ArticleJsonLd } from "@/components/seo/JsonLd";
-import { ScrollProgress } from "@/components/ui/ScrollProgress";
+
 import { ShareButtons } from "@/components/ui/ShareButtons";
 import { TableOfContents } from "@/components/blog/TableOfContents";
 import { CodeBlockLegacy } from "@/components/ui/CodeBlock";
 import { RelatedPosts } from "@/components/blog/RelatedPosts";
 import { StarRating } from "@/components/ui/StarRating";
+import { Comments } from "@/components/blog/Comments";
+import { ReadingProgress } from "@/components/blog/ReadingProgress";
 import type { Metadata } from 'next';
 
 // Generate unique metadata for each blog post
@@ -86,8 +88,12 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
     const allPosts = await getSortedPostsData();
 
     return (
-        <main className="min-h-screen">
-            <ScrollProgress />
+        <main className="min-h-screen bg-background pb-20">
+            <ReadingProgress />
+
+            {/* Scroll Progress Indicator - removed ad-hoc implementation in favor of component */}
+
+            {/* Hero Section */}
             <Header />
             <article className="pt-32 pb-20 px-4">
                 <div className="container mx-auto max-w-6xl flex flex-col xl:flex-row gap-12">
@@ -223,7 +229,6 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                                 </ReactMarkdown>
                             </div>
 
-                            {/* Rating Section */}
                             <div className="mt-16 pt-8 border-t border-white/10 flex flex-col items-center justify-center gap-4">
                                 <h3 className="text-lg font-semibold text-foreground">
                                     Did you find this helpful?
@@ -231,6 +236,8 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                                 <StarRating postSlug={slug} size="lg" />
                             </div>
                         </div>
+
+                        <Comments />
                     </div>
                 </div>
             </article>
@@ -253,7 +260,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                 <RelatedPosts posts={allPosts} currentSlug={slug} />
             </div>
             <Footer />
-        </main>
+        </main >
     );
 }
 

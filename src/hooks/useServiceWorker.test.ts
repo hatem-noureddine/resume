@@ -172,6 +172,7 @@ describe('useServiceWorker', () => {
             Object.defineProperty(window, 'location', {
                 value: { reload: reloadSpy },
                 writable: true,
+                configurable: true
             });
 
             const { result } = renderHook(() => useServiceWorker());
@@ -214,5 +215,12 @@ describe('useServiceWorker', () => {
                 expect.any(Function)
             );
         });
+    });
+
+    it('handles unsupported environment', () => {
+        // Remove serviceWorker from navigator
+        Object.defineProperty(navigator, 'serviceWorker', { value: undefined });
+        const { result } = renderHook(() => useServiceWorker());
+        expect(result.current.isSupported).toBe(false);
     });
 });

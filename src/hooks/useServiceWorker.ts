@@ -35,14 +35,17 @@ export function useServiceWorker() {
 
     useEffect(() => {
         // Check if service workers are supported
-        if (typeof window === 'undefined' || !('serviceWorker' in navigator)) {
+        if (typeof window === 'undefined' || !navigator.serviceWorker) {
             return;
         }
 
-        setState(prev => ({ ...prev, isSupported: true }));
-
-        // Set initial online state
-        setState(prev => ({ ...prev, isOnline: navigator.onLine }));
+        // Set initial state for supported and online
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setState(prev => ({
+            ...prev,
+            isSupported: true,
+            isOnline: navigator.onLine
+        }));
 
         // Listen for online/offline events
         const handleOnline = () => setState(prev => ({ ...prev, isOnline: true }));

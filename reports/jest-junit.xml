@@ -1,31 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="13" failures="0" errors="0" time="0.624">
-  <testsuite name="useRating" errors="0" failures="0" skipped="0" timestamp="2025-12-17T09:53:26" time="0.24" tests="13">
-    <testcase classname="useRating initializes with default values and generates guestId" name="useRating initializes with default values and generates guestId" time="0.008">
+<testsuites name="jest tests" tests="2" failures="0" errors="0" time="0.69">
+  <testsuite name="ReadingProgress" errors="0" failures="0" skipped="0" timestamp="2025-12-17T12:36:00" time="0.348" tests="2">
+    <testcase classname="ReadingProgress renders progress bar by default" name="ReadingProgress renders progress bar by default" time="0.024">
     </testcase>
-    <testcase classname="useRating uses existing guestId if present" name="useRating uses existing guestId if present" time="0.002">
-    </testcase>
-    <testcase classname="useRating sets and persists a rating with guestId" name="useRating sets and persists a rating with guestId" time="0.002">
-    </testcase>
-    <testcase classname="useRating respects initialRating as admin seed" name="useRating respects initialRating as admin seed" time="0.001">
-    </testcase>
-    <testcase classname="useRating updates aggregate when using initialRating seed" name="useRating updates aggregate when using initialRating seed" time="0.001">
-    </testcase>
-    <testcase classname="useRating clamps rating to max value" name="useRating clamps rating to max value" time="0.001">
-    </testcase>
-    <testcase classname="useRating clamps rating to minimum of 1" name="useRating clamps rating to minimum of 1" time="0.002">
-    </testcase>
-    <testcase classname="useRating updates existing rating without changing count" name="useRating updates existing rating without changing count" time="0">
-    </testcase>
-    <testcase classname="useRating resets rating correctly" name="useRating resets rating correctly" time="0.002">
-    </testcase>
-    <testcase classname="useRating loads existing rating from localStorage" name="useRating loads existing rating from localStorage" time="0.001">
-    </testcase>
-    <testcase classname="useRating uses custom storage key" name="useRating uses custom storage key" time="0.001">
-    </testcase>
-    <testcase classname="useRating handles localStorage errors gracefully" name="useRating handles localStorage errors gracefully" time="0">
-    </testcase>
-    <testcase classname="useRating handles different posts independently" name="useRating handles different posts independently" time="0.001">
+    <testcase classname="ReadingProgress returns null when reduced motion is preferred" name="ReadingProgress returns null when reduced motion is preferred" time="0.001">
     </testcase>
   </testsuite>
 </testsuites>
