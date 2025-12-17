@@ -11,7 +11,7 @@ import { BreadcrumbJsonLd, ArticleJsonLd } from "@/components/seo/JsonLd";
 import { ScrollProgress } from "@/components/ui/ScrollProgress";
 import { ShareButtons } from "@/components/ui/ShareButtons";
 import { TableOfContents } from "@/components/blog/TableOfContents";
-import { CodeBlock } from "@/components/ui/CodeBlock";
+import { CodeBlockLegacy } from "@/components/ui/CodeBlock";
 import { RelatedPosts } from "@/components/blog/RelatedPosts";
 import type { Metadata } from 'next';
 
@@ -102,28 +102,47 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                             <Link href="/blog" className="inline-block text-sm text-muted-foreground hover:text-primary mb-8">
                                 &larr; Back to Blog
                             </Link>
-                            <div className="flex items-center justify-center gap-4 text-sm text-primary mb-4">
+                            {/* Category badge */}
+                            <span className="inline-block px-4 py-1 mb-4 text-sm font-semibold rounded-full bg-gradient-to-r from-primary/20 to-purple-500/20 text-primary border border-primary/20">
+                                {post.category}
+                            </span>
+                            <div className="flex items-center justify-center gap-4 text-sm text-muted-foreground mb-4">
                                 <div className="flex items-center gap-2">
-                                    <Calendar className="w-4 h-4" />
+                                    <Calendar className="w-4 h-4 text-primary" />
                                     <span>{post.date}</span>
                                 </div>
-                                <div className="w-1 h-1 bg-primary rounded-full" />
+                                <div className="w-1 h-1 bg-primary/50 rounded-full" />
                                 <div className="flex items-center gap-2">
-                                    <Clock className="w-4 h-4" />
+                                    <Clock className="w-4 h-4 text-purple-400" />
                                     <span>{post.readingTime}</span>
                                 </div>
                             </div>
-                            <h1 className="text-4xl md:text-5xl font-bold mb-6">{post.title}</h1>
+                            <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-foreground via-primary to-purple-400 bg-clip-text text-transparent">
+                                {post.title}
+                            </h1>
+                            <p className="text-lg text-muted-foreground mb-6 max-w-2xl mx-auto">
+                                {post.description}
+                            </p>
                             <div className="flex flex-wrap justify-center gap-2">
-                                {post.tags.map((tag) => (
-                                    <span
-                                        key={tag}
-                                        className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-secondary/50 text-xs font-medium"
-                                    >
-                                        <Tag className="w-3 h-3" />
-                                        {tag}
-                                    </span>
-                                ))}
+                                {post.tags.map((tag, index) => {
+                                    // Alternate tag colors for visual interest
+                                    const colors = [
+                                        'bg-primary/10 text-primary border-primary/20',
+                                        'bg-purple-500/10 text-purple-400 border-purple-500/20',
+                                        'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
+                                        'bg-amber-500/10 text-amber-400 border-amber-500/20',
+                                    ];
+                                    const colorClass = colors[index % colors.length];
+                                    return (
+                                        <span
+                                            key={tag}
+                                            className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium border ${colorClass}`}
+                                        >
+                                            <Tag className="w-3 h-3" />
+                                            {tag}
+                                        </span>
+                                    );
+                                })}
                             </div>
                             <ShareButtons
                                 url={`${SITE_CONFIG.url}/blog/${slug}`}
@@ -155,14 +174,26 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                                             </span>
                                         ),
                                         blockquote: ({ children }) => (
-                                            <blockquote className="border-l-4 border-primary pl-6 py-2 my-8 italic text-lg text-white/80 bg-primary/5 rounded-r-lg">
+                                            <blockquote className="border-l-4 border-gradient-to-b from-primary to-purple-500 pl-6 py-4 my-8 italic text-lg text-white/90 bg-gradient-to-r from-primary/10 to-purple-500/10 rounded-r-xl">
                                                 {children}
                                             </blockquote>
                                         ),
-                                        h1: ({ children }) => <h1 className="text-3xl font-bold mt-12 mb-6 text-foreground">{children}</h1>,
-                                        h2: ({ children }) => <h2 className="text-2xl font-bold mt-10 mb-5 text-foreground scroll-mt-32">{children}</h2>,
-                                        h3: ({ children }) => <h3 className="text-xl font-bold mt-8 mb-4 text-foreground scroll-mt-32">{children}</h3>,
-                                        h4: ({ children }) => <h4 className="text-lg font-bold mt-6 mb-3 text-foreground">{children}</h4>,
+                                        h1: ({ children }) => {
+                                            const id = String(children).toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
+                                            return <h1 id={id} className="text-3xl font-bold mt-12 mb-6 text-foreground scroll-mt-32">{children}</h1>;
+                                        },
+                                        h2: ({ children }) => {
+                                            const id = String(children).toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
+                                            return <h2 id={id} className="text-2xl font-bold mt-10 mb-5 text-foreground scroll-mt-32">{children}</h2>;
+                                        },
+                                        h3: ({ children }) => {
+                                            const id = String(children).toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
+                                            return <h3 id={id} className="text-xl font-bold mt-8 mb-4 text-foreground scroll-mt-32">{children}</h3>;
+                                        },
+                                        h4: ({ children }) => {
+                                            const id = String(children).toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
+                                            return <h4 id={id} className="text-lg font-bold mt-6 mb-3 text-foreground scroll-mt-32">{children}</h4>;
+                                        },
                                         a: ({ href, children }) => (
                                             <a href={href} className="text-primary hover:underline transition-colors font-medium cursor-pointer" target="_blank" rel="noopener noreferrer">
                                                 {children}
@@ -179,9 +210,9 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                                                 );
                                             }
                                             return (
-                                                <CodeBlock className={className}>
+                                                <CodeBlockLegacy className={className}>
                                                     {children}
-                                                </CodeBlock>
+                                                </CodeBlockLegacy>
                                             );
                                         },
                                         pre: ({ children }) => <>{children}</>,

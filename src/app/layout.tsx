@@ -4,6 +4,7 @@ import './globals.css';
 import { cn } from '@/lib/utils';
 import { ThemeProvider } from "@/context/ThemeContext";
 import { LanguageProvider } from "@/context/LanguageContext";
+import { FeatureFlagProvider } from "@/context/FeatureFlags";
 import { VercelAnalytics } from "@/components/analytics/VercelAnalytics";
 import { ChatWidget } from "@/components/chat/ChatWidget";
 import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
@@ -44,11 +45,13 @@ export default function RootLayout({
         </a>
         <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
           <LanguageProvider>
-            {children}
-            <ErrorBoundary fallback={null}>
-              <ChatWidget />
-            </ErrorBoundary>
-            <VercelAnalytics />
+            <FeatureFlagProvider>
+              {children}
+              <ErrorBoundary fallback={null}>
+                <ChatWidget />
+              </ErrorBoundary>
+              <VercelAnalytics />
+            </FeatureFlagProvider>
           </LanguageProvider>
         </ThemeProvider>
       </body>

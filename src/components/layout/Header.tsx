@@ -7,6 +7,7 @@ import { Menu, X, ChevronDown, Check, Sparkles } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/context/LanguageContext";
+import { useFeatureFlags } from "@/context/FeatureFlags";
 import { localeMetadata } from "@/locales";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { Logo } from "@/components/ui/Logo";
@@ -91,7 +92,8 @@ export function Header({ hasBlogPosts = true }: { hasBlogPosts?: boolean }) {
     }, [mobileMenuOpen]);
 
     const portfolioItems = t.portfolio.items || [];
-    const showPortfolio = portfolioItems.length > 0;
+    const { isEnabled } = useFeatureFlags();
+    const showPortfolio = portfolioItems.length > 0 && isEnabled('projects');
 
     const navLinks = t.header.nav.filter(link => {
         if (link.href.includes('portfolio')) return showPortfolio;

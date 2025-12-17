@@ -142,4 +142,83 @@ This is the content.`);
             expect(result).toEqual(['a', 'b']);
         });
     });
+
+    describe('extractHeadings', () => {
+        // Import directly for testing
+        const { extractHeadings } = require('./posts');
+
+        it('extracts h1 and h2 headings by default (maxLevel=2)', () => {
+            const content = `
+# Main Title
+## Section One
+### Subsection
+## Section Two
+`;
+            const headings = extractHeadings(content);
+            expect(headings).toHaveLength(3); // h1, h2, h2 (h3 excluded)
+            expect(headings[0]).toEqual({ id: 'main-title', text: 'Main Title', level: 1 });
+            expect(headings[1]).toEqual({ id: 'section-one', text: 'Section One', level: 2 });
+            expect(headings[2]).toEqual({ id: 'section-two', text: 'Section Two', level: 2 });
+        });
+
+        it('respects maxLevel parameter', () => {
+            const content = `
+# Title
+## Section
+### Subsection
+#### Deep
+`;
+            const headingsLevel2 = extractHeadings(content, 2);
+            expect(headingsLevel2).toHaveLength(2); // h1, h2
+
+            const headingsLevel3 = extractHeadings(content, 3);
+            expect(headingsLevel3).toHaveLength(3); // h1, h2, h3
+
+            const headingsLevel1 = extractHeadings(content, 1);
+            expect(headingsLevel1).toHaveLength(1); // h1 only
+        });
+
+        it('generates URL-friendly IDs', () => {
+            const content = `
+## Hello World
+## What's New?
+## 1. Introduction
+## Émojis & Special!
+`;
+            const headings = extractHeadings(content, 6);
+            expect(headings[0].id).toBe('hello-world');
+            expect(headings[1].id).toBe('whats-new');
+            expect(headings[2].id).toBe('1-introduction');
+            expect(headings[3].id).toBe('mojis-special'); // Special chars removed
+        });
+
+        it('handles multiple dashes', () => {
+            const content = `## This   Has   Spaces`;
+            const headings = extractHeadings(content, 6);
+            expect(headings[0].id).toBe('this-has-spaces');
+        });
+
+        it('returns empty array for no headings', () => {
+            const content = 'Just some text without headings';
+            const headings = extractHeadings(content);
+            expect(headings).toEqual([]);
+        });
+
+        it('handles heading with only level 1', () => {
+            const content = '# Only Title';
+            const headings = extractHeadings(content, 1);
+            expect(headings).toHaveLength(1);
+            expect(headings[0].level).toBe(1);
+        });
+
+        it('skips headings beyond maxLevel', () => {
+            const content = `### H3 Before
+## H2
+### H3 After`;
+            const headings = extractHeadings(content, 2);
+            expect(headings).toHaveLength(1);
+            expect(headings[0].text).toBe('H2');
+        });
+    });
 });
+

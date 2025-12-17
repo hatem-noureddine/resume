@@ -64,6 +64,17 @@ jest.mock('@/context/LanguageContext', () => ({
     })
 }));
 
+// Mock FeatureFlags so projects section is visible
+jest.mock('@/context/FeatureFlags', () => ({
+    FeatureFlagProvider: ({ children }: any) => <div>{children}</div>,
+    useFeatureFlags: () => ({
+        flags: { projects: true },
+        isEnabled: (flag: string) => flag === 'projects' ? true : false,
+        setFlag: jest.fn(),
+    }),
+    Feature: ({ children, flag }: any) => flag === 'projects' ? <>{children}</> : null,
+}));
+
 describe('App Directory', () => {
     describe('Home Page', () => {
         it('renders all sections', async () => {
