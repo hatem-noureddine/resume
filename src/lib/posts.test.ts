@@ -1,4 +1,4 @@
-import { getSortedPostsData, getPostData, getPostSlugs } from './posts';
+import { getSortedPostsData, getPostData, getPostSlugs, extractHeadings } from './posts';
 import fs from 'fs';
 import path from 'path';
 
@@ -144,8 +144,6 @@ This is the content.`);
     });
 
     describe('extractHeadings', () => {
-        // Import directly for testing
-        const { extractHeadings } = require('./posts');
 
         it('extracts h1 and h2 headings by default (maxLevel=2)', () => {
             const content = `

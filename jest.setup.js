@@ -1,6 +1,10 @@
 import '@testing-library/jest-dom'
 import React from 'react';
 
+import { TextEncoder, TextDecoder } from 'util';
+
+Object.assign(global, { TextDecoder, TextEncoder });
+
 if (typeof window !== 'undefined') {
     // Mock window.matchMedia for reduced motion hook
     Object.defineProperty(window, 'matchMedia', {
@@ -116,4 +120,4 @@ jest.mock('react-markdown', () => {
     };
 });
 
-jest.mock('remark-gfm', () => () => {});
+jest.mock('remark-gfm', () => () => { });

@@ -47,8 +47,8 @@ export function Footer({ hasBlogPosts = true }: { hasBlogPosts?: boolean }) {
             <div className="container mx-auto px-4">
                 <div className="max-w-4xl mx-auto mb-16">
                     <NewsletterForm
-                        title={footer.newsletter?.title || "Subscribe to my newsletter"}
-                        description={footer.newsletter?.description || "Get notified about new posts and updates."}
+                        title={'newsletter' in footer && footer.newsletter?.title ? footer.newsletter.title : "Subscribe to my newsletter"}
+                        description={'newsletter' in footer && footer.newsletter?.description ? footer.newsletter.description : "Get notified about new posts and updates."}
                         onSubmit={async (email) => {
                             const response = await fetch('/api/newsletter', {
                                 method: 'POST',

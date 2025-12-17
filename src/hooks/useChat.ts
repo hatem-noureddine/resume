@@ -41,13 +41,16 @@ export function useChat() {
             try {
                 const parsed = JSON.parse(savedMessages);
                 if (Array.isArray(parsed) && parsed.length > 0) {
+                     
                     setMessages(parsed);
+                     
                     setHasInteracted(true);
                 }
             } catch (e) {
                 console.error("Failed to parse chat history", e);
             }
         }
+         
         setIsLoaded(true);
     }, []);
 

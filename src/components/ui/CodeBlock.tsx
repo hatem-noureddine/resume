@@ -6,8 +6,9 @@ import { cn } from "@/lib/utils";
 import { Highlight, Prism } from "prism-react-renderer";
 
 // Add Kotlin language support
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+ 
 (typeof global !== "undefined" ? global : window).Prism = Prism;
+// eslint-disable-next-line @typescript-eslint/no-require-imports -- Required for Prism language loading
 require("prismjs/components/prism-kotlin");
 
 // Android Studio Darcula theme - exact color values

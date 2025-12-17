@@ -1,111 +1,9 @@
 'use client';
 
-import { useEffect, useRef, useCallback, RefObject } from 'react';
+import { useEffect, useRef, useCallback, RefObject, useState } from 'react';
 
-/**
- * Hook to trap focus within a container element.
- * Useful for modals, dialogs, and dropdown menus.
- * 
- * Usage:
- * ```tsx
- * function Modal({ isOpen, onClose, children }) {
- *   const containerRef = useFocusTrap<HTMLDivElement>(isOpen);
- *   return isOpen ? <div ref={containerRef}>{children}</div> : null;
- * }
- * ```
- */
-export function useFocusTrap<T extends HTMLElement>(
-    isActive: boolean = true
-): RefObject<T | null> {
-    const containerRef = useRef<T>(null);
-    const previousActiveElement = useRef<HTMLElement | null>(null);
+// ... (omitted useFocusTrap)
 
-    const getFocusableElements = useCallback((): HTMLElement[] => {
-        if (!containerRef.current) return [];
-
-        const selector = [
-            'button:not([disabled])',
-            'a[href]',
-            'input:not([disabled])',
-            'select:not([disabled])',
-            'textarea:not([disabled])',
-            '[tabindex]:not([tabindex="-1"])',
-        ].join(', ');
-
-        return Array.from(
-            containerRef.current.querySelectorAll<HTMLElement>(selector)
-        ).filter(el => el.offsetParent !== null);
-    }, []);
-
-    const handleKeyDown = useCallback((e: KeyboardEvent) => {
-        if (e.key !== 'Tab') return;
-
-        const focusable = getFocusableElements();
-        if (focusable.length === 0) return;
-
-        const firstElement = focusable[0];
-        const lastElement = focusable[focusable.length - 1];
-
-        if (e.shiftKey) {
-            // Shift + Tab
-            if (document.activeElement === firstElement) {
-                e.preventDefault();
-                lastElement.focus();
-            }
-        } else {
-            // Tab
-            if (document.activeElement === lastElement) {
-                e.preventDefault();
-                firstElement.focus();
-            }
-        }
-    }, [getFocusableElements]);
-
-    useEffect(() => {
-        if (!isActive || !containerRef.current) return;
-
-        // Store previously focused element
-        previousActiveElement.current = document.activeElement as HTMLElement;
-
-        // Focus first focusable element
-        const focusable = getFocusableElements();
-        if (focusable.length > 0) {
-            focusable[0].focus();
-        } else {
-            containerRef.current.focus();
-        }
-
-        // Add keydown listener
-        document.addEventListener('keydown', handleKeyDown);
-
-        return () => {
-            document.removeEventListener('keydown', handleKeyDown);
-            // Restore focus on cleanup
-            previousActiveElement.current?.focus();
-        };
-    }, [isActive, getFocusableElements, handleKeyDown]);
-
-    return containerRef;
-}
-
-/**
- * Hook to handle keyboard navigation for lists/grids.
- * Supports arrow keys, home, end navigation.
- * 
- * Usage:
- * ```tsx
- * function Menu({ items }) {
- *   const { focusedIndex, handleKeyDown } = useKeyboardNavigation(items.length);
- *   return (
- *     <ul onKeyDown={handleKeyDown}>
- *       {items.map((item, i) => (
- *         <li key={i} tabIndex={i === focusedIndex ? 0 : -1}>{item}</li>
- *       ))}
- *     </ul>
- *   );
- * }
- * ```
- */
 export function useKeyboardNavigation(
     itemCount: number,
     options: {
@@ -115,16 +13,20 @@ export function useKeyboardNavigation(
     } = {}
 ) {
     const { wrap = true, orientation = 'vertical', onSelect } = options;
-    const focusedIndexRef = useRef(0);
+    const [focusedIndex, setFocusedIndexState] = useState(0);
     const itemRefs = useRef<(HTMLElement | null)[]>([]);
 
     const setFocusedIndex = useCallback((index: number) => {
-        focusedIndexRef.current = index;
-        itemRefs.current[index]?.focus();
+        setFocusedIndexState(index);
     }, []);
 
+    // Effect to apply focus when index changes
+    useEffect(() => {
+        itemRefs.current[focusedIndex]?.focus();
+    }, [focusedIndex]);
+
     const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
-        const currentIndex = focusedIndexRef.current;
+        const currentIndex = focusedIndex;
         let newIndex = currentIndex;
 
         switch (e.key) {
@@ -182,22 +84,109 @@ export function useKeyboardNavigation(
         if (newIndex !== currentIndex) {
             setFocusedIndex(newIndex);
         }
-    }, [itemCount, wrap, orientation, onSelect, setFocusedIndex]);
+    }, [itemCount, wrap, orientation, onSelect, setFocusedIndex, focusedIndex]);
 
     const getItemProps = useCallback((index: number) => ({
         ref: (el: HTMLElement | null) => {
             itemRefs.current[index] = el;
         },
-        tabIndex: index === focusedIndexRef.current ? 0 : -1,
-        'aria-selected': index === focusedIndexRef.current,
-    }), []);
+        tabIndex: index === focusedIndex ? 0 : -1,
+        'aria-selected': index === focusedIndex,
+    }), [focusedIndex]);
 
     return {
-        focusedIndex: focusedIndexRef.current,
+        focusedIndex,
         setFocusedIndex,
         handleKeyDown,
         getItemProps,
     };
+}
+
+/**
+ * Hook to trap focus within a container element.
+ * Useful for modals, dialogs, and dropdown menus.
+ * 
+ * Usage:
+ * ```tsx
+ * function Modal({ isOpen, onClose, children }) {
+ *   const containerRef = useFocusTrap<HTMLDivElement>(isOpen);
+ *   return isOpen ? <div ref={containerRef}>{children}</div> : null;
+ * }
+ * ```
+ */
+export function useFocusTrap<T extends HTMLElement>(
+    isActive: boolean = true
+): RefObject<T | null> {
+    const containerRef = useRef<T>(null);
+    const previousActiveElement = useRef<HTMLElement | null>(null);
+
+    const getFocusableElements = useCallback((): HTMLElement[] => {
+        if (!containerRef.current) return [];
+
+        const selector = [
+            'button:not([disabled])',
+            'a[href]',
+            'input:not([disabled])',
+            'select:not([disabled])',
+            'textarea:not([disabled])',
+            '[tabindex]:not([tabindex="-1"])',
+        ].join(', ');
+
+        return Array.from(
+            containerRef.current.querySelectorAll<HTMLElement>(selector)
+        ).filter(el => el.offsetParent !== null);
+    }, []);
+
+    const handleKeyDown = useCallback((e: KeyboardEvent) => {
+        if (e.key !== 'Tab') return;
+
+        const focusable = getFocusableElements();
+
+        if (focusable.length === 0) return;
+
+        const firstElement = focusable[0];
+        const lastElement = focusable[focusable.length - 1];
+
+        if (e.shiftKey) {
+            // Shift + Tab
+            if (document.activeElement === firstElement) {
+                e.preventDefault();
+                lastElement.focus();
+            }
+        } else {
+            // Tab
+            if (document.activeElement === lastElement) {
+                e.preventDefault();
+                firstElement.focus();
+            }
+        }
+    }, [getFocusableElements]);
+
+    useEffect(() => {
+        if (!isActive || !containerRef.current) return;
+
+        // Store previously focused element
+        previousActiveElement.current = document.activeElement as HTMLElement;
+
+        // Focus first focusable element
+        const focusable = getFocusableElements();
+        if (focusable.length > 0) {
+            focusable[0].focus();
+        } else {
+            containerRef.current.focus();
+        }
+
+        // Add keydown listener
+        document.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+            // Restore focus on cleanup
+            previousActiveElement.current?.focus();
+        };
+    }, [isActive, getFocusableElements, handleKeyDown]);
+
+    return containerRef;
 }
 
 /**

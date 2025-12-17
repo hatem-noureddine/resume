@@ -57,6 +57,7 @@ export function FeatureFlagProvider({
         if (stored) {
             try {
                 const parsed = JSON.parse(stored);
+                // eslint-disable-next-line react-hooks/set-state-in-effect -- Loading persisted state on mount
                 setFlags(prev => ({ ...prev, ...parsed }));
             } catch {
                 // Ignore parse errors

@@ -31,7 +31,7 @@ export function Comments() {
             <div className="min-h-[300px]">
                 <Giscus
                     id="comments"
-                    repo={SITE_CONFIG.giscus.repo}
+                    repo={SITE_CONFIG.giscus.repo as `${string}/${string}`}
                     repoId={SITE_CONFIG.giscus.repoId}
                     category={SITE_CONFIG.giscus.category}
                     categoryId={SITE_CONFIG.giscus.categoryId}

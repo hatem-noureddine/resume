@@ -55,6 +55,7 @@ export function Tooltip({
                 newPosition = 'left';
             }
 
+            // eslint-disable-next-line react-hooks/set-state-in-effect -- Computing position based on DOM measurements
             setActualPosition(newPosition);
         }
     }, [isVisible, position]);

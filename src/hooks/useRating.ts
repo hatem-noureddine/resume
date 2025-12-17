@@ -65,6 +65,7 @@ export function useRating(postSlug: string, options: UseRatingOptions = {}): Use
                 currentGuestId = generateUUID();
                 localStorage.setItem(guestIdKey, currentGuestId);
             }
+            // eslint-disable-next-line react-hooks/set-state-in-effect -- Loading persisted identity on mount
             setGuestId(currentGuestId);
 
             // 2. Load User Rating
@@ -73,8 +74,7 @@ export function useRating(postSlug: string, options: UseRatingOptions = {}): Use
                 const data: RatingData = JSON.parse(savedRating);
                 // Verify ownership with guestId (basic check)
                 if (data.guestId === currentGuestId) {
-                    // eslint-disable-next-line react-hooks/set-state-in-effect
-                    setRatingState(data.rating); // Suppress warning: necessary for hydration
+                    setRatingState(data.rating);
                     setHasRated(true);
                 }
             }
@@ -94,7 +94,6 @@ export function useRating(postSlug: string, options: UseRatingOptions = {}): Use
         } catch (error) {
             console.error("Error initializing rating:", error);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userRatingKey, aggregateKey, guestIdKey, initialRating]);
 
     // Set rating

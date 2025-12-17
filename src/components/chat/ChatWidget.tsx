@@ -42,6 +42,7 @@ export function ChatWidget() {
     // Set initial message when language changes or on mount
     useEffect(() => {
         if (!hasInteracted && messages.length === 0) {
+             
             setMessages([
                 {
                     role: 'assistant',
@@ -50,6 +51,7 @@ export function ChatWidget() {
             ]);
             // Show unread badge for initial message if chat is closed
             if (!isOpen) {
+                // eslint-disable-next-line react-hooks/set-state-in-effect -- Badge for initial message
                 setUnreadCount(1);
             }
         }
@@ -69,6 +71,7 @@ export function ChatWidget() {
         }
         // Clear unread count when chat is opened
         if (isOpen) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect -- Clearing badge on open
             setUnreadCount(0);
         }
     }, [isOpen]);
