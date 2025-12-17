@@ -11,7 +11,7 @@ import { BreadcrumbJsonLd, ArticleJsonLd } from "@/components/seo/JsonLd";
 import { ScrollProgress } from "@/components/ui/ScrollProgress";
 import { ShareButtons } from "@/components/ui/ShareButtons";
 import { TableOfContents } from "@/components/blog/TableOfContents";
-import { CodeBlock } from "@/components/ui/CodeBlock";
+import { CodeBlockLegacy } from "@/components/ui/CodeBlock";
 import { RelatedPosts } from "@/components/blog/RelatedPosts";
 import type { Metadata } from 'next';
 
@@ -191,9 +191,9 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                                                 );
                                             }
                                             return (
-                                                <CodeBlock className={className}>
+                                                <CodeBlockLegacy className={className}>
                                                     {children}
-                                                </CodeBlock>
+                                                </CodeBlockLegacy>
                                             );
                                         },
                                         pre: ({ children }) => <>{children}</>,
