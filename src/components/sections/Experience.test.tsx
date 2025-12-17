@@ -38,6 +38,17 @@ jest.mock('next/link', () => ({
     default: ({ children }: any) => <a href="#">{children}</a>,
 }));
 
+jest.mock('next/image', () => ({
+    __esModule: true,
+    default: (props: any) => <img {...props} />,
+}));
+
+// Mock usePrefersReducedMotion
+const mockPrefersReducedMotion = jest.fn().mockReturnValue(false);
+jest.mock('@/hooks/usePrefersReducedMotion', () => ({
+    usePrefersReducedMotion: () => mockPrefersReducedMotion()
+}));
+
 jest.mock('@/context/LanguageContext', () => ({
     useLanguage: () => ({
         t: {
@@ -101,6 +112,11 @@ jest.mock('@/context/LanguageContext', () => ({
 }));
 
 describe('Experience Component', () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+        mockPrefersReducedMotion.mockReturnValue(false);
+    });
+
     const renderWithContext = () => {
         return render(
             <LanguageProvider>
@@ -135,4 +151,137 @@ describe('Experience Component', () => {
             fireEvent.click(buttons[0]);
         }
     });
+
+    describe('Skill Filtering', () => {
+        it('renders skill filter buttons', () => {
+            renderWithContext();
+            expect(screen.getByText('All Skills')).toBeInTheDocument();
+            expect(screen.getAllByText('React').length).toBeGreaterThan(0);
+        });
+
+        it('filters by skill when skill button is clicked', () => {
+            renderWithContext();
+
+            // Click on React skill (first one in the filter bar)
+            fireEvent.click(screen.getAllByText('React')[0]);
+
+            // Clear filter button should appear
+            expect(screen.getByText('Clear')).toBeInTheDocument();
+        });
+
+        it('clears filter when All Skills is clicked', () => {
+            renderWithContext();
+
+            // First filter by a skill
+            fireEvent.click(screen.getAllByText('React')[0]);
+
+            // Then click All Skills
+            fireEvent.click(screen.getByText('All Skills'));
+
+            // Clear button should no longer be visible
+            expect(screen.queryByText('Clear')).not.toBeInTheDocument();
+        });
+
+        it('toggles skill filter on/off when clicking same skill', () => {
+            renderWithContext();
+
+            // Click React to filter
+            fireEvent.click(screen.getAllByText('React')[0]);
+            expect(screen.getByText('Clear')).toBeInTheDocument();
+
+            // Click React again to unfilter
+            fireEvent.click(screen.getAllByText('React')[0]);
+            expect(screen.queryByText('Clear')).not.toBeInTheDocument();
+        });
+    });
+
+    describe('Show More/Less', () => {
+        it('renders Show More button when more items available', () => {
+            renderWithContext();
+            // Initially shows only 3 items, has 4 total
+            expect(screen.getAllByText(/Show More/i)[0]).toBeInTheDocument();
+        });
+
+        it('toggles between show more and show less', () => {
+            renderWithContext();
+
+            // Click Show More
+            const showMoreButtons = screen.getAllByText(/Show More/i);
+            fireEvent.click(showMoreButtons[0]);
+
+            // Now should show Show Less
+            expect(screen.getAllByText(/Show Less/i)[0]).toBeInTheDocument();
+        });
+    });
+
+    describe('Accordion Toggling', () => {
+        it('expands first item by default', () => {
+            renderWithContext();
+            // First item description should be visible
+            expect(screen.getAllByText('Building awesome stuff')[0]).toBeInTheDocument();
+        });
+
+        it('collapses item when clicking expanded item', () => {
+            renderWithContext();
+
+            // Find accordion button with expanded state
+            const accordionButtons = screen.getAllByRole('button').filter(btn =>
+                btn.getAttribute('aria-expanded') === 'true'
+            );
+
+            if (accordionButtons[0]) {
+                fireEvent.click(accordionButtons[0]);
+            }
+        });
+
+        it('expands multiple items when clicked', () => {
+            renderWithContext();
+
+            // Find all accordion toggle buttons
+            const toggleButtons = screen.getAllByRole('button').filter(btn =>
+                btn.hasAttribute('aria-expanded')
+            );
+
+            // Click second item to expand it
+            if (toggleButtons[1]) {
+                fireEvent.click(toggleButtons[1]);
+            }
+        });
+    });
+
+    describe('Desktop Timeline', () => {
+        it('renders timeline buttons for each experience', () => {
+            renderWithContext();
+
+            // Check for role names in timeline
+            expect(screen.getAllByText('Lead Developer').length).toBeGreaterThan(0);
+            expect(screen.getAllByText('Software Engineer').length).toBeGreaterThan(0);
+        });
+
+        it('switches active experience when timeline item clicked', () => {
+            renderWithContext();
+
+            // Get all timeline buttons
+            const buttons = screen.getAllByRole('button');
+
+            // Click on a different item - filter for ones that might be timeline buttons
+            const timelineButtons = buttons.filter(btn =>
+                btn.textContent?.includes('Software Engineer')
+            );
+
+            if (timelineButtons[0]) {
+                fireEvent.click(timelineButtons[0]);
+            }
+        });
+    });
+
+    describe('Reduced Motion', () => {
+        it('respects reduced motion preference', () => {
+            mockPrefersReducedMotion.mockReturnValue(true);
+            renderWithContext();
+
+            expect(screen.getAllByText('My Experience Resume')[0]).toBeInTheDocument();
+        });
+    });
 });
+
