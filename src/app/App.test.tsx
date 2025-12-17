@@ -93,7 +93,7 @@ describe('App Directory', () => {
 
     describe('RootLayout', () => {
         it('renders children and layout components', () => {
-            const { container } = render(
+            render(
                 <RootLayout>
                     <div data-testid="child">Child Content</div>
                 </RootLayout>

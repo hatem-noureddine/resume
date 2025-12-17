@@ -1,4 +1,4 @@
-import { render, screen, act, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { Hero } from './Hero';
 import { LanguageProvider } from '@/context/LanguageContext';
 

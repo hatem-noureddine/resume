@@ -4,13 +4,13 @@ import { HoverCard, HoverButton, HoverLink, HoverIcon } from './HoverEffects';
 // Mock framer-motion
 jest.mock('framer-motion', () => ({
     motion: {
-        div: ({ children, whileHover, whileTap, ...props }: React.PropsWithChildren<object>) => (
+        div: ({ children, ...props }: React.PropsWithChildren<object>) => (
             <div {...props}>{children}</div>
         ),
-        button: ({ children, whileHover, whileTap, ...props }: React.PropsWithChildren<object>) => (
+        button: ({ children, ...props }: React.PropsWithChildren<object>) => (
             <button {...props}>{children}</button>
         ),
-        span: ({ children, whileHover, variants, ...props }: React.PropsWithChildren<object>) => (
+        span: ({ children, ...props }: React.PropsWithChildren<object>) => (
             <span {...props}>{children}</span>
         ),
     },

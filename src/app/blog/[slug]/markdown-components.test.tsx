@@ -3,7 +3,7 @@ import { markdownComponents } from './markdown-components';
 
 // Mock dependencies
 jest.mock('@/components/ui/BlurImage', () => ({
-    BlurImage: (props: any) => <img {...props} data-testid="blur-image" />
+    BlurImage: (props: any) => <img {...props} alt={props.alt || ''} data-testid="blur-image" />
 }));
 jest.mock('@/components/ui/CodeBlock', () => ({
     CodeBlockLegacy: ({ children }: { children: React.ReactNode }) => <pre data-testid="code-block">{children}</pre>

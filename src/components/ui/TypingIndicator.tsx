@@ -1,8 +1,28 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Lottie from "lottie-react";
+import typingAnimation from "@/../public/lottie/typing-indicator.json";
+import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
 export function TypingIndicator() {
+    const prefersReducedMotion = usePrefersReducedMotion();
+
+    // Use Lottie animation when motion is allowed
+    if (!prefersReducedMotion) {
+        return (
+            <div className="flex items-center h-5 px-1">
+                <Lottie
+                    animationData={typingAnimation}
+                    loop
+                    autoplay
+                    style={{ width: 40, height: 20 }}
+                />
+            </div>
+        );
+    }
+
+    // Fallback for reduced motion: simple animated dots with CSS
     return (
         <div className="flex items-center gap-1 h-5 px-1">
             {[0, 1, 2].map((dot) => (
@@ -22,3 +42,4 @@ export function TypingIndicator() {
         </div>
     );
 }
+

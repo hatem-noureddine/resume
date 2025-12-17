@@ -121,3 +121,21 @@ jest.mock('react-markdown', () => {
 });
 
 jest.mock('remark-gfm', () => () => { });
+
+// Mock lottie-react (requires canvas which isn't available in jsdom)
+jest.mock('lottie-react', () => {
+    return {
+        __esModule: true,
+        default: ({ animationData, loop, autoplay, style, className, ...rest }) => (
+            <div
+                data-testid="lottie-animation"
+                data-animation-name={animationData?.nm || 'unknown'}
+                data-loop={loop}
+                data-autoplay={autoplay}
+                style={style}
+                className={className}
+                {...rest}
+            />
+        ),
+    };
+});

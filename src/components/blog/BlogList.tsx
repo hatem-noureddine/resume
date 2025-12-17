@@ -9,6 +9,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import { container } from "@/lib/animations";
 
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
+import { EmptyState } from "@/components/ui/EmptyState";
 
 const POSTS_PER_PAGE = 6;
 
@@ -83,15 +84,6 @@ export function BlogList({ initialPosts }: BlogListProps) {
             initial: { height: 0, opacity: 0 },
             animate: { height: "auto", opacity: 1 },
             exit: { height: 0, opacity: 0 }
-        };
-
-    const cardAnimationProps = (index: number) => prefersReducedMotion
-        ? {}
-        : {
-            initial: { opacity: 0, scale: 0.9 },
-            animate: { opacity: 1, scale: 1 },
-            exit: { opacity: 0, scale: 0.9 },
-            transition: { duration: 0.3, delay: index * 0.05 }
         };
 
     return (
@@ -254,19 +246,18 @@ export function BlogList({ initialPosts }: BlogListProps) {
                         </AnimatePresence>
                     </motion.div>
                 ) : (
-                    <div className="text-center py-20 bg-secondary/10 rounded-2xl border border-foreground/5 border-dashed">
-                        <div className="inline-block p-4 bg-secondary/50 rounded-full mb-4">
-                            <Search size={32} className="text-muted-foreground" />
-                        </div>
-                        <h3 className="text-xl font-bold mb-2">{blog.notFound}</h3>
-                        <p className="text-muted-foreground mb-6">{blog.tryAdjusting || "Try adjusting your search or filters to find what you're looking for."}</p>
-                        <button
-                            onClick={clearFilters}
-                            className="bg-primary hover:bg-primary-dark text-white px-6 py-2 rounded-full transition-colors font-medium"
-                        >
-                            {blog.clearFilters}
-                        </button>
-                    </div>
+                    <EmptyState
+                        title={blog.notFound}
+                        description={blog.tryAdjusting || "Try adjusting your search or filters to find what you're looking for."}
+                        action={
+                            <button
+                                onClick={clearFilters}
+                                className="bg-primary hover:bg-primary-dark text-white px-6 py-2 rounded-full transition-colors font-medium"
+                            >
+                                {blog.clearFilters}
+                            </button>
+                        }
+                    />
                 )
                 }
             </div>

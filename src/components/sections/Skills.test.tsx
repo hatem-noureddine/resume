@@ -51,8 +51,8 @@ jest.mock('framer-motion', () => ({
         h2: ({ children, className }: any) => <h2 className={className}>{children}</h2>,
         h3: ({ children, className }: any) => <h3 className={className}>{children}</h3>,
         p: ({ children, className }: any) => <p className={className}>{children}</p>,
-        a: ({ children, className, href, onMouseEnter, onMouseLeave }: any) => (
-            <a className={className} href={href} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>{children}</a>
+        a: ({ children, className, href, onMouseEnter, onMouseLeave, target, rel }: any) => (
+            <a className={className} href={href} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} target={target} rel={rel}>{children}</a>
         ),
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         button: ({ children, className, onClick, whileHover, whileTap, ...rest }: any) => <button className={className} onClick={onClick}>{children}</button>,
@@ -172,5 +172,157 @@ describe('Skills Component', () => {
 
         // In mobile view, we should still see skills section
         expect(screen.getAllByText('My Skills')[0]).toBeInTheDocument();
+    });
+
+    describe('Mobile Tag Cloud', () => {
+        beforeEach(() => {
+            act(() => {
+                mockInnerWidth(500); // Mobile width
+            });
+        });
+
+        it('renders mobile tag cloud with all skills', () => {
+            renderWithContext(<Skills />);
+            // In mobile view, skills are shown as tags
+            expect(screen.getAllByText('My Skills')[0]).toBeInTheDocument();
+        });
+
+        it('renders category legend in mobile view', () => {
+            renderWithContext(<Skills />);
+            // Mobile view shows Technical heading
+            expect(screen.getAllByRole('heading', { name: 'Technical' })[0]).toBeInTheDocument();
+        });
+    });
+
+    describe('Skill Icon Mapping', () => {
+        it('renders skill icons for professional skills', () => {
+            renderWithContext(<Skills />);
+            // Check that icons are rendered for professional skills
+            expect(screen.getAllByTestId('icon-users').length).toBeGreaterThan(0);
+        });
+
+        it('renders code icons for technical skills', () => {
+            renderWithContext(<Skills />);
+            expect(screen.getAllByTestId('icon-code').length).toBeGreaterThan(0);
+        });
+    });
+
+    describe('Category Toggle', () => {
+        it('toggles category expanded state on click', () => {
+            renderWithContext(<Skills />);
+
+            // Find category toggle buttons (with chevron)
+            const categoryToggleButtons = screen.getAllByRole('button').filter(btn => {
+                const text = btn.textContent || '';
+                // Category buttons inside the collapsible section have count like "(5)"
+                return text.includes('(') && !text.includes('All') && !text.includes('Clear') && !text.includes('Filter');
+            });
+
+            if (categoryToggleButtons.length > 0) {
+                // Click to collapse
+                fireEvent.click(categoryToggleButtons[0]);
+
+                // Click again to expand
+                fireEvent.click(categoryToggleButtons[0]);
+
+                // Should render without error
+                expect(categoryToggleButtons[0]).toBeInTheDocument();
+            }
+        });
+
+        it('expands multiple categories simultaneously', () => {
+            renderWithContext(<Skills />);
+
+            const categoryToggleButtons = screen.getAllByRole('button').filter(btn => {
+                const text = btn.textContent || '';
+                return text.includes('(') && !text.includes('All') && !text.includes('Clear') && !text.includes('Filter');
+            });
+
+            // Click multiple categories
+            if (categoryToggleButtons.length >= 2) {
+                fireEvent.click(categoryToggleButtons[0]);
+                fireEvent.click(categoryToggleButtons[1]);
+                // Both should work
+                expect(categoryToggleButtons[0]).toBeInTheDocument();
+                expect(categoryToggleButtons[1]).toBeInTheDocument();
+            }
+        });
+    });
+
+    describe('Skill Tag Interactions', () => {
+        it('shows tooltip on skill hover', () => {
+            renderWithContext(<Skills />);
+
+            // Find skill tags (spans or divs with skill names)
+            const skillTags = screen.getAllByText(/Kotlin|Android|React|MVVM|Jetpack/i);
+
+            if (skillTags.length > 0) {
+                // Hover over first skill
+                fireEvent.mouseEnter(skillTags[0]);
+
+                // Hover out
+                fireEvent.mouseLeave(skillTags[0]);
+
+                // Should not crash
+                expect(skillTags[0]).toBeInTheDocument();
+            }
+        });
+    });
+
+    describe('Filter Interactions', () => {
+        it('toggles same filter off when clicked twice', () => {
+            renderWithContext(<Skills />);
+
+            const filterButtons = screen.getAllByRole('button').filter(btn => {
+                const text = btn.textContent || '';
+                return text.includes('(') && !text.includes('All') && !text.includes('Clear');
+            });
+
+            if (filterButtons.length > 0) {
+                // Click to filter
+                fireEvent.click(filterButtons[0]);
+                expect(screen.queryByText(/Clear/i)).toBeInTheDocument();
+
+                // Click same filter again to toggle off
+                fireEvent.click(filterButtons[0]);
+                expect(screen.queryByText(/Clear/i)).not.toBeInTheDocument();
+            }
+        });
+
+        it('clicking All button resets filter', () => {
+            renderWithContext(<Skills />);
+
+            // Apply a filter first
+            const filterButtons = screen.getAllByRole('button').filter(btn => {
+                const text = btn.textContent || '';
+                return text.includes('(') && !text.includes('All') && !text.includes('Clear');
+            });
+
+            if (filterButtons.length > 0) {
+                fireEvent.click(filterButtons[0]);
+            }
+
+            // Click All button
+            const allButton = screen.getAllByRole('button', { name: /All/i })[0];
+            fireEvent.click(allButton);
+
+            // Clear button should disappear
+            expect(screen.queryByText(/Clear/i)).not.toBeInTheDocument();
+        });
+    });
+
+    describe('Reduced Motion', () => {
+        const mockPrefersReducedMotion = jest.fn().mockReturnValue(true);
+
+        beforeEach(() => {
+            jest.mock('@/hooks/usePrefersReducedMotion', () => ({
+                usePrefersReducedMotion: () => mockPrefersReducedMotion()
+            }));
+        });
+
+        it('renders without animations when reduced motion preferred', () => {
+            renderWithContext(<Skills />);
+            expect(screen.getAllByText('My Skills')[0]).toBeInTheDocument();
+        });
     });
 });

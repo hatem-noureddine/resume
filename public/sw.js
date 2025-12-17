@@ -104,7 +104,7 @@ async function cacheFirst(request) {
             cache.put(request, response.clone());
         }
         return response;
-    } catch (error) {
+    } catch {
         // Return offline fallback if available
         return caches.match('/');
     }
@@ -119,7 +119,7 @@ async function networkFirst(request) {
             cache.put(request, response.clone());
         }
         return response;
-    } catch (error) {
+    } catch {
         const cached = await caches.match(request);
         if (cached) {
             return cached;

@@ -11,6 +11,9 @@ import { Download, Mail, ChevronDown, ChevronUp } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { localeMetadata } from "@/locales";
 import { SITE_CONFIG } from "@/config/site";
+import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
+import Lottie from "lottie-react";
+import scrollMouseAnimation from "@/../public/lottie/scroll-mouse.json";
 
 const ClientCarousel = dynamic(() => import("@/components/sections/ClientCarousel").then(mod => mod.ClientCarousel), { ssr: false });
 const TechCarousel = dynamic(() => import("@/components/sections/TechCarousel").then(mod => mod.TechCarousel), { ssr: false });
@@ -102,6 +105,7 @@ export function Hero() {
 
     // Mobile detection for performance optimizations
     const isMobile = useIsMobile();
+    const prefersReducedMotion = usePrefersReducedMotion();
 
     // State for expandable description on mobile
     const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
@@ -333,7 +337,7 @@ export function Hero() {
                 </motion.div>
             </div>
 
-            {/* Scroll Indicator - hidden on small screens, responsive positioning */}
+            {/* Scroll Indicator - Lottie animation */}
             <motion.button
                 onClick={scrollToContent}
                 initial={{ opacity: 0 }}
@@ -342,30 +346,24 @@ export function Hero() {
                 className="hidden sm:flex absolute bottom-8 md:bottom-12 left-1/2 -translate-x-1/2 flex-col items-center gap-2 text-secondary-foreground/60 hover:text-primary transition-colors cursor-pointer z-30 group"
                 aria-label={scrollDownText}
             >
-                {/* Mouse Icon Animation */}
-                <div className="w-[30px] h-[50px] rounded-[15px] border-2 border-current flex justify-center p-2 box-border opacity-70 group-hover:opacity-100 transition-opacity">
-                    <motion.div
-                        animate={{ y: [0, 12, 0] }}
-                        transition={{
-                            duration: 1.5,
-                            repeat: Infinity,
-                            ease: "easeInOut"
-                        }}
-                        className="w-1.5 h-1.5 bg-current rounded-full mb-1"
+                {prefersReducedMotion ? (
+                    /* Fallback for reduced motion */
+                    <>
+                        <div className="w-[30px] h-[50px] rounded-[15px] border-2 border-current flex justify-center p-2 box-border opacity-70">
+                            <div className="w-1.5 h-1.5 bg-current rounded-full mb-1" />
+                        </div>
+                        <ChevronDown size={20} className="stroke-3" />
+                    </>
+                ) : (
+                    /* Lottie scroll indicator */
+                    <Lottie
+                        animationData={scrollMouseAnimation}
+                        loop
+                        autoplay
+                        style={{ width: 40, height: 70 }}
+                        className="opacity-70 group-hover:opacity-100 transition-opacity"
                     />
-                </div>
-                {/* Arrow below mouse */}
-                <motion.div
-                    animate={{ y: [0, 5, 0], opacity: [0.5, 1, 0.5] }}
-                    transition={{
-                        duration: 1.5,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                        delay: 0.2
-                    }}
-                >
-                    <ChevronDown size={20} className="stroke-3" />
-                </motion.div>
+                )}
             </motion.button>
 
             {/* Carousels */}

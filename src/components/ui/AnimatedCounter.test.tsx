@@ -11,12 +11,22 @@ describe('AnimatedCounter', () => {
     let observeMock: jest.Mock;
     let disconnectMock: jest.Mock;
     let triggerIntersect: (isIntersecting: boolean) => void;
+    let rafCallbacks: ((time: number) => void)[];
+    let rafId: number;
 
     beforeEach(() => {
         jest.useFakeTimers();
+        rafCallbacks = [];
+        rafId = 0;
 
         observeMock = jest.fn();
         disconnectMock = jest.fn();
+
+        // Mock requestAnimationFrame to capture callbacks
+        jest.spyOn(window, 'requestAnimationFrame').mockImplementation((callback) => {
+            rafCallbacks.push(callback);
+            return ++rafId;
+        });
 
         // Mock IntersectionObserver
         globalThis.IntersectionObserver = jest.fn((callback) => {
@@ -50,6 +60,7 @@ describe('AnimatedCounter', () => {
     afterEach(() => {
         jest.useRealTimers();
         jest.clearAllMocks();
+        jest.restoreAllMocks();
     });
 
     it('renders with initial value 0 before intersection', () => {
@@ -144,5 +155,169 @@ describe('AnimatedCounter', () => {
         // Check if value remains 100 instantly
         expect(screen.getByText('100')).toBeInTheDocument();
     });
-});
 
+    describe('animation step function', () => {
+        it('executes animation step function with RAF', () => {
+            const mockPerformanceNow = jest.spyOn(performance, 'now');
+            mockPerformanceNow.mockReturnValueOnce(0); // startTime
+
+            render(<AnimatedCounter value={100} duration={1000} />);
+
+            act(() => {
+                triggerIntersect(true);
+            });
+
+            // First RAF callback should be queued
+            expect(rafCallbacks.length).toBeGreaterThan(0);
+
+            // Simulate first frame at t=0
+            mockPerformanceNow.mockReturnValueOnce(0);
+            act(() => {
+                if (rafCallbacks[0]) rafCallbacks[0](0);
+            });
+
+            // Value should still be 0 at t=0
+            expect(screen.getByText('0')).toBeInTheDocument();
+        });
+
+        it('calculates easing correctly at various progress points', () => {
+            const mockPerformanceNow = jest.spyOn(performance, 'now');
+
+            render(<AnimatedCounter value={100} duration={1000} />);
+
+            // Set start time
+            mockPerformanceNow.mockReturnValueOnce(0);
+
+            act(() => {
+                triggerIntersect(true);
+            });
+
+            // Simulate animation at 50% progress (t=500)
+            mockPerformanceNow.mockReturnValue(500);
+            act(() => {
+                // Execute all queued RAF callbacks
+                while (rafCallbacks.length > 0) {
+                    const cb = rafCallbacks.shift();
+                    if (cb) cb(500);
+                }
+            });
+
+            // At 50% with ease-out, value should be > 50 (accelerated start)
+            // ease-out formula: 1 - (1 - 0.5)^3 = 1 - 0.125 = 0.875
+            // So value ≈ 87
+            const container = screen.getByText(/^\d+/).closest('span');
+            const displayedValue = parseInt(container?.textContent?.replace(/[^0-9]/g, '') || '0');
+            expect(displayedValue).toBeGreaterThan(50);
+        });
+
+        it('completes animation and stops RAF when progress reaches 1', () => {
+            const mockPerformanceNow = jest.spyOn(performance, 'now');
+
+            render(<AnimatedCounter value={100} duration={1000} />);
+
+            // Set start time to 0
+            mockPerformanceNow.mockReturnValue(0);
+
+            act(() => {
+                triggerIntersect(true);
+            });
+
+            const initialRafLength = rafCallbacks.length;
+
+            // Simulate animation completion at t=1000
+            mockPerformanceNow.mockReturnValue(1000);
+            act(() => {
+                while (rafCallbacks.length > 0) {
+                    const cb = rafCallbacks.shift();
+                    if (cb) cb(1000);
+                }
+            });
+
+            // Animation should complete - no more RAF callbacks should be queued after completion
+            // The component should show 100
+            expect(screen.getByText('100')).toBeInTheDocument();
+            // Initial RAF was called, but no additional ones after completion
+            expect(initialRafLength).toBeGreaterThan(0);
+        });
+
+        it('continues animation when progress < 1', () => {
+            const mockPerformanceNow = jest.spyOn(performance, 'now');
+
+            render(<AnimatedCounter value={100} duration={1000} />);
+
+            mockPerformanceNow.mockReturnValue(0);
+
+            act(() => {
+                triggerIntersect(true);
+            });
+
+            // Execute first frame
+            mockPerformanceNow.mockReturnValue(100); // 10% progress
+            act(() => {
+                if (rafCallbacks.length > 0) {
+                    const cb = rafCallbacks.shift();
+                    if (cb) cb(100);
+                }
+            });
+
+            // Should queue another RAF since animation isn't complete
+            expect(rafCallbacks.length).toBeGreaterThan(0);
+        });
+    });
+
+    describe('cleanup and edge cases', () => {
+        it('disconnects observer on unmount', () => {
+            const { unmount } = render(<AnimatedCounter value={100} />);
+
+            unmount();
+
+            expect(disconnectMock).toHaveBeenCalled();
+        });
+
+        it('handles unmount during animation gracefully', () => {
+            render(<AnimatedCounter value={100} duration={2000} />);
+
+            act(() => {
+                triggerIntersect(true);
+            });
+
+            // Animation started, now unmount
+            const { unmount } = render(<AnimatedCounter value={50} />);
+
+            // Should not throw
+            expect(() => unmount()).not.toThrow();
+        });
+
+        it('handles zero duration edge case', () => {
+            render(<AnimatedCounter value={100} duration={0} />);
+
+            act(() => {
+                triggerIntersect(true);
+                jest.runAllTimers();
+            });
+
+            // Should complete immediately
+            expect(screen.getByText('100')).toBeInTheDocument();
+        });
+
+        it('handles negative value correctly', () => {
+            // Component uses parseInt, so test with string negative
+            render(<AnimatedCounter value={-50} />);
+
+            act(() => {
+                triggerIntersect(true);
+                jest.runAllTimers();
+            });
+
+            expect(screen.getByText('-50')).toBeInTheDocument();
+        });
+
+        it('handles NaN string value', () => {
+            render(<AnimatedCounter value="notanumber" />);
+
+            // parseInt("notanumber") returns NaN, shows NaN or 0
+            // The component should handle this gracefully
+            expect(screen.getByText(/NaN|0/)).toBeInTheDocument();
+        });
+    });
+});

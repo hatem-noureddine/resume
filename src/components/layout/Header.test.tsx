@@ -62,7 +62,7 @@ jest.mock('next/link', () => ({
 // Mock framer-motion fully
 jest.mock('framer-motion', () => ({
     motion: {
-        div: ({ children, className, onClick, style, ...rest }: any) =>
+        div: ({ children, className, onClick, style }: any) =>
             <div className={className} onClick={onClick} style={style} data-testid="motion-div">{children}</div>,
         nav: ({ children, className }: any) => <nav className={className}>{children}</nav>,
         header: ({ children, className }: any) => <header className={className}>{children}</header>,

@@ -3,6 +3,9 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Logo } from "@/components/ui/Logo";
+import { LottieLoader } from "@/components/ui/LottieIcon";
+import loadingAnimation from "@/../public/lottie/loading-spinner.json";
+import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
 interface LoadingScreenProps {
     minDuration?: number;
@@ -11,6 +14,7 @@ interface LoadingScreenProps {
 export function LoadingScreen({ minDuration = 1500 }: LoadingScreenProps) {
     const [isLoading, setIsLoading] = useState(true);
     const [progress, setProgress] = useState(0);
+    const prefersReducedMotion = usePrefersReducedMotion();
 
     useEffect(() => {
         // Animate progress bar
@@ -45,23 +49,21 @@ export function LoadingScreen({ minDuration = 1500 }: LoadingScreenProps) {
                     className="fixed inset-0 z-9999 bg-background flex flex-col items-center justify-center"
                     data-testid="loading-screen"
                 >
-                    {/* Logo with pulse animation */}
+                    {/* Lottie animation or fallback logo */}
                     <motion.div
                         initial={{ scale: 0.8, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
                         transition={{ duration: 0.5 }}
                         className="relative"
                     >
-                        <Logo className="w-20 h-20 animate-pulse-slow" />
-
-                        {/* Orbiting dot */}
-                        <motion.div
-                            animate={{ rotate: 360 }}
-                            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                            className="absolute inset-0"
-                        >
-                            <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-2 h-2 bg-primary rounded-full" />
-                        </motion.div>
+                        {prefersReducedMotion ? (
+                            <Logo className="w-20 h-20" />
+                        ) : (
+                            <LottieLoader
+                                animationData={loadingAnimation}
+                                size={80}
+                            />
+                        )}
                     </motion.div>
 
                     {/* Loading text */}
@@ -72,12 +74,15 @@ export function LoadingScreen({ minDuration = 1500 }: LoadingScreenProps) {
                         className="mt-8 text-sm text-secondary-foreground tracking-widest uppercase"
                     >
                         Loading
-                        <motion.span
-                            animate={{ opacity: [0, 1, 0] }}
-                            transition={{ duration: 1.5, repeat: Infinity }}
-                        >
-                            ...
-                        </motion.span>
+                        {!prefersReducedMotion && (
+                            <motion.span
+                                animate={{ opacity: [0, 1, 0] }}
+                                transition={{ duration: 1.5, repeat: Infinity }}
+                            >
+                                ...
+                            </motion.span>
+                        )}
+                        {prefersReducedMotion && "..."}
                     </motion.p>
 
                     {/* Progress bar */}
@@ -98,3 +103,4 @@ export function LoadingScreen({ minDuration = 1500 }: LoadingScreenProps) {
         </AnimatePresence>
     );
 }
+

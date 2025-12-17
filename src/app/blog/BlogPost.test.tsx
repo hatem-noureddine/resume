@@ -56,7 +56,7 @@ jest.mock('@/lib/posts', () => ({
 
 // Import BlogPost and render utilities
 import BlogPost from './[slug]/page';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 
 describe('BlogPost Page', () => {
     describe('generateStaticParams', () => {

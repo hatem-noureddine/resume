@@ -6,10 +6,13 @@ import { Download, Mail, Github, Linkedin, Twitter } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { localeMetadata } from "@/locales";
 import { SITE_CONFIG } from "@/config/site";
+import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
+import { SocialLottieIcon } from "@/components/ui/SocialLottieIcon";
 
 export function FloatingActions() {
     const { t, language } = useLanguage();
     const [isVisible, setIsVisible] = useState(false);
+    const prefersReducedMotion = usePrefersReducedMotion();
 
     // Get text from locale but fallback to safe strings since proper type casting might be complex
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -26,11 +29,12 @@ export function FloatingActions() {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
+    // Social links with Lottie support
     const socialLinks = [
-        { icon: Github, href: SITE_CONFIG.links.github, label: "GitHub" },
-        { icon: Linkedin, href: SITE_CONFIG.links.linkedin, label: "LinkedIn" },
-        { icon: Twitter, href: SITE_CONFIG.links.twitter, label: "Twitter" },
-        { icon: Mail, href: `mailto:${SITE_CONFIG.email}`, label: "Email" },
+        { icon: Github, lottieIcon: "github" as const, href: SITE_CONFIG.links.github, label: "GitHub" },
+        { icon: Linkedin, lottieIcon: "linkedin" as const, href: SITE_CONFIG.links.linkedin, label: "LinkedIn" },
+        { icon: Twitter, lottieIcon: null, href: SITE_CONFIG.links.twitter, label: "Twitter" },
+        { icon: Mail, lottieIcon: "mail" as const, href: `mailto:${SITE_CONFIG.email}`, label: "Email" },
     ];
 
     return (
@@ -53,7 +57,11 @@ export function FloatingActions() {
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.95 }}
                     >
-                        <Download size={20} />
+                        {prefersReducedMotion ? (
+                            <Download size={20} />
+                        ) : (
+                            <SocialLottieIcon icon="download" size={28} />
+                        )}
                         {/* Tooltip */}
                         <span className="absolute right-full mr-2 px-2 py-1 bg-background border border-border rounded-md text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-sm">
                             {downloadCVText}
@@ -75,7 +83,11 @@ export function FloatingActions() {
                                 whileHover={{ scale: 1.1 }}
                                 whileTap={{ scale: 0.95 }}
                             >
-                                <social.icon size={18} />
+                                {!prefersReducedMotion && social.lottieIcon ? (
+                                    <SocialLottieIcon icon={social.lottieIcon} size={24} />
+                                ) : (
+                                    <social.icon size={18} />
+                                )}
                                 {/* Tooltip */}
                                 <span className="absolute right-full mr-3 px-2 py-1 bg-background border border-border rounded-md text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-sm">
                                     {social.label}
@@ -88,3 +100,4 @@ export function FloatingActions() {
         </AnimatePresence>
     );
 }
+

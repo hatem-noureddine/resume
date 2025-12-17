@@ -22,24 +22,24 @@ export const markdownComponents: Record<string, React.FC<MarkdownProps>> = {
         </span>
     ),
     blockquote: ({ children }: MarkdownProps) => (
-        <blockquote className="border-l-4 border-gradient-to-b from-primary to-purple-500 pl-6 py-4 my-8 italic text-lg text-white/90 bg-gradient-to-r from-primary/10 to-purple-500/10 rounded-r-xl">
+        <blockquote className="border-l-4 border-primary pl-6 py-4 my-8 italic text-lg text-white/90 bg-linear-to-r from-primary/10 to-purple-500/10 rounded-r-xl">
             {children}
         </blockquote>
     ),
     h1: ({ children }: MarkdownProps) => {
-        const id = String(children).toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
+        const id = String(children).toLowerCase().replaceAll(/[^a-z0-9\s-]/g, '').replaceAll(/\s+/g, '-').replaceAll(/-+/g, '-');
         return <h1 id={id} className="text-3xl font-bold mt-12 mb-6 text-foreground scroll-mt-32">{children}</h1>;
     },
     h2: ({ children }: MarkdownProps) => {
-        const id = String(children).toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
+        const id = String(children).toLowerCase().replaceAll(/[^a-z0-9\s-]/g, '').replaceAll(/\s+/g, '-').replaceAll(/-+/g, '-');
         return <h2 id={id} className="text-2xl font-bold mt-10 mb-5 text-foreground scroll-mt-32">{children}</h2>;
     },
     h3: ({ children }: MarkdownProps) => {
-        const id = String(children).toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
+        const id = String(children).toLowerCase().replaceAll(/[^a-z0-9\s-]/g, '').replaceAll(/\s+/g, '-').replaceAll(/-+/g, '-');
         return <h3 id={id} className="text-xl font-bold mt-8 mb-4 text-foreground scroll-mt-32">{children}</h3>;
     },
     h4: ({ children }: MarkdownProps) => {
-        const id = String(children).toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
+        const id = String(children).toLowerCase().replaceAll(/[^a-z0-9\s-]/g, '').replaceAll(/\s+/g, '-').replaceAll(/-+/g, '-');
         return <h4 id={id} className="text-lg font-bold mt-6 mb-3 text-foreground scroll-mt-32">{children}</h4>;
     },
     a: ({ href, children }: MarkdownProps) => (

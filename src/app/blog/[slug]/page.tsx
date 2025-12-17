@@ -109,7 +109,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                                 &larr; Back to Blog
                             </Link>
                             {/* Category badge */}
-                            <span className="inline-block px-4 py-1 mb-4 text-sm font-semibold rounded-full bg-gradient-to-r from-primary/20 to-purple-500/20 text-primary border border-primary/20">
+                            <span className="inline-block px-4 py-1 mb-4 text-sm font-semibold rounded-full bg-linear-to-r from-primary/20 to-purple-500/20 text-primary border border-primary/20">
                                 {post.category}
                             </span>
                             <div className="flex items-center justify-center gap-4 text-sm text-muted-foreground mb-4">
@@ -123,7 +123,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                                     <span>{post.readingTime}</span>
                                 </div>
                             </div>
-                            <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-foreground via-primary to-purple-400 bg-clip-text text-transparent">
+                            <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-linear-to-r from-foreground via-primary to-purple-400 bg-clip-text text-transparent">
                                 {post.title}
                             </h1>
                             <p className="text-lg text-muted-foreground mb-6 max-w-2xl mx-auto">

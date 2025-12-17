@@ -140,7 +140,7 @@ export function Blog({ posts }: { posts: Post[] }) {
                     >
                         <AnimatePresence mode="popLayout">
                             {displayGridPosts.length > 0 ? (
-                                displayGridPosts.map((post, index) => (
+                                displayGridPosts.map((post) => (
                                     <motion.article
                                         layout
                                         key={post.slug}

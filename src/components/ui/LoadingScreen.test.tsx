@@ -8,6 +8,20 @@ jest.mock('@/components/ui/Logo', () => ({
     ),
 }));
 
+// Mock usePrefersReducedMotion hook (default: reduced motion OFF = use Lottie)
+jest.mock('@/hooks/usePrefersReducedMotion', () => ({
+    usePrefersReducedMotion: () => false,
+}));
+
+// Mock LottieLoader component
+jest.mock('@/components/ui/LottieIcon', () => ({
+    LottieLoader: ({ size, className }: { animationData: object; size?: number; className?: string }) => (
+        <div data-testid="lottie-loader" className={className} style={{ width: size, height: size }}>
+            Lottie Animation
+        </div>
+    ),
+}));
+
 // Mock framer-motion
 jest.mock('framer-motion', () => ({
     motion: {
@@ -38,9 +52,9 @@ describe('LoadingScreen', () => {
         expect(screen.getByTestId('loading-screen')).toBeInTheDocument();
     });
 
-    it('shows logo', () => {
+    it('shows Lottie animation when reduced motion is off', () => {
         render(<LoadingScreen />);
-        expect(screen.getByTestId('logo')).toBeInTheDocument();
+        expect(screen.getByTestId('lottie-loader')).toBeInTheDocument();
     });
 
     it('shows loading text', () => {
