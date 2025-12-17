@@ -1,5 +1,6 @@
 import { renderHook, act, waitFor } from '@testing-library/react';
 import { useChat } from './useChat';
+import { TextEncoder } from 'util';
 
 // Mock localStorage
 const localStorageMock = (() => {
@@ -189,4 +190,242 @@ describe('useChat', () => {
             );
         });
     });
+
+    it('sets isLoading true during message send', async () => {
+        // Create a promise that we can control
+        let resolvePromise: (value: any) => void;
+        const pendingPromise = new Promise(resolve => {
+            resolvePromise = resolve;
+        });
+
+        mockFetch.mockReturnValue(pendingPromise);
+
+        const { result } = renderHook(() => useChat());
+
+        act(() => {
+            result.current.setInput('test');
+        });
+
+        // Start sending - don't await yet
+        let sendPromise: Promise<void>;
+        act(() => {
+            sendPromise = result.current.sendMessage();
+        });
+
+        // isLoading should be true while waiting
+        expect(result.current.isLoading).toBe(true);
+
+        // Resolve the promise
+        resolvePromise!({
+            ok: true,
+            body: {
+                getReader: () => ({
+                    read: jest.fn().mockResolvedValue({ done: true }),
+                }),
+            },
+        });
+
+        await act(async () => {
+            await sendPromise;
+        });
+
+        expect(result.current.isLoading).toBe(false);
+    });
+
+    it('handles API error response', async () => {
+        const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
+
+        mockFetch.mockResolvedValue({
+            ok: false,
+            status: 500,
+        });
+
+        const { result } = renderHook(() => useChat());
+
+        act(() => {
+            result.current.setInput('test message');
+        });
+
+        await act(async () => {
+            await result.current.sendMessage();
+        });
+
+        // Should have added error message
+        expect(result.current.messages.some(m =>
+            m.role === 'assistant' && m.content.includes('test@example.com')
+        )).toBe(true);
+
+        consoleSpy.mockRestore();
+    });
+
+    it('handles [DONE] in streaming data', async () => {
+        const encoder = new TextEncoder();
+        mockFetch.mockResolvedValue({
+            ok: true,
+            body: {
+                getReader: () => ({
+                    read: jest.fn()
+                        .mockResolvedValueOnce({
+                            done: false,
+                            value: encoder.encode('data: {"choices":[{"delta":{"content":"Hello"}}]}\n\n')
+                        })
+                        .mockResolvedValueOnce({
+                            done: false,
+                            value: encoder.encode('data: [DONE]\n\n')
+                        })
+                        .mockResolvedValueOnce({ done: true }),
+                }),
+            },
+        });
+
+        const { result } = renderHook(() => useChat());
+
+        act(() => {
+            result.current.setInput('test');
+        });
+
+        await act(async () => {
+            await result.current.sendMessage();
+        });
+
+        // Should have processed the message correctly despite [DONE]
+        expect(result.current.messages.length).toBeGreaterThan(0);
+    });
+
+    it('handles missing body in response', async () => {
+        mockFetch.mockResolvedValue({
+            ok: true,
+            body: null,
+        });
+
+        const { result } = renderHook(() => useChat());
+
+        act(() => {
+            result.current.setInput('test');
+        });
+
+        await act(async () => {
+            await result.current.sendMessage();
+        });
+
+        // Should complete without error
+        expect(result.current.isLoading).toBe(false);
+    });
+
+    it('does not send while already loading', async () => {
+        let resolvePromise: (value: any) => void;
+        const pendingPromise = new Promise(resolve => {
+            resolvePromise = resolve;
+        });
+
+        mockFetch.mockReturnValue(pendingPromise);
+
+        const { result } = renderHook(() => useChat());
+
+        act(() => {
+            result.current.setInput('first');
+        });
+
+        // Start first send
+        act(() => {
+            result.current.sendMessage();
+        });
+
+        // Try to send again while loading
+        act(() => {
+            result.current.setInput('second');
+            result.current.sendMessage();
+        });
+
+        // Should only have called fetch once
+        expect(mockFetch).toHaveBeenCalledTimes(1);
+
+        // Cleanup
+        resolvePromise!({
+            ok: true,
+            body: { getReader: () => ({ read: jest.fn().mockResolvedValue({ done: true }) }) },
+        });
+    });
+
+    it('handles JSON parse error in stream gracefully', async () => {
+        const encoder = new TextEncoder();
+        mockFetch.mockResolvedValue({
+            ok: true,
+            body: {
+                getReader: () => ({
+                    read: jest.fn()
+                        .mockResolvedValueOnce({
+                            done: false,
+                            value: encoder.encode('data: invalid json\n\n')
+                        })
+                        .mockResolvedValueOnce({ done: true }),
+                }),
+            },
+        });
+
+        const { result } = renderHook(() => useChat());
+
+        act(() => {
+            result.current.setInput('test');
+        });
+
+        // Should not throw
+        await act(async () => {
+            await result.current.sendMessage();
+        });
+
+        expect(result.current.isLoading).toBe(false);
+    });
+
+    it('handles empty localStorage array', async () => {
+        localStorageMock.setItem('chat_history', JSON.stringify([]));
+
+        const { result } = renderHook(() => useChat());
+
+        await waitFor(() => {
+            expect(result.current.messages).toEqual([]);
+        });
+
+        // hasInteracted should still be false for empty array
+        expect(result.current.hasInteracted).toBe(false);
+    });
+
+    it('can pass message directly to sendMessage', async () => {
+        mockFetch.mockResolvedValue({
+            ok: true,
+            body: {
+                getReader: () => ({
+                    read: jest.fn().mockResolvedValue({ done: true }),
+                }),
+            },
+        });
+
+        const { result } = renderHook(() => useChat());
+
+        await act(async () => {
+            await result.current.sendMessage('direct message');
+        });
+
+        expect(result.current.messages[0].content).toBe('direct message');
+    });
+
+    it('trims whitespace from messages', async () => {
+        mockFetch.mockResolvedValue({
+            ok: true,
+            body: {
+                getReader: () => ({
+                    read: jest.fn().mockResolvedValue({ done: true }),
+                }),
+            },
+        });
+
+        const { result } = renderHook(() => useChat());
+
+        await act(async () => {
+            await result.current.sendMessage('  trimmed message  ');
+        });
+
+        expect(result.current.messages[0].content).toBe('trimmed message');
+    });
 });
+
