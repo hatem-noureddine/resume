@@ -12,9 +12,15 @@ export default defineConfig({
         ['json', { outputFile: 'reports/playwright-results.json' }],
         ['junit', { outputFile: 'playwright-report/results.xml' }]
     ],
+    expect: {
+        toHaveScreenshot: {
+            pathTemplate: '{testDir}/{testFileDir}/{testFileName}-snapshots/{arg}-{projectName}{ext}',
+        },
+    },
     use: {
-        baseURL: 'http://localhost:3001/',
+        baseURL: process.env.BASE_URL || 'http://localhost:3002/',
         trace: 'on-first-retry',
+        locale: 'en-US',
     },
     projects: [
         {
@@ -25,16 +31,11 @@ export default defineConfig({
             name: 'mobile-chrome',
             use: { ...devices['Pixel 5'] },
         },
-        // Mobile Safari is disabled due to flaky behavior in headless environments
-        // {
-        //     name: 'mobile-safari',
-        //     use: { ...devices['iPhone 12'] },
-        // }
     ],
     webServer: {
-        command: 'npm run start -- -p 3001',
-        url: 'http://localhost:3001',
+        command: process.env.CI ? 'npm run start -- -p 3002' : 'npm run build && npm run start -- -p 3002',
+        url: 'http://localhost:3002',
         reuseExistingServer: true,
-        timeout: 120 * 1000,
+        timeout: 300 * 1000,
     },
 });

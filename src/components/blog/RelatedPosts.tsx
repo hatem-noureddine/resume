@@ -10,7 +10,7 @@ interface RelatedPostsProps {
     currentSlug: string;
 }
 
-export function RelatedPosts({ posts, currentSlug }: RelatedPostsProps) {
+export function RelatedPosts({ posts, currentSlug }: Readonly<RelatedPostsProps>) {
     // Filter out current post and get related posts (by tags or category)
     const currentPost = posts.find(p => p.slug === currentSlug);
 

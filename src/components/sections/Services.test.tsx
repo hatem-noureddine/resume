@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, act } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { Services } from './Services';
 import { LanguageProvider } from '@/context/LanguageContext';
 import { ThemeProvider } from '@/context/ThemeContext';
@@ -38,9 +38,11 @@ jest.mock('@/hooks/usePrefersReducedMotion', () => ({
 
 // Mock next/link
 jest.mock('next/link', () => {
-    return ({ children, href }: { children: React.ReactNode; href: string }) => (
+    const MockLink = ({ children, href }: { children: React.ReactNode; href: string }) => (
         <a href={href}>{children}</a>
     );
+    MockLink.displayName = 'MockLink';
+    return MockLink;
 });
 
 const renderWithProviders = () => {

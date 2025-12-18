@@ -29,7 +29,8 @@ function generateUUID() {
     if (typeof crypto !== 'undefined' && crypto.randomUUID) {
         return crypto.randomUUID();
     }
-    return 'user_' + Math.random().toString(36).substring(2, 15);
+    // Fallback: use timestamp and performance.now() for uniqueness (non-cryptographic use case)
+    return `user_${Date.now().toString(36)}_${Math.floor(performance.now()).toString(36)}`;
 }
 
 /**
@@ -56,7 +57,7 @@ export function useRating(postSlug: string, options: UseRatingOptions = {}): Use
 
     // Initialize Guest ID and load ratings
     useEffect(() => {
-        if (typeof window === "undefined") return;
+        if (globalThis.window === undefined) return;
 
         try {
             // 1. Manage Guest Identity
@@ -65,6 +66,7 @@ export function useRating(postSlug: string, options: UseRatingOptions = {}): Use
                 currentGuestId = generateUUID();
                 localStorage.setItem(guestIdKey, currentGuestId);
             }
+            // eslint-disable-next-line react-hooks/set-state-in-effect -- Loading persisted identity on mount
             setGuestId(currentGuestId);
 
             // 2. Load User Rating
@@ -73,8 +75,7 @@ export function useRating(postSlug: string, options: UseRatingOptions = {}): Use
                 const data: RatingData = JSON.parse(savedRating);
                 // Verify ownership with guestId (basic check)
                 if (data.guestId === currentGuestId) {
-                    // eslint-disable-next-line react-hooks/set-state-in-effect
-                    setRatingState(data.rating); // Suppress warning: necessary for hydration
+                    setRatingState(data.rating);
                     setHasRated(true);
                 }
             }
@@ -94,12 +95,11 @@ export function useRating(postSlug: string, options: UseRatingOptions = {}): Use
         } catch (error) {
             console.error("Error initializing rating:", error);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userRatingKey, aggregateKey, guestIdKey, initialRating]);
 
     // Set rating
     const setRating = useCallback((value: number) => {
-        if (typeof window === "undefined" || !guestId) return;
+        if (globalThis.window === undefined || !guestId) return;
 
         const clampedValue = Math.max(1, Math.min(value, maxRating));
 
@@ -154,7 +154,7 @@ export function useRating(postSlug: string, options: UseRatingOptions = {}): Use
 
     // Reset rating (Admin/Debug utility)
     const resetRating = useCallback(() => {
-        if (typeof window === "undefined") return;
+        if (globalThis.window === undefined) return;
 
         try {
             const existingRating = localStorage.getItem(userRatingKey);

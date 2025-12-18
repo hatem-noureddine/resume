@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Download, Mail, Github, Linkedin, Twitter } from "lucide-react";
+import { Download, Mail } from "lucide-react";
+import { SiGithub, SiLinkedin, SiX } from "react-icons/si";
 import { useLanguage } from "@/context/LanguageContext";
 import { localeMetadata } from "@/locales";
 import { SITE_CONFIG } from "@/config/site";
@@ -26,11 +27,12 @@ export function FloatingActions() {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
+    // Social links with Lottie support
     const socialLinks = [
-        { icon: Github, href: SITE_CONFIG.links.github, label: "GitHub" },
-        { icon: Linkedin, href: SITE_CONFIG.links.linkedin, label: "LinkedIn" },
-        { icon: Twitter, href: SITE_CONFIG.links.twitter, label: "Twitter" },
-        { icon: Mail, href: `mailto:${SITE_CONFIG.email}`, label: "Email" },
+        { icon: SiGithub, lottieIcon: "github" as const, href: SITE_CONFIG.links.github, label: "GitHub" },
+        { icon: SiLinkedin, lottieIcon: "linkedin" as const, href: SITE_CONFIG.links.linkedin, label: "LinkedIn" },
+        { icon: SiX, lottieIcon: null, href: SITE_CONFIG.links.twitter, label: "X (Twitter)" },
+        { icon: Mail, lottieIcon: "mail" as const, href: `mailto:${SITE_CONFIG.email}`, label: "Email" },
     ];
 
     return (
@@ -49,7 +51,7 @@ export function FloatingActions() {
                         download
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center justify-center w-12 h-12 rounded-full bg-primary text-primary-foreground shadow-lg hover:bg-primary/90 hover:scale-110 transition-all duration-200 relative group"
+                        className="flex items-center justify-center w-12 h-12 rounded-full bg-primary text-white shadow-lg hover:bg-primary/90 hover:scale-110 transition-all duration-200 relative group"
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.95 }}
                     >
@@ -65,9 +67,9 @@ export function FloatingActions() {
 
                     {/* Social Links */}
                     <div className="flex flex-col gap-3 p-2 rounded-full bg-background/80 backdrop-blur-md border border-border shadow-lg">
-                        {socialLinks.map((social, index) => (
+                        {socialLinks.map((social) => (
                             <motion.a
-                                key={index}
+                                key={social.label}
                                 href={social.href}
                                 target="_blank"
                                 rel="noopener noreferrer"
@@ -88,3 +90,4 @@ export function FloatingActions() {
         </AnimatePresence>
     );
 }
+

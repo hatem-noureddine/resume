@@ -12,7 +12,7 @@ interface BookmarkedPost {
 const STORAGE_KEY = "bookmarked-posts";
 
 function getInitialBookmarks(): BookmarkedPost[] {
-    if (typeof window === 'undefined') return [];
+    if (globalThis.window === undefined) return [];
     try {
         const stored = localStorage.getItem(STORAGE_KEY);
         return stored ? JSON.parse(stored) : [];

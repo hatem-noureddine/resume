@@ -63,7 +63,22 @@ export async function getPostSlugs(): Promise<string[]> {
 }
 
 export async function getPostData(slug: string): Promise<Post | null> {
-    const fullPath = path.join(postsDirectory, `${slug}.md`);
+    // Sanitize slug to prevent path traversal attacks
+    const safeSlug = slug.replaceAll(/[^a-zA-Z0-9-_]/g, '');
+    if (safeSlug !== slug || slug.includes('..')) {
+        console.warn('Potential path traversal attempt blocked:', slug);
+        return null;
+    }
+
+    const fullPath = path.join(postsDirectory, `${safeSlug}.md`);
+
+    // Verify the resolved path is within the posts directory
+    const resolvedPath = path.resolve(fullPath);
+    if (!resolvedPath.startsWith(path.resolve(postsDirectory))) {
+        console.warn('Path traversal attempt blocked:', slug);
+        return null;
+    }
+
     if (!fs.existsSync(fullPath)) {
         return null;
     }
@@ -72,7 +87,7 @@ export async function getPostData(slug: string): Promise<Post | null> {
     const matterResult = matter(fileContents);
 
     return {
-        slug,
+        slug: safeSlug,
         title: matterResult.data.title,
         date: matterResult.data.date,
         description: matterResult.data.description,
@@ -90,7 +105,8 @@ export interface TocHeading {
 }
 
 export function extractHeadings(content: string, maxLevel: number = 2): TocHeading[] {
-    const headingRegex = /^(#{1,6})\s+(.+)$/gm;
+    // Regex with non-backtracking pattern to prevent ReDoS - [^\n]+ is deterministic
+    const headingRegex = /^(#{1,6})\s+([^\n]+)$/gm;
     const headings: TocHeading[] = [];
     let match;
 

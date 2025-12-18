@@ -34,15 +34,4 @@ This is critical for the AI chatbot to function.
 
 ## Step 4: Deploy
 
-Click **Deploy**. Vercel will build your project and provide a production URL (e.g., `https://your-project.vercel.app`).
-
----
-
-# Alternative: GitHub Pages
-
-**Note**: The AI chatbot and some API features **will not work** on GitHub Pages because it only supports static exports.
-
-If you must use GitHub Pages:
-1. Update `next.config.mjs` to enabled `output: 'export'`.
-2. Disable the ChatWidget in `src/app/layout.tsx`.
-3. Follow standard GitHub Pages deployment steps.
+Click **Deploy**. Vercel will build your project and provide a production URL (e.g., `https://hatem-noureddine-resume.vercel.app`).

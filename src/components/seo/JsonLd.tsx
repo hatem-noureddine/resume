@@ -1,4 +1,4 @@
-export function JsonLd({ data }: { data: Record<string, unknown> }) {
+export function JsonLd({ data }: Readonly<{ data: Record<string, unknown> }>) {
     return (
         <script
             type="application/ld+json"
@@ -9,9 +9,9 @@ export function JsonLd({ data }: { data: Record<string, unknown> }) {
 
 export function BreadcrumbJsonLd({
     items,
-}: {
+}: Readonly<{
     items: { name: string; item: string }[];
-}) {
+}>) {
     const jsonLd = {
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
@@ -34,7 +34,7 @@ export function ArticleJsonLd({
     dateModified,
     description,
     authorName,
-}: {
+}: Readonly<{
     url: string;
     title: string;
     images: string[];
@@ -42,7 +42,7 @@ export function ArticleJsonLd({
     dateModified?: string;
     description: string;
     authorName: string;
-}) {
+}>) {
     const jsonLd = {
         "@context": "https://schema.org",
         "@type": "BlogPosting",

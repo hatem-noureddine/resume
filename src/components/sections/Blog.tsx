@@ -9,9 +9,9 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
 import { useLanguage } from "@/context/LanguageContext";
 import { cn } from "@/lib/utils";
+import type { BlogLocale } from "@/locales/types";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const MobileBlogCard = ({ post, blogText }: { post: Post, blogText: any }) => {
+const MobileBlogCard = ({ post, blogText }: { post: Post, blogText: BlogLocale }) => {
     return (
         <motion.article
             key={post.slug}
@@ -100,9 +100,9 @@ export function Blog({ posts }: { posts: Post[] }) {
                             <ChevronLeft size={20} />
                         </Button>
                         <div className="flex gap-2">
-                            {carouselPosts.map((_, index) => (
+                            {carouselPosts.map((p, index) => (
                                 <div
-                                    key={index}
+                                    key={p.slug}
                                     className={`w-2 h-2 rounded-full transition-colors ${index === currentIndex ? "bg-primary" : "bg-foreground/20"}`}
                                 />
                             ))}
@@ -140,7 +140,7 @@ export function Blog({ posts }: { posts: Post[] }) {
                     >
                         <AnimatePresence mode="popLayout">
                             {displayGridPosts.length > 0 ? (
-                                displayGridPosts.map((post, index) => (
+                                displayGridPosts.map((post) => (
                                     <motion.article
                                         layout
                                         key={post.slug}

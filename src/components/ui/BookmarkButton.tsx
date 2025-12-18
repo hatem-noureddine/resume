@@ -19,7 +19,7 @@ export function BookmarkButton({
     description,
     className,
     size = "md"
-}: BookmarkButtonProps) {
+}: Readonly<BookmarkButtonProps>) {
     const { isBookmarked, toggleBookmark, mounted } = useBookmarks();
 
     const bookmarked = isBookmarked(slug);

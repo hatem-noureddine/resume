@@ -145,8 +145,48 @@ describe('ContactForm', () => {
                 'https://formspree.io/f/test123',
                 expect.objectContaining({
                     method: 'POST',
+                    body: JSON.stringify({
+                        name: 'John',
+                        email: 'john@example.com',
+                        subject: 'Test',
+                        message: 'Hello!',
+                    }),
                 })
             );
+        });
+    });
+
+    it('shows error when Formspree submission fails', async () => {
+        globalThis.fetch = jest.fn().mockResolvedValue({ ok: false }); // Mock failure
+
+        render(<ContactForm formspreeId="test123" />);
+
+        fireEvent.change(screen.getByLabelText('Name'), { target: { value: 'John', name: 'name' } });
+        fireEvent.change(screen.getByLabelText('Email'), { target: { value: 'john@example.com', name: 'email' } });
+        fireEvent.change(screen.getByLabelText('Subject'), { target: { value: 'Test', name: 'subject' } });
+        fireEvent.change(screen.getByLabelText('Message'), { target: { value: 'Hello!', name: 'message' } });
+
+        fireEvent.click(screen.getByRole('button', { name: /send message/i }));
+
+        await waitFor(() => {
+            expect(screen.getByText('Failed to submit form')).toBeInTheDocument();
+        });
+    });
+
+    it('handles non-Error objects during submission failure', async () => {
+        const mockSubmit = jest.fn().mockRejectedValue('Unknown error string'); // Not an Error object
+        render(<ContactForm onSubmit={mockSubmit} />);
+
+        fireEvent.change(screen.getByLabelText('Name'), { target: { value: 'John', name: 'name' } });
+        fireEvent.change(screen.getByLabelText('Email'), { target: { value: 'john@example.com', name: 'email' } });
+        fireEvent.change(screen.getByLabelText('Subject'), { target: { value: 'Test', name: 'subject' } });
+        fireEvent.change(screen.getByLabelText('Message'), { target: { value: 'Hello!', name: 'message' } });
+
+        fireEvent.click(screen.getByRole('button', { name: /send message/i }));
+
+        await waitFor(() => {
+            // Should hit the 'An error occurred' branch
+            expect(screen.getByText('An error occurred')).toBeInTheDocument();
         });
     });
 });

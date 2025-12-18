@@ -11,6 +11,9 @@ import { Download, Mail, ChevronDown, ChevronUp } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { localeMetadata } from "@/locales";
 import { SITE_CONFIG } from "@/config/site";
+import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
+import Lottie from "lottie-react";
+import scrollMouseAnimation from "@/../public/lottie/scroll-mouse.json";
 
 const ClientCarousel = dynamic(() => import("@/components/sections/ClientCarousel").then(mod => mod.ClientCarousel), { ssr: false });
 const TechCarousel = dynamic(() => import("@/components/sections/TechCarousel").then(mod => mod.TechCarousel), { ssr: false });
@@ -53,19 +56,17 @@ function useTypingAnimation(texts: string[], typingSpeed = 100, deletingSpeed = 
         const currentText = texts[currentIndex];
 
         const timeout = setTimeout(() => {
-            if (!isDeleting) {
-                if (displayText.length < currentText.length) {
-                    setDisplayText(currentText.slice(0, displayText.length + 1));
-                } else {
-                    setTimeout(() => setIsDeleting(true), pauseTime);
-                }
-            } else {
+            if (isDeleting) {
                 if (displayText.length > 0) {
                     setDisplayText(displayText.slice(0, -1));
                 } else {
                     setIsDeleting(false);
                     setCurrentIndex((prev) => (prev + 1) % texts.length);
                 }
+            } else if (displayText.length < currentText.length) {
+                setDisplayText(currentText.slice(0, displayText.length + 1));
+            } else {
+                setTimeout(() => setIsDeleting(true), pauseTime);
             }
         }, isDeleting ? deletingSpeed : typingSpeed);
 
@@ -102,6 +103,7 @@ export function Hero() {
 
     // Mobile detection for performance optimizations
     const isMobile = useIsMobile();
+    const prefersReducedMotion = usePrefersReducedMotion();
 
     // State for expandable description on mobile
     const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
@@ -186,7 +188,7 @@ export function Hero() {
                         transition={{ delay: 0.4, duration: 0.5 }}
                         className="mb-6 md:mb-8"
                     >
-                        <p className={`text-base md:text-xl text-secondary-foreground text-left md:text-justify leading-relaxed ${!isDescriptionExpanded ? 'line-clamp-3 md:line-clamp-none' : ''
+                        <p className={`text-base md:text-xl text-secondary-foreground text-left md:text-justify leading-relaxed ${isDescriptionExpanded ? '' : 'line-clamp-3 md:line-clamp-none'
                             }`}>
                             {hero.description}
                         </p>
@@ -215,7 +217,7 @@ export function Hero() {
                     <div className="grid grid-cols-3 gap-3 md:gap-6 border-t border-foreground/10 pt-5 md:pt-8 mb-6 md:mb-8">
                         {stats.map((stat, index) => (
                             <motion.div
-                                key={index}
+                                key={stat.label}
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.5 + index * 0.1 }}
@@ -245,9 +247,9 @@ export function Hero() {
                             <span className="text-xs md:text-sm uppercase tracking-widest opacity-60 hidden sm:inline">{followMeText}</span>
                             <div className="w-8 md:w-12 h-px bg-secondary-foreground/30 hidden sm:block" />
                             <div className="flex gap-3 md:gap-4">
-                                {socialLinks.map((social, index) => (
+                                {socialLinks.map((social) => (
                                     <Link
-                                        key={index}
+                                        key={social.label}
                                         href={social.href}
                                         className="p-2 rounded-full hover:bg-foreground/5 hover:text-primary transition-colors hover:scale-110 transform duration-200"
                                         aria-label={social.label}
@@ -290,7 +292,7 @@ export function Hero() {
                                     fill
                                     className="object-cover hover:scale-105"
                                     sizes="(max-width: 640px) 260px, (max-width: 768px) 320px, 500px"
-                                    priority
+                                    loading="eager"
                                 />
                             </div>
                         </div>
@@ -333,7 +335,7 @@ export function Hero() {
                 </motion.div>
             </div>
 
-            {/* Scroll Indicator - hidden on small screens, responsive positioning */}
+            {/* Scroll Indicator - Lottie animation */}
             <motion.button
                 onClick={scrollToContent}
                 initial={{ opacity: 0 }}
@@ -342,30 +344,24 @@ export function Hero() {
                 className="hidden sm:flex absolute bottom-8 md:bottom-12 left-1/2 -translate-x-1/2 flex-col items-center gap-2 text-secondary-foreground/60 hover:text-primary transition-colors cursor-pointer z-30 group"
                 aria-label={scrollDownText}
             >
-                {/* Mouse Icon Animation */}
-                <div className="w-[30px] h-[50px] rounded-[15px] border-2 border-current flex justify-center p-2 box-border opacity-70 group-hover:opacity-100 transition-opacity">
-                    <motion.div
-                        animate={{ y: [0, 12, 0] }}
-                        transition={{
-                            duration: 1.5,
-                            repeat: Infinity,
-                            ease: "easeInOut"
-                        }}
-                        className="w-1.5 h-1.5 bg-current rounded-full mb-1"
+                {prefersReducedMotion ? (
+                    /* Fallback for reduced motion */
+                    <>
+                        <div className="w-[30px] h-[50px] rounded-[15px] border-2 border-current flex justify-center p-2 box-border opacity-70">
+                            <div className="w-1.5 h-1.5 bg-current rounded-full mb-1" />
+                        </div>
+                        <ChevronDown size={20} className="stroke-3" />
+                    </>
+                ) : (
+                    /* Lottie scroll indicator */
+                    <Lottie
+                        animationData={scrollMouseAnimation}
+                        loop
+                        autoplay
+                        style={{ width: 40, height: 70 }}
+                        className="opacity-70 group-hover:opacity-100 transition-opacity"
                     />
-                </div>
-                {/* Arrow below mouse */}
-                <motion.div
-                    animate={{ y: [0, 5, 0], opacity: [0.5, 1, 0.5] }}
-                    transition={{
-                        duration: 1.5,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                        delay: 0.2
-                    }}
-                >
-                    <ChevronDown size={20} className="stroke-3" />
-                </motion.div>
+                )}
             </motion.button>
 
             {/* Carousels */}

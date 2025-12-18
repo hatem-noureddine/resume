@@ -5,6 +5,9 @@
   "author": "Hatem Noureddine",
   "license": "MIT",
   "private": true,
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -18,18 +21,17 @@
     "analyze": "cross-env ANALYZE=true next build --webpack",
     "lh": "lhci autorun",
     "clean": "rm -rf .next out final_out coverage reports playwright-report .lighthouseci test-results",
-    "prepare:static": "rm -rf final_out && mkdir -p final_out/resume && cp -r out/* final_out/resume",
     "health-check": "node scripts/check-links.mjs",
     "generate-report": "node scripts/generate-report.mjs",
-    "verify": "npm run clean && npm run lint && npm run test:coverage && npm run build && npm run prepare:static && npm run test:e2e && npm run lh",
+    "verify": "npm run clean && npm run lint && npm run test:coverage && npm run build && npm run test:e2e && npm run lh",
     "verify:quick": "npm run lint && npm run test && npm run build",
-    "verify:ci": "npm run lint && npm run test:coverage && npm run build",
     "prepare": "husky",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
   "dependencies": {
     "@formspree/react": "^3.0.0",
+    "@giscus/react": "^3.1.0",
     "@radix-ui/react-slot": "^1.2.4",
     "@types/prismjs": "^1.26.5",
     "@vercel/analytics": "^1.6.1",
@@ -46,10 +48,12 @@
     "prismjs": "^1.30.0",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
+    "react-icons": "^5.5.0",
     "react-markdown": "^10.1.0",
     "reading-time": "^1.5.0",
     "remark-gfm": "^4.0.1",
-    "tailwind-merge": "^3.4.0"
+    "tailwind-merge": "^3.4.0",
+    "util": "^0.12.5"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.11.0",

@@ -2,57 +2,57 @@
     "techs": [
         {
             "name": "React",
-            "icon": "/resume/icons/react.svg"
+            "icon": "/icons/react.svg"
         },
         {
             "name": "Next.js",
-            "icon": "/resume/icons/nextjs.svg"
+            "icon": "/icons/nextjs.svg"
         },
         {
             "name": "TypeScript",
-            "icon": "/resume/icons/typescript.svg"
+            "icon": "/icons/typescript.svg"
         },
         {
             "name": "Tailwind",
-            "icon": "/resume/icons/tailwind.svg"
+            "icon": "/icons/tailwind.svg"
         },
         {
             "name": "Node.js",
-            "icon": "/resume/icons/nodejs.svg"
+            "icon": "/icons/nodejs.svg"
         },
         {
             "name": "Figma",
-            "icon": "/resume/icons/figma.svg"
+            "icon": "/icons/figma.svg"
         },
         {
             "name": "GitHub",
-            "icon": "/resume/icons/github.svg"
+            "icon": "/icons/github.svg"
         }
     ],
     "clients": [
         {
             "name": "TechCorp",
-            "icon": "/resume/icons/techcorp.svg"
+            "icon": "/icons/techcorp.svg"
         },
         {
             "name": "GlobalSol",
-            "icon": "/resume/icons/globalsol.svg"
+            "icon": "/icons/globalsol.svg"
         },
         {
             "name": "Innovate",
-            "icon": "/resume/icons/innovate.svg"
+            "icon": "/icons/innovate.svg"
         },
         {
             "name": "DesignStudio",
-            "icon": "/resume/icons/designstudio.svg"
+            "icon": "/icons/designstudio.svg"
         },
         {
             "name": "StartUp",
-            "icon": "/resume/icons/startup.svg"
+            "icon": "/icons/startup.svg"
         },
         {
             "name": "Community",
-            "icon": "/resume/icons/community.svg"
+            "icon": "/icons/community.svg"
         }
     ]
 }

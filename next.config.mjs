@@ -5,7 +5,18 @@ const nextConfig = {
   // No output: 'export' - Vercel handles this automatically
   // No basePath - deploying to root domain
   images: {
+    dangerouslyAllowSVG: true,
+    contentDispositionType: 'attachment',
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     formats: ['image/avif', 'image/webp'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'placehold.co',
+        port: '',
+        pathname: '/**',
+      },
+    ],
   },
   headers: async () => {
     return [

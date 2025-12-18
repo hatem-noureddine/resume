@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 import { useLanguage } from "@/context/LanguageContext";
 import Image from "next/image";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
-import { container, fadeInUp, fadeIn } from "@/lib/animations";
+import { container, fadeInUp } from "@/lib/animations";
 
 const INITIAL_VISIBLE_COUNT = 3;
 

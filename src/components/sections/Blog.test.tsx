@@ -60,7 +60,8 @@ jest.mock('next/image', () => ({
 
 jest.mock('next/link', () => ({
     __esModule: true,
-    default: ({ children }: any) => <a href="/">{children}</a>,
+     
+    default: ({ children, href }: any) => <a href={href || '/'}>{children}</a>,
 }));
 
 // Mock blog data

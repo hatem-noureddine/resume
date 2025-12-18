@@ -6,8 +6,9 @@ import { cn } from "@/lib/utils";
 import { Highlight, Prism } from "prism-react-renderer";
 
 // Add Kotlin language support
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-(typeof global !== "undefined" ? global : window).Prism = Prism;
+
+globalThis.Prism = Prism;
+// eslint-disable-next-line @typescript-eslint/no-require-imports -- Required for Prism language loading
 require("prismjs/components/prism-kotlin");
 
 // Android Studio Darcula theme - exact color values
@@ -161,20 +162,23 @@ export function CodeBlock({
                         )}
                         style={style}
                     >
-                        {tokens.map((line, i) => (
-                            <div key={i} {...getLineProps({ line })} className="table-row">
-                                {showLineNumbers && (
-                                    <span className="table-cell pr-4 text-right text-white/30 select-none text-xs">
-                                        {i + 1}
+                        {tokens.map((line, i) => {
+                            const lineKey = `line-${i}`;
+                            return (
+                                <div key={lineKey} {...getLineProps({ line })} className="table-row">
+                                    {showLineNumbers && (
+                                        <span className="table-cell pr-4 text-right text-white/30 select-none text-xs">
+                                            {i + 1}
+                                        </span>
+                                    )}
+                                    <span className="table-cell">
+                                        {line.map((token, key) => (
+                                            <span key={`token-${key}-${token.content}`} {...getTokenProps({ token })} />
+                                        ))}
                                     </span>
-                                )}
-                                <span className="table-cell">
-                                    {line.map((token, key) => (
-                                        <span key={key} {...getTokenProps({ token })} />
-                                    ))}
-                                </span>
-                            </div>
-                        ))}
+                                </div>
+                            );
+                        })}
                     </pre>
                 )}
             </Highlight>
@@ -188,7 +192,7 @@ interface LegacyCodeBlockProps {
     className?: string;
 }
 
-export function CodeBlockLegacy({ children, className }: LegacyCodeBlockProps) {
+export function CodeBlockLegacy({ children, className }: Readonly<LegacyCodeBlockProps>) {
     // Extract language from className (e.g., "language-kotlin")
     const match = /language-(\w+)/.exec(className || '');
     const language = match ? match[1] : 'text';

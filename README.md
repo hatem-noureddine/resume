@@ -1,7 +1,7 @@
 # Hatem Noureddine - Portfolio Website
 
 [![CI Pipeline](https://github.com/hatemnoureddine/resume/actions/workflows/ci.yml/badge.svg)](https://github.com/hatemnoureddine/resume/actions/workflows/ci.yml)
-[![Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black)](https://resume-cb6ssf9ve-hatem-noureddines-projects.vercel.app/)
+[![Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black)](https://hatem-noureddine-resume.vercel.app/)
 
 A modern, responsive, and localized portfolio website built with **Next.js 16**, **Tailwind CSS v4**, and **Framer Motion**. Now with an **AI-powered chatbot** for interactive resume exploration!
 
@@ -142,4 +142,4 @@ MIT License - see [LICENSE](./LICENSE) for details.
 
 ---
 
-Built with ❤️ by [Hatem Noureddine](https://resume-cb6ssf9ve-hatem-noureddines-projects.vercel.app/)
+Built with ❤️ by [Hatem Noureddine](https://hatem-noureddine-resume.vercel.app/)

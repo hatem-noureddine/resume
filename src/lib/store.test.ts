@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react';
-import { createStore, useStore, createPersistedStore, useDerivedState } from './store';
+import { createStore, useStore, createPersistedStore } from './store';
 
 // Mock localStorage
 const mockLocalStorage = (() => {

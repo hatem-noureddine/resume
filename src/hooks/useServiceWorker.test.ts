@@ -172,6 +172,7 @@ describe('useServiceWorker', () => {
             Object.defineProperty(window, 'location', {
                 value: { reload: reloadSpy },
                 writable: true,
+                configurable: true
             });
 
             const { result } = renderHook(() => useServiceWorker());
@@ -202,17 +203,106 @@ describe('useServiceWorker', () => {
     });
 
     describe('update detection', () => {
-        it('listens for updatefound events', async () => {
-            renderHook(() => useServiceWorker());
+        it('detects update when new worker is installed', async () => {
+            const { result } = renderHook(() => useServiceWorker());
 
             await act(async () => {
                 await new Promise(resolve => setTimeout(resolve, 10));
             });
 
-            expect(mockRegistration.addEventListener).toHaveBeenCalledWith(
-                'updatefound',
-                expect.any(Function)
-            );
+            // Setup new worker
+            const mockNewWorker = {
+                state: 'installing',
+                addEventListener: jest.fn(),
+            };
+            mockRegistration.installing = mockNewWorker;
+            mockServiceWorker.controller = {}; // Ensure controller exists
+
+            // Trigger updatefound
+            const updateFoundHandler = mockRegistration.addEventListener.mock.calls.find(
+                (call: any) => call[0] === 'updatefound'
+            )[1];
+
+            act(() => {
+                updateFoundHandler();
+            });
+
+            // Trigger statechange
+            const stateChangeHandler = mockNewWorker.addEventListener.mock.calls.find(
+                (call: any) => call[0] === 'statechange'
+            )[1];
+
+            // Change state to installed
+            mockNewWorker.state = 'installed';
+            act(() => {
+                stateChangeHandler();
+            });
+
+            expect(result.current.hasUpdate).toBe(true);
         });
+
+        it('does not set hasUpdate if state is not installed', async () => {
+            const { result } = renderHook(() => useServiceWorker());
+
+            await act(async () => {
+                await new Promise(resolve => setTimeout(resolve, 10));
+            });
+
+            const mockNewWorker = {
+                state: 'installing',
+                addEventListener: jest.fn(),
+            };
+            mockRegistration.installing = mockNewWorker;
+            mockServiceWorker.controller = {};
+
+            const updateFoundHandler = mockRegistration.addEventListener.mock.calls.find(
+                (call: any) => call[0] === 'updatefound'
+            )[1];
+            act(() => updateFoundHandler());
+
+            const stateChangeHandler = mockNewWorker.addEventListener.mock.calls.find(
+                (call: any) => call[0] === 'statechange'
+            )[1];
+
+            // State stays installing (or something else)
+            act(() => stateChangeHandler());
+
+            expect(result.current.hasUpdate).toBe(false);
+        });
+
+        it('does not set hasUpdate if no controller (first install)', async () => {
+            const { result } = renderHook(() => useServiceWorker());
+
+            await act(async () => {
+                await new Promise(resolve => setTimeout(resolve, 10));
+            });
+
+            const mockNewWorker = {
+                state: 'installed',
+                addEventListener: jest.fn(),
+            };
+            mockRegistration.installing = mockNewWorker;
+            mockServiceWorker.controller = null; // No controller
+
+            const updateFoundHandler = mockRegistration.addEventListener.mock.calls.find(
+                (call: any) => call[0] === 'updatefound'
+            )[1];
+            act(() => updateFoundHandler());
+
+            const stateChangeHandler = mockNewWorker.addEventListener.mock.calls.find(
+                (call: any) => call[0] === 'statechange'
+            )[1];
+
+            act(() => stateChangeHandler());
+
+            expect(result.current.hasUpdate).toBe(false);
+        });
+    });
+
+    it('handles unsupported environment', () => {
+        // Remove serviceWorker from navigator
+        Object.defineProperty(navigator, 'serviceWorker', { value: undefined });
+        const { result } = renderHook(() => useServiceWorker());
+        expect(result.current.isSupported).toBe(false);
     });
 });

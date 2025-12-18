@@ -12,7 +12,7 @@ import { localeMetadata } from "@/locales";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { Logo } from "@/components/ui/Logo";
 
-export function Header({ hasBlogPosts = true }: { hasBlogPosts?: boolean }) {
+export function Header({ hasBlogPosts = true }: Readonly<{ hasBlogPosts?: boolean }>) {
     const { t, language, setLanguage, availableLanguages } = useLanguage();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
@@ -235,7 +235,7 @@ export function Header({ hasBlogPosts = true }: { hasBlogPosts?: boolean }) {
                             <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
                         </span>
                         <Sparkles size={14} />
-                        {t.hero.availableForHire || "Available for Hire"}
+                        {t.contact?.title || "Contact Me"}
                     </Link>
                 </nav>
 
@@ -327,7 +327,7 @@ export function Header({ hasBlogPosts = true }: { hasBlogPosts?: boolean }) {
                                                 <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
                                             </span>
                                             <Sparkles size={18} />
-                                            {t.hero.availableForHire || "Available for Hire"}
+                                            {t.contact?.title || "Contact Me"}
                                         </Link>
                                     </motion.div>
 

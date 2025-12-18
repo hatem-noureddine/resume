@@ -12,7 +12,7 @@ export function TechCarousel() {
 
             <div className="flex gap-16 animate-infinite-scroll py-4 hover:pause">
                 {[...carouselData.techs, ...carouselData.techs, ...carouselData.techs].map((tech, index) => (
-                    <div key={index} className="flex items-center gap-3 group/item min-w-max px-4 py-2 rounded-xl hover:bg-foreground/5 transition-colors duration-300">
+                    <div key={`${tech.name}-${index}`} className="flex items-center gap-3 group/item min-w-max px-4 py-2 rounded-xl hover:bg-foreground/5 transition-colors duration-300">
                         <div
                             className="text-secondary-foreground group-hover/item:text-primary transition-colors duration-300 scale-110 w-8 h-8 bg-current"
                             style={{

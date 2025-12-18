@@ -6,9 +6,55 @@ import { useLanguage } from "@/context/LanguageContext";
 import { en } from "@/locales/en";
 
 export interface Message {
+    id: string;
     role: 'user' | 'assistant';
     content: string;
 }
+
+// Generate unique ID for messages using cryptographically secure method
+const generateId = () => {
+    if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+        return `msg_${crypto.randomUUID()}`;
+    }
+    // Fallback for environments without crypto - use timestamp only
+    return `msg_${Date.now()}_${performance.now().toString(36)}`;
+};
+
+// Parse SSE content from a line - extracted to reduce cognitive complexity
+const parseSSEContent = (line: string): string | null => {
+    if (!line.startsWith('data: ')) return null;
+
+    const data = line.slice(6);
+    if (data === '[DONE]') return null;
+
+    try {
+        const parsed = JSON.parse(data);
+        return parsed.choices?.[0]?.delta?.content || '';
+    } catch {
+        return null;
+    }
+};
+
+// Process streaming response - extracted to reduce cognitive complexity
+const processStream = async (
+    reader: ReadableStreamDefaultReader<Uint8Array>,
+    onContent: (content: string) => void
+): Promise<void> => {
+    const decoder = new TextDecoder();
+
+    while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        const chunk = decoder.decode(value, { stream: true });
+        for (const line of chunk.split('\n')) {
+            const content = parseSSEContent(line);
+            if (content !== null) {
+                onContent(content);
+            }
+        }
+    }
+};
 
 export function useChat() {
     const { t } = useLanguage();
@@ -41,13 +87,16 @@ export function useChat() {
             try {
                 const parsed = JSON.parse(savedMessages);
                 if (Array.isArray(parsed) && parsed.length > 0) {
+
                     setMessages(parsed);
+
                     setHasInteracted(true);
                 }
             } catch (e) {
                 console.error("Failed to parse chat history", e);
             }
         }
+
         setIsLoaded(true);
     }, []);
 
@@ -83,7 +132,7 @@ export function useChat() {
         setInput('');
         setHasInteracted(true);
 
-        const newMessages: Message[] = [...messages, { role: 'user', content: userMessage }];
+        const newMessages: Message[] = [...messages, { id: generateId(), role: 'user', content: userMessage }];
         setMessages(newMessages);
         setIsLoading(true);
 
@@ -101,49 +150,30 @@ export function useChat() {
             }
 
             const reader = response.body?.getReader();
-            const decoder = new TextDecoder();
             let assistantMessage = '';
 
-            setMessages(prev => [...prev, { role: 'assistant', content: '' }]);
+            const assistantMsgId = generateId();
+            setMessages(prev => [...prev, { id: assistantMsgId, role: 'assistant', content: '' }]);
 
             if (reader) {
-                while (true) {
-                    const { done, value } = await reader.read();
-                    if (done) break;
-
-                    const chunk = decoder.decode(value, { stream: true });
-                    const lines = chunk.split('\n');
-
-                    for (const line of lines) {
-                        if (line.startsWith('data: ')) {
-                            const data = line.slice(6);
-                            if (data === '[DONE]') continue;
-
-                            try {
-                                const parsed = JSON.parse(data);
-                                const content = parsed.choices?.[0]?.delta?.content || '';
-                                assistantMessage += content;
-
-                                setMessages(prev => {
-                                    const updated = [...prev];
-                                    updated[updated.length - 1] = {
-                                        role: 'assistant',
-                                        content: assistantMessage
-                                    };
-                                    return updated;
-                                });
-                            } catch {
-                                // Ignore parse errors
-                            }
+                await processStream(reader, (content) => {
+                    assistantMessage += content;
+                    setMessages(prev => {
+                        const updated = [...prev];
+                        const lastMsg = updated.at(-1);
+                        if (lastMsg) {
+                            updated[updated.length - 1] = { ...lastMsg, content: assistantMessage };
                         }
-                    }
-                }
+                        return updated;
+                    });
+                });
             }
         } catch (error) {
             console.error('Chat error:', error);
             setMessages(prev => [
                 ...prev,
                 {
+                    id: generateId(),
                     role: 'assistant',
                     content: `${chat.errorMessage} ${RESUME_CONTEXT.email}`
                 }

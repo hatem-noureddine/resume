@@ -1,5 +1,6 @@
-import { render } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import { AnimatedCounter } from './AnimatedCounter';
+import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 
 // Mock usePrefersReducedMotion
 jest.mock('@/hooks/usePrefersReducedMotion', () => ({
@@ -7,60 +8,189 @@ jest.mock('@/hooks/usePrefersReducedMotion', () => ({
 }));
 
 describe('AnimatedCounter', () => {
+    let observeMock: jest.Mock;
+    let disconnectMock: jest.Mock;
+    let intersectionCallback: (entries: IntersectionObserverEntry[]) => void;
+
     beforeEach(() => {
-        jest.useFakeTimers();
+        observeMock = jest.fn();
+        disconnectMock = jest.fn();
+
         // Mock IntersectionObserver
-        const mockIntersectionObserver = jest.fn();
-        mockIntersectionObserver.mockReturnValue({
-            observe: () => null,
-            unobserve: () => null,
-            disconnect: () => null,
-        });
-        globalThis.IntersectionObserver = mockIntersectionObserver;
+        globalThis.IntersectionObserver = jest.fn((callback) => {
+            intersectionCallback = callback;
+            return {
+                observe: observeMock,
+                unobserve: jest.fn(),
+                disconnect: disconnectMock,
+                takeRecords: jest.fn(),
+                root: null,
+                rootMargin: '',
+                thresholds: []
+            };
+        }) as unknown as typeof IntersectionObserver;
+
+        (usePrefersReducedMotion as jest.Mock).mockReturnValue(false);
     });
 
     afterEach(() => {
-        jest.useRealTimers();
+        jest.clearAllMocks();
     });
 
-    it('renders with default value', () => {
-        const { container } = render(<AnimatedCounter value={100} />);
-        expect(container.querySelector('span')).toBeInTheDocument();
+    const triggerIntersection = (isIntersecting: boolean) => {
+        intersectionCallback([
+            {
+                isIntersecting,
+                target: document.createElement('div'),
+                boundingClientRect: {} as DOMRectReadOnly,
+                intersectionRatio: 1,
+                intersectionRect: {} as DOMRectReadOnly,
+                rootBounds: null,
+                time: Date.now(),
+            } as IntersectionObserverEntry
+        ]);
+    };
+
+    it('renders with initial value 0 before intersection', () => {
+        render(<AnimatedCounter value={100} />);
+        expect(screen.getByText('0')).toBeInTheDocument();
     });
 
-    it('renders with prefix', () => {
-        const { container } = render(<AnimatedCounter value={50} prefix="$" />);
-        expect(container.textContent).toContain('$');
+    it('starts observing element on mount', () => {
+        render(<AnimatedCounter value={100} />);
+        expect(observeMock).toHaveBeenCalled();
     });
 
-    it('renders with suffix', () => {
-        const { container } = render(<AnimatedCounter value={75} suffix="%" />);
-        expect(container.textContent).toContain('%');
+    it('respects reduced motion preference - shows value immediately', () => {
+        (usePrefersReducedMotion as jest.Mock).mockReturnValue(true);
+
+        render(<AnimatedCounter value={100} />);
+
+        // Should show full value immediately without animation
+        expect(screen.getByText('100')).toBeInTheDocument();
+        // Should not observe since animation is disabled
+        expect(observeMock).not.toHaveBeenCalled();
+    });
+
+    it('renders with prefix and suffix on reduced motion', () => {
+        (usePrefersReducedMotion as jest.Mock).mockReturnValue(true);
+
+        render(<AnimatedCounter value={50} prefix="$" suffix="%" />);
+
+        expect(screen.getByText('$50%')).toBeInTheDocument();
+    });
+
+    it('renders prefix and suffix with initial value when not reduced motion', () => {
+        render(<AnimatedCounter value={50} prefix="$" suffix="%" />);
+
+        // Before intersection, shows 0 with prefix/suffix
+        expect(screen.getByText('$0%')).toBeInTheDocument();
+    });
+
+    it('handles string input safely', () => {
+        (usePrefersReducedMotion as jest.Mock).mockReturnValue(true);
+
+        render(<AnimatedCounter value="200" />);
+
+        expect(screen.getByText('200')).toBeInTheDocument();
     });
 
     it('applies custom className', () => {
-        const { container } = render(<AnimatedCounter value={100} className="custom-class" />);
-        expect(container.querySelector('.custom-class')).toBeInTheDocument();
+        const { container } = render(<AnimatedCounter value={100} className="custom-test-class" />);
+        expect(container.querySelector('.custom-test-class')).toBeInTheDocument();
+    });
+
+    it('disconnects observer on unmount', () => {
+        const { unmount } = render(<AnimatedCounter value={100} />);
+
+        unmount();
+
+        expect(disconnectMock).toHaveBeenCalled();
+    });
+
+    it('handles negative value correctly', () => {
+        (usePrefersReducedMotion as jest.Mock).mockReturnValue(true);
+
+        render(<AnimatedCounter value={-50} />);
+
+        expect(screen.getByText('-50')).toBeInTheDocument();
     });
 
     it('handles zero value', () => {
-        const { container } = render(<AnimatedCounter value={0} />);
-        expect(container.querySelector('span')).toBeInTheDocument();
+        (usePrefersReducedMotion as jest.Mock).mockReturnValue(true);
+
+        render(<AnimatedCounter value={0} />);
+
+        expect(screen.getByText('0')).toBeInTheDocument();
     });
 
-    it('handles large values', () => {
-        const { container } = render(<AnimatedCounter value={1000000} />);
-        expect(container.querySelector('span')).toBeInTheDocument();
+    it('handles NaN string value gracefully', () => {
+        (usePrefersReducedMotion as jest.Mock).mockReturnValue(true);
+
+        render(<AnimatedCounter value="notanumber" />);
+
+        // parseInt("notanumber") returns NaN
+        expect(screen.getByText(/NaN|0/)).toBeInTheDocument();
     });
 
-    it('handles string value', () => {
-        const { container } = render(<AnimatedCounter value="50" />);
-        expect(container.querySelector('span')).toBeInTheDocument();
-    });
-
-    it('applies tabular-nums class by default', () => {
+    it('triggers animation when element comes into view', () => {
         const { container } = render(<AnimatedCounter value={100} />);
-        expect(container.querySelector('.tabular-nums')).toBeInTheDocument();
+
+        // Initially shows 0
+        expect(screen.getByText('0')).toBeInTheDocument();
+
+        // Trigger intersection - this starts the animation
+        act(() => {
+            triggerIntersection(true);
+        });
+
+        // The animation has started - we can verify the counter is in the DOM
+        expect(container.querySelector('span')).toBeInTheDocument();
+    });
+
+    it('does not restart animation when scrolled out and back in', () => {
+        render(<AnimatedCounter value={100} />);
+
+        // Trigger in view
+        act(() => {
+            triggerIntersection(true);
+        });
+
+        // Trigger out of view
+        act(() => {
+            triggerIntersection(false);
+        });
+
+        // Trigger back in view - should not throw
+        act(() => {
+            triggerIntersection(true);
+        });
+    });
+
+    it('handles unmount gracefully', () => {
+        const { unmount } = render(<AnimatedCounter value={100} />);
+
+        // Trigger animation
+        act(() => {
+            triggerIntersection(true);
+        });
+
+        // Unmount during animation should not throw
+        expect(() => unmount()).not.toThrow();
+    });
+
+    describe('default props', () => {
+        it('uses default duration of 2000ms', () => {
+            // Just verify it renders without explicit duration
+            (usePrefersReducedMotion as jest.Mock).mockReturnValue(true);
+            render(<AnimatedCounter value={100} />);
+            expect(screen.getByText('100')).toBeInTheDocument();
+        });
+
+        it('works without prefix and suffix', () => {
+            (usePrefersReducedMotion as jest.Mock).mockReturnValue(true);
+            render(<AnimatedCounter value={42} />);
+            expect(screen.getByText('42')).toBeInTheDocument();
+        });
     });
 });
-

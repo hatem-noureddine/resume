@@ -1,3 +1,4 @@
+import React from 'react';
 import { render, screen, act, renderHook } from '@testing-library/react';
 import { FeatureFlagProvider, useFeatureFlags, Feature } from './FeatureFlags';
 
@@ -20,11 +21,13 @@ describe('FeatureFlags', () => {
 
     describe('FeatureFlagProvider', () => {
         it('provides default flags', () => {
-            let flags: Record<string, boolean> = {};
+            const result: { current: Record<string, boolean> } = { current: {} };
 
             function TestComponent() {
-                const { flags: f } = useFeatureFlags();
-                flags = f;
+                const { flags } = useFeatureFlags();
+                React.useEffect(() => {
+                    result.current = flags;
+                });
                 return null;
             }
 
@@ -34,16 +37,18 @@ describe('FeatureFlags', () => {
                 </FeatureFlagProvider>
             );
 
-            expect(flags.chatbot).toBe(true);
-            expect(flags.darkMode).toBe(true);
+            expect(result.current.chatbot).toBe(true);
+            expect(result.current.darkMode).toBe(true);
         });
 
         it('merges initial flags with defaults', () => {
-            let flags: Record<string, boolean> = {};
+            const result: { current: Record<string, boolean> } = { current: {} };
 
             function TestComponent() {
-                const { flags: f } = useFeatureFlags();
-                flags = f;
+                const { flags } = useFeatureFlags();
+                React.useEffect(() => {
+                    result.current = flags;
+                });
                 return null;
             }
 
@@ -53,8 +58,77 @@ describe('FeatureFlags', () => {
                 </FeatureFlagProvider>
             );
 
-            expect(flags.chatbot).toBe(true);
-            expect(flags.customFlag).toBe(true);
+            expect(result.current.chatbot).toBe(true);
+            expect(result.current.customFlag).toBe(true);
+        });
+
+        it('handles corrupted localStorage data gracefully', () => {
+            // Set invalid JSON in localStorage
+            mockLocalStorage.setItem('featureFlags', 'not valid json');
+
+            const result: { current: Record<string, boolean> } = { current: {} };
+
+            function TestComponent() {
+                const { flags } = useFeatureFlags();
+                React.useEffect(() => {
+                    result.current = flags;
+                });
+                return null;
+            }
+
+            // Should not throw, should use defaults
+            render(
+                <FeatureFlagProvider>
+                    <TestComponent />
+                </FeatureFlagProvider>
+            );
+
+            // Should still have default flags
+            expect(result.current.chatbot).toBe(true);
+        });
+
+        it('loads flags from localStorage when available', () => {
+            // Set valid JSON in localStorage
+            mockLocalStorage.setItem('featureFlags', JSON.stringify({ comments: true }));
+
+            const result = { isCommentsEnabled: false };
+
+            function TestComponent() {
+                const { isEnabled } = useFeatureFlags();
+                React.useEffect(() => {
+                    result.isCommentsEnabled = isEnabled('comments');
+                });
+                return null;
+            }
+
+            render(
+                <FeatureFlagProvider>
+                    <TestComponent />
+                </FeatureFlagProvider>
+            );
+
+            // Should merge localStorage flags
+            expect(result.isCommentsEnabled).toBe(true);
+        });
+
+        it('returns false for unknown flags', () => {
+            const result = { unknownFlagValue: true };
+
+            function TestComponent() {
+                const { isEnabled } = useFeatureFlags();
+                React.useEffect(() => {
+                    result.unknownFlagValue = isEnabled('unknownFlag');
+                });
+                return null;
+            }
+
+            render(
+                <FeatureFlagProvider>
+                    <TestComponent />
+                </FeatureFlagProvider>
+            );
+
+            expect(result.unknownFlagValue).toBe(false);
         });
     });
 

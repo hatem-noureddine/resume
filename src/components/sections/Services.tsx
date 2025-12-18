@@ -9,6 +9,7 @@ import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import Link from "next/link";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
+import type { ServiceItem } from "@/locales/types";
 
 
 /**
@@ -16,8 +17,7 @@ import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
  * Displays a grid of services offered, dynamically rendering icons based on data configuration.
  */
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const MobileServiceCard = ({ service, prefersReducedMotion }: { service: any, prefersReducedMotion: boolean }) => {
+const MobileServiceCard = ({ service, prefersReducedMotion }: { service: ServiceItem, prefersReducedMotion: boolean }) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const Icon = (LucideIcons as any)[service.icon] || LucideIcons.Code;
 
@@ -184,9 +184,9 @@ export function Services() {
                             <ChevronLeft size={20} />
                         </Button>
                         <div className="flex gap-2">
-                            {services.items.map((_: unknown, index: number) => (
+                            {services.items.map((item: ServiceItem, index: number) => (
                                 <button
-                                    key={index}
+                                    key={item.id}
                                     onClick={() => setCurrentIndex(index)}
                                     className={`w-2.5 h-2.5 rounded-full transition-all ${index === currentIndex
                                         ? "bg-primary scale-125"

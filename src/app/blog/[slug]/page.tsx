@@ -4,16 +4,17 @@ import { getPostData, getPostSlugs, extractHeadings, getSortedPostsData } from "
 import { SITE_CONFIG } from "@/config/site";
 import { Calendar, Tag, Clock } from "lucide-react";
 import Link from 'next/link';
-import { BlurImage } from "@/components/ui/BlurImage";
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { BreadcrumbJsonLd, ArticleJsonLd } from "@/components/seo/JsonLd";
-import { ScrollProgress } from "@/components/ui/ScrollProgress";
+
 import { ShareButtons } from "@/components/ui/ShareButtons";
 import { TableOfContents } from "@/components/blog/TableOfContents";
-import { CodeBlockLegacy } from "@/components/ui/CodeBlock";
 import { RelatedPosts } from "@/components/blog/RelatedPosts";
+import { markdownComponents } from "./markdown-components";
 import { StarRating } from "@/components/ui/StarRating";
+import { Comments } from "@/components/blog/Comments";
+import { ReadingProgress } from "@/components/blog/ReadingProgress";
 import type { Metadata } from 'next';
 
 // Generate unique metadata for each blog post
@@ -86,8 +87,12 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
     const allPosts = await getSortedPostsData();
 
     return (
-        <main className="min-h-screen">
-            <ScrollProgress />
+        <main className="min-h-screen bg-background pb-20">
+            <ReadingProgress />
+
+            {/* Scroll Progress Indicator - removed ad-hoc implementation in favor of component */}
+
+            {/* Hero Section */}
             <Header />
             <article className="pt-32 pb-20 px-4">
                 <div className="container mx-auto max-w-6xl flex flex-col xl:flex-row gap-12">
@@ -104,7 +109,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                                 &larr; Back to Blog
                             </Link>
                             {/* Category badge */}
-                            <span className="inline-block px-4 py-1 mb-4 text-sm font-semibold rounded-full bg-gradient-to-r from-primary/20 to-purple-500/20 text-primary border border-primary/20">
+                            <span className="inline-block px-4 py-1 mb-4 text-sm font-semibold rounded-full bg-linear-to-r from-primary/20 to-purple-500/20 text-primary border border-primary/20">
                                 {post.category}
                             </span>
                             <div className="flex items-center justify-center gap-4 text-sm text-muted-foreground mb-4">
@@ -118,7 +123,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                                     <span>{post.readingTime}</span>
                                 </div>
                             </div>
-                            <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-foreground via-primary to-purple-400 bg-clip-text text-transparent">
+                            <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-linear-to-r from-foreground via-primary to-purple-400 bg-clip-text text-transparent">
                                 {post.title}
                             </h1>
                             <p className="text-lg text-muted-foreground mb-6 max-w-2xl mx-auto">
@@ -162,68 +167,12 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                             <div className="prose prose-invert max-w-none">
                                 <ReactMarkdown
                                     remarkPlugins={[remarkGfm]}
-                                    components={{
-                                        img: ({ src, alt }) => (
-                                            <span className="block my-8 relative w-full aspect-video rounded-xl overflow-hidden bg-secondary">
-                                                <BlurImage
-                                                    src={(src as string) || ''}
-                                                    alt={alt || ''}
-                                                    fill
-                                                    className="object-cover"
-                                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 70vw, 896px"
-                                                />
-                                            </span>
-                                        ),
-                                        blockquote: ({ children }) => (
-                                            <blockquote className="border-l-4 border-gradient-to-b from-primary to-purple-500 pl-6 py-4 my-8 italic text-lg text-white/90 bg-gradient-to-r from-primary/10 to-purple-500/10 rounded-r-xl">
-                                                {children}
-                                            </blockquote>
-                                        ),
-                                        h1: ({ children }) => {
-                                            const id = String(children).toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
-                                            return <h1 id={id} className="text-3xl font-bold mt-12 mb-6 text-foreground scroll-mt-32">{children}</h1>;
-                                        },
-                                        h2: ({ children }) => {
-                                            const id = String(children).toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
-                                            return <h2 id={id} className="text-2xl font-bold mt-10 mb-5 text-foreground scroll-mt-32">{children}</h2>;
-                                        },
-                                        h3: ({ children }) => {
-                                            const id = String(children).toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
-                                            return <h3 id={id} className="text-xl font-bold mt-8 mb-4 text-foreground scroll-mt-32">{children}</h3>;
-                                        },
-                                        h4: ({ children }) => {
-                                            const id = String(children).toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
-                                            return <h4 id={id} className="text-lg font-bold mt-6 mb-3 text-foreground scroll-mt-32">{children}</h4>;
-                                        },
-                                        a: ({ href, children }) => (
-                                            <a href={href} className="text-primary hover:underline transition-colors font-medium cursor-pointer" target="_blank" rel="noopener noreferrer">
-                                                {children}
-                                            </a>
-                                        ),
-                                        code: ({ children, className }) => {
-                                            // Check if this is a block code (inside pre) or inline
-                                            const isInline = !className;
-                                            if (isInline) {
-                                                return (
-                                                    <code className="px-1.5 py-0.5 rounded bg-secondary-foreground/20 text-primary font-mono text-sm">
-                                                        {children}
-                                                    </code>
-                                                );
-                                            }
-                                            return (
-                                                <CodeBlockLegacy className={className}>
-                                                    {children}
-                                                </CodeBlockLegacy>
-                                            );
-                                        },
-                                        pre: ({ children }) => <>{children}</>,
-                                    }}
+                                    components={markdownComponents}
                                 >
                                     {post.content}
                                 </ReactMarkdown>
                             </div>
 
-                            {/* Rating Section */}
                             <div className="mt-16 pt-8 border-t border-white/10 flex flex-col items-center justify-center gap-4">
                                 <h3 className="text-lg font-semibold text-foreground">
                                     Did you find this helpful?
@@ -231,6 +180,8 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                                 <StarRating postSlug={slug} size="lg" />
                             </div>
                         </div>
+
+                        <Comments />
                     </div>
                 </div>
             </article>
@@ -253,7 +204,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                 <RelatedPosts posts={allPosts} currentSlug={slug} />
             </div>
             <Footer />
-        </main>
+        </main >
     );
 }
 

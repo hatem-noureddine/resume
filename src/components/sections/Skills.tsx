@@ -57,50 +57,61 @@ function useIsMobile(breakpoint = 1024) {
 }
 
 /**
+ * Skill icon mapping - patterns to match skill names
+ */
+const skillPatterns: Array<{ patterns: string[], icon: React.ReactNode }> = [
+    { patterns: ["android", "mobile", "ios"], icon: <Smartphone className="w-4 h-4" /> },
+    { patterns: ["design", "figma", "ui", "ux"], icon: <Palette className="w-4 h-4" /> },
+    { patterns: ["team", "collab", "agile"], icon: <Users className="w-4 h-4" /> },
+    { patterns: ["doc", "analy"], icon: <FileText className="w-4 h-4" /> },
+    { patterns: ["arch", "pattern"], icon: <Layers className="w-4 h-4" /> },
+    { patterns: ["api", "server", "backend"], icon: <Server className="w-4 h-4" /> },
+    { patterns: ["data", "sql", "room"], icon: <Database className="w-4 h-4" /> },
+    { patterns: ["git"], icon: <GitBranch className="w-4 h-4" /> },
+    { patterns: ["test", "junit", "quality"], icon: <CheckCircle className="w-4 h-4" /> },
+    { patterns: ["ci/cd", "jenkins", "tools"], icon: <Wrench className="w-4 h-4" /> },
+    { patterns: ["web", "react", "next"], icon: <Globe className="w-4 h-4" /> },
+    { patterns: ["ai", "gpt", "copilot"], icon: <Bot className="w-4 h-4" /> },
+    { patterns: ["kotlin", "java", "code"], icon: <Code className="w-4 h-4" /> },
+    { patterns: ["analytic"], icon: <BarChart className="w-4 h-4" /> },
+    { patterns: ["terminal", "bash"], icon: <Terminal className="w-4 h-4" /> },
+];
+
+const explicitIconMap: Record<string, React.ReactNode> = {
+    "Layout": <Layout className="w-4 h-4" />,
+    "Code": <Code className="w-4 h-4" />,
+    "Smartphone": <Smartphone className="w-4 h-4" />,
+    "Palette": <Palette className="w-4 h-4" />,
+    "Users": <Users className="w-4 h-4" />,
+    "FileText": <FileText className="w-4 h-4" />,
+    "CheckCircle": <CheckCircle className="w-4 h-4" />,
+    "Layers": <Layers className="w-4 h-4" />,
+    "Server": <Server className="w-4 h-4" />,
+    "Database": <Database className="w-4 h-4" />,
+    "GitBranch": <GitBranch className="w-4 h-4" />,
+    "Terminal": <Terminal className="w-4 h-4" />,
+    "Globe": <Globe className="w-4 h-4" />,
+    "BarChart": <BarChart className="w-4 h-4" />,
+    "Wrench": <Wrench className="w-4 h-4" />,
+    "Bot": <Bot className="w-4 h-4" />
+};
+
+/**
  * Maps a skill name to a corresponding Lucide icon.
  */
-const getSkillIcon = (skillName: string, explicitIcon?: string) => {
-    if (explicitIcon) {
-        const iconMap: Record<string, React.ReactNode> = {
-            "Layout": <Layout className="w-4 h-4" />,
-            "Code": <Code className="w-4 h-4" />,
-            "Smartphone": <Smartphone className="w-4 h-4" />,
-            "Palette": <Palette className="w-4 h-4" />,
-            "Users": <Users className="w-4 h-4" />,
-            "FileText": <FileText className="w-4 h-4" />,
-            "CheckCircle": <CheckCircle className="w-4 h-4" />,
-            "Layers": <Layers className="w-4 h-4" />,
-            "Server": <Server className="w-4 h-4" />,
-            "Database": <Database className="w-4 h-4" />,
-            "GitBranch": <GitBranch className="w-4 h-4" />,
-            "Terminal": <Terminal className="w-4 h-4" />,
-            "Globe": <Globe className="w-4 h-4" />,
-            "BarChart": <BarChart className="w-4 h-4" />,
-            "Wrench": <Wrench className="w-4 h-4" />,
-            "Bot": <Bot className="w-4 h-4" />
-        };
-        if (iconMap[explicitIcon]) return iconMap[explicitIcon];
+const getSkillIcon = (skillName: string, explicitIcon?: string): React.ReactNode => {
+    // Check for explicit icon first
+    if (explicitIcon && explicitIconMap[explicitIcon]) {
+        return explicitIconMap[explicitIcon];
     }
 
+    // Match against patterns
     const normalized = skillName.toLowerCase();
+    const matched = skillPatterns.find(({ patterns }) =>
+        patterns.some(pattern => normalized.includes(pattern))
+    );
 
-    if (normalized.includes("android") || normalized.includes("mobile") || normalized.includes("ios")) return <Smartphone className="w-4 h-4" />;
-    if (normalized.includes("design") || normalized.includes("figma") || normalized.includes("ui") || normalized.includes("ux")) return <Palette className="w-4 h-4" />;
-    if (normalized.includes("team") || normalized.includes("collab") || normalized.includes("agile")) return <Users className="w-4 h-4" />;
-    if (normalized.includes("doc") || normalized.includes("analy")) return <FileText className="w-4 h-4" />;
-    if (normalized.includes("arch") || normalized.includes("pattern")) return <Layers className="w-4 h-4" />;
-    if (normalized.includes("api") || normalized.includes("server") || normalized.includes("backend")) return <Server className="w-4 h-4" />;
-    if (normalized.includes("data") || normalized.includes("sql") || normalized.includes("room")) return <Database className="w-4 h-4" />;
-    if (normalized.includes("git")) return <GitBranch className="w-4 h-4" />;
-    if (normalized.includes("test") || normalized.includes("junit") || normalized.includes("quality")) return <CheckCircle className="w-4 h-4" />;
-    if (normalized.includes("ci/cd") || normalized.includes("jenkins") || normalized.includes("tools")) return <Wrench className="w-4 h-4" />;
-    if (normalized.includes("web") || normalized.includes("react") || normalized.includes("next")) return <Globe className="w-4 h-4" />;
-    if (normalized.includes("ai") || normalized.includes("gpt") || normalized.includes("copilot")) return <Bot className="w-4 h-4" />;
-    if (normalized.includes("kotlin") || normalized.includes("java") || normalized.includes("code")) return <Code className="w-4 h-4" />;
-    if (normalized.includes("analytic")) return <BarChart className="w-4 h-4" />;
-    if (normalized.includes("terminal") || normalized.includes("bash")) return <Terminal className="w-4 h-4" />;
-
-    return <Code className="w-4 h-4" />;
+    return matched?.icon ?? <Code className="w-4 h-4" />;
 };
 
 /**
@@ -113,11 +124,11 @@ const ProfessionalSkillsColumn = ({
     items,
     title,
     prefersReducedMotion
-}: {
+}: Readonly<{
     items: (string | SkillItem)[],
     title: string,
     prefersReducedMotion: boolean
-}) => {
+}>) => {
     return (
         <div className="w-full">
             <motion.div
@@ -136,18 +147,18 @@ const ProfessionalSkillsColumn = ({
             <motion.div
                 variants={prefersReducedMotion ? {} : container}
                 initial="hidden"
-                whileInView="show"
+                whileInView="visible"
                 viewport={{ once: true }}
                 className="space-y-3"
             >
-                {items.map((item: string | SkillItem, index: number) => {
+                {items.map((item: string | SkillItem) => {
                     const isObj = typeof item === 'object';
-                    const name = isObj ? (item as SkillItem).name : (item as string);
-                    const icon = isObj ? (item as SkillItem).icon : undefined;
+                    const name = isObj ? item.name : item;
+                    const icon = isObj ? item.icon : undefined;
 
                     return (
                         <motion.div
-                            key={index}
+                            key={name}
                             variants={prefersReducedMotion ? {} : fadeInLeft}
                             className="bg-secondary/30 p-3 rounded-xl font-medium border border-foreground/5 hover:border-primary/50 hover:bg-secondary/50 transition-all duration-300 flex items-center gap-3 group hover-lift"
                         >
@@ -200,17 +211,18 @@ const SkillTag = ({
     index,
     prefersReducedMotion,
     isFiltered
-}: {
+}: Readonly<{
     skill: string | SkillItem,
     categoryIndex: number,
     index: number,
     prefersReducedMotion: boolean,
     isFiltered: boolean
-}) => {
+}>) => {
     const [showTooltip, setShowTooltip] = useState(false);
-    const isLink = typeof skill === 'object' && !!(skill as SkillItem).link;
-    const content = typeof skill === 'object' ? (skill as SkillItem).name : (skill as string);
-    const link = typeof skill === 'object' ? (skill as SkillItem).link : undefined;
+    const isSkillObject = typeof skill === 'object';
+    const isLink = isSkillObject && !!skill.link;
+    const content = isSkillObject ? skill.name : skill;
+    const link = isSkillObject ? skill.link : undefined;
     const colorClass = categoryColors[categoryIndex % categoryColors.length];
 
     const baseClass = `text-xs md:text-sm px-2 md:px-3 py-1 md:py-1.5 rounded-full border font-medium transition-all duration-200 ${colorClass} ${isFiltered ? 'ring-2 ring-primary ring-offset-1' : ''}`;
@@ -282,13 +294,13 @@ const DesktopCategoryGrid = ({
     prefersReducedMotion,
     activeFilter,
     setActiveFilter
-}: {
+}: Readonly<{
     categories: SkillCategory[],
     title: string,
     prefersReducedMotion: boolean,
     activeFilter: number | null,
     setActiveFilter: (filter: number | null) => void
-}) => {
+}>) => {
     const [expandedCategories, setExpandedCategories] = useState<Set<number>>(new Set([0, 1, 2])); // First 3 expanded by default
 
     const toggleCategory = (index: number) => {
@@ -301,9 +313,9 @@ const DesktopCategoryGrid = ({
         setExpandedCategories(newExpanded);
     };
 
-    const filteredCategories = activeFilter !== null
-        ? categories.filter((_, i) => i === activeFilter)
-        : categories;
+    const filteredCategories = activeFilter === null
+        ? categories
+        : categories.filter((_, i) => i === activeFilter);
 
     return (
         <div className="w-full">
@@ -332,16 +344,19 @@ const DesktopCategoryGrid = ({
                     <Filter className="w-3 h-3" />
                     All
                 </button>
-                {categories.map((category, index) => (
+                {categories.map((category) => (
                     <button
-                        key={index}
-                        onClick={() => setActiveFilter(activeFilter === index ? null : index)}
-                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${activeFilter === index
-                            ? `${categoryDotColors[index % categoryDotColors.length]} text-white`
-                            : `bg-secondary/50 text-foreground hover:bg-secondary border ${categoryBorderColors[index % categoryBorderColors.length]}`
+                        key={category.name}
+                        onClick={() => {
+                            const idx = categories.findIndex(c => c.name === category.name);
+                            setActiveFilter(activeFilter === idx ? null : idx);
+                        }}
+                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${activeFilter === categories.findIndex(c => c.name === category.name)
+                            ? `${categoryDotColors[categories.findIndex(c => c.name === category.name) % categoryDotColors.length]} text-white`
+                            : `bg-secondary/50 text-foreground hover:bg-secondary border ${categoryBorderColors[categories.findIndex(c => c.name === category.name) % categoryBorderColors.length]}`
                             }`}
                     >
-                        <span className={`w-2 h-2 rounded-full ${activeFilter === index ? 'bg-white' : categoryDotColors[index % categoryDotColors.length]}`} />
+                        <span className={`w-2 h-2 rounded-full ${activeFilter === categories.findIndex(c => c.name === category.name) ? 'bg-white' : categoryDotColors[categories.findIndex(c => c.name === category.name) % categoryDotColors.length]}`} />
                         {category.name}
                         <span className="opacity-60">({category.items.length})</span>
                     </button>
@@ -405,7 +420,7 @@ const DesktopCategoryGrid = ({
                                             <div className="flex flex-wrap gap-2 pt-1">
                                                 {category.items.map((skill, skillIndex) => (
                                                     <SkillTag
-                                                        key={skillIndex}
+                                                        key={typeof skill === 'string' ? `${skill}-${originalIndex}` : `${skill.name}-${originalIndex}`}
                                                         skill={skill}
                                                         categoryIndex={originalIndex}
                                                         index={skillIndex}
@@ -433,11 +448,11 @@ const MobileTagCloud = ({
     categories,
     title,
     prefersReducedMotion
-}: {
+}: Readonly<{
     categories: SkillCategory[],
     title: string,
     prefersReducedMotion: boolean
-}) => {
+}>) => {
     const allSkills = categories.flatMap((category, catIndex) =>
         category.items.map((skill) => ({
             skill,
@@ -463,12 +478,12 @@ const MobileTagCloud = ({
 
             <div className="bg-secondary/10 rounded-xl border border-foreground/5 p-3">
                 <div className="flex flex-wrap gap-1.5">
-                    {allSkills.map(({ skill, categoryIndex }, index) => (
+                    {allSkills.map(({ skill, categoryIndex }) => (
                         <SkillTag
-                            key={index}
+                            key={typeof skill === 'string' ? `${skill}-${categoryIndex}` : `${skill.name}-${categoryIndex}`}
                             skill={skill}
                             categoryIndex={categoryIndex}
-                            index={index}
+                            index={allSkills.findIndex(s => s.skill === skill && s.categoryIndex === categoryIndex)}
                             prefersReducedMotion={prefersReducedMotion}
                             isFiltered={false}
                         />
@@ -477,9 +492,9 @@ const MobileTagCloud = ({
 
                 {/* Category Legend */}
                 <div className="mt-3 pt-3 border-t border-foreground/5 flex flex-wrap gap-2">
-                    {categories.map((category, index) => (
-                        <div key={index} className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                            <span className={`w-2 h-2 rounded-full ${categoryDotColors[index % categoryDotColors.length]}`} />
+                    {categories.map((category, catIdx) => (
+                        <div key={category.name} className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                            <span className={`w-2 h-2 rounded-full ${categoryDotColors[catIdx % categoryDotColors.length]}`} />
                             <span>{category.name}</span>
                             <span className="opacity-50">({category.items.length})</span>
                         </div>

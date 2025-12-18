@@ -1,9 +1,13 @@
 import '@testing-library/jest-dom'
 import React from 'react';
 
-if (typeof window !== 'undefined') {
+import { TextEncoder, TextDecoder } from 'node:util';
+
+Object.assign(globalThis, { TextDecoder, TextEncoder });
+
+if (globalThis.window !== undefined) {
     // Mock window.matchMedia for reduced motion hook
-    Object.defineProperty(window, 'matchMedia', {
+    Object.defineProperty(globalThis, 'matchMedia', {
         writable: true,
         value: jest.fn().mockImplementation(query => ({
             matches: false, // Default: no reduced motion preference
@@ -23,7 +27,7 @@ if (typeof window !== 'undefined') {
         unobserve = jest.fn();
         disconnect = jest.fn();
     }
-    Object.defineProperty(window, 'IntersectionObserver', {
+    Object.defineProperty(globalThis, 'IntersectionObserver', {
         writable: true,
         value: IntersectionObserver,
     });
@@ -34,7 +38,7 @@ if (typeof window !== 'undefined') {
         unobserve = jest.fn();
         disconnect = jest.fn();
     }
-    Object.defineProperty(window, 'ResizeObserver', {
+    Object.defineProperty(globalThis, 'ResizeObserver', {
         writable: true,
         value: ResizeObserver,
     });
@@ -99,3 +103,39 @@ jest.mock('@vercel/analytics/next', () => ({
 jest.mock('@vercel/speed-insights/next', () => ({
     SpeedInsights: () => null,
 }));
+
+// Mock Giscus
+jest.mock('@giscus/react', () => {
+    return {
+        __esModule: true,
+        default: () => <div data-testid="giscus-mock" />,
+    };
+});
+
+// Mock markdown libraries
+jest.mock('react-markdown', () => {
+    return {
+        __esModule: true,
+        default: ({ children }) => <>{children}</>,
+    };
+});
+
+jest.mock('remark-gfm', () => () => { });
+
+// Mock lottie-react (requires canvas which isn't available in jsdom)
+jest.mock('lottie-react', () => {
+    return {
+        __esModule: true,
+        default: ({ animationData, loop, autoplay, style, className, ...rest }) => (
+            <div
+                data-testid="lottie-animation"
+                data-animation-name={animationData?.nm || 'unknown'}
+                data-loop={loop}
+                data-autoplay={autoplay}
+                style={style}
+                className={className}
+                {...rest}
+            />
+        ),
+    };
+});

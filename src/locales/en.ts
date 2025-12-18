@@ -1,7 +1,8 @@
 
 import { SITE_CONFIG } from "@/config/site";
+import type { Locale } from "./types";
 
-export const en = {
+export const en: Locale = {
     header: {
         logo: "HN",
         nav: [
@@ -316,7 +317,11 @@ export const en = {
     },
     footer: {
         rights: "All rights reserved.",
-        backToTop: "Back to top"
+        backToTop: "Back to top",
+        newsletter: {
+            title: "Subscribe to my newsletter",
+            description: "Get notified about new posts and updates."
+        }
     },
     chat: {
         greeting: "Hi! I'm Hatem's assistant. 👋",

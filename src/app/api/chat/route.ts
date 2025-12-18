@@ -18,6 +18,30 @@ export async function POST(req: Request) {
             );
         }
 
+        // Security: Validate message array length
+        if (messages.length > 50) {
+            return new Response(
+                JSON.stringify({ error: 'Too many messages' }),
+                { status: 400, headers: { 'Content-Type': 'application/json' } }
+            );
+        }
+
+        // Security: Validate each message
+        for (const msg of messages) {
+            if (!msg.role || !['user', 'assistant'].includes(msg.role)) {
+                return new Response(
+                    JSON.stringify({ error: 'Invalid message role' }),
+                    { status: 400, headers: { 'Content-Type': 'application/json' } }
+                );
+            }
+            if (typeof msg.content !== 'string' || msg.content.length > 5000) {
+                return new Response(
+                    JSON.stringify({ error: 'Invalid message content' }),
+                    { status: 400, headers: { 'Content-Type': 'application/json' } }
+                );
+            }
+        }
+
         const apiKey = process.env.GROQ_API_KEY;
 
         if (!apiKey) {

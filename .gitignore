@@ -14,6 +14,10 @@
 /coverage
 /reports
 /test-results
+*.coverage.txt
+coverage*.txt
+*_coverage*.txt
+wrapper
 
 # playwright
 /playwright-report
@@ -59,3 +63,8 @@ next-env.d.ts
 
 *storybook.log
 storybook-static
+
+# lock files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml

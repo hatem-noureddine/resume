@@ -3,35 +3,35 @@
         "id": 1,
         "title": "E-Commerce Platform",
         "category": "Development",
-        "image": "/resume/project1.png",
+        "image": "https://placehold.co/600x400/1f1f1f/FFF?text=E-Commerce",
         "link": "#"
     },
     {
         "id": 2,
         "title": "Finance Dashboard",
         "category": "Design",
-        "image": "/resume/project2.png",
+        "image": "https://placehold.co/600x400/1f1f1f/FFF?text=Finance",
         "link": "#"
     },
     {
         "id": 3,
         "title": "Health & Wellness App",
         "category": "Mobile App",
-        "image": "/resume/project3.png",
+        "image": "https://placehold.co/600x400/1f1f1f/FFF?text=Health",
         "link": "#"
     },
     {
         "id": 4,
         "title": "Corporate Rebranding",
         "category": "Branding",
-        "image": "/resume/project4.png",
+        "image": "https://placehold.co/600x400/1f1f1f/FFF?text=Branding",
         "link": "#"
     },
     {
         "id": 5,
         "title": "Social Media Campaign",
         "category": "Marketing",
-        "image": "/resume/project5.png",
+        "image": "https://placehold.co/600x400/1f1f1f/FFF?text=Marketing",
         "link": "#"
     }
 ]

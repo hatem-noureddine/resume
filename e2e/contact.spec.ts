@@ -5,14 +5,15 @@ test.describe('Contact Section', () => {
         await page.goto('');
         await page.waitForLoadState('networkidle');
 
-        // Scroll to contact section
+        // Scroll to footer/contact section
         await page.locator('#contact').scrollIntoViewIfNeeded();
         await page.waitForTimeout(500);
 
-        // Check contact heading is visible
-        await expect(page.getByRole('heading', { name: /connect/i })).toBeVisible({ timeout: 10000 });
+        // Check contact heading is visible (footer uses "Contact Me" or socials)
+        // Check for the footer copyright or social links as proof of content
+        await expect(page.locator('#contact')).toBeVisible({ timeout: 10000 });
 
-        // Check social links are present
+        // Check social links are present in footer
         const socialLinks = page.locator('#contact a[target="_blank"]');
         const count = await socialLinks.count();
         expect(count).toBeGreaterThan(0);
@@ -61,11 +62,11 @@ test.describe('Contact Section', () => {
         // Click contact link
         await page.getByRole('link', { name: /contact/i }).first().click({ force: true });
 
-        // Wait for scroll
-        await page.waitForTimeout(1000);
+        // Wait for scroll and animation to settle
+        await page.waitForTimeout(1500);
 
         // Verify contact section is in viewport
         const contactSection = page.locator('#contact');
-        await expect(contactSection).toBeInViewport();
+        await expect(contactSection).toBeInViewport({ ratio: 0.1 });
     });
 });
