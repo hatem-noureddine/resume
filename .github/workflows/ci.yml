@@ -93,16 +93,14 @@ jobs:
             echo "::warning::Build size exceeds 20MB limit"
           fi
 
-      - name: Prepare build artifacts for E2E
-        run: |
-          mkdir -p dist
-          cp -r .next public package.json next.config.mjs dist/
+      - name: Archive build artifacts for E2E
+        run: tar -czf build.tar.gz .next public package.json next.config.mjs
 
       - name: Upload build artifact for E2E
         uses: actions/upload-artifact@v4
         with:
           name: build-output
-          path: dist/
+          path: build.tar.gz
           retention-days: 1
 
   # E2E and performance tests
@@ -123,18 +121,16 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: build-output
-          path: .
 
-      - name: Debug - Verify build artifacts
+      - name: Extract build artifacts
         run: |
-          echo "Listing root directory:"
+          tar -xzf build.tar.gz
+          echo "Listing extracted files:"
           ls -la
-          echo "Checking for .next folder:"
           if [ -d ".next" ]; then
-            echo ".next folder found."
-            ls -la .next | head -n 10
+            echo ".next folder restored successfully."
           else
-            echo "ERROR: .next folder NOT found!"
+            echo "ERROR: .next folder NOT found after extraction!"
             exit 1
           fi
 
