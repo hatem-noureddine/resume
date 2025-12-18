@@ -19,6 +19,9 @@ const mockUseLanguage = {
         },
         hero: {
             availableForHire: 'Available for Hire'
+        },
+        contact: {
+            title: 'Contact Me'
         }
     },
     language: 'en',
@@ -234,7 +237,7 @@ describe('Header Component', () => {
             // Check if hire me link has active class
             // The Hire Me link in Header line 230: isLinkActive("#contact") && "ring-2 ring-green-500/50"
             // Verify this class is present.
-            const hireLink = screen.getByText('Available for Hire').closest('a');
+            const hireLink = screen.getByText('Contact Me').closest('a');
             expect(hireLink).toHaveClass('ring-green-500/50');
         });
 

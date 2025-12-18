@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, ReactNode, useState, useEffect } from 'react';
+import { createContext, useContext, ReactNode, useState, useEffect, useCallback, useMemo } from 'react';
 
 interface FeatureFlags {
     [key: string]: boolean;
@@ -23,7 +23,7 @@ const DEFAULT_FLAGS: FeatureFlags = {
     comments: false, // Giscus integration pending
     analytics: true,
     pwa: true,
-    projects: false, // Projects section - enable when ready
+    projects: true, // Projects section - enable when ready
 };
 
 interface FeatureFlagProviderProps {
@@ -45,7 +45,7 @@ interface FeatureFlagProviderProps {
 export function FeatureFlagProvider({
     children,
     initialFlags = {},
-}: FeatureFlagProviderProps) {
+}: Readonly<FeatureFlagProviderProps>) {
     const [flags, setFlags] = useState<FeatureFlags>({
         ...DEFAULT_FLAGS,
         ...initialFlags,
@@ -65,20 +65,22 @@ export function FeatureFlagProvider({
         }
     }, []);
 
-    const isEnabled = (flag: string): boolean => {
+    const isEnabled = useCallback((flag: string): boolean => {
         return flags[flag] ?? false;
-    };
+    }, [flags]);
 
-    const setFlag = (flag: string, enabled: boolean): void => {
+    const setFlag = useCallback((flag: string, enabled: boolean): void => {
         setFlags(prev => {
             const newFlags = { ...prev, [flag]: enabled };
             localStorage.setItem('featureFlags', JSON.stringify(newFlags));
             return newFlags;
         });
-    };
+    }, []);
+
+    const contextValue = useMemo(() => ({ flags, isEnabled, setFlag }), [flags, isEnabled, setFlag]);
 
     return (
-        <FeatureFlagContext.Provider value={{ flags, isEnabled, setFlag }}>
+        <FeatureFlagContext.Provider value={contextValue}>
             {children}
         </FeatureFlagContext.Provider>
     );

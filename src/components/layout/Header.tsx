@@ -235,7 +235,7 @@ export function Header({ hasBlogPosts = true }: Readonly<{ hasBlogPosts?: boolea
                             <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
                         </span>
                         <Sparkles size={14} />
-                        {t.contact.title || "Contact Me"}
+                        {t.contact?.title || "Contact Me"}
                     </Link>
                 </nav>
 
@@ -327,7 +327,7 @@ export function Header({ hasBlogPosts = true }: Readonly<{ hasBlogPosts?: boolea
                                                 <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
                                             </span>
                                             <Sparkles size={18} />
-                                            {t.contact.title || "Contact Me"}
+                                            {t.contact?.title || "Contact Me"}
                                         </Link>
                                     </motion.div>
 

@@ -13,7 +13,7 @@ export default defineConfig({
         ['junit', { outputFile: 'playwright-report/results.xml' }]
     ],
     use: {
-        baseURL: 'http://localhost:3001/',
+        baseURL: 'http://localhost:3002/',
         trace: 'on-first-retry',
         locale: 'en-US',
     },
@@ -26,16 +26,11 @@ export default defineConfig({
             name: 'mobile-chrome',
             use: { ...devices['Pixel 5'] },
         },
-        // Mobile Safari is disabled due to flaky behavior in headless environments
-        // {
-        //     name: 'mobile-safari',
-        //     use: { ...devices['iPhone 12'] },
-        // }
     ],
     webServer: {
-        command: 'npm run start -- -p 3001',
-        url: 'http://localhost:3001',
-        reuseExistingServer: true,
-        timeout: 120 * 1000,
+        command: 'npm run build && npm run start -- -p 3002',
+        url: 'http://localhost:3002',
+        reuseExistingServer: false,
+        timeout: 300 * 1000,
     },
 });
