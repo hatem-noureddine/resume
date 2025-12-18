@@ -86,10 +86,12 @@ export function ChatWidget() {
             <motion.button
                 onClick={() => setIsOpen(!isOpen)}
                 className={cn(
-                    "fixed bottom-6 right-6 z-50 p-4 rounded-full shadow-lg",
-                    "bg-linear-to-r from-primary to-primary/80 text-white",
-                    "hover:shadow-xl hover:shadow-primary/25",
-                    "transition-all duration-300"
+                    "fixed bottom-6 right-6 z-50 p-4 rounded-full",
+                    "bg-gradient-to-br from-primary via-primary to-primary/90 text-white",
+                    "shadow-lg shadow-primary/20 dark:shadow-primary/30",
+                    "hover:shadow-xl hover:shadow-primary/30 dark:hover:shadow-primary/40",
+                    "hover:scale-105 transition-all duration-300",
+                    "ring-2 ring-white/20 dark:ring-white/10"
                 )}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -145,15 +147,17 @@ export function ChatWidget() {
                             "inset-4 bottom-20",
                             // Tablet and up: positioned widget
                             "sm:inset-auto sm:bottom-24 sm:right-6",
-                            "sm:w-[360px] sm:h-[520px] sm:max-h-[80vh]",
+                            "sm:w-[380px] sm:h-[540px] sm:max-h-[80vh]",
                             "md:w-[420px]",
-                            // Shared styles
-                            "bg-background border border-border rounded-2xl shadow-2xl",
+                            // Glassmorphism effect
+                            "bg-background/95 dark:bg-background/90 backdrop-blur-xl",
+                            "border border-border/50 dark:border-border/30",
+                            "rounded-2xl shadow-2xl shadow-black/10 dark:shadow-black/30",
                             "flex flex-col overflow-hidden"
                         )}
                     >
                         {/* Header */}
-                        <div className="p-4 bg-linear-to-r from-primary to-primary/80 text-primary-foreground rounded-t-2xl">
+                        <div className="p-4 bg-gradient-to-br from-primary via-primary to-primary/90 text-white rounded-t-2xl">
                             <div className="flex justify-between items-start">
                                 <div className="flex items-center gap-3">
                                     <div className="p-2 bg-white/20 rounded-full">
@@ -204,7 +208,7 @@ export function ChatWidget() {
                         </div>
 
                         {/* Messages */}
-                        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+                        <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-muted/30 dark:bg-muted/10">
                             {messages.map((msg, i) => (
                                 <motion.div
                                     key={i}
@@ -216,16 +220,16 @@ export function ChatWidget() {
                                     )}
                                 >
                                     {msg.role === 'assistant' && (
-                                        <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                                        <div className="w-8 h-8 rounded-full bg-primary/10 dark:bg-primary/20 flex items-center justify-center shrink-0 ring-1 ring-primary/20">
                                             <Bot size={16} className="text-primary" />
                                         </div>
                                     )}
                                     <div
                                         className={cn(
-                                            "max-w-[80%] p-3 rounded-2xl text-sm whitespace-pre-line",
+                                            "max-w-[80%] p-3 rounded-2xl text-sm whitespace-pre-line shadow-sm",
                                             msg.role === 'user'
-                                                ? 'bg-primary text-primary-foreground rounded-br-sm'
-                                                : 'bg-secondary text-secondary-foreground rounded-bl-sm'
+                                                ? 'bg-gradient-to-br from-primary to-primary/90 text-white rounded-br-sm'
+                                                : 'bg-card dark:bg-card/80 text-card-foreground rounded-bl-sm border border-border/50'
                                         )}
                                     >
                                         {msg.content || (
@@ -233,7 +237,7 @@ export function ChatWidget() {
                                         )}
                                     </div>
                                     {msg.role === 'user' && (
-                                        <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0">
+                                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center shrink-0 ring-1 ring-white/20">
                                             <User size={16} className="text-white" />
                                         </div>
                                     )}
@@ -251,7 +255,7 @@ export function ChatWidget() {
                                             key={i}
                                             onClick={() => sendMessage(q)}
                                             disabled={isLoading}
-                                            className="text-xs px-3 py-1.5 rounded-full bg-secondary hover:bg-secondary/80 transition-colors"
+                                            className="text-xs px-3 py-1.5 rounded-full bg-card dark:bg-card/80 border border-border/50 hover:bg-muted hover:border-primary/30 transition-all duration-200"
                                         >
                                             {q}
                                         </button>
@@ -261,7 +265,7 @@ export function ChatWidget() {
                         )}
 
                         {/* Input */}
-                        <div className="p-4 border-t border-border">
+                        <div className="p-4 border-t border-border/50 bg-background/50">
                             {/* Rate limit warning */}
                             {rateLimitWarning && (
                                 <div className="mb-2 text-xs text-red-500 text-center animate-pulse">
@@ -278,8 +282,10 @@ export function ChatWidget() {
                                     disabled={isLoading}
                                     className={cn(
                                         "flex-1 px-4 py-2.5 rounded-full text-sm",
-                                        "bg-secondary border-0 outline-none",
-                                        "focus:ring-2 focus:ring-primary/50",
+                                        "bg-muted/50 dark:bg-muted/30 border border-border/50",
+                                        "placeholder:text-muted-foreground/60",
+                                        "focus:ring-2 focus:ring-primary/50 focus:border-primary/50",
+                                        "transition-all duration-200",
                                         "disabled:opacity-50"
                                     )}
                                 />
@@ -288,9 +294,10 @@ export function ChatWidget() {
                                     disabled={!input.trim() || isLoading}
                                     aria-label="Send message"
                                     className={cn(
-                                        "p-2.5 rounded-full bg-primary text-white",
-                                        "hover:bg-primary/90 transition-colors",
-                                        "disabled:opacity-50 disabled:cursor-not-allowed"
+                                        "p-2.5 rounded-full bg-gradient-to-br from-primary to-primary/90 text-white",
+                                        "hover:shadow-lg hover:shadow-primary/25 hover:scale-105",
+                                        "transition-all duration-200",
+                                        "disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                                     )}
                                 >
                                     {isLoading ? (
