@@ -41,14 +41,14 @@ describe('API Routes', () => {
             // Check for static entry
             expect(entries).toEqual(expect.arrayContaining([
                 expect.objectContaining({
-                    url: 'https://resume-cb6ssf9ve-hatem-noureddines-projects.vercel.app',
+                    url: 'https://hatem-noureddine-resume.vercel.app',
                     priority: 1
                 })
             ]));
 
             // Check for dynamic blog post entry
             expect(entries).toContainEqual(expect.objectContaining({
-                url: 'https://resume-cb6ssf9ve-hatem-noureddines-projects.vercel.app/blog/test-post',
+                url: 'https://hatem-noureddine-resume.vercel.app/blog/test-post',
                 changeFrequency: 'monthly'
             }));
         });

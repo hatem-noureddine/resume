@@ -34,4 +34,4 @@ This is critical for the AI chatbot to function.
 
 ## Step 4: Deploy
 
-Click **Deploy**. Vercel will build your project and provide a production URL (e.g., `https://your-project.vercel.app`).
+Click **Deploy**. Vercel will build your project and provide a production URL (e.g., `https://hatem-noureddine-resume.vercel.app`).
