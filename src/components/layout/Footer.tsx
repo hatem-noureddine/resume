@@ -43,7 +43,7 @@ export function Footer({ hasBlogPosts = true }: Readonly<{ hasBlogPosts?: boolea
     });
 
     return (
-        <footer className="bg-secondary pt-16 pb-12 border-t border-foreground/5 relative">
+        <footer id="contact" className="bg-secondary pt-16 pb-12 border-t border-foreground/5 relative">
             <div className="container mx-auto px-4">
                 <div className="max-w-4xl mx-auto mb-16">
                     <NewsletterForm

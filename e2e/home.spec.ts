@@ -8,10 +8,14 @@ test.describe('Homepage Responsive & Functionality', () => {
         await page.goto('');
 
         // Check key sections are visible
-        // Check key sections are visible
         // Use more specific locators that wait for hydration
-        await expect(page.getByRole('heading', { name: /My Services|Services/i })).toBeVisible({ timeout: 10000 });
-        await expect(page.getByRole('heading', { name: /My Skills/i })).toBeVisible({ timeout: 10000 });
+        const servicesHeading = page.getByRole('heading', { name: /My Services|Services/i });
+        await servicesHeading.scrollIntoViewIfNeeded();
+        await expect(servicesHeading).toBeVisible({ timeout: 10000 });
+
+        const skillsHeading = page.getByRole('heading', { name: /My Skills/i });
+        await skillsHeading.scrollIntoViewIfNeeded();
+        await expect(skillsHeading).toBeVisible({ timeout: 10000 });
 
         // Check navigation links
         const nav = page.locator('nav').first();
