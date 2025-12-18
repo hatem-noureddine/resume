@@ -18,7 +18,7 @@ export default defineConfig({
         },
     },
     use: {
-        baseURL: 'http://localhost:3002/',
+        baseURL: process.env.BASE_URL || 'http://localhost:3002/',
         trace: 'on-first-retry',
         locale: 'en-US',
     },
