@@ -24,6 +24,7 @@ describe('TypingIndicator', () => {
 
     it('has correct container styling', () => {
         const { container } = render(<TypingIndicator />);
-        expect(container.firstChild).toHaveClass('flex', 'items-center', 'gap-1');
+        // Lottie path: flex items-center h-5 px-1 (no gap-1)
+        expect(container.firstChild).toHaveClass('flex', 'items-center', 'h-5', 'px-1');
     });
 });

@@ -10,10 +10,20 @@ const mockedFs = fs as jest.Mocked<typeof fs>;
 const mockedPath = path as jest.Mocked<typeof path>;
 
 describe('posts', () => {
+    const POSTS_DIR = '/app/src/content/posts';
+
     beforeEach(() => {
         jest.clearAllMocks();
-        // Default path.join behavior
+        // Default path.join behavior - simulates joining paths
         mockedPath.join.mockImplementation((...args) => args.join('/'));
+        // Default path.resolve behavior - ensures all paths resolve within posts directory
+        mockedPath.resolve.mockImplementation((p?: string) => {
+            if (!p) return POSTS_DIR;
+            // If path already contains posts dir, return as-is
+            if (p.includes('src/content/posts')) return `/app/${p.replace(/^.*?(src\/content\/posts)/, '$1')}`;
+            // Otherwise prefix with posts directory
+            return `${POSTS_DIR}/${p}`;
+        });
     });
 
     describe('getSortedPostsData', () => {
