@@ -12,6 +12,11 @@ export default defineConfig({
         ['json', { outputFile: 'reports/playwright-results.json' }],
         ['junit', { outputFile: 'playwright-report/results.xml' }]
     ],
+    expect: {
+        toHaveScreenshot: {
+            pathTemplate: '{testDir}/{testFileDir}/{testFileName}-snapshots/{arg}-{projectName}{ext}',
+        },
+    },
     use: {
         baseURL: 'http://localhost:3002/',
         trace: 'on-first-retry',
@@ -28,9 +33,9 @@ export default defineConfig({
         },
     ],
     webServer: {
-        command: 'npm run build && npm run start -- -p 3002',
+        command: process.env.CI ? 'npm run start -- -p 3002' : 'npm run build && npm run start -- -p 3002',
         url: 'http://localhost:3002',
-        reuseExistingServer: false,
+        reuseExistingServer: true,
         timeout: 300 * 1000,
     },
 });

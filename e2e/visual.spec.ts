@@ -50,16 +50,10 @@ test.describe('Visual Regression', () => {
     test('homepage should match snapshot', async ({ page }) => {
         // Hydrate all dynamic sections
         await scrollToBottom(page);
-
-        // Freeze jumping elements
-        await page.evaluate(() => {
-            // Fix typing animation
-            const typingElement = document.querySelector('h1 + div span');
-            if (typingElement) typingElement.innerHTML = 'Android Developer |';
-
-            // Fix any other moving parts if necessary
+        await expect(page).toHaveScreenshot('homepage.png', {
+            ...screenshotOptions,
+            mask: [page.locator('h1 + div span')]
         });
-        await expect(page).toHaveScreenshot('homepage.png', screenshotOptions);
     });
 
     test('blog page should match snapshot', async ({ page }) => {
