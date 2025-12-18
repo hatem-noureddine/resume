@@ -11,8 +11,14 @@ export interface Message {
     content: string;
 }
 
-// Generate unique ID for messages
-const generateId = () => `msg_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`;
+// Generate unique ID for messages using cryptographically secure method
+const generateId = () => {
+    if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+        return `msg_${crypto.randomUUID()}`;
+    }
+    // Fallback for environments without crypto - use timestamp only
+    return `msg_${Date.now()}_${performance.now().toString(36)}`;
+};
 
 // Parse SSE content from a line - extracted to reduce cognitive complexity
 const parseSSEContent = (line: string): string | null => {

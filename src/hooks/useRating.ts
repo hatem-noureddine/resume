@@ -29,7 +29,8 @@ function generateUUID() {
     if (typeof crypto !== 'undefined' && crypto.randomUUID) {
         return crypto.randomUUID();
     }
-    return 'user_' + Math.random().toString(36).substring(2, 15);
+    // Fallback: use timestamp and performance.now() for uniqueness (non-cryptographic use case)
+    return `user_${Date.now().toString(36)}_${Math.floor(performance.now()).toString(36)}`;
 }
 
 /**

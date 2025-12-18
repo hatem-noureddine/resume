@@ -105,7 +105,8 @@ export interface TocHeading {
 }
 
 export function extractHeadings(content: string, maxLevel: number = 2): TocHeading[] {
-    const headingRegex = /^(#{1,6})\s+(.+)$/gm;
+    // Regex with non-backtracking pattern to prevent ReDoS - [^\n]+ is deterministic
+    const headingRegex = /^(#{1,6})\s+([^\n]+)$/gm;
     const headings: TocHeading[] = [];
     let match;
 
