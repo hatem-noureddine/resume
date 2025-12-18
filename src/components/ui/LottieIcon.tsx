@@ -35,7 +35,7 @@ export function LottieIcon({
     height = 24,
     ariaLabel,
     onComplete,
-}: LottieIconProps) {
+}: Readonly<LottieIconProps>) {
     const lottieRef = useRef<LottieRefCurrentProps>(null);
     const prefersReducedMotion = usePrefersReducedMotion();
 
@@ -70,6 +70,14 @@ export function LottieIcon({
         }
     };
 
+    // Handle keyboard support for click trigger
+    const handleKeyDown = (event: React.KeyboardEvent) => {
+        if (trigger === "click" && (event.key === "Enter" || event.key === " ")) {
+            event.preventDefault();
+            handleClick();
+        }
+    };
+
     // Handle animation complete
     const handleComplete = () => {
         onComplete?.();
@@ -82,15 +90,30 @@ export function LottieIcon({
         }
     }, [prefersReducedMotion]);
 
+    // Determine appropriate role and tabIndex for accessibility
+    const isClickable = trigger === "click";
+    const getRole = (): string | undefined => {
+        if (isClickable) return "button";
+        if (ariaLabel) return "img";
+        return undefined;
+    };
+    const role = getRole();
+    const tabIndex = isClickable ? 0 : undefined;
+
+    // Focus ring class for keyboard navigation
+    const focusClasses = isClickable ? "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-lg" : "";
+
     return (
         <div
-            className={`inline-flex items-center justify-center ${className}`}
+            className={`inline-flex items-center justify-center ${focusClasses} ${className}`}
             style={{ width, height }}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             onClick={handleClick}
-            role={ariaLabel ? "img" : undefined}
+            onKeyDown={handleKeyDown}
+            role={role}
             aria-label={ariaLabel}
+            tabIndex={tabIndex}
         >
             <Lottie
                 lottieRef={lottieRef}
@@ -107,15 +130,17 @@ export function LottieIcon({
 /**
  * Simple wrapper for autoplay looping animations (like loading spinners)
  */
+interface LottieLoaderProps {
+    animationData: object;
+    className?: string;
+    size?: number;
+}
+
 export function LottieLoader({
     animationData,
     className = "",
     size = 48,
-}: {
-    animationData: object;
-    className?: string;
-    size?: number;
-}) {
+}: Readonly<LottieLoaderProps>) {
     return (
         <LottieIcon
             animationData={animationData}

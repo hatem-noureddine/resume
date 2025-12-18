@@ -3,14 +3,14 @@
 ## High Priority
 
 ### 1. Type Safety Improvements
-- [ ] Add strict typing to locale types (hero, blog, contact, etc.)
-- [ ] Replace `any` types throughout codebase
+- [x] Add strict typing to locale types (hero, blog, contact, etc.) ✓ Already defined in types.ts
+- [x] Replace `any` types throughout codebase ✓ Fixed in Blog.tsx, Services.tsx, useChat.ts
 - [ ] Create shared type definitions for API responses
 
 ### 2. Component Accessibility (a11y)
-- [ ] Add keyboard support to LottieIcon click handler
-- [ ] Ensure all interactive elements have proper ARIA roles
-- [ ] Add focus states to custom interactive elements
+- [x] Add keyboard support to LottieIcon click handler ✓ Enter/Space support added
+- [x] Ensure all interactive elements have proper ARIA roles ✓ StarRating, ThemeToggle, LottieIcon
+- [x] Add focus states to custom interactive elements ✓ Focus rings added to LottieIcon
 
 ---
 
@@ -52,11 +52,15 @@
 
 ---
 
-## Technical Debt
+## Technical Debt (All Resolved ✓)
 
-| Issue | Files | Priority |
-|-------|-------|----------|
-| Array index as keys | Multiple | Medium |
-| Deprecated props (priority→fetchPriority) | BlurImage | Low |
-| globalThis vs window | Some tests | Low |
-| Props not marked readonly | Multiple components | Low |
+| Issue | Files | Status |
+|-------|-------|--------|
+| Array index as keys | Multiple | ✅ Fixed |
+| Deprecated icons (brand icons) | FloatingActions, ChatWidget | ✅ Fixed (react-icons) |
+| Cognitive complexity | Skills.tsx, useChat.ts | ✅ Fixed |
+| Props not marked readonly | Multiple | ✅ Fixed |
+| Type assertions | Skills.tsx | ✅ Fixed |
+| Negated conditions | Hero, Skills | ✅ Fixed |
+| Deprecated priority prop | BlurImage | ✅ Fixed (loading="eager") |
+
