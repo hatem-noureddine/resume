@@ -147,7 +147,7 @@ const ProfessionalSkillsColumn = ({
 
                     return (
                         <motion.div
-                            key={index}
+                            key={name}
                             variants={prefersReducedMotion ? {} : fadeInLeft}
                             className="bg-secondary/30 p-3 rounded-xl font-medium border border-foreground/5 hover:border-primary/50 hover:bg-secondary/50 transition-all duration-300 flex items-center gap-3 group hover-lift"
                         >
@@ -332,16 +332,19 @@ const DesktopCategoryGrid = ({
                     <Filter className="w-3 h-3" />
                     All
                 </button>
-                {categories.map((category, index) => (
+                {categories.map((category) => (
                     <button
-                        key={index}
-                        onClick={() => setActiveFilter(activeFilter === index ? null : index)}
-                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${activeFilter === index
-                            ? `${categoryDotColors[index % categoryDotColors.length]} text-white`
-                            : `bg-secondary/50 text-foreground hover:bg-secondary border ${categoryBorderColors[index % categoryBorderColors.length]}`
+                        key={category.name}
+                        onClick={() => {
+                            const idx = categories.findIndex(c => c.name === category.name);
+                            setActiveFilter(activeFilter === idx ? null : idx);
+                        }}
+                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${activeFilter === categories.findIndex(c => c.name === category.name)
+                            ? `${categoryDotColors[categories.findIndex(c => c.name === category.name) % categoryDotColors.length]} text-white`
+                            : `bg-secondary/50 text-foreground hover:bg-secondary border ${categoryBorderColors[categories.findIndex(c => c.name === category.name) % categoryBorderColors.length]}`
                             }`}
                     >
-                        <span className={`w-2 h-2 rounded-full ${activeFilter === index ? 'bg-white' : categoryDotColors[index % categoryDotColors.length]}`} />
+                        <span className={`w-2 h-2 rounded-full ${activeFilter === categories.findIndex(c => c.name === category.name) ? 'bg-white' : categoryDotColors[categories.findIndex(c => c.name === category.name) % categoryDotColors.length]}`} />
                         {category.name}
                         <span className="opacity-60">({category.items.length})</span>
                     </button>
@@ -405,7 +408,7 @@ const DesktopCategoryGrid = ({
                                             <div className="flex flex-wrap gap-2 pt-1">
                                                 {category.items.map((skill, skillIndex) => (
                                                     <SkillTag
-                                                        key={skillIndex}
+                                                        key={typeof skill === 'string' ? `${skill}-${originalIndex}` : `${skill.name}-${originalIndex}`}
                                                         skill={skill}
                                                         categoryIndex={originalIndex}
                                                         index={skillIndex}
@@ -463,12 +466,12 @@ const MobileTagCloud = ({
 
             <div className="bg-secondary/10 rounded-xl border border-foreground/5 p-3">
                 <div className="flex flex-wrap gap-1.5">
-                    {allSkills.map(({ skill, categoryIndex }, index) => (
+                    {allSkills.map(({ skill, categoryIndex }) => (
                         <SkillTag
-                            key={index}
+                            key={`${skill}-${categoryIndex}`}
                             skill={skill}
                             categoryIndex={categoryIndex}
-                            index={index}
+                            index={allSkills.findIndex(s => s.skill === skill && s.categoryIndex === categoryIndex)}
                             prefersReducedMotion={prefersReducedMotion}
                             isFiltered={false}
                         />
@@ -477,9 +480,9 @@ const MobileTagCloud = ({
 
                 {/* Category Legend */}
                 <div className="mt-3 pt-3 border-t border-foreground/5 flex flex-wrap gap-2">
-                    {categories.map((category, index) => (
-                        <div key={index} className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                            <span className={`w-2 h-2 rounded-full ${categoryDotColors[index % categoryDotColors.length]}`} />
+                    {categories.map((category, catIdx) => (
+                        <div key={category.name} className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                            <span className={`w-2 h-2 rounded-full ${categoryDotColors[catIdx % categoryDotColors.length]}`} />
                             <span>{category.name}</span>
                             <span className="opacity-50">({category.items.length})</span>
                         </div>

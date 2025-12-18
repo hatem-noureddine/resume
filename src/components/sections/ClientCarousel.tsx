@@ -10,7 +10,7 @@ export function ClientCarousel() {
 
             <div className="flex gap-16 animate-infinite-scroll-reverse py-4 hover:pause">
                 {[...carouselData.clients, ...carouselData.clients, ...carouselData.clients].map((client, index) => (
-                    <div key={index} className="flex items-center gap-3 group/item min-w-max px-4 py-2 opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                    <div key={`${client.name}-${index}`} className="flex items-center gap-3 group/item min-w-max px-4 py-2 opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-300">
                         <div
                             className="text-secondary-foreground group-hover/item:text-primary transition-colors duration-300 w-8 h-8 bg-current"
                             style={{

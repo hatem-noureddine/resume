@@ -219,7 +219,7 @@ export function Hero() {
                     <div className="grid grid-cols-3 gap-3 md:gap-6 border-t border-foreground/10 pt-5 md:pt-8 mb-6 md:mb-8">
                         {stats.map((stat, index) => (
                             <motion.div
-                                key={index}
+                                key={stat.label}
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.5 + index * 0.1 }}
@@ -249,9 +249,9 @@ export function Hero() {
                             <span className="text-xs md:text-sm uppercase tracking-widest opacity-60 hidden sm:inline">{followMeText}</span>
                             <div className="w-8 md:w-12 h-px bg-secondary-foreground/30 hidden sm:block" />
                             <div className="flex gap-3 md:gap-4">
-                                {socialLinks.map((social, index) => (
+                                {socialLinks.map((social) => (
                                     <Link
-                                        key={index}
+                                        key={social.label}
                                         href={social.href}
                                         className="p-2 rounded-full hover:bg-foreground/5 hover:text-primary transition-colors hover:scale-110 transform duration-200"
                                         aria-label={social.label}

@@ -89,12 +89,12 @@ export function Footer({ hasBlogPosts = true }: { hasBlogPosts?: boolean }) {
                     </nav>
 
                     <div className="flex gap-4">
-                        {contact.socials.map((social, index) => {
+                        {contact.socials.map((social) => {
                             // eslint-disable-next-line @typescript-eslint/no-explicit-any
                             const Icon = (LucideIcons as any)[social.icon] || LucideIcons.Link;
                             return (
                                 <a
-                                    key={index}
+                                    key={social.icon}
                                     href={social.link}
                                     target="_blank"
                                     rel="noopener noreferrer"
