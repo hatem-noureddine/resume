@@ -19,7 +19,7 @@ const localStorageMock = (() => {
     };
 })();
 
-Object.defineProperty(window, 'localStorage', { value: localStorageMock });
+Object.defineProperty(globalThis, 'localStorage', { value: localStorageMock });
 
 // Mock matchMedia
 const matchMediaMock = jest.fn().mockImplementation((query) => ({
@@ -33,7 +33,7 @@ const matchMediaMock = jest.fn().mockImplementation((query) => ({
     dispatchEvent: jest.fn(),
 }));
 
-Object.defineProperty(window, 'matchMedia', { value: matchMediaMock });
+Object.defineProperty(globalThis, 'matchMedia', { value: matchMediaMock });
 
 // Test component to access theme context
 function TestConsumer() {
@@ -84,7 +84,7 @@ describe('ThemeContext', () => {
         fireEvent.click(screen.getByText('Set Dark'));
 
         expect(screen.getByTestId('current-theme')).toHaveTextContent('dark');
-        expect(localStorageMock.setItem).toHaveBeenCalledWith('vite-ui-theme', 'dark');
+        expect(localStorageMock.setItem).toHaveBeenCalledWith('theme', 'dark');
     });
 
     it('allows setting theme to light', () => {
@@ -97,7 +97,7 @@ describe('ThemeContext', () => {
         fireEvent.click(screen.getByText('Set Light'));
 
         expect(screen.getByTestId('current-theme')).toHaveTextContent('light');
-        expect(localStorageMock.setItem).toHaveBeenCalledWith('vite-ui-theme', 'light');
+        expect(localStorageMock.setItem).toHaveBeenCalledWith('theme', 'light');
     });
 
     it('uses custom storage key', () => {
@@ -122,7 +122,7 @@ describe('ThemeContext', () => {
         );
 
         // After useEffect runs, theme should be restored from localStorage
-        expect(localStorageMock.getItem).toHaveBeenCalledWith('vite-ui-theme');
+        expect(localStorageMock.getItem).toHaveBeenCalledWith('theme');
     });
 
     it('returns initial state when used outside provider (context undefined check)', () => {

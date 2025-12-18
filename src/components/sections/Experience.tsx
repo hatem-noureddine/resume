@@ -13,7 +13,7 @@ import { container, fadeInUp } from "@/lib/animations";
 const INITIAL_VISIBLE_COUNT = 3;
 
 interface ExperienceItem {
-    id: number;
+    id: number | string;
     period: string;
     role: string;
     company: string;
@@ -38,13 +38,14 @@ interface ExperienceLocale {
     items: ExperienceItem[];
 }
 
-export function Experience() {
+export function Experience({ items }: Readonly<{ items?: ExperienceItem[] }>) {
     const { t } = useLanguage();
     const experience = t.experience as ExperienceLocale;
+    const itemsToDisplay = (items && items.length > 0) ? items : experience.items;
     const prefersReducedMotion = usePrefersReducedMotion();
 
     // Sort items by startDate descending
-    const sortedItems = [...experience.items].sort((a, b) => {
+    const sortedItems = [...itemsToDisplay].sort((a, b) => {
         const dateA = new Date(a.startDate || "1900-01").getTime();
         const dateB = new Date(b.startDate || "1900-01").getTime();
         return dateB - dateA;
@@ -69,13 +70,13 @@ export function Experience() {
     const hasMoreItems = filteredItems.length > INITIAL_VISIBLE_COUNT;
     const hiddenCount = filteredItems.length - INITIAL_VISIBLE_COUNT;
 
-    const [activeId, setActiveId] = useState(sortedItems[0]?.id);
+    const [activeId, setActiveId] = useState<number | string | undefined>(sortedItems[0]?.id);
     const activeExperience = sortedItems.find((item) => item.id === activeId) || sortedItems[0];
 
     // Mobile: Only first item expanded by default
-    const [expandedIds, setExpandedIds] = useState<number[]>([sortedItems[0]?.id]);
+    const [expandedIds, setExpandedIds] = useState<(number | string)[]>([sortedItems[0]?.id].filter(Boolean) as (number | string)[]);
 
-    const toggleAccordion = (id: number) => {
+    const toggleAccordion = (id: number | string) => {
         setExpandedIds(prev =>
             prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
         );
@@ -101,10 +102,10 @@ export function Experience() {
         if (!section) return;
 
         const handleFocus = () => {
-            window.addEventListener('keydown', handleKeyDown);
+            globalThis.addEventListener('keydown', handleKeyDown);
         };
         const handleBlur = () => {
-            window.removeEventListener('keydown', handleKeyDown);
+            globalThis.removeEventListener('keydown', handleKeyDown);
         };
 
         section.addEventListener('focusin', handleFocus);
@@ -113,7 +114,7 @@ export function Experience() {
         return () => {
             section.removeEventListener('focusin', handleFocus);
             section.removeEventListener('focusout', handleBlur);
-            window.removeEventListener('keydown', handleKeyDown);
+            globalThis.removeEventListener('keydown', handleKeyDown);
         };
     }, [handleKeyDown]);
 

@@ -1,11 +1,12 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/Button";
 import { BlurImage } from "@/components/ui/BlurImage";
+import { cn } from "@/lib/utils";
 import { AnimatedBackground } from "@/components/ui/AnimatedBackground";
 import { Download, Mail, ChevronDown, ChevronUp } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
@@ -95,7 +96,13 @@ interface HeroLocale {
     image: string;
 }
 
-export function Hero() {
+interface Resume {
+    label: string;
+    language: string;
+    file: string;
+}
+
+export function Hero({ resumes = [] }: Readonly<{ resumes?: Resume[] }>) {
     const { t, language } = useLanguage();
     const hero = t.hero as HeroLocale;
     const stats = (hero && Array.isArray(hero.stats)) ? hero.stats : [];
@@ -110,6 +117,21 @@ export function Hero() {
 
     // Typing animation for roles
     const typedRole = useTypingAnimation(roles, 80, 40, 2500);
+
+    // Filter resumes by current language
+    const currentResumes = resumes.filter(r => r.language === language);
+    const [isResumeMenuOpen, setIsResumeMenuOpen] = useState(false);
+    const resumeMenuRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (resumeMenuRef.current && !resumeMenuRef.current.contains(event.target as Node)) {
+                setIsResumeMenuOpen(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
     // Parallax effect - only on desktop for performance
     // Tracks scroll progress relative to the section
@@ -229,19 +251,61 @@ export function Hero() {
                         ))}
                     </div>
 
-                    {/* CTA & Social Links - improved mobile layout */}
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.8 }}
                         className="flex flex-col items-center lg:flex-row lg:items-center gap-6 md:gap-8 text-secondary-foreground"
                     >
-                        <Button variant="outline" size="lg" asChild className="border-primary/20 hover:bg-primary/10 gap-2 rounded-full px-6 w-full sm:w-auto">
-                            <a href={localeMetadata[language].resume} download target="_blank" rel="noopener noreferrer">
-                                <Download size={18} />
-                                <span>{downloadCVText}</span>
-                            </a>
-                        </Button>
+                        {currentResumes.length > 1 ? (
+                            <div className="relative w-full sm:w-auto" ref={resumeMenuRef}>
+                                <Button
+                                    variant="outline"
+                                    size="lg"
+                                    onClick={() => setIsResumeMenuOpen(!isResumeMenuOpen)}
+                                    className="border-primary/20 hover:bg-primary/10 gap-2 rounded-full px-6 w-full sm:w-auto"
+                                >
+                                    <Download size={18} />
+                                    <span>{downloadCVText}</span>
+                                    <ChevronDown size={14} className={cn("transition-transform", isResumeMenuOpen && "rotate-180")} />
+                                </Button>
+
+                                <AnimatePresence>
+                                    {isResumeMenuOpen && (
+                                        <motion.div
+                                            initial={{ opacity: 0, y: 10 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            exit={{ opacity: 0, y: 10 }}
+                                            className="absolute bottom-full mb-2 left-0 w-full sm:w-48 bg-background border border-foreground/10 rounded-xl shadow-xl overflow-hidden py-2 z-50"
+                                        >
+                                            {currentResumes.map((resume) => (
+                                                <a
+                                                    key={resume.label}
+                                                    href={resume.file}
+                                                    download
+                                                    className="flex items-center px-4 py-2 hover:bg-foreground/5 text-sm transition-colors"
+                                                    onClick={() => setIsResumeMenuOpen(false)}
+                                                >
+                                                    {resume.label}
+                                                </a>
+                                            ))}
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+                            </div>
+                        ) : (
+                            <Button variant="outline" size="lg" asChild className="border-primary/20 hover:bg-primary/10 gap-2 rounded-full px-6 w-full sm:w-auto">
+                                <a
+                                    href={currentResumes.length === 1 ? currentResumes[0].file : localeMetadata[language].resume}
+                                    download
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    <Download size={18} />
+                                    <span>{downloadCVText}</span>
+                                </a>
+                            </Button>
+                        )}
 
                         <div className="flex items-center gap-4 md:gap-6">
                             <span className="text-xs md:text-sm uppercase tracking-widest opacity-60 hidden sm:inline">{followMeText}</span>

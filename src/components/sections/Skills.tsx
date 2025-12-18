@@ -47,10 +47,10 @@ function useIsMobile(breakpoint = 1024) {
     const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
-        const checkMobile = () => setIsMobile(window.innerWidth < breakpoint);
+        const checkMobile = () => setIsMobile(globalThis.innerWidth < breakpoint);
         checkMobile();
-        window.addEventListener("resize", checkMobile);
-        return () => window.removeEventListener("resize", checkMobile);
+        globalThis.addEventListener("resize", checkMobile);
+        return () => globalThis.removeEventListener("resize", checkMobile);
     }, [breakpoint]);
 
     return isMobile;
@@ -505,12 +505,21 @@ const MobileTagCloud = ({
     );
 };
 
-export function Skills() {
+export function Skills({
+    professionalItems,
+    technicalCategories
+}: Readonly<{
+    professionalItems?: (string | SkillItem)[],
+    technicalCategories?: SkillCategory[]
+}>) {
     const { t } = useLanguage();
     const { skills } = t;
     const prefersReducedMotion = usePrefersReducedMotion();
     const isMobile = useIsMobile();
     const [activeFilter, setActiveFilter] = useState<number | null>(null);
+
+    const displayProfesh = (professionalItems && professionalItems.length > 0) ? professionalItems : skills.professional.items;
+    const displayTech = (technicalCategories && technicalCategories.length > 0) ? technicalCategories : skills.technical.categories;
 
     return (
         <section id="skills" className="py-16 md:py-24 relative overflow-hidden bg-background">
@@ -534,7 +543,7 @@ export function Skills() {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 max-w-6xl mx-auto items-start">
                     {/* Left Column - Professional Skills */}
                     <ProfessionalSkillsColumn
-                        items={skills.professional.items}
+                        items={displayProfesh}
                         title={skills.professional.title}
                         prefersReducedMotion={prefersReducedMotion}
                     />
@@ -542,13 +551,13 @@ export function Skills() {
                     {/* Right Column - Technical Skills */}
                     {isMobile ? (
                         <MobileTagCloud
-                            categories={skills.technical.categories}
+                            categories={displayTech}
                             title={skills.technical.title}
                             prefersReducedMotion={prefersReducedMotion}
                         />
                     ) : (
                         <DesktopCategoryGrid
-                            categories={skills.technical.categories}
+                            categories={displayTech}
                             title={skills.technical.title}
                             prefersReducedMotion={prefersReducedMotion}
                             activeFilter={activeFilter}

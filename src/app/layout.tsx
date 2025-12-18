@@ -8,24 +8,49 @@ import { FeatureFlagProvider } from "@/context/FeatureFlags";
 import { VercelAnalytics } from "@/components/analytics/VercelAnalytics";
 import { ChatWidget } from "@/components/chat/ChatWidget";
 import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
-import { SITE_METADATA, VIEWPORT_CONFIG, JSON_LD } from "@/config/site";
+import { SITE_METADATA, JSON_LD } from "@/config/site";
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' });
 
 export const metadata: Metadata = SITE_METADATA;
 
-export const viewport = VIEWPORT_CONFIG;
+export { VIEWPORT_CONFIG as viewport } from "@/config/site";
 
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        {/* Blocking script to prevent theme flash */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var theme = localStorage.getItem('theme');
+                  var supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                  if (!theme || theme === 'system') {
+                    theme = supportDarkMode ? 'dark' : 'light';
+                  }
+                  document.documentElement.classList.add(theme);
+                  document.documentElement.style.colorScheme = theme;
+                  
+                  // Set background color immediately to avoid flash before CSS parses
+                  var bgColor = theme === 'dark' ? '#0f0f0f' : '#fafafa';
+                  var style = document.createElement('style');
+                  style.id = 'theme-init';
+                  style.innerHTML = 'html, body { background-color: ' + bgColor + ' !important; }';
+                  document.head.appendChild(style);
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
         {/* JSON-LD structured data */}
         <script
           type="application/ld+json"
@@ -43,7 +68,7 @@ export default function RootLayout({
         >
           Skip to content
         </a>
-        <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
+        <ThemeProvider defaultTheme="system" storageKey="theme">
           <LanguageProvider>
             <FeatureFlagProvider>
               {children}

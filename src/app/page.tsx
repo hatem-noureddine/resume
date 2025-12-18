@@ -25,15 +25,166 @@ const Skills = dynamic(() => import("@/components/sections/Skills").then((mod) =
 const Blog = dynamic(() => import("@/components/sections/Blog").then((mod) => mod.Blog), {
   loading: () => <SectionSkeleton />
 });
+const TestimonialsSection = dynamic(() => import("@/components/sections/Testimonials").then((mod) => mod.Testimonials), { // Added dynamic import for Testimonials
+  loading: () => <SectionSkeleton />
+});
+
+import {
+  getBlogPosts,
+  getProjects,
+  getExperience,
+  getSkills,
+  getResumes,
+  getTestimonials
+} from "@/lib/keystatic";
+interface KeystaticEntry<T> {
+  slug: string;
+  entry: T;
+}
+
+interface BlogPostEntry {
+  title: string;
+  date: string;
+  description: string;
+  tags: readonly string[];
+  category: string;
+  content: string | (() => Promise<unknown>);
+}
+
+interface ProjectEntry {
+  title: string;
+  category: string;
+  description: string;
+  image: string;
+  link: string;
+  technologies: readonly string[];
+  gallery: readonly string[];
+  content: () => Promise<unknown>;
+}
+
+interface ExperienceEntry {
+  role: string;
+  company: string;
+  startDate: string;
+  endDate: string;
+  description: string;
+  highlights: readonly string[];
+  isProfessional: boolean;
+  skills: readonly string[];
+}
+
+interface SkillEntry {
+  name: string;
+  category: "frontend" | "backend" | "devops" | "mobile" | "other";
+  isProfessional: boolean;
+  proficiency: number | null;
+}
+
+interface ResumeEntry {
+  label: string;
+  language: string;
+  file: string;
+}
+
+interface TestimonialEntry {
+  author: string;
+  role: string;
+  company: string;
+  content: string;
+  avatar: string;
+  rating: number;
+  language: string;
+}
 
 export default async function Home() {
   const posts = await getSortedPostsData();
-  const hasBlogPosts = posts.length > 0;
+
+  // Fetch from Keystatic
+  const results = await Promise.all([
+    getBlogPosts(),
+    getProjects(),
+    getExperience(),
+    getSkills(),
+    getResumes(),
+    getTestimonials()
+  ]);
+
+  const ksPosts = results[0] as KeystaticEntry<BlogPostEntry>[];
+  const ksProjects = results[1] as KeystaticEntry<ProjectEntry>[];
+  const ksExperience = results[2] as KeystaticEntry<ExperienceEntry>[];
+  const ksSkills = results[3] as KeystaticEntry<SkillEntry>[];
+  const ksResumes = results[4] as KeystaticEntry<ResumeEntry>[];
+  const ksTestimonials = results[5] as KeystaticEntry<TestimonialEntry>[];
+
+  // Map Keystatic data to components' prop formats
+  const mappedBlogPosts = ksPosts.map(p => ({
+    slug: p.slug,
+    title: p.entry.title,
+    date: p.entry.date || "",
+    description: p.entry.description || "",
+    tags: p.entry.tags as string[] || [],
+    category: p.entry.category || "General",
+    content: "", // Content not needed for list view
+    readingTime: "5 min read", // Placeholder for now
+  }));
+
+  const mappedProjects = ksProjects.map((p, index) => ({
+    id: `project-${p.slug || index}`,
+    title: p.entry.title,
+    category: p.entry.category || "Project",
+    image: p.entry.image || "/images/placeholder.jpg",
+    link: p.entry.link || "#",
+    slug: p.slug,
+  }));
+
+  const mappedExperience = ksExperience.map((p, index) => ({
+    id: `exp-${p.entry.company}-${p.entry.role}-${index}`,
+    role: p.entry.role,
+    company: p.entry.company,
+    period: `${p.entry.startDate} - ${p.entry.endDate || "Present"}`,
+    description: p.entry.description || "",
+    startDate: p.entry.startDate,
+    endDate: p.entry.endDate,
+    highlights: p.entry.highlights as string[] || [],
+  }));
+
+  // Separate skills by professional flag
+  const professionalSkills = ksSkills
+    .filter(s => s.entry.isProfessional)
+    .map(s => s.entry.name);
+
+  const techCategories = Array.from(new Set(ksSkills.map(s => s.entry.category)))
+    .filter(Boolean)
+    .map(cat => ({
+      name: cat as string,
+      items: ksSkills
+        .filter(s => s.entry.category === cat && !s.entry.isProfessional)
+        .map(s => s.entry.name)
+    }));
+
+  const mappedResumes = ksResumes.map(r => ({
+    label: r.entry.label,
+    language: r.entry.language,
+    file: r.entry.file
+  }));
+
+  const mappedTestimonials = ksTestimonials.map(t => ({
+    author: t.entry.author,
+    role: t.entry.role || "",
+    company: t.entry.company || "",
+    content: t.entry.content || "",
+    avatar: t.entry.avatar || "",
+    rating: typeof t.entry.rating === 'number' ? t.entry.rating : 5,
+    language: t.entry.language || "en"
+  }));
+
+  const finalPosts = mappedBlogPosts.length > 0 ? mappedBlogPosts : posts;
+  const hasBlogPosts = finalPosts.length > 0;
 
   return (
     <main id="main-content" className="min-h-screen">
       <Header hasBlogPosts={hasBlogPosts} />
-      <Hero />
+      <Hero resumes={mappedResumes} />
 
       {/* Wave divider after Hero */}
       <div className="bg-secondary/10">
@@ -48,11 +199,14 @@ export default async function Home() {
       <WaveDivider color="secondary" />
 
       <ScrollReveal>
-        <Experience />
+        <Experience items={mappedExperience} />
       </ScrollReveal>
 
       <ScrollReveal>
-        <Skills />
+        <Skills
+          professionalItems={professionalSkills}
+          technicalCategories={techCategories}
+        />
       </ScrollReveal>
 
       {/* Wave divider before Portfolio */}
@@ -62,12 +216,19 @@ export default async function Home() {
 
       <Feature flag="projects">
         <ScrollReveal>
-          <Portfolio />
+          <Portfolio items={mappedProjects} />
         </ScrollReveal>
       </Feature>
 
+      {/* Testimonials section */}
+      {mappedTestimonials.length > 0 && (
+        <ScrollReveal>
+          <TestimonialsSection items={mappedTestimonials} />
+        </ScrollReveal>
+      )}
+
       <ScrollReveal>
-        <Blog posts={posts} />
+        <Blog posts={finalPosts} />
       </ScrollReveal>
 
       {/* Contact is now handled by the ChatWidget in layout.tsx */}

@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState, useMemo } from "react";
 
 type Theme = "dark" | "light" | "system";
 
@@ -25,8 +25,8 @@ const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
 export function ThemeProvider({
     children,
     defaultTheme = "system",
-    storageKey = "vite-ui-theme",
-}: ThemeProviderProps) {
+    storageKey = "theme",
+}: Readonly<ThemeProviderProps>) {
     const [theme, setTheme] = useState<Theme>(
         // Initialize state lazily to avoid hydration mismatch if possible, 
         // but for Next.js app router we might need useEffect to sync.
@@ -43,30 +43,35 @@ export function ThemeProvider({
     }, [storageKey]);
 
     useEffect(() => {
-        const root = window.document.documentElement;
+        const root = globalThis.document.documentElement;
 
         root.classList.remove("light", "dark");
 
         if (theme === "system") {
-            const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
+            const systemTheme = globalThis.matchMedia("(prefers-color-scheme: dark)")
                 .matches
                 ? "dark"
                 : "light";
 
             root.classList.add(systemTheme);
-            return;
+        } else {
+            root.classList.add(theme);
         }
 
-        root.classList.add(theme);
+        // Remove the initialization style tag once React has taken over
+        const initStyle = globalThis.document.getElementById('theme-init');
+        if (initStyle) {
+            initStyle.remove();
+        }
     }, [theme]);
 
-    const value = {
+    const value = useMemo(() => ({
         theme,
         setTheme: (theme: Theme) => {
             localStorage.setItem(storageKey, theme);
             setTheme(theme);
         },
-    };
+    }), [theme, storageKey]);
 
     return (
         <ThemeProviderContext.Provider value={value}>
