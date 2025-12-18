@@ -2,20 +2,16 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Send, Bot, User, Loader2, Mail, Linkedin, FileText, Sparkles, Trash2 } from "lucide-react";
+import { X, Send, Bot, User, Loader2, Mail, Linkedin, FileText, Trash2, MessageCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { RESUME_CONTEXT } from "@/config/resume";
 import { useLanguage } from "@/context/LanguageContext";
 import { en } from "@/locales/en";
 import { useChat } from "@/hooks/useChat";
 import { TypingIndicator } from "@/components/ui/TypingIndicator";
-import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
-import Lottie from "lottie-react";
-import chatBubbleAnimation from "@/../public/lottie/chat-bubble.json";
 
 export function ChatWidget() {
     const { t } = useLanguage();
-    const prefersReducedMotion = usePrefersReducedMotion();
 
     // Get chat translations with English locale as fallback (single source of truth)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -129,16 +125,7 @@ export function ChatWidget() {
                             transition={{ duration: 0.15 }}
                             className="relative"
                         >
-                            {prefersReducedMotion ? (
-                                <Sparkles size={24} />
-                            ) : (
-                                <Lottie
-                                    animationData={chatBubbleAnimation}
-                                    loop
-                                    autoplay
-                                    style={{ width: 32, height: 32 }}
-                                />
-                            )}
+                            <MessageCircle size={24} />
                         </motion.div>
                     )}
                 </AnimatePresence>
