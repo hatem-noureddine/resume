@@ -27,9 +27,9 @@
 - [ ] Improve test coverage for edge cases
 
 ### 5. Performance
-- [ ] Lazy load Lottie animations
-- [ ] Optimize image loading with priority hints
-- [ ] Add bundle size monitoring
+- [x] Lazy load Lottie animations ✓ LottieAnimation.tsx uses React.lazy()
+- [x] Optimize image loading with priority hints ✓ Hero uses loading="eager"
+- [x] Add bundle size monitoring ✓ npm run analyze (bundle-analyzer configured)
 
 ---
 
