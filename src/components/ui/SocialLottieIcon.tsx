@@ -25,6 +25,8 @@ interface SocialLottieIconProps {
     size?: number;
     /** CSS class */
     className?: string;
+    /** Accessible label */
+    ariaLabel?: string;
 }
 
 /**
@@ -35,7 +37,8 @@ export function SocialLottieIcon({
     icon,
     size = 24,
     className = "",
-}: SocialLottieIconProps) {
+    ariaLabel,
+}: Readonly<SocialLottieIconProps>) {
     const lottieRef = useRef<LottieRefCurrentProps>(null);
     const prefersReducedMotion = usePrefersReducedMotion();
     const animationData = animations[icon];
@@ -56,12 +59,16 @@ export function SocialLottieIcon({
         }
     };
 
+    const label = ariaLabel || `${icon} icon`;
+
     return (
-        <div
-            className={`inline-flex items-center justify-center ${className}`}
+        <button
+            type="button"
+            className={`inline-flex items-center justify-center p-0 bg-transparent border-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-lg ${className}`}
             style={{ width: size, height: size }}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
+            aria-label={label}
         >
             <Lottie
                 lottieRef={lottieRef}
@@ -70,6 +77,6 @@ export function SocialLottieIcon({
                 autoplay={false}
                 style={{ width: "100%", height: "100%" }}
             />
-        </div>
+        </button>
     );
 }

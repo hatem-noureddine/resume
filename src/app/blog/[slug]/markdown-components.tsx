@@ -19,10 +19,11 @@ function getTextFromNode(node: React.ReactNode): string {
     if (Array.isArray(node)) {
         return node.map(getTextFromNode).join('');
     }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    if ((node as any).props && (node as any).props.children) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        return getTextFromNode((node as any).props.children);
+    if (node && typeof node === 'object' && 'props' in node) {
+        const props = (node as { props?: { children?: React.ReactNode } }).props;
+        if (props?.children) {
+            return getTextFromNode(props.children);
+        }
     }
     return '';
 }

@@ -124,11 +124,11 @@ const ProfessionalSkillsColumn = ({
     items,
     title,
     prefersReducedMotion
-}: {
+}: Readonly<{
     items: (string | SkillItem)[],
     title: string,
     prefersReducedMotion: boolean
-}) => {
+}>) => {
     return (
         <div className="w-full">
             <motion.div
@@ -211,13 +211,13 @@ const SkillTag = ({
     index,
     prefersReducedMotion,
     isFiltered
-}: {
+}: Readonly<{
     skill: string | SkillItem,
     categoryIndex: number,
     index: number,
     prefersReducedMotion: boolean,
     isFiltered: boolean
-}) => {
+}>) => {
     const [showTooltip, setShowTooltip] = useState(false);
     const isSkillObject = typeof skill === 'object';
     const isLink = isSkillObject && !!skill.link;
@@ -294,13 +294,13 @@ const DesktopCategoryGrid = ({
     prefersReducedMotion,
     activeFilter,
     setActiveFilter
-}: {
+}: Readonly<{
     categories: SkillCategory[],
     title: string,
     prefersReducedMotion: boolean,
     activeFilter: number | null,
     setActiveFilter: (filter: number | null) => void
-}) => {
+}>) => {
     const [expandedCategories, setExpandedCategories] = useState<Set<number>>(new Set([0, 1, 2])); // First 3 expanded by default
 
     const toggleCategory = (index: number) => {
@@ -448,11 +448,11 @@ const MobileTagCloud = ({
     categories,
     title,
     prefersReducedMotion
-}: {
+}: Readonly<{
     categories: SkillCategory[],
     title: string,
     prefersReducedMotion: boolean
-}) => {
+}>) => {
     const allSkills = categories.flatMap((category, catIndex) =>
         category.items.map((skill) => ({
             skill,
@@ -480,7 +480,7 @@ const MobileTagCloud = ({
                 <div className="flex flex-wrap gap-1.5">
                     {allSkills.map(({ skill, categoryIndex }) => (
                         <SkillTag
-                            key={`${skill}-${categoryIndex}`}
+                            key={typeof skill === 'string' ? `${skill}-${categoryIndex}` : `${skill.name}-${categoryIndex}`}
                             skill={skill}
                             categoryIndex={categoryIndex}
                             index={allSkills.findIndex(s => s.skill === skill && s.categoryIndex === categoryIndex)}
