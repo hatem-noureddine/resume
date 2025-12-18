@@ -14,6 +14,10 @@
 /coverage
 /reports
 /test-results
+*.coverage.txt
+coverage*.txt
+*_coverage*.txt
+wrapper
 
 # playwright
 /playwright-report

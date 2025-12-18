@@ -248,8 +248,8 @@ export function hasClassPattern(element: Element, pattern: RegExp): boolean {
 export function getAllByTestIdPattern(
     container: Element,
     pattern: RegExp
-): Element[] {
-    return Array.from(container.querySelectorAll('[data-testid]')).filter(
+): HTMLElement[] {
+    return Array.from(container.querySelectorAll<HTMLElement>('[data-testid]')).filter(
         (el) => pattern.test(el.dataset.testid || '')
     );
 }
