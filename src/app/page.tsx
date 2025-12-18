@@ -28,6 +28,9 @@ const Blog = dynamic(() => import("@/components/sections/Blog").then((mod) => mo
 const TestimonialsSection = dynamic(() => import("@/components/sections/Testimonials").then((mod) => mod.Testimonials), { // Added dynamic import for Testimonials
   loading: () => <SectionSkeleton />
 });
+const CertificationsSection = dynamic(() => import("@/components/sections/Certifications").then((mod) => mod.Certifications), {
+  loading: () => <SectionSkeleton />
+});
 
 import {
   getBlogPosts,
@@ -35,7 +38,8 @@ import {
   getExperience,
   getSkills,
   getResumes,
-  getTestimonials
+  getTestimonials,
+  getCertifications
 } from "@/lib/keystatic";
 interface KeystaticEntry<T> {
   slug: string;
@@ -96,6 +100,17 @@ interface TestimonialEntry {
   language: string;
 }
 
+interface CertificationEntry {
+  name: string;
+  issuer: string;
+  date: string;
+  expiryDate: string | null;
+  credentialId: string | null;
+  credentialUrl: string | null;
+  badge: string | null;
+  category: "cloud" | "frontend" | "backend" | "ai" | "other";
+}
+
 export default async function Home() {
   const posts = await getSortedPostsData();
 
@@ -106,7 +121,8 @@ export default async function Home() {
     getExperience(),
     getSkills(),
     getResumes(),
-    getTestimonials()
+    getTestimonials(),
+    getCertifications()
   ]);
 
   const ksPosts = results[0] as KeystaticEntry<BlogPostEntry>[];
@@ -115,6 +131,7 @@ export default async function Home() {
   const ksSkills = results[3] as KeystaticEntry<SkillEntry>[];
   const ksResumes = results[4] as KeystaticEntry<ResumeEntry>[];
   const ksTestimonials = results[5] as KeystaticEntry<TestimonialEntry>[];
+  const ksCertifications = results[6] as KeystaticEntry<CertificationEntry>[];
 
   // Map Keystatic data to components' prop formats
   const mappedBlogPosts = ksPosts.map(p => ({
@@ -162,6 +179,17 @@ export default async function Home() {
         .map(s => s.entry.name)
     }));
 
+  const mappedCertifications = ksCertifications.map(p => ({
+    name: p.entry.name,
+    issuer: p.entry.issuer,
+    date: p.entry.date,
+    expiryDate: p.entry.expiryDate ?? undefined,
+    credentialId: p.entry.credentialId ?? undefined,
+    credentialUrl: p.entry.credentialUrl ?? undefined,
+    badge: p.entry.badge ?? undefined,
+    category: p.entry.category,
+  }));
+
   const mappedResumes = ksResumes.map(r => ({
     label: r.entry.label,
     language: r.entry.language,
@@ -197,6 +225,11 @@ export default async function Home() {
 
       {/* Wave divider after Services */}
       <WaveDivider color="secondary" />
+
+      <ScrollReveal>
+        <Portfolio items={mappedProjects} />
+        <CertificationsSection items={mappedCertifications} />
+      </ScrollReveal>
 
       <ScrollReveal>
         <Experience items={mappedExperience} />

@@ -39,3 +39,7 @@ export async function getResumes() {
 export async function getTestimonials() {
     return await reader.collections.testimonials.all();
 }
+
+export async function getCertifications() {
+    return await reader.collections.certifications.all();
+}

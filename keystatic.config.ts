@@ -143,5 +143,30 @@ export default config({
                 }),
             },
         }),
+        certifications: collection({
+            label: 'Certifications',
+            slugField: 'name',
+            path: 'src/content/certifications/*',
+            schema: {
+                name: fields.slug({ name: { label: 'Certification Name' } }),
+                issuer: fields.text({ label: 'Issuing Organization' }),
+                date: fields.date({ label: 'Issue Date' }),
+                expiryDate: fields.date({ label: 'Expiry Date (Optional)' }),
+                credentialId: fields.text({ label: 'Credential ID' }),
+                credentialUrl: fields.text({ label: 'Credential URL' }),
+                badge: fields.text({ label: 'Badge Image URL' }),
+                category: fields.select({
+                    label: 'Category',
+                    options: [
+                        { label: 'Cloud', value: 'cloud' },
+                        { label: 'Frontend', value: 'frontend' },
+                        { label: 'Backend', value: 'backend' },
+                        { label: 'AI/ML', value: 'ai' },
+                        { label: 'Other', value: 'other' },
+                    ],
+                    defaultValue: 'other',
+                }),
+            },
+        }),
     },
 });
