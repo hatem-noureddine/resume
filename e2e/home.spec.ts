@@ -6,15 +6,18 @@ test.describe('Homepage Responsive & Functionality', () => {
         if (isMobile) test.skip();
 
         await page.goto('');
+        await page.waitForLoadState('networkidle');
 
         // Check key sections are visible
         // Use more specific locators that wait for hydration
         const servicesHeading = page.getByRole('heading', { name: /My Services|Services/i });
         await servicesHeading.scrollIntoViewIfNeeded();
+        await page.waitForTimeout(500); // Wait for animation
         await expect(servicesHeading).toBeVisible({ timeout: 10000 });
 
         const skillsHeading = page.getByRole('heading', { name: /My Skills/i });
         await skillsHeading.scrollIntoViewIfNeeded();
+        await page.waitForTimeout(500); // Wait for animation
         await expect(skillsHeading).toBeVisible({ timeout: 10000 });
 
         // Check navigation links

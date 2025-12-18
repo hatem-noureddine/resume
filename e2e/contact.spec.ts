@@ -62,11 +62,11 @@ test.describe('Contact Section', () => {
         // Click contact link
         await page.getByRole('link', { name: /contact/i }).first().click({ force: true });
 
-        // Wait for scroll
-        await page.waitForTimeout(1000);
+        // Wait for scroll and animation to settle
+        await page.waitForTimeout(1500);
 
         // Verify contact section is in viewport
         const contactSection = page.locator('#contact');
-        await expect(contactSection).toBeInViewport();
+        await expect(contactSection).toBeInViewport({ ratio: 0.1 });
     });
 });

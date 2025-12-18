@@ -74,6 +74,18 @@ export function Footer({ hasBlogPosts = true }: Readonly<{ hasBlogPosts?: boolea
                         <p className="text-sm text-secondary-foreground">
                             © {new Date().getFullYear()} {footer.rights}
                         </p>
+                        <div className="flex flex-col gap-1 mt-2">
+                            <a href={`mailto:${contact.email}`} className="text-xs text-secondary-foreground hover:text-primary transition-colors flex items-center gap-2">
+                                <LucideIcons.Mail size={12} />
+                                {contact.email}
+                            </a>
+                            {contact.phone && (
+                                <a href={`tel:${contact.phone.replace(/\s+/g, '')}`} className="text-xs text-secondary-foreground hover:text-primary transition-colors flex items-center gap-2">
+                                    <LucideIcons.Phone size={12} />
+                                    {contact.phone}
+                                </a>
+                            )}
+                        </div>
                     </div>
 
                     <nav className="flex gap-6 flex-wrap justify-center">
