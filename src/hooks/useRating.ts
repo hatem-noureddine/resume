@@ -57,7 +57,7 @@ export function useRating(postSlug: string, options: UseRatingOptions = {}): Use
 
     // Initialize Guest ID and load ratings
     useEffect(() => {
-        if (typeof window === "undefined") return;
+        if (globalThis.window === undefined) return;
 
         try {
             // 1. Manage Guest Identity
@@ -99,7 +99,7 @@ export function useRating(postSlug: string, options: UseRatingOptions = {}): Use
 
     // Set rating
     const setRating = useCallback((value: number) => {
-        if (typeof window === "undefined" || !guestId) return;
+        if (globalThis.window === undefined || !guestId) return;
 
         const clampedValue = Math.max(1, Math.min(value, maxRating));
 
@@ -154,7 +154,7 @@ export function useRating(postSlug: string, options: UseRatingOptions = {}): Use
 
     // Reset rating (Admin/Debug utility)
     const resetRating = useCallback(() => {
-        if (typeof window === "undefined") return;
+        if (globalThis.window === undefined) return;
 
         try {
             const existingRating = localStorage.getItem(userRatingKey);

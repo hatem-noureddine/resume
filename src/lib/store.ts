@@ -77,7 +77,7 @@ export function useStore<T>(store: Store<T>): T {
 export function createPersistedStore<T>(key: string, initialState: T) {
     // Try to load from localStorage
     let storedState = initialState;
-    if (typeof window !== 'undefined') {
+    if (globalThis.window !== undefined) {
         try {
             const stored = localStorage.getItem(key);
             if (stored) {
@@ -94,7 +94,7 @@ export function createPersistedStore<T>(key: string, initialState: T) {
     const originalSetState = store.setState;
     store.setState = (updater: Updater<T> | T) => {
         originalSetState(updater);
-        if (typeof window !== 'undefined') {
+        if (globalThis.window !== undefined) {
             localStorage.setItem(key, JSON.stringify(store.getState()));
         }
     };

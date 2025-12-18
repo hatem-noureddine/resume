@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
 interface ServiceWorkerState {
     isSupported: boolean;
@@ -9,6 +9,33 @@ interface ServiceWorkerState {
     hasUpdate: boolean;
     registration: ServiceWorkerRegistration | null;
 }
+
+/**
+ * Handle service worker state changes when new version is installed
+ */
+const handleWorkerStateChange = (
+    newWorker: ServiceWorker,
+    setState: React.Dispatch<React.SetStateAction<ServiceWorkerState>>
+) => {
+    if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+        setState(prev => ({ ...prev, hasUpdate: true }));
+    }
+};
+
+/**
+ * Handle service worker update found event
+ */
+const handleUpdateFound = (
+    registration: ServiceWorkerRegistration,
+    setState: React.Dispatch<React.SetStateAction<ServiceWorkerState>>
+) => {
+    const newWorker = registration.installing;
+    if (newWorker) {
+        newWorker.addEventListener('statechange', () =>
+            handleWorkerStateChange(newWorker, setState)
+        );
+    }
+};
 
 /**
  * Hook for managing Service Worker registration and state.
@@ -35,7 +62,7 @@ export function useServiceWorker() {
 
     useEffect(() => {
         // Check if service workers are supported
-        if (typeof window === 'undefined' || !navigator.serviceWorker) {
+        if (typeof globalThis.window === 'undefined' || !navigator.serviceWorker) {
             return;
         }
 
@@ -51,8 +78,8 @@ export function useServiceWorker() {
         const handleOnline = () => setState(prev => ({ ...prev, isOnline: true }));
         const handleOffline = () => setState(prev => ({ ...prev, isOnline: false }));
 
-        window.addEventListener('online', handleOnline);
-        window.addEventListener('offline', handleOffline);
+        globalThis.window.addEventListener('online', handleOnline);
+        globalThis.window.addEventListener('offline', handleOffline);
 
         // Register service worker
         navigator.serviceWorker
@@ -64,38 +91,28 @@ export function useServiceWorker() {
                     registration,
                 }));
 
-                // Check for updates
-                registration.addEventListener('updatefound', () => {
-                    const newWorker = registration.installing;
-                    if (newWorker) {
-                        newWorker.addEventListener('statechange', () => {
-                            if (
-                                newWorker.state === 'installed' &&
-                                navigator.serviceWorker.controller
-                            ) {
-                                setState(prev => ({ ...prev, hasUpdate: true }));
-                            }
-                        });
-                    }
-                });
+                // Check for updates - using extracted handler to reduce nesting
+                registration.addEventListener('updatefound', () =>
+                    handleUpdateFound(registration, setState)
+                );
             })
             .catch((error) => {
                 console.error('Service worker registration failed:', error);
             });
 
         return () => {
-            window.removeEventListener('online', handleOnline);
-            window.removeEventListener('offline', handleOffline);
+            globalThis.window.removeEventListener('online', handleOnline);
+            globalThis.window.removeEventListener('offline', handleOffline);
         };
     }, []);
 
     // Function to apply pending update
-    const update = () => {
+    const update = useCallback(() => {
         if (state.registration?.waiting) {
             state.registration.waiting.postMessage({ type: 'SKIP_WAITING' });
-            window.location.reload();
+            globalThis.window.location.reload();
         }
-    };
+    }, [state.registration]);
 
     return {
         ...state,

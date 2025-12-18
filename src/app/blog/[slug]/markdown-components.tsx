@@ -8,6 +8,35 @@ interface MarkdownProps {
     href?: string;
     className?: string;
 }
+/**
+ * Recursively extract text content from a React node
+ */
+function getTextFromNode(node: React.ReactNode): string {
+    if (!node) return '';
+    if (typeof node === 'string' || typeof node === 'number') {
+        return String(node);
+    }
+    if (Array.isArray(node)) {
+        return node.map(getTextFromNode).join('');
+    }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    if ((node as any).props && (node as any).props.children) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        return getTextFromNode((node as any).props.children);
+    }
+    return '';
+}
+
+/**
+ * Generate a URL-friendly ID from a text string
+ */
+function generateId(text: string): string {
+    return text
+        .toLowerCase()
+        .replaceAll(/[^a-z0-9\s-]/g, '')
+        .replaceAll(/\s+/g, '-')
+        .replaceAll(/-+/g, '-');
+}
 
 export const markdownComponents: Record<string, React.FC<MarkdownProps>> = {
     img: ({ src, alt }: MarkdownProps) => (
@@ -27,21 +56,22 @@ export const markdownComponents: Record<string, React.FC<MarkdownProps>> = {
         </blockquote>
     ),
     h1: ({ children }: MarkdownProps) => {
-        const id = String(children).toLowerCase().replaceAll(/[^a-z0-9\s-]/g, '').replaceAll(/\s+/g, '-').replaceAll(/-+/g, '-');
+        const id = generateId(getTextFromNode(children));
         return <h1 id={id} className="text-3xl font-bold mt-12 mb-6 text-foreground scroll-mt-32">{children}</h1>;
     },
     h2: ({ children }: MarkdownProps) => {
-        const id = String(children).toLowerCase().replaceAll(/[^a-z0-9\s-]/g, '').replaceAll(/\s+/g, '-').replaceAll(/-+/g, '-');
+        const id = generateId(getTextFromNode(children));
         return <h2 id={id} className="text-2xl font-bold mt-10 mb-5 text-foreground scroll-mt-32">{children}</h2>;
     },
     h3: ({ children }: MarkdownProps) => {
-        const id = String(children).toLowerCase().replaceAll(/[^a-z0-9\s-]/g, '').replaceAll(/\s+/g, '-').replaceAll(/-+/g, '-');
+        const id = generateId(getTextFromNode(children));
         return <h3 id={id} className="text-xl font-bold mt-8 mb-4 text-foreground scroll-mt-32">{children}</h3>;
     },
     h4: ({ children }: MarkdownProps) => {
-        const id = String(children).toLowerCase().replaceAll(/[^a-z0-9\s-]/g, '').replaceAll(/\s+/g, '-').replaceAll(/-+/g, '-');
+        const id = generateId(getTextFromNode(children));
         return <h4 id={id} className="text-lg font-bold mt-6 mb-3 text-foreground scroll-mt-32">{children}</h4>;
     },
+
     a: ({ href, children }: MarkdownProps) => (
         <a href={href} className="text-primary hover:underline transition-colors font-medium cursor-pointer" target="_blank" rel="noopener noreferrer">
             {children}

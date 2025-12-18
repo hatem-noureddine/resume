@@ -116,6 +116,8 @@ export function Tooltip({
         }
     };
 
+    const tooltipId = 'tooltip-content';
+
     return (
         <div
             ref={triggerRef}
@@ -124,13 +126,16 @@ export function Tooltip({
             onMouseLeave={hideTooltip}
             onFocus={showTooltip}
             onBlur={hideTooltip}
+            aria-describedby={isVisible ? tooltipId : undefined}
         >
             {children}
             <AnimatePresence>
                 {isVisible && (
                     <motion.div
+                        id={tooltipId}
                         ref={tooltipRef}
                         role="tooltip"
+
                         className={`absolute z-50 px-3 py-2 text-sm font-medium text-background bg-foreground/90 rounded-lg shadow-lg whitespace-nowrap ${positionClasses[actualPosition]}`}
                         {...getAnimationProps(actualPosition)}
                         transition={{ duration: 0.15 }}

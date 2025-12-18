@@ -90,30 +90,46 @@ export function LottieIcon({
         }
     }, [prefersReducedMotion]);
 
-    // Determine appropriate role and tabIndex for accessibility
+    // Determine appropriate role and element for accessibility
     const isClickable = trigger === "click";
-    const getRole = (): string | undefined => {
-        if (isClickable) return "button";
-        if (ariaLabel) return "img";
-        return undefined;
-    };
-    const role = getRole();
-    const tabIndex = isClickable ? 0 : undefined;
 
     // Focus ring class for keyboard navigation
     const focusClasses = isClickable ? "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-lg" : "";
+    const containerClasses = `inline-flex items-center justify-center ${focusClasses} ${className}`;
+    const containerStyle = { width, height };
+
+    if (isClickable) {
+        return (
+            <button
+                type="button"
+                className={containerClasses}
+                style={containerStyle}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+                onClick={handleClick}
+                onKeyDown={handleKeyDown}
+                aria-label={ariaLabel}
+            >
+                <Lottie
+                    lottieRef={lottieRef}
+                    animationData={animationData}
+                    loop={shouldLoop}
+                    autoplay={shouldAutoplay}
+                    onComplete={handleComplete}
+                    style={{ width: "100%", height: "100%" }}
+                />
+            </button>
+        );
+    }
 
     return (
         <div
-            className={`inline-flex items-center justify-center ${focusClasses} ${className}`}
-            style={{ width, height }}
+            className={containerClasses}
+            style={containerStyle}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            onClick={handleClick}
-            onKeyDown={handleKeyDown}
-            role={role}
+            role={ariaLabel ? "img" : undefined}
             aria-label={ariaLabel}
-            tabIndex={tabIndex}
         >
             <Lottie
                 lottieRef={lottieRef}

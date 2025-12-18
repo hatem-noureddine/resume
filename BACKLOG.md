@@ -30,7 +30,6 @@
 ## ⚡ Medium Priority
 
 ### Interactive Features
-- [ ] **Skills proficiency bars** - Animated progress indicators per skill
 - [ ] **Interactive timeline** - Clickable/filterable experience timeline
 - [ ] **Project filtering** - Filter by technology, year, or category
 - [ ] **Contact form with validation** - Real form submission (Formspree/EmailJS)
