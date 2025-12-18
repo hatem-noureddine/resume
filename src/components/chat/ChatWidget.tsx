@@ -40,6 +40,7 @@ export function ChatWidget() {
 
             setMessages([
                 {
+                    id: 'greeting_initial',
                     role: 'assistant',
                     content: `${chat.greeting}\n\n${chat.intro}\n\n${chat.askMe}`
                 }
@@ -87,7 +88,7 @@ export function ChatWidget() {
                 onClick={() => setIsOpen(!isOpen)}
                 className={cn(
                     "fixed bottom-6 right-6 z-50 p-4 rounded-full",
-                    "bg-gradient-to-br from-primary via-primary to-primary/90 text-white",
+                    "bg-linear-to-br from-primary via-primary to-primary/90 text-white",
                     "shadow-lg shadow-primary/20 dark:shadow-primary/30",
                     "hover:shadow-xl hover:shadow-primary/30 dark:hover:shadow-primary/40",
                     "hover:scale-105 transition-all duration-300",
@@ -157,7 +158,7 @@ export function ChatWidget() {
                         )}
                     >
                         {/* Header */}
-                        <div className="p-4 bg-gradient-to-br from-primary via-primary to-primary/90 text-white rounded-t-2xl">
+                        <div className="p-4 bg-linear-to-br from-primary via-primary to-primary/90 text-white rounded-t-2xl">
                             <div className="flex justify-between items-start">
                                 <div className="flex items-center gap-3">
                                     <div className="p-2 bg-white/20 rounded-full">
@@ -209,9 +210,9 @@ export function ChatWidget() {
 
                         {/* Messages */}
                         <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-muted/30 dark:bg-muted/10">
-                            {messages.map((msg, i) => (
+                            {messages.map((msg) => (
                                 <motion.div
-                                    key={i}
+                                    key={msg.id}
                                     initial={{ opacity: 0, y: 10 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     className={cn(
@@ -228,7 +229,7 @@ export function ChatWidget() {
                                         className={cn(
                                             "max-w-[80%] p-3 rounded-2xl text-sm whitespace-pre-line shadow-sm",
                                             msg.role === 'user'
-                                                ? 'bg-gradient-to-br from-primary to-primary/90 text-white rounded-br-sm'
+                                                ? 'bg-linear-to-br from-primary to-primary/90 text-white rounded-br-sm'
                                                 : 'bg-card dark:bg-card/80 text-card-foreground rounded-bl-sm border border-border/50'
                                         )}
                                     >
@@ -237,7 +238,7 @@ export function ChatWidget() {
                                         )}
                                     </div>
                                     {msg.role === 'user' && (
-                                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center shrink-0 ring-1 ring-white/20">
+                                        <div className="w-8 h-8 rounded-full bg-linear-to-br from-primary to-primary/80 flex items-center justify-center shrink-0 ring-1 ring-white/20">
                                             <User size={16} className="text-white" />
                                         </div>
                                     )}
@@ -250,9 +251,9 @@ export function ChatWidget() {
                         {messages.length <= 2 && suggestedQuestions.length > 0 && (
                             <div className="px-4 pb-2">
                                 <div className="flex flex-wrap gap-2">
-                                    {suggestedQuestions.slice(0, 3).map((q: string, i: number) => (
+                                    {suggestedQuestions.slice(0, 3).map((q: string) => (
                                         <button
-                                            key={i}
+                                            key={q}
                                             onClick={() => sendMessage(q)}
                                             disabled={isLoading}
                                             className="text-xs px-3 py-1.5 rounded-full bg-card dark:bg-card/80 border border-border/50 hover:bg-muted hover:border-primary/30 transition-all duration-200"
@@ -294,7 +295,7 @@ export function ChatWidget() {
                                     disabled={!input.trim() || isLoading}
                                     aria-label="Send message"
                                     className={cn(
-                                        "p-2.5 rounded-full bg-gradient-to-br from-primary to-primary/90 text-white",
+                                        "p-2.5 rounded-full bg-linear-to-br from-primary to-primary/90 text-white",
                                         "hover:shadow-lg hover:shadow-primary/25 hover:scale-105",
                                         "transition-all duration-200",
                                         "disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
