@@ -2,7 +2,8 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Send, Bot, User, Loader2, Mail, Linkedin, FileText, Trash2, MessageCircle } from "lucide-react";
+import { X, Send, Bot, User, Loader2, Mail, FileText, Trash2, MessageCircle } from "lucide-react";
+import { SiLinkedin } from "react-icons/si";
 import { cn } from "@/lib/utils";
 import { RESUME_CONTEXT } from "@/config/resume";
 import { useLanguage } from "@/context/LanguageContext";
@@ -193,7 +194,7 @@ export function ChatWidget() {
                                     rel="noopener noreferrer"
                                     className="flex items-center gap-1.5 px-3 py-1.5 bg-white/20 hover:bg-white/30 rounded-full text-xs transition-colors"
                                 >
-                                    <Linkedin size={12} />
+                                    <SiLinkedin size={12} />
                                     LinkedIn
                                 </a>
                                 <a

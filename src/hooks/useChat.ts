@@ -14,6 +14,42 @@ export interface Message {
 // Generate unique ID for messages
 const generateId = () => `msg_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`;
 
+// Parse SSE content from a line - extracted to reduce cognitive complexity
+const parseSSEContent = (line: string): string | null => {
+    if (!line.startsWith('data: ')) return null;
+
+    const data = line.slice(6);
+    if (data === '[DONE]') return null;
+
+    try {
+        const parsed = JSON.parse(data);
+        return parsed.choices?.[0]?.delta?.content || '';
+    } catch {
+        return null;
+    }
+};
+
+// Process streaming response - extracted to reduce cognitive complexity
+const processStream = async (
+    reader: ReadableStreamDefaultReader<Uint8Array>,
+    onContent: (content: string) => void
+): Promise<void> => {
+    const decoder = new TextDecoder();
+
+    while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        const chunk = decoder.decode(value, { stream: true });
+        for (const line of chunk.split('\n')) {
+            const content = parseSSEContent(line);
+            if (content !== null) {
+                onContent(content);
+            }
+        }
+    }
+};
+
 export function useChat() {
     const { t } = useLanguage();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -108,45 +144,23 @@ export function useChat() {
             }
 
             const reader = response.body?.getReader();
-            const decoder = new TextDecoder();
             let assistantMessage = '';
 
             const assistantMsgId = generateId();
             setMessages(prev => [...prev, { id: assistantMsgId, role: 'assistant', content: '' }]);
 
             if (reader) {
-                while (true) {
-                    const { done, value } = await reader.read();
-                    if (done) break;
-
-                    const chunk = decoder.decode(value, { stream: true });
-                    const lines = chunk.split('\n');
-
-                    for (const line of lines) {
-                        if (line.startsWith('data: ')) {
-                            const data = line.slice(6);
-                            if (data === '[DONE]') continue;
-
-                            try {
-                                const parsed = JSON.parse(data);
-                                const content = parsed.choices?.[0]?.delta?.content || '';
-                                assistantMessage += content;
-
-                                setMessages(prev => {
-                                    const updated = [...prev];
-                                    updated[updated.length - 1] = {
-                                        id: updated[updated.length - 1].id,
-                                        role: 'assistant',
-                                        content: assistantMessage
-                                    };
-                                    return updated;
-                                });
-                            } catch {
-                                // Ignore parse errors
-                            }
+                await processStream(reader, (content) => {
+                    assistantMessage += content;
+                    setMessages(prev => {
+                        const updated = [...prev];
+                        const lastMsg = updated.at(-1);
+                        if (lastMsg) {
+                            updated[updated.length - 1] = { ...lastMsg, content: assistantMessage };
                         }
-                    }
-                }
+                        return updated;
+                    });
+                });
             }
         } catch (error) {
             console.error('Chat error:', error);
