@@ -3,35 +3,35 @@
         "id": 1,
         "title": "E-Commerce Platform",
         "category": "Development",
-        "image": "/resume/project1.png",
+        "image": "/project1.png",
         "link": "#"
     },
     {
         "id": 2,
         "title": "Finance Dashboard",
         "category": "Design",
-        "image": "/resume/project2.png",
+        "image": "/project2.png",
         "link": "#"
     },
     {
         "id": 3,
         "title": "Health & Wellness App",
         "category": "Mobile App",
-        "image": "/resume/project3.png",
+        "image": "/project3.png",
         "link": "#"
     },
     {
         "id": 4,
         "title": "Corporate Rebranding",
         "category": "Branding",
-        "image": "/resume/project4.png",
+        "image": "/project4.png",
         "link": "#"
     },
     {
         "id": 5,
         "title": "Social Media Campaign",
         "category": "Marketing",
-        "image": "/resume/project5.png",
+        "image": "/project5.png",
         "link": "#"
     }
 ]
