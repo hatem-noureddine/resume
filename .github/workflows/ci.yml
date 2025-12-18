@@ -76,38 +76,33 @@ jobs:
 
       - name: Analyze Bundle Size
         run: |
-          echo "## 📦 Bundle Size Report" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-
-          # Calculate total size
-          TOTAL_SIZE=$(du -sh out/ | cut -f1)
-          echo "**Total Output Size:** $TOTAL_SIZE" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-
-          # List largest files
-          echo "### Largest Files" >> $GITHUB_STEP_SUMMARY
+          # Check Next.js build sizes
+          echo "### Build Output" >> $GITHUB_STEP_SUMMARY
+          echo "#### Server" >> $GITHUB_STEP_SUMMARY
           echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
-          find out/ -type f -exec du -h {} + | sort -rh | head -15 >> $GITHUB_STEP_SUMMARY
-          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-
-          # Check JS bundle sizes
-          echo "### JavaScript Chunks" >> $GITHUB_STEP_SUMMARY
-          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
-          find out/_next/static -name "*.js" -exec du -h {} + 2>/dev/null | sort -rh | head -10 >> $GITHUB_STEP_SUMMARY || echo "No JS chunks found" >> $GITHUB_STEP_SUMMARY
+          du -h -d 2 .next/server | sort -rh | head -10 >> $GITHUB_STEP_SUMMARY
           echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
 
-          # Warn if bundle is too large (> 5MB)
-          TOTAL_BYTES=$(du -sb out/ | cut -f1)
-          if [ $TOTAL_BYTES -gt 5242880 ]; then
-            echo "::warning::Bundle size ($TOTAL_SIZE) exceeds recommended 5MB limit"
+          echo "#### Static (Chunks)" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          find .next/static -name "*.js" -exec du -h {} + 2>/dev/null | sort -rh | head -10 >> $GITHUB_STEP_SUMMARY || echo "No JS chunks found" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+
+          # Warn if .next folder is too large
+          TOTAL_BYTES=$(du -sb .next/ | cut -f1)
+          if [ $TOTAL_BYTES -gt 20971520 ]; then
+            echo "::warning::Build size exceeds 20MB limit"
           fi
 
       - name: Upload build artifact for E2E
         uses: actions/upload-artifact@v4
         with:
           name: build-output
-          path: out/
+          path: |
+            .next
+            public
+            package.json
+            next.config.mjs
           retention-days: 1
 
   # E2E and performance tests
@@ -129,7 +124,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: build-output
-          path: out/
+          path: .
 
       - name: Install dependencies
         run: npm ci
@@ -152,9 +147,6 @@ jobs:
       - name: Install Playwright deps only
         if: steps.playwright-cache.outputs.cache-hit == 'true'
         run: npx playwright install-deps
-
-      - name: Prepare static site
-        run: npm run prepare:static
 
       - name: Run Playwright E2E tests
         run: npm run test:e2e
