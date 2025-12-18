@@ -1,4 +1,4 @@
 /**
- * Chat components barrel export
+ * Chat Components barrel export
  */
 export { ChatWidget } from './ChatWidget';
