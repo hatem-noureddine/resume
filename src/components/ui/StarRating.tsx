@@ -41,7 +41,7 @@ export function StarRating({
     showAverage = true,
     className,
     initialRating = 0
-}: StarRatingProps) {
+}: Readonly<StarRatingProps>) {
     const { rating, setRating, hasRated, averageRating, totalRatings } = useRating(postSlug, {
         maxRating: maxStars,
         initialRating // Pass down for admin simulation
@@ -76,16 +76,24 @@ export function StarRating({
 
     return (
         <div className={cn("flex flex-col gap-2", className)}>
-            <div
-                className={cn("flex items-center", gapClasses[size])}
+            <fieldset
+                className={cn("flex items-center p-0 border-none m-0", gapClasses[size])}
                 onMouseLeave={handleMouseLeave}
-                role="group"
                 aria-label="Rate this article"
             >
                 {Array.from({ length: maxStars }, (_, index) => {
                     const starIndex = index + 1;
                     const isFilled = starIndex <= displayRating;
                     const isPartiallyFilled = !isFilled && starIndex <= Math.ceil(averageRating) && !hasRated && !isHovering;
+
+                    let starColorClass: string;
+                    if (isFilled) {
+                        starColorClass = "fill-amber-400 text-amber-400";
+                    } else if (isPartiallyFilled) {
+                        starColorClass = "fill-amber-400/30 text-amber-400/50";
+                    } else {
+                        starColorClass = "fill-transparent text-muted-foreground/50 hover:text-amber-400/70";
+                    }
 
                     return (
                         <motion.button
@@ -108,17 +116,13 @@ export function StarRating({
                                 className={cn(
                                     sizeClasses[size],
                                     "transition-colors duration-200",
-                                    isFilled
-                                        ? "fill-amber-400 text-amber-400"
-                                        : isPartiallyFilled
-                                            ? "fill-amber-400/30 text-amber-400/50"
-                                            : "fill-transparent text-muted-foreground/50 hover:text-amber-400/70"
+                                    starColorClass
                                 )}
                             />
                         </motion.button>
                     );
                 })}
-            </div>
+            </fieldset>
 
             {/* Rating info */}
             <AnimatePresence mode="wait">

@@ -287,21 +287,33 @@ export const hoverLift = {
 };
 
 // =============================================================================
-// REDUCED MOTION HELPER
+// REDUCED MOTION HELPERS
 // =============================================================================
 
 /**
- * Returns empty object if reduced motion is preferred, otherwise returns the variants
+ * Enhances variants based on reduced motion preference
+ */
+export const getMotionVariants = <T extends Variants>(variants: T, prefersReducedMotion: boolean): T | Variants =>
+    prefersReducedMotion ? {} : variants;
+
+/**
+ * Enhances animation object based on reduced motion preference
+ */
+export const getMotionAnimation = <T extends object>(animation: T, prefersReducedMotion: boolean): T | object =>
+    prefersReducedMotion ? {} : animation;
+
+/**
+ * @deprecated Use getMotionVariants instead
  */
 export function withReducedMotion<T extends object>(
     variants: T,
     prefersReducedMotion: boolean
 ): T | Record<string, never> {
-    return prefersReducedMotion ? {} : variants;
+    return prefersReducedMotion ? {} : (variants as T | Record<string, never>);
 }
 
 /**
- * Creates a conditional animation object based on reduced motion preference
+ * @deprecated Use getMotionAnimation instead
  */
 export function conditionalAnimation(
     animation: object,

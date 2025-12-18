@@ -123,12 +123,12 @@ export function LottieIcon({
     }
 
     return (
-        <div
+        <span
             className={containerClasses}
             style={containerStyle}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            role={ariaLabel ? "img" : undefined}
+            role={ariaLabel ? "img" : "presentation"}
             aria-label={ariaLabel}
         >
             <Lottie
@@ -139,7 +139,7 @@ export function LottieIcon({
                 onComplete={handleComplete}
                 style={{ width: "100%", height: "100%" }}
             />
-        </div>
+        </span>
     );
 }
 

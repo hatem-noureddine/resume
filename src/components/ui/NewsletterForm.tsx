@@ -48,7 +48,7 @@ export function NewsletterForm({
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        if (!email || !email.includes('@')) {
+        if (!email?.includes('@')) {
             setStatus('error');
             setErrorMessage('Please enter a valid email address');
             return;

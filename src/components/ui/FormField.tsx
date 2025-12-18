@@ -29,6 +29,13 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         const normalClasses = "border-foreground/10 focus:ring-primary/50 focus:border-primary";
         const errorClasses = "border-red-500 focus:ring-red-500/50 focus:border-red-500";
 
+        let descriptionId: string | undefined;
+        if (error) {
+            descriptionId = `${inputId}-error`;
+        } else if (helperText) {
+            descriptionId = `${inputId}-helper`;
+        }
+
         return (
             <div className="space-y-1">
                 {label && (
@@ -45,7 +52,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
                     id={inputId}
                     className={`${baseClasses} ${error ? errorClasses : normalClasses} ${className}`}
                     aria-invalid={error ? 'true' : 'false'}
-                    aria-describedby={error ? `${inputId}-error` : helperText ? `${inputId}-helper` : undefined}
+                    aria-describedby={descriptionId}
                     {...props}
                 />
                 {error && (
@@ -91,6 +98,13 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         const normalClasses = "border-foreground/10 focus:ring-primary/50 focus:border-primary";
         const errorClasses = "border-red-500 focus:ring-red-500/50 focus:border-red-500";
 
+        let descriptionId: string | undefined;
+        if (error) {
+            descriptionId = `${textareaId}-error`;
+        } else if (helperText) {
+            descriptionId = `${textareaId}-helper`;
+        }
+
         return (
             <div className="space-y-1">
                 {label && (
@@ -107,7 +121,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
                     id={textareaId}
                     className={`${baseClasses} ${error ? errorClasses : normalClasses} ${className}`}
                     aria-invalid={error ? 'true' : 'false'}
-                    aria-describedby={error ? `${textareaId}-error` : helperText ? `${textareaId}-helper` : undefined}
+                    aria-describedby={descriptionId}
                     {...props}
                 />
                 {error && (
