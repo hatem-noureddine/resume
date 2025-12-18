@@ -140,10 +140,10 @@ const ProfessionalSkillsColumn = ({
                 viewport={{ once: true }}
                 className="space-y-3"
             >
-                {items.map((item: string | SkillItem, index: number) => {
+                {items.map((item: string | SkillItem) => {
                     const isObj = typeof item === 'object';
-                    const name = isObj ? (item as SkillItem).name : (item as string);
-                    const icon = isObj ? (item as SkillItem).icon : undefined;
+                    const name = isObj ? item.name : item;
+                    const icon = isObj ? item.icon : undefined;
 
                     return (
                         <motion.div
@@ -208,9 +208,10 @@ const SkillTag = ({
     isFiltered: boolean
 }) => {
     const [showTooltip, setShowTooltip] = useState(false);
-    const isLink = typeof skill === 'object' && !!(skill as SkillItem).link;
-    const content = typeof skill === 'object' ? (skill as SkillItem).name : (skill as string);
-    const link = typeof skill === 'object' ? (skill as SkillItem).link : undefined;
+    const isSkillObject = typeof skill === 'object';
+    const isLink = isSkillObject && !!skill.link;
+    const content = isSkillObject ? skill.name : skill;
+    const link = isSkillObject ? skill.link : undefined;
     const colorClass = categoryColors[categoryIndex % categoryColors.length];
 
     const baseClass = `text-xs md:text-sm px-2 md:px-3 py-1 md:py-1.5 rounded-full border font-medium transition-all duration-200 ${colorClass} ${isFiltered ? 'ring-2 ring-primary ring-offset-1' : ''}`;
@@ -301,9 +302,9 @@ const DesktopCategoryGrid = ({
         setExpandedCategories(newExpanded);
     };
 
-    const filteredCategories = activeFilter !== null
-        ? categories.filter((_, i) => i === activeFilter)
-        : categories;
+    const filteredCategories = activeFilter === null
+        ? categories
+        : categories.filter((_, i) => i === activeFilter);
 
     return (
         <div className="w-full">

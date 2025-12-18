@@ -10,7 +10,7 @@ import { ArrowUp } from "lucide-react";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import { NewsletterForm } from "@/components/ui/NewsletterForm";
 
-export function Footer({ hasBlogPosts = true }: { hasBlogPosts?: boolean }) {
+export function Footer({ hasBlogPosts = true }: Readonly<{ hasBlogPosts?: boolean }>) {
     const { t } = useLanguage();
     const { header, contact, footer } = t;
     const prefersReducedMotion = usePrefersReducedMotion();

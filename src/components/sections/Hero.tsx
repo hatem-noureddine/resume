@@ -56,19 +56,17 @@ function useTypingAnimation(texts: string[], typingSpeed = 100, deletingSpeed = 
         const currentText = texts[currentIndex];
 
         const timeout = setTimeout(() => {
-            if (!isDeleting) {
-                if (displayText.length < currentText.length) {
-                    setDisplayText(currentText.slice(0, displayText.length + 1));
-                } else {
-                    setTimeout(() => setIsDeleting(true), pauseTime);
-                }
-            } else {
+            if (isDeleting) {
                 if (displayText.length > 0) {
                     setDisplayText(displayText.slice(0, -1));
                 } else {
                     setIsDeleting(false);
                     setCurrentIndex((prev) => (prev + 1) % texts.length);
                 }
+            } else if (displayText.length < currentText.length) {
+                setDisplayText(currentText.slice(0, displayText.length + 1));
+            } else {
+                setTimeout(() => setIsDeleting(true), pauseTime);
             }
         }, isDeleting ? deletingSpeed : typingSpeed);
 
@@ -190,7 +188,7 @@ export function Hero() {
                         transition={{ delay: 0.4, duration: 0.5 }}
                         className="mb-6 md:mb-8"
                     >
-                        <p className={`text-base md:text-xl text-secondary-foreground text-left md:text-justify leading-relaxed ${!isDescriptionExpanded ? 'line-clamp-3 md:line-clamp-none' : ''
+                        <p className={`text-base md:text-xl text-secondary-foreground text-left md:text-justify leading-relaxed ${isDescriptionExpanded ? '' : 'line-clamp-3 md:line-clamp-none'
                             }`}>
                             {hero.description}
                         </p>
@@ -294,7 +292,7 @@ export function Hero() {
                                     fill
                                     className="object-cover hover:scale-105"
                                     sizes="(max-width: 640px) 260px, (max-width: 768px) 320px, 500px"
-                                    priority
+                                    loading="eager"
                                 />
                             </div>
                         </div>
