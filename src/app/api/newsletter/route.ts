@@ -1,10 +1,14 @@
 
 import { NextResponse } from 'next/server';
 
+// RFC 5322 simplified email regex for better validation
+const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+
 export async function POST(request: Request) {
     const { email } = await request.json();
 
-    if (!email || !email.includes('@')) {
+    // Security: Validate email format properly
+    if (!email || typeof email !== 'string' || email.length > 254 || !EMAIL_REGEX.test(email)) {
         return NextResponse.json(
             { error: 'Invalid email address' },
             { status: 400 }
