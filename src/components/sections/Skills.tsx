@@ -147,7 +147,7 @@ const ProfessionalSkillsColumn = ({
             <motion.div
                 variants={prefersReducedMotion ? {} : container}
                 initial="hidden"
-                whileInView="show"
+                whileInView="visible"
                 viewport={{ once: true }}
                 className="space-y-3"
             >
