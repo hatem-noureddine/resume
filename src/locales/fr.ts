@@ -1,6 +1,7 @@
 import { SITE_CONFIG } from "@/config/site";
+import type { Locale } from "./types";
 
-export const fr = {
+export const fr: Locale = {
     header: {
         logo: "HN",
         nav: [
@@ -76,6 +77,7 @@ export const fr = {
                 period: "2020 - Présent",
                 role: "Développeur Lead",
                 company: "Tech Solutions Inc.",
+                logo: "/logo_HN.svg",
                 description: "Direction de l'équipe frontend et architecture de solutions évolutives pour les clients entreprise.",
                 duration: "4+ ans",
                 startDate: "2020-01",
@@ -91,6 +93,7 @@ export const fr = {
                 period: "2018 - 2020",
                 role: "Développeur Android Senior",
                 company: "Creative Agency",
+                logo: "/logo_HN.svg",
                 description: "Développement d'applications mobiles haute performance pour des marques mondiales.",
                 duration: "2 ans",
                 startDate: "2018-01",
@@ -107,6 +110,7 @@ export const fr = {
                 period: "2016 - 2018",
                 role: "Développeur Android",
                 company: "StartUp Hub",
+                logo: "/logo_HN.svg",
                 description: "Collaboration avec des développeurs seniors pour construire des produits MVP pour startups.",
                 duration: "2 ans",
                 startDate: "2016-01",
@@ -313,7 +317,11 @@ export const fr = {
     },
     footer: {
         rights: "Tous droits réservés.",
-        backToTop: "Retour en haut"
+        backToTop: "Retour en haut",
+        newsletter: {
+            title: "Abonnez-vous à ma newsletter",
+            description: "Recevez les dernières actualités et mises à jour."
+        }
     },
     chat: {
         greeting: "Bonjour ! Je suis l'assistant de Hatem. 👋",

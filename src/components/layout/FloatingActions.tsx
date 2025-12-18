@@ -66,9 +66,9 @@ export function FloatingActions() {
 
                     {/* Social Links */}
                     <div className="flex flex-col gap-3 p-2 rounded-full bg-background/80 backdrop-blur-md border border-border shadow-lg">
-                        {socialLinks.map((social, index) => (
+                        {socialLinks.map((social) => (
                             <motion.a
-                                key={index}
+                                key={social.label}
                                 href={social.href}
                                 target="_blank"
                                 rel="noopener noreferrer"

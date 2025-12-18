@@ -64,7 +64,7 @@ export async function getPostSlugs(): Promise<string[]> {
 
 export async function getPostData(slug: string): Promise<Post | null> {
     // Sanitize slug to prevent path traversal attacks
-    const safeSlug = slug.replace(/[^a-zA-Z0-9-_]/g, '');
+    const safeSlug = slug.replaceAll(/[^a-zA-Z0-9-_]/g, '');
     if (safeSlug !== slug || slug.includes('..')) {
         console.warn('Potential path traversal attempt blocked:', slug);
         return null;

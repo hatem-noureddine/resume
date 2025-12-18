@@ -1,7 +1,8 @@
 
 import { SITE_CONFIG } from "@/config/site";
+import type { Locale } from "./types";
 
-export const en = {
+export const en: Locale = {
     header: {
         logo: "HN",
         nav: [
