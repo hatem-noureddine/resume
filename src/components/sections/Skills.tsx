@@ -57,50 +57,61 @@ function useIsMobile(breakpoint = 1024) {
 }
 
 /**
+ * Skill icon mapping - patterns to match skill names
+ */
+const skillPatterns: Array<{ patterns: string[], icon: React.ReactNode }> = [
+    { patterns: ["android", "mobile", "ios"], icon: <Smartphone className="w-4 h-4" /> },
+    { patterns: ["design", "figma", "ui", "ux"], icon: <Palette className="w-4 h-4" /> },
+    { patterns: ["team", "collab", "agile"], icon: <Users className="w-4 h-4" /> },
+    { patterns: ["doc", "analy"], icon: <FileText className="w-4 h-4" /> },
+    { patterns: ["arch", "pattern"], icon: <Layers className="w-4 h-4" /> },
+    { patterns: ["api", "server", "backend"], icon: <Server className="w-4 h-4" /> },
+    { patterns: ["data", "sql", "room"], icon: <Database className="w-4 h-4" /> },
+    { patterns: ["git"], icon: <GitBranch className="w-4 h-4" /> },
+    { patterns: ["test", "junit", "quality"], icon: <CheckCircle className="w-4 h-4" /> },
+    { patterns: ["ci/cd", "jenkins", "tools"], icon: <Wrench className="w-4 h-4" /> },
+    { patterns: ["web", "react", "next"], icon: <Globe className="w-4 h-4" /> },
+    { patterns: ["ai", "gpt", "copilot"], icon: <Bot className="w-4 h-4" /> },
+    { patterns: ["kotlin", "java", "code"], icon: <Code className="w-4 h-4" /> },
+    { patterns: ["analytic"], icon: <BarChart className="w-4 h-4" /> },
+    { patterns: ["terminal", "bash"], icon: <Terminal className="w-4 h-4" /> },
+];
+
+const explicitIconMap: Record<string, React.ReactNode> = {
+    "Layout": <Layout className="w-4 h-4" />,
+    "Code": <Code className="w-4 h-4" />,
+    "Smartphone": <Smartphone className="w-4 h-4" />,
+    "Palette": <Palette className="w-4 h-4" />,
+    "Users": <Users className="w-4 h-4" />,
+    "FileText": <FileText className="w-4 h-4" />,
+    "CheckCircle": <CheckCircle className="w-4 h-4" />,
+    "Layers": <Layers className="w-4 h-4" />,
+    "Server": <Server className="w-4 h-4" />,
+    "Database": <Database className="w-4 h-4" />,
+    "GitBranch": <GitBranch className="w-4 h-4" />,
+    "Terminal": <Terminal className="w-4 h-4" />,
+    "Globe": <Globe className="w-4 h-4" />,
+    "BarChart": <BarChart className="w-4 h-4" />,
+    "Wrench": <Wrench className="w-4 h-4" />,
+    "Bot": <Bot className="w-4 h-4" />
+};
+
+/**
  * Maps a skill name to a corresponding Lucide icon.
  */
-const getSkillIcon = (skillName: string, explicitIcon?: string) => {
-    if (explicitIcon) {
-        const iconMap: Record<string, React.ReactNode> = {
-            "Layout": <Layout className="w-4 h-4" />,
-            "Code": <Code className="w-4 h-4" />,
-            "Smartphone": <Smartphone className="w-4 h-4" />,
-            "Palette": <Palette className="w-4 h-4" />,
-            "Users": <Users className="w-4 h-4" />,
-            "FileText": <FileText className="w-4 h-4" />,
-            "CheckCircle": <CheckCircle className="w-4 h-4" />,
-            "Layers": <Layers className="w-4 h-4" />,
-            "Server": <Server className="w-4 h-4" />,
-            "Database": <Database className="w-4 h-4" />,
-            "GitBranch": <GitBranch className="w-4 h-4" />,
-            "Terminal": <Terminal className="w-4 h-4" />,
-            "Globe": <Globe className="w-4 h-4" />,
-            "BarChart": <BarChart className="w-4 h-4" />,
-            "Wrench": <Wrench className="w-4 h-4" />,
-            "Bot": <Bot className="w-4 h-4" />
-        };
-        if (iconMap[explicitIcon]) return iconMap[explicitIcon];
+const getSkillIcon = (skillName: string, explicitIcon?: string): React.ReactNode => {
+    // Check for explicit icon first
+    if (explicitIcon && explicitIconMap[explicitIcon]) {
+        return explicitIconMap[explicitIcon];
     }
 
+    // Match against patterns
     const normalized = skillName.toLowerCase();
+    const matched = skillPatterns.find(({ patterns }) =>
+        patterns.some(pattern => normalized.includes(pattern))
+    );
 
-    if (normalized.includes("android") || normalized.includes("mobile") || normalized.includes("ios")) return <Smartphone className="w-4 h-4" />;
-    if (normalized.includes("design") || normalized.includes("figma") || normalized.includes("ui") || normalized.includes("ux")) return <Palette className="w-4 h-4" />;
-    if (normalized.includes("team") || normalized.includes("collab") || normalized.includes("agile")) return <Users className="w-4 h-4" />;
-    if (normalized.includes("doc") || normalized.includes("analy")) return <FileText className="w-4 h-4" />;
-    if (normalized.includes("arch") || normalized.includes("pattern")) return <Layers className="w-4 h-4" />;
-    if (normalized.includes("api") || normalized.includes("server") || normalized.includes("backend")) return <Server className="w-4 h-4" />;
-    if (normalized.includes("data") || normalized.includes("sql") || normalized.includes("room")) return <Database className="w-4 h-4" />;
-    if (normalized.includes("git")) return <GitBranch className="w-4 h-4" />;
-    if (normalized.includes("test") || normalized.includes("junit") || normalized.includes("quality")) return <CheckCircle className="w-4 h-4" />;
-    if (normalized.includes("ci/cd") || normalized.includes("jenkins") || normalized.includes("tools")) return <Wrench className="w-4 h-4" />;
-    if (normalized.includes("web") || normalized.includes("react") || normalized.includes("next")) return <Globe className="w-4 h-4" />;
-    if (normalized.includes("ai") || normalized.includes("gpt") || normalized.includes("copilot")) return <Bot className="w-4 h-4" />;
-    if (normalized.includes("kotlin") || normalized.includes("java") || normalized.includes("code")) return <Code className="w-4 h-4" />;
-    if (normalized.includes("analytic")) return <BarChart className="w-4 h-4" />;
-    if (normalized.includes("terminal") || normalized.includes("bash")) return <Terminal className="w-4 h-4" />;
-
-    return <Code className="w-4 h-4" />;
+    return matched?.icon ?? <Code className="w-4 h-4" />;
 };
 
 /**
