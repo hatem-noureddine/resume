@@ -6,13 +6,10 @@ import { Download, Mail, Github, Linkedin, Twitter } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { localeMetadata } from "@/locales";
 import { SITE_CONFIG } from "@/config/site";
-import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
-import { SocialLottieIcon } from "@/components/ui/SocialLottieIcon";
 
 export function FloatingActions() {
     const { t, language } = useLanguage();
     const [isVisible, setIsVisible] = useState(false);
-    const prefersReducedMotion = usePrefersReducedMotion();
 
     // Get text from locale but fallback to safe strings since proper type casting might be complex
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -57,11 +54,7 @@ export function FloatingActions() {
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.95 }}
                     >
-                        {prefersReducedMotion ? (
-                            <Download size={20} />
-                        ) : (
-                            <SocialLottieIcon icon="download" size={28} />
-                        )}
+                        <Download size={20} />
                         {/* Tooltip */}
                         <span className="absolute right-full mr-2 px-2 py-1 bg-background border border-border rounded-md text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-sm">
                             {downloadCVText}
@@ -83,11 +76,7 @@ export function FloatingActions() {
                                 whileHover={{ scale: 1.1 }}
                                 whileTap={{ scale: 0.95 }}
                             >
-                                {!prefersReducedMotion && social.lottieIcon ? (
-                                    <SocialLottieIcon icon={social.lottieIcon} size={24} />
-                                ) : (
-                                    <social.icon size={18} />
-                                )}
+                                <social.icon size={18} />
                                 {/* Tooltip */}
                                 <span className="absolute right-full mr-3 px-2 py-1 bg-background border border-border rounded-md text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-sm">
                                     {social.label}
