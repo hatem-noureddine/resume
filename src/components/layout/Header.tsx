@@ -12,7 +12,7 @@ import { localeMetadata } from "@/locales";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { Logo } from "@/components/ui/Logo";
 
-export function Header({ hasBlogPosts = true }: { hasBlogPosts?: boolean }) {
+export function Header({ hasBlogPosts = true }: Readonly<{ hasBlogPosts?: boolean }>) {
     const { t, language, setLanguage, availableLanguages } = useLanguage();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
