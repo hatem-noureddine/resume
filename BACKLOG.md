@@ -16,7 +16,7 @@
 - [x] **Multiple CV versions** - Support different resume layouts (detailed vs compact)
 - [x] **Project case studies** - Detailed project pages with images and tech stack
 - [x] **Testimonials section** - Add client/colleague testimonials with carousel
-- [ ] **Certifications showcase** - Display professional certifications with badges
+- [x] **Certifications showcase** - Display professional certifications with badges
 
 ### SEO & Performance
 - [x] **Structured data (JSON-LD)** - Add schema markup for Person, Resume
