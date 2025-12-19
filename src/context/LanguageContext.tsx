@@ -1,9 +1,18 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import React, { createContext, useContext, useState, useEffect, ReactNode, useMemo, useCallback } from "react";
 import { locales, SupportedLanguage, defaultLanguage } from "@/locales";
 
 type Translation = typeof locales[SupportedLanguage];
+
+interface CMSLanguage {
+    slug: string;
+    entry: {
+        name: string;
+        flag: string;
+        isEnabled: boolean;
+    };
+}
 
 interface LanguageContextType {
     language: SupportedLanguage;
@@ -11,37 +20,56 @@ interface LanguageContextType {
     t: Translation;
     toggleLanguage: () => void;
     availableLanguages: SupportedLanguage[];
+    cmsLanguages: CMSLanguage[];
+    direction: "ltr" | "rtl";
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-export function LanguageProvider({ children }: { children: ReactNode }) {
+export function LanguageProvider({
+    children,
+    cmsLanguages = []
+}: Readonly<{
+    children: ReactNode;
+    cmsLanguages?: CMSLanguage[];
+}>) {
     const [language, setLanguageState] = useState<SupportedLanguage>(defaultLanguage);
 
-    const setLanguage = (lang: SupportedLanguage) => {
+    // Only languages that are enabled in CMS AND have a local translation file
+    const activeCMSLanguages = useMemo(() =>
+        cmsLanguages
+            .filter(l => l.entry.isEnabled)
+            .map(l => l.slug as SupportedLanguage)
+            .filter(lang => Object.keys(locales).includes(lang)),
+        [cmsLanguages]);
+
+    const availableLanguages = useMemo(() =>
+        activeCMSLanguages.length > 0
+            ? activeCMSLanguages
+            : Object.keys(locales) as SupportedLanguage[],
+        [activeCMSLanguages]);
+
+    const setLanguage = useCallback((lang: SupportedLanguage) => {
         setLanguageState(lang);
         localStorage.setItem("language", lang);
-    };
-
+    }, []);
 
     useEffect(() => {
         const storedLang = localStorage.getItem("language") as SupportedLanguage;
-        if (storedLang && Object.keys(locales).includes(storedLang)) {
-            // eslint-disable-next-line react-hooks/set-state-in-effect
+        if (storedLang && availableLanguages.includes(storedLang)) {
             setLanguageState(storedLang);
         } else {
             const browserLang = navigator.language.split("-")[0] as SupportedLanguage;
-            if (Object.keys(locales).includes(browserLang)) {
-                 
+            if (availableLanguages.includes(browserLang)) {
                 setLanguageState(browserLang);
             }
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const t = locales[language];
-    const availableLanguages = Object.keys(locales) as SupportedLanguage[];
+    const t = locales[language] || locales[defaultLanguage];
 
-    const toggleLanguage = () => {
+    const toggleLanguage = useCallback(() => {
         setLanguageState((prev) => {
             const currentIndex = availableLanguages.indexOf(prev);
             const nextIndex = (currentIndex + 1) % availableLanguages.length;
@@ -49,10 +77,27 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
             localStorage.setItem("language", newLang);
             return newLang;
         });
-    };
+    }, [availableLanguages]);
+
+    const direction = useMemo<"ltr" | "rtl">(() => (language === "ar" ? "rtl" : "ltr"), [language]);
+
+    useEffect(() => {
+        document.documentElement.dir = direction;
+        document.documentElement.lang = language;
+    }, [direction, language]);
+
+    const contextValue = useMemo(() => ({
+        language,
+        setLanguage,
+        t,
+        toggleLanguage,
+        availableLanguages,
+        cmsLanguages,
+        direction
+    }), [language, setLanguage, t, toggleLanguage, availableLanguages, cmsLanguages, direction]);
 
     return (
-        <LanguageContext.Provider value={{ language, setLanguage, t, toggleLanguage, availableLanguages }}>
+        <LanguageContext.Provider value={contextValue}>
             {children}
         </LanguageContext.Provider>
     );

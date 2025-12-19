@@ -35,6 +35,21 @@ jest.mock('@/hooks/usePrefersReducedMotion', () => ({
     usePrefersReducedMotion: () => false
 }));
 
+// Mock LanguageContext
+jest.mock('@/context/LanguageContext', () => ({
+    useLanguage: () => ({
+        t: {
+            certifications: {
+                title: 'Certifications & Badges',
+                subtitle: 'My certifications',
+                verify: 'Verify Credential',
+                issued: 'Issued',
+            }
+        },
+        language: 'en',
+    }),
+}));
+
 const mockCertifications: Certification[] = [
     {
         name: 'AWS Certified Solutions Architect',
@@ -43,13 +58,15 @@ const mockCertifications: Certification[] = [
         credentialId: 'AWS-123',
         credentialUrl: 'https://aws.amazon.com/verify/123',
         badge: 'https://example.com/aws-badge.png',
-        category: 'cloud'
+        category: 'cloud',
+        language: 'en',
     },
     {
         name: 'Professional Scrum Master I',
         issuer: 'Scrum.org',
         date: '2022-05-15',
-        category: 'other'
+        category: 'other',
+        language: 'en',
     }
 ];
 

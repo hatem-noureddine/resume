@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import { useLanguage } from "@/context/LanguageContext";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Quote, ChevronLeft, ChevronRight, Star } from "lucide-react";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
@@ -18,27 +19,30 @@ export interface Testimonial {
 }
 
 export function Testimonials({ items }: Readonly<{ items: Testimonial[] }>) {
+    const { language: currentLang } = useLanguage();
     const [currentIndex, setCurrentIndex] = useState(0);
     const prefersReducedMotion = usePrefersReducedMotion();
 
+    const filteredItems = items.filter(item => item.language === currentLang);
+
     // Auto-play
     useEffect(() => {
-        if (items.length <= 1) return;
+        if (filteredItems.length <= 1) return;
         const timer = setInterval(() => {
-            setCurrentIndex((prev) => (prev + 1) % items.length);
+            setCurrentIndex((prev) => (prev + 1) % filteredItems.length);
         }, 8000);
         return () => clearInterval(timer);
-    }, [items.length]);
+    }, [filteredItems.length]);
 
-    if (!items || items.length === 0) return null;
+    if (!filteredItems || filteredItems.length === 0) return null;
 
-    const current = items[currentIndex];
+    const current = filteredItems[currentIndex];
 
-    const next = () => setCurrentIndex((prev) => (prev + 1) % items.length);
-    const prev = () => setCurrentIndex((prev) => (prev - 1 + items.length) % items.length);
+    const next = () => setCurrentIndex((prev) => (prev + 1) % filteredItems.length);
+    const prev = () => setCurrentIndex((prev) => (prev - 1 + filteredItems.length) % filteredItems.length);
 
     return (
-        <section className="py-24 relative overflow-hidden bg-background/50">
+        <section className="py-24 relative overflow-hidden bg-background/50" aria-labelledby="testimonials-title">
             {/* Background elements */}
             <div className="absolute top-1/2 left-0 -translate-y-1/2 w-64 h-64 bg-primary/5 blur-[100px] rounded-full" />
             <div className="absolute top-1/2 right-0 -translate-y-1/2 w-64 h-64 bg-purple-500/5 blur-[100px] rounded-full" />
@@ -48,6 +52,7 @@ export function Testimonials({ items }: Readonly<{ items: Testimonial[] }>) {
                     title="Testimonials"
                     subtitle="What people say about working with me"
                     align="center"
+                    id="testimonials-title"
                 />
 
                 <div className="max-w-4xl mx-auto mt-16 relative">

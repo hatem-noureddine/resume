@@ -2,6 +2,11 @@
 
 [![CI Pipeline](https://github.com/hatemnoureddine/resume/actions/workflows/ci.yml/badge.svg)](https://github.com/hatemnoureddine/resume/actions/workflows/ci.yml)
 [![Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black)](https://hatem-noureddine-resume.vercel.app/)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=hatem-noureddine_resume&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=hatem-noureddine_resume)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=hatem-noureddine_resume&metric=coverage)](https://sonarcloud.io/summary/new_code?id=hatem-noureddine_resume)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=hatem-noureddine_resume&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=hatem-noureddine_resume)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=hatem-noureddine_resume&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=hatem-noureddine_resume)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=hatem-noureddine_resume&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=hatem-noureddine_resume)
 
 A modern, responsive, and localized portfolio website built with **Next.js 16**, **Tailwind CSS v4**, and **Framer Motion**. Now with an **AI-powered chatbot** for interactive resume exploration!
 

@@ -3,45 +3,66 @@
 import { createContext, useContext, useEffect, useState, useMemo } from "react";
 
 type Theme = "dark" | "light" | "system";
+type FontSize = "small" | "medium" | "large";
 
 type ThemeProviderProps = {
-    children: React.ReactNode;
-    defaultTheme?: Theme;
-    storageKey?: string;
+    readonly children: React.ReactNode;
+    readonly defaultTheme?: Theme;
+    readonly storageKey?: string;
 };
 
 type ThemeProviderState = {
     theme: Theme;
     setTheme: (theme: Theme) => void;
+    highContrast: boolean;
+    setHighContrast: (enabled: boolean) => void;
+    fontSize: FontSize;
+    setFontSize: (size: FontSize) => void;
 };
 
 const initialState: ThemeProviderState = {
     theme: "system",
     setTheme: () => null,
+    highContrast: false,
+    setHighContrast: () => null,
+    fontSize: "medium",
+    setFontSize: () => null,
 };
 
 const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
+
+const HIGH_CONTRAST_KEY = "high-contrast-enabled";
+const FONT_SIZE_KEY = "font-size-preference";
 
 export function ThemeProvider({
     children,
     defaultTheme = "system",
     storageKey = "theme",
-}: Readonly<ThemeProviderProps>) {
-    const [theme, setTheme] = useState<Theme>(
-        // Initialize state lazily to avoid hydration mismatch if possible, 
-        // but for Next.js app router we might need useEffect to sync.
-        // Let's start with default and sync in useEffect.
-        defaultTheme
-    );
+}: ThemeProviderProps) {
+    const [theme, setTheme] = useState<Theme>(defaultTheme);
+    const [highContrast, setHighContrastState] = useState(false);
+    const [fontSize, setFontSizeState] = useState<FontSize>("medium");
 
+    // Load saved preferences on mount
     useEffect(() => {
         const storedTheme = localStorage.getItem(storageKey) as Theme;
         if (storedTheme) {
             // eslint-disable-next-line react-hooks/set-state-in-effect
             setTheme(storedTheme);
         }
+        const storedHighContrast = localStorage.getItem(HIGH_CONTRAST_KEY);
+        if (storedHighContrast === "true") {
+             
+            setHighContrastState(true);
+        }
+        const storedFontSize = localStorage.getItem(FONT_SIZE_KEY) as FontSize;
+        if (storedFontSize && ["small", "medium", "large"].includes(storedFontSize)) {
+             
+            setFontSizeState(storedFontSize);
+        }
     }, [storageKey]);
 
+    // Apply theme classes to document
     useEffect(() => {
         const root = globalThis.document.documentElement;
 
@@ -65,13 +86,40 @@ export function ThemeProvider({
         }
     }, [theme]);
 
+    // Apply high contrast class to document
+    useEffect(() => {
+        const root = globalThis.document.documentElement;
+        if (highContrast) {
+            root.classList.add("high-contrast");
+        } else {
+            root.classList.remove("high-contrast");
+        }
+    }, [highContrast]);
+
+    // Apply font size class to document
+    useEffect(() => {
+        const root = globalThis.document.documentElement;
+        root.classList.remove("font-size-small", "font-size-medium", "font-size-large");
+        root.classList.add(`font-size-${fontSize}`);
+    }, [fontSize]);
+
     const value = useMemo(() => ({
         theme,
-        setTheme: (theme: Theme) => {
-            localStorage.setItem(storageKey, theme);
-            setTheme(theme);
+        setTheme: (newTheme: Theme) => {
+            localStorage.setItem(storageKey, newTheme);
+            setTheme(newTheme);
         },
-    }), [theme, storageKey]);
+        highContrast,
+        setHighContrast: (enabled: boolean) => {
+            localStorage.setItem(HIGH_CONTRAST_KEY, String(enabled));
+            setHighContrastState(enabled);
+        },
+        fontSize,
+        setFontSize: (size: FontSize) => {
+            localStorage.setItem(FONT_SIZE_KEY, size);
+            setFontSizeState(size);
+        },
+    }), [theme, storageKey, highContrast, fontSize]);
 
     return (
         <ThemeProviderContext.Provider value={value}>
@@ -88,7 +136,3 @@ export const useTheme = () => {
 
     return context;
 };
-
-// Fix spread props error by destructuring explicitly if needed or defining props properly. 
-// Ah, {...props} in return above is undefined. I should just use children.
-// Retrying with correct return.

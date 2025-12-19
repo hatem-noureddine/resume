@@ -51,6 +51,14 @@ jest.mock('@/components/ui/ThemeToggle', () => ({
     ThemeToggle: () => <button>ThemeToggle</button>
 }));
 
+jest.mock('@/components/ui/HighContrastToggle', () => ({
+    HighContrastToggle: () => <button>HighContrastToggle</button>
+}));
+
+jest.mock('@/components/ui/FontSizeControls', () => ({
+    FontSizeControls: () => <div>FontSizeControls</div>
+}));
+
 jest.mock('@/components/ui/Logo', () => ({
     Logo: () => <div>Logo</div>
 }));

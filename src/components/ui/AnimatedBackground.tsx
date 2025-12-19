@@ -17,27 +17,57 @@ export function AnimatedBackground() {
 
     return (
         <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10">
-            {/* Primary Blob - Top Right */}
+            {/* Animated Gradient Overlay */}
+            <motion.div
+                animate={{
+                    background: [
+                        "radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.15) 0%, transparent 50%)",
+                        "radial-gradient(circle at 80% 70%, rgba(168, 85, 247, 0.15) 0%, transparent 50%)",
+                        "radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 50%)",
+                        "radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.15) 0%, transparent 50%)",
+                    ],
+                }}
+                transition={{
+                    duration: 15,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                }}
+                className="absolute inset-0 opacity-60"
+            />
+
+            {/* Primary Blob - Top Right with color animation */}
             <motion.div
                 animate={{
                     x: [0, 100, -50, 0],
                     y: [0, -50, 50, 0],
                     scale: [1, 1.2, 0.9, 1],
+                    background: [
+                        "rgba(99, 102, 241, 0.2)",
+                        "rgba(168, 85, 247, 0.2)",
+                        "rgba(59, 130, 246, 0.2)",
+                        "rgba(99, 102, 241, 0.2)"
+                    ],
                 }}
                 transition={{
                     duration: 20,
                     repeat: Infinity,
                     ease: "easeInOut"
                 }}
-                className="absolute -top-[100px] -right-[100px] w-[300px] h-[300px] md:w-[600px] md:h-[600px] bg-primary/20 rounded-full blur-[80px] md:blur-[120px] opacity-30 md:opacity-40"
+                className="absolute -top-[100px] -right-[100px] w-[300px] h-[300px] md:w-[600px] md:h-[600px] rounded-full blur-[80px] md:blur-[120px] opacity-30 md:opacity-40"
             />
 
-            {/* Secondary Blob - Bottom Left */}
+            {/* Secondary Blob - Bottom Left with color animation */}
             <motion.div
                 animate={{
                     x: [0, -50, 100, 0],
                     y: [0, 50, -50, 0],
                     scale: [1, 1.3, 0.8, 1],
+                    background: [
+                        "rgba(168, 85, 247, 0.2)",
+                        "rgba(236, 72, 153, 0.2)",
+                        "rgba(168, 85, 247, 0.2)",
+                        "rgba(99, 102, 241, 0.2)"
+                    ],
                 }}
                 transition={{
                     duration: 25,
@@ -45,29 +75,44 @@ export function AnimatedBackground() {
                     ease: "easeInOut",
                     delay: 2
                 }}
-                className="absolute -bottom-[100px] -left-[100px] w-[300px] h-[300px] md:w-[600px] md:h-[600px] bg-purple-500/20 rounded-full blur-[80px] md:blur-[120px] opacity-30 md:opacity-40"
+                className="absolute -bottom-[100px] -left-[100px] w-[300px] h-[300px] md:w-[600px] md:h-[600px] rounded-full blur-[80px] md:blur-[120px] opacity-30 md:opacity-40"
+            />
+
+            {/* Moving gradient band */}
+            <motion.div
+                animate={{
+                    x: ["-100%", "100%"],
+                    opacity: [0, 0.3, 0],
+                }}
+                transition={{
+                    duration: 10,
+                    repeat: Infinity,
+                    ease: "linear"
+                }}
+                className="absolute top-1/3 w-full h-[200px] bg-linear-to-r from-transparent via-primary/10 to-transparent blur-3xl"
             />
 
             {/* Floating particles - subtle dust effect */}
-            {[...Array(3)].map((_, i) => (
+            {['p1', 'p2', 'p3', 'p4', 'p5'].map((id, i) => (
                 <motion.div
-                    key={i}
+                    key={id}
                     animate={{
-                        y: [0, -100, 0],
-                        x: [0, (i % 2 === 0 ? 50 : -50), 0],
-                        opacity: [0.2, 0.5, 0.2]
+                        y: [0, -150, 0],
+                        x: [0, (i % 2 === 0 ? 80 : -80), 0],
+                        opacity: [0.1, 0.4, 0.1],
+                        scale: [1, 1.5, 1]
                     }}
                     transition={{
-                        duration: 10 + i * 5,
+                        duration: 12 + i * 4,
                         repeat: Infinity,
-                        ease: "linear",
-                        delay: i * 2
+                        ease: "easeInOut",
+                        delay: i * 1.5
                     }}
                     style={{
-                        left: `${20 + i * 30}%`,
-                        top: `${40 + i * 20}%`
+                        left: `${10 + i * 20}%`,
+                        top: `${30 + i * 12}%`
                     }}
-                    className="absolute w-2 h-2 md:w-4 md:h-4 bg-primary rounded-full blur-xs opacity-30"
+                    className="absolute w-2 h-2 md:w-3 md:h-3 bg-primary rounded-full blur-sm opacity-20"
                 />
             ))}
         </div>

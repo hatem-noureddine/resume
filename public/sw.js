@@ -1,14 +1,16 @@
-const CACHE_NAME = 'hatem-portfolio-v1';
+const CACHE_NAME = 'hatem-portfolio-v2';
 
 // Resources to cache on install
 const STATIC_ASSETS = [
     '/',
     '/blog',
     '/portfolio',
-    '/manifest.webmanifest',
+    '/manifest.json',
     '/logo_HN.svg',
     '/icon-192.png',
     '/icon-512.png',
+    '/favicon.ico',
+    '/profile.webp',
 ];
 
 // Cache strategies

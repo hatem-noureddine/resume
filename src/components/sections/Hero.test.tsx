@@ -11,6 +11,7 @@ jest.mock('lucide-react', () => ({
     Download: () => <div data-testid="icon-download" />,
     ChevronDown: () => <div data-testid="icon-chevron-down" />,
     ChevronUp: () => <div data-testid="icon-chevron-up" />,
+    Share2: () => <div data-testid="icon-share2" />,
 }));
 
 // Mock Next.js Image
@@ -39,8 +40,25 @@ jest.mock('@/components/sections/ClientCarousel', () => ({
     ClientCarousel: () => <div data-testid="client-carousel" />
 }));
 
+jest.mock('lottie-react', () => ({
+    __esModule: true,
+    default: () => <div data-testid="lottie-animation" />,
+}));
+
+jest.mock('@/components/ui/AnimatedBackground', () => ({
+    AnimatedBackground: () => <div data-testid="animated-background" />,
+}));
+
+jest.mock('@/components/ui/BlurImage', () => ({
+    BlurImage: (props: any) => <img {...props} alt={props.alt || ''} />,
+}));
+
 jest.mock('@/components/sections/TechCarousel', () => ({
     TechCarousel: () => <div data-testid="tech-carousel" />
+}));
+
+jest.mock('@/components/ui/QRCodeModal', () => ({
+    QRCodeModal: () => <div data-testid="qr-code-modal" />
 }));
 
 // Define mock function outside
@@ -110,8 +128,8 @@ describe('Hero Component', () => {
 
     it('handles mobile view interactions', () => {
         // Mock mobile width
-        window.innerWidth = 500;
-        fireEvent(window, new Event('resize'));
+        globalThis.innerWidth = 500;
+        fireEvent(globalThis.window, new Event('resize'));
 
         renderWithContext();
 
@@ -126,15 +144,16 @@ describe('Hero Component', () => {
 
     it('handles scroll down click', () => {
         const scrollIntoViewMock = jest.fn();
-        document.getElementById = jest.fn().mockReturnValue({
-            scrollIntoView: scrollIntoViewMock
-        });
+        jest.spyOn(document, 'getElementById').mockReturnValue({
+            scrollIntoView: scrollIntoViewMock,
+        } as unknown as HTMLElement);
 
-        renderWithContext();
+        const { getByLabelText } = renderWithContext();
+        fireEvent.click(getByLabelText('Scroll to explore'));
 
-        const scrollBtn = screen.getByLabelText('Scroll to explore');
-        fireEvent.click(scrollBtn);
-
+        expect(document.getElementById).toHaveBeenCalledWith('services');
         expect(scrollIntoViewMock).toHaveBeenCalledWith({ behavior: 'smooth' });
+
+        jest.restoreAllMocks();
     });
 });

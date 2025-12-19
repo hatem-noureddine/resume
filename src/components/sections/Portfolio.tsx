@@ -41,7 +41,7 @@ interface PortfolioLocale {
 }
 
 export function Portfolio({ items }: Readonly<{ items?: PortfolioLocale['items'] }>) {
-    const { t } = useLanguage();
+    const { t, direction } = useLanguage();
     const portfolio = t.portfolio as PortfolioLocale;
     const portfolioData = (items && items.length > 0) ? items : portfolio.items;
     const [filter, setFilter] = useState("All");
@@ -70,9 +70,9 @@ export function Portfolio({ items }: Readonly<{ items?: PortfolioLocale['items']
     const cardVariants = prefersReducedMotion
         ? { hidden: { opacity: 1 }, show: { opacity: 1 }, exit: { opacity: 0 } }
         : {
-            hidden: { opacity: 0, scale: 0.8 },
-            show: { opacity: 1, scale: 1 },
-            exit: { opacity: 0, scale: 0.8 }
+            hidden: { opacity: 0, scale: 0.8, x: direction === "rtl" ? 20 : -20 },
+            show: { opacity: 1, scale: 1, x: 0 },
+            exit: { opacity: 0, scale: 0.8, x: direction === "rtl" ? -20 : 20 }
         };
 
     return (
@@ -82,6 +82,7 @@ export function Portfolio({ items }: Readonly<{ items?: PortfolioLocale['items']
                     title={portfolio.title}
                     subtitle="Portfolio"
                     className="mb-8 md:mb-12"
+                    id="portfolio-title"
                 />
 
                 {/* Filters - horizontal scroll on mobile, responsive sizing */}
@@ -188,13 +189,13 @@ export function Portfolio({ items }: Readonly<{ items?: PortfolioLocale['items']
             {/* Custom CSS for hiding scrollbar */}
             <style dangerouslySetInnerHTML={{
                 __html: `
-    .scrollbar - hide {
-    -ms - overflow - style: none;
-    scrollbar - width: none;
-}
-                .scrollbar - hide:: -webkit - scrollbar {
-    display: none;
-}
+    .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+    }
 `}} />
         </section>
     );

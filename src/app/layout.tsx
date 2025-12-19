@@ -5,24 +5,30 @@ import { cn } from '@/lib/utils';
 import { ThemeProvider } from "@/context/ThemeContext";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { FeatureFlagProvider } from "@/context/FeatureFlags";
+import { AnnouncerProvider } from "@/context/AnnouncerContext";
 import { VercelAnalytics } from "@/components/analytics/VercelAnalytics";
 import { ChatWidget } from "@/components/chat/ChatWidget";
 import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
+import { ServiceWorkerRegistration } from "@/components/pwa/ServiceWorkerRegistration";
+import { PWAInstallPrompt } from "@/components/pwa/PWAInstallPrompt";
 import { SITE_METADATA, JSON_LD } from "@/config/site";
+import { getLanguages } from "@/lib/keystatic";
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
-const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' });
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
+const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit', display: 'swap' });
 
 export const metadata: Metadata = SITE_METADATA;
 
 export { VIEWPORT_CONFIG as viewport } from "@/config/site";
 
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cmsLanguages = await getLanguages();
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -56,6 +62,8 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
         />
+        {/* Preload critical assets */}
+        <link rel="preload" href="/lottie/scroll-mouse.json" as="fetch" crossOrigin="anonymous" />
       </head>
       <body
         className={cn(inter.variable, outfit.variable, "bg-background text-foreground font-sans antialiased overflow-x-hidden")}
@@ -69,13 +77,17 @@ export default function RootLayout({
           Skip to content
         </a>
         <ThemeProvider defaultTheme="system" storageKey="theme">
-          <LanguageProvider>
+          <LanguageProvider cmsLanguages={cmsLanguages}>
             <FeatureFlagProvider>
-              {children}
-              <ErrorBoundary fallback={null}>
-                <ChatWidget />
-              </ErrorBoundary>
-              <VercelAnalytics />
+              <AnnouncerProvider>
+                <ServiceWorkerRegistration />
+                <PWAInstallPrompt />
+                {children}
+                <ErrorBoundary fallback={null}>
+                  <ChatWidget />
+                </ErrorBoundary>
+                <VercelAnalytics />
+              </AnnouncerProvider>
             </FeatureFlagProvider>
           </LanguageProvider>
         </ThemeProvider>
@@ -83,4 +95,5 @@ export default function RootLayout({
     </html>
   );
 }
+
 

@@ -5,6 +5,7 @@ import Image from "next/image";
 import { ExternalLink, Award, Calendar, ShieldCheck } from "lucide-react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
+import { useLanguage } from "@/context/LanguageContext";
 import { container, fadeInUp } from "@/lib/animations";
 
 export interface Certification {
@@ -16,6 +17,7 @@ export interface Certification {
     credentialUrl?: string;
     badge?: string;
     category: "cloud" | "frontend" | "backend" | "ai" | "other";
+    language: string;
 }
 
 interface CertificationsProps {
@@ -23,9 +25,14 @@ interface CertificationsProps {
 }
 
 export function Certifications({ items }: Readonly<CertificationsProps>) {
+    const { language: currentLang } = useLanguage();
     const prefersReducedMotion = usePrefersReducedMotion();
 
     if (!items || items.length === 0) return null;
+
+    const filteredItems = items.filter(item => item.language === currentLang);
+
+    if (filteredItems.length === 0) return null;
 
     const getCategoryStyles = (category: string) => {
         switch (category) {
@@ -38,11 +45,12 @@ export function Certifications({ items }: Readonly<CertificationsProps>) {
     };
 
     return (
-        <section id="certifications" className="py-24 bg-background/50">
+        <section id="certifications" className="py-24 bg-background/50" aria-labelledby="certifications-title">
             <div className="container mx-auto px-4">
                 <SectionHeading
                     title="Certifications & Badges"
                     subtitle="Professional Credentials"
+                    id="certifications-title"
                 />
 
                 <motion.div
@@ -52,7 +60,7 @@ export function Certifications({ items }: Readonly<CertificationsProps>) {
                     viewport={{ once: true }}
                     className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12"
                 >
-                    {items.map((cert) => (
+                    {filteredItems.map((cert) => (
                         <motion.div
                             key={cert.name}
                             variants={prefersReducedMotion ? {} : fadeInUp}
@@ -76,7 +84,7 @@ export function Certifications({ items }: Readonly<CertificationsProps>) {
                                             <Award className="w-8 h-8 text-primary/40" />
                                         )}
                                     </div>
-                                    <span className={`px - 3 py - 1 rounded - full text - [10px] font - bold uppercase tracking - widest border ${getCategoryStyles(cert.category)} `}>
+                                    <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border ${getCategoryStyles(cert.category)}`}>
                                         {cert.category}
                                     </span>
                                 </div>

@@ -27,6 +27,25 @@
     --color-secondary: #1f1f1f;
     --color-secondary-foreground: #a1a1aa;
   }
+
+  /* High Contrast Mode - WCAG AAA Compliant (7:1 contrast ratio) */
+  .high-contrast {
+    --color-background: #ffffff;
+    --color-foreground: #000000;
+    --color-primary: #0000ee;
+    --color-primary-dark: #000099;
+    --color-secondary: #f0f0f0;
+    --color-secondary-foreground: #000000;
+  }
+
+  .high-contrast.dark {
+    --color-background: #000000;
+    --color-foreground: #ffffff;
+    --color-primary: #ffff00;
+    --color-primary-dark: #cccc00;
+    --color-secondary: #1a1a1a;
+    --color-secondary-foreground: #ffffff;
+  }
 }
 
 @theme {
@@ -41,6 +60,27 @@
 
   --font-sans: var(--font-inter);
   --font-display: var(--font-outfit);
+}
+
+/* Font Size Accessibility Controls */
+.font-size-small {
+  font-size: 14px;
+}
+
+.font-size-medium {
+  font-size: 16px;
+}
+
+.font-size-large {
+  font-size: 18px;
+}
+
+.font-size-small body {
+  font-size: 0.875rem;
+}
+
+.font-size-large body {
+  font-size: 1.125rem;
 }
 
 h1,
@@ -233,6 +273,21 @@ body {
       var(--color-secondary) 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
+}
+
+/* Shimmer animation utility for glassmorphism effects */
+.animate-shimmer {
+  animation: shimmer-sweep 2s infinite;
+}
+
+@keyframes shimmer-sweep {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 /* Focus visible styles for accessibility */
@@ -459,63 +514,49 @@ a:focus-visible {
 
   /* Reset colors for printing */
   :root {
-    --color-background: #ffffff;
-    --color-foreground: #000000;
-    --color-primary: #000000;
-    --color-secondary: #f0f0f0;
-    --color-secondary-foreground: #333333;
+    --color-background: #ffffff !important;
+    --color-foreground: #000000 !important;
+    --color-primary: #000000 !important;
+    --color-secondary: #f0f0f0 !important;
+    --color-secondary-foreground: #333333 !important;
   }
 
-  /* Hide non-essential elements */
+  /* Hide non-essential interactive elements */
   header,
   footer,
   .back-to-top,
   .theme-toggle,
   .language-selector,
   nav,
-  button:not(.print-visible),
-  .animate-spin-slow,
-  .animate-pulse-slow,
-  .no-print {
+  button,
+  .no-print,
+  .wave-divider,
+  #chat-widget-container,
+  [role="dialog"] {
     display: none !important;
   }
 
-  /* Reset backgrounds */
+  /* Reset backgrounds and ensure full width */
   body,
   main,
   section {
     background: #ffffff !important;
     color: #000000 !important;
-  }
-
-  /* Ensure text is readable */
-  * {
-    color: #000000 !important;
-    background: transparent !important;
-    box-shadow: none !important;
-    text-shadow: none !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
   /* Links */
   a {
     text-decoration: underline;
-  }
-
-  a[href]::after {
-    content: " (" attr(href) ")";
-    font-size: 0.8em;
-    color: #666 !important;
-  }
-
-  a[href^="#"]::after,
-  a[href^="javascript:"]::after {
-    content: "";
+    color: #000 !important;
   }
 
   /* Page breaks */
   section {
     page-break-inside: avoid;
-    page-break-after: auto;
+    break-inside: avoid;
   }
 
   h1,
@@ -525,41 +566,7 @@ a:focus-visible {
   h5,
   h6 {
     page-break-after: avoid;
-    page-break-inside: avoid;
-  }
-
-  /* Ensure images fit */
-  img {
-    max-width: 100% !important;
-    page-break-inside: avoid;
-  }
-
-  /* Resume-specific print layout */
-  .hero-section {
-    padding-top: 0 !important;
-    padding-bottom: 1rem !important;
-  }
-
-  .container {
-    max-width: 100% !important;
-    padding: 0 !important;
-  }
-
-  /* Font sizes for print */
-  h1 {
-    font-size: 24pt !important;
-  }
-
-  h2 {
-    font-size: 18pt !important;
-  }
-
-  h3 {
-    font-size: 14pt !important;
-  }
-
-  body {
-    font-size: 11pt !important;
+    break-after: avoid;
   }
 }
 

@@ -9,6 +9,9 @@ interface GlassCardProps {
     blur?: 'sm' | 'md' | 'lg' | 'xl';
     border?: boolean;
     hover?: boolean;
+    glow?: boolean;
+    shimmer?: boolean;
+    as?: 'div' | 'article' | 'section';
 }
 
 /**
@@ -16,7 +19,7 @@ interface GlassCardProps {
  * 
  * Usage:
  * ```tsx
- * <GlassCard blur="md" hover>
+ * <GlassCard blur="md" hover glow>
  *   <h2>Card Title</h2>
  *   <p>Card content</p>
  * </GlassCard>
@@ -28,6 +31,9 @@ export function GlassCard({
     blur = 'md',
     border = true,
     hover = false,
+    glow = false,
+    shimmer = false,
+    as: Component = 'div',
 }: Readonly<GlassCardProps>) {
     const blurClasses = {
         sm: 'backdrop-blur-sm',
@@ -37,18 +43,26 @@ export function GlassCard({
     };
 
     return (
-        <div
+        <Component
             className={cn(
-                'bg-background/60',
+                'relative bg-background/60',
                 blurClasses[blur],
                 'rounded-2xl p-6',
                 border && 'border border-foreground/10',
-                hover && 'transition-all duration-300 hover:bg-background/80 hover:shadow-lg hover:shadow-primary/5',
+                hover && 'transition-all duration-300 hover:bg-background/80 hover:shadow-lg hover:shadow-primary/5 hover:border-primary/20 hover:-translate-y-1',
+                glow && 'shadow-lg shadow-primary/10 hover:shadow-xl hover:shadow-primary/20',
+                shimmer && 'overflow-hidden',
                 className
             )}
         >
-            {children}
-        </div>
+            {shimmer && (
+                <div
+                    className="absolute inset-0 -translate-x-full animate-shimmer bg-linear-to-r from-transparent via-white/10 to-transparent"
+                    style={{ animationDuration: '2s', animationIterationCount: 'infinite' }}
+                />
+            )}
+            <div className="relative z-10">{children}</div>
+        </Component>
     );
 }
 
@@ -118,7 +132,7 @@ export function GlassButton({
     className = '',
     disabled = false,
     type = 'button',
-}: GlassButtonProps) {
+}: Readonly<GlassButtonProps>) {
     return (
         <button
             type={type}
@@ -162,7 +176,7 @@ export function GlassInput({
     onChange,
     className = '',
     type = 'text',
-}: GlassInputProps) {
+}: Readonly<GlassInputProps>) {
     return (
         <input
             type={type}

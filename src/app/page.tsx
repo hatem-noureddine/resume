@@ -6,8 +6,11 @@ import { getSortedPostsData } from "@/lib/posts";
 import { WaveDivider } from "@/components/ui/WaveDivider";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { FloatingActions } from "@/components/layout/FloatingActions";
+import { FloatingAccessibility } from "@/components/layout/FloatingAccessibility";
+import { VoiceNavigation } from "@/components/accessibility/VoiceNavigation";
 import { SectionSkeleton, PortfolioSkeleton, ExperienceSkeleton, SkillsSkeleton } from "@/components/ui/SectionSkeleton";
 import { Feature } from "@/context/FeatureFlags";
+import { SectionTracker } from "@/components/ui/SectionTracker";
 
 // Lazy load below-the-fold sections to improve initial load performance
 const Services = dynamic(() => import("@/components/sections/Services").then((mod) => mod.Services), {
@@ -57,6 +60,7 @@ interface BlogPostEntry {
   tags: readonly string[];
   category: string;
   content: string | (() => Promise<unknown>);
+  language: string;
 }
 
 interface ProjectEntry {
@@ -68,6 +72,7 @@ interface ProjectEntry {
   technologies: readonly string[];
   gallery: readonly string[];
   content: () => Promise<unknown>;
+  language: string;
 }
 
 interface ExperienceEntry {
@@ -79,6 +84,7 @@ interface ExperienceEntry {
   highlights: readonly string[];
   isProfessional: boolean;
   skills: readonly string[];
+  language: string;
 }
 
 interface SkillEntry {
@@ -86,6 +92,7 @@ interface SkillEntry {
   category: "frontend" | "backend" | "devops" | "mobile" | "other";
   isProfessional: boolean;
   proficiency: number | null;
+  language: string;
 }
 
 interface ResumeEntry {
@@ -113,7 +120,10 @@ interface CertificationEntry {
   credentialUrl: string | null;
   badge: string | null;
   category: "cloud" | "frontend" | "backend" | "ai" | "other";
+  language: string;
 }
+
+import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
 
 export default async function Home() {
   const posts = await getSortedPostsData();
@@ -156,6 +166,7 @@ export default async function Home() {
     image: p.entry.image || "/images/placeholder.jpg",
     link: p.entry.link || "#",
     slug: p.slug,
+    language: p.entry.language || "en",
   }));
 
   const mappedExperience = ksExperience.map((p, index) => ({
@@ -167,12 +178,13 @@ export default async function Home() {
     startDate: p.entry.startDate,
     endDate: p.entry.endDate,
     highlights: p.entry.highlights as string[] || [],
+    language: p.entry.language || "en",
   }));
 
   // Separate skills by professional flag
   const professionalSkills = ksSkills
     .filter(s => s.entry.isProfessional)
-    .map(s => s.entry.name);
+    .map(s => ({ name: s.entry.name, language: s.entry.language || "en" }));
 
   const techCategories = Array.from(new Set(ksSkills.map(s => s.entry.category)))
     .filter(Boolean)
@@ -180,7 +192,7 @@ export default async function Home() {
       name: cat as string,
       items: ksSkills
         .filter(s => s.entry.category === cat && !s.entry.isProfessional)
-        .map(s => s.entry.name)
+        .map(s => ({ name: s.entry.name, language: s.entry.language || "en" }))
     }));
 
   const mappedCertifications = ksCertifications.map(p => ({
@@ -192,6 +204,7 @@ export default async function Home() {
     credentialUrl: p.entry.credentialUrl ?? undefined,
     badge: p.entry.badge ?? undefined,
     category: p.entry.category,
+    language: p.entry.language || "en",
   }));
 
   const mappedResumes = ksResumes.map(r => ({
@@ -215,36 +228,56 @@ export default async function Home() {
 
   return (
     <main id="main-content" className="min-h-screen">
-      <Header hasBlogPosts={hasBlogPosts} />
-      <Hero resumes={mappedResumes} />
+      <ErrorBoundary name="Header">
+        <Header hasBlogPosts={hasBlogPosts} />
+      </ErrorBoundary>
+
+      <ErrorBoundary name="Hero">
+        <Hero resumes={mappedResumes} />
+      </ErrorBoundary>
 
       {/* Wave divider after Hero */}
       <div className="bg-secondary/10">
         <WaveDivider className="-mt-1" color="background" flip />
       </div>
 
-      <ScrollReveal>
-        <Services />
-      </ScrollReveal>
+      <ErrorBoundary name="Services">
+        <ScrollReveal>
+          <SectionTracker sectionId="services">
+            <Services />
+          </SectionTracker>
+        </ScrollReveal>
+      </ErrorBoundary>
 
       {/* Wave divider after Services */}
       <WaveDivider color="secondary" />
 
-      <ScrollReveal>
-        <Portfolio items={mappedProjects} />
-        <CertificationsSection items={mappedCertifications} />
-      </ScrollReveal>
+      <ErrorBoundary name="Certifications">
+        <ScrollReveal>
+          <SectionTracker sectionId="certifications">
+            <CertificationsSection items={mappedCertifications} />
+          </SectionTracker>
+        </ScrollReveal>
+      </ErrorBoundary>
 
-      <ScrollReveal>
-        <Experience items={mappedExperience} />
-      </ScrollReveal>
+      <ErrorBoundary name="Experience">
+        <ScrollReveal>
+          <SectionTracker sectionId="experience">
+            <Experience items={mappedExperience} />
+          </SectionTracker>
+        </ScrollReveal>
+      </ErrorBoundary>
 
-      <ScrollReveal>
-        <Skills
-          professionalItems={professionalSkills}
-          technicalCategories={techCategories}
-        />
-      </ScrollReveal>
+      <ErrorBoundary name="Skills">
+        <ScrollReveal>
+          <SectionTracker sectionId="skills">
+            <Skills
+              professionalItems={professionalSkills}
+              technicalCategories={techCategories}
+            />
+          </SectionTracker>
+        </ScrollReveal>
+      </ErrorBoundary>
 
       {/* Wave divider before Portfolio */}
       <Feature flag="projects">
@@ -252,29 +285,41 @@ export default async function Home() {
       </Feature>
 
       <Feature flag="projects">
-        <ScrollReveal>
-          <Portfolio items={mappedProjects} />
-        </ScrollReveal>
+        <ErrorBoundary name="Portfolio">
+          <ScrollReveal>
+            <SectionTracker sectionId="portfolio">
+              <Portfolio items={mappedProjects} />
+            </SectionTracker>
+          </ScrollReveal>
+        </ErrorBoundary>
       </Feature>
 
       {/* Testimonials section */}
       {mappedTestimonials.length > 0 && (
-        <ScrollReveal>
-          <TestimonialsSection items={mappedTestimonials} />
-        </ScrollReveal>
+        <ErrorBoundary name="Testimonials">
+          <ScrollReveal>
+            <SectionTracker sectionId="testimonials">
+              <TestimonialsSection items={mappedTestimonials} />
+            </SectionTracker>
+          </ScrollReveal>
+        </ErrorBoundary>
       )}
 
-      <ScrollReveal>
-        <Blog posts={finalPosts} />
-      </ScrollReveal>
-
-      <ScrollReveal>
-        <NewsletterSection />
-      </ScrollReveal>
+      <ErrorBoundary name="Blog">
+        <ScrollReveal>
+          <SectionTracker sectionId="blog">
+            <Blog posts={finalPosts} />
+          </SectionTracker>
+        </ScrollReveal>
+      </ErrorBoundary>
 
       {/* Contact is now handled by the ChatWidget in layout.tsx */}
       <Footer hasBlogPosts={hasBlogPosts} />
       <FloatingActions />
+      <ErrorBoundary name="AccessibilityControls">
+        <FloatingAccessibility />
+        <VoiceNavigation />
+      </ErrorBoundary>
     </main>
   );
 }

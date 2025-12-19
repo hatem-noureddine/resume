@@ -58,10 +58,73 @@ export class ApiError extends Error {
 // BASE FETCH WRAPPER
 // =============================================================================
 
+/**
+ * Helper for implementing exponential backoff
+ */
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
+async function fetchWithRetry<T>(
+    url: string,
+    options: RequestInit = {},
+    retries = 3,
+    backoff = 300
+): Promise<ApiResponse<T>> {
+    try {
+        const response = await fetch(url, {
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers,
+            },
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            // Only retry on server errors (5xx) or rate limits (429)
+            if ((response.status >= 500 || response.status === 429) && retries > 0) {
+                console.warn(`Retrying API call to ${url}. Retries left: ${retries}. Status: ${response.status}`);
+                await delay(backoff);
+                return fetchWithRetry(url, options, retries - 1, backoff * 2);
+            }
+
+            return {
+                data: null,
+                error: data.error || `Request failed with status ${response.status}`,
+                status: response.status,
+            };
+        }
+
+        return {
+            data,
+            error: null,
+            status: response.status,
+        };
+    } catch (error) {
+        if (retries > 0) {
+            console.warn(`Retrying API call to ${url} due to network error. Retries left: ${retries}`);
+            await delay(backoff);
+            return fetchWithRetry(url, options, retries - 1, backoff * 2);
+        }
+
+        const message = error instanceof Error ? error.message : 'Unknown error occurred';
+        return {
+            data: null,
+            error: message,
+            status: 0,
+        };
+    }
+}
+
 async function fetchWithErrorHandling<T>(
     url: string,
-    options: RequestInit = {}
+    options: RequestInit = {},
+    useRetry = false
 ): Promise<ApiResponse<T>> {
+    if (useRetry) {
+        return fetchWithRetry<T>(url, options);
+    }
+
     try {
         const response = await fetch(url, {
             ...options,
@@ -109,7 +172,7 @@ export async function sendChatMessage(
     return fetchWithErrorHandling<ChatResponse>(API_ENDPOINTS.chat, {
         method: 'POST',
         body: JSON.stringify({ messages }),
-    });
+    }, true);
 }
 
 /**
@@ -121,7 +184,7 @@ export async function subscribeToNewsletter(
     return fetchWithErrorHandling<NewsletterResponse>(API_ENDPOINTS.newsletter, {
         method: 'POST',
         body: JSON.stringify({ email }),
-    });
+    }, true);
 }
 
 /**

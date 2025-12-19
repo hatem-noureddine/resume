@@ -43,3 +43,7 @@ export async function getTestimonials() {
 export async function getCertifications() {
     return await reader.collections.certifications.all();
 }
+
+export async function getLanguages() {
+    return await reader.collections.languages.all();
+}

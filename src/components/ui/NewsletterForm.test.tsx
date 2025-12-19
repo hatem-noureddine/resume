@@ -109,6 +109,13 @@ describe('NewsletterForm', () => {
     });
 
     it('shows error when no service is configured', async () => {
+        const fetchSpy = jest.spyOn(globalThis, 'fetch').mockImplementation(() =>
+            Promise.resolve({
+                ok: false,
+                json: () => Promise.resolve({ error: 'No subscription service configured' }),
+            } as any)
+        );
+
         render(<NewsletterForm />);
 
         const input = screen.getByLabelText('Email address');
@@ -118,6 +125,8 @@ describe('NewsletterForm', () => {
         await waitFor(() => {
             expect(screen.getByText('No subscription service configured')).toBeInTheDocument();
         });
+
+        fetchSpy.mockRestore();
     });
 
     it('disables button while submitting', async () => {

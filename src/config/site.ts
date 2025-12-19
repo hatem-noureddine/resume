@@ -48,7 +48,7 @@ export const SITE_METADATA: Metadata = {
         description: 'Personal portfolio website showcasing projects, skills, and experience in web development and design.',
         images: [
             {
-                url: '/og-image.png',
+                url: `${SITE_CONFIG.url}api/og?title=${encodeURIComponent(SITE_CONFIG.name)}&subtitle=${encodeURIComponent('Creative Designer & Developer')}&category=Portfolio`,
                 width: 1200,
                 height: 630,
                 alt: `${SITE_CONFIG.name} Portfolio`,
@@ -59,7 +59,7 @@ export const SITE_METADATA: Metadata = {
         card: 'summary_large_image',
         title: `${SITE_CONFIG.name} - Creative Designer & Developer`,
         description: 'Personal portfolio website showcasing projects, skills, and experience.',
-        images: ['/og-image.png'],
+        images: [`${SITE_CONFIG.url}api/og?title=${encodeURIComponent(SITE_CONFIG.name)}&subtitle=${encodeURIComponent('Creative Designer & Developer')}&category=Portfolio`],
         creator: '@hatemnoureddine',
     },
     icons: {

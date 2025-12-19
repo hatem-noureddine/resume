@@ -9,6 +9,7 @@ import { Logo } from "@/components/ui/Logo";
 import { ArrowUp } from "lucide-react";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import { NewsletterForm } from "@/components/ui/NewsletterForm";
+import { CopyToClipboard } from "@/components/ui/CopyToClipboard";
 
 export function Footer({ hasBlogPosts = true }: Readonly<{ hasBlogPosts?: boolean }>) {
     const { t } = useLanguage();
@@ -75,15 +76,21 @@ export function Footer({ hasBlogPosts = true }: Readonly<{ hasBlogPosts?: boolea
                             © {new Date().getFullYear()} {footer.rights}
                         </p>
                         <div className="flex flex-col gap-1 mt-2">
-                            <a href={`mailto:${contact.email}`} className="text-xs text-secondary-foreground hover:text-primary transition-colors flex items-center gap-2">
-                                <LucideIcons.Mail size={12} />
-                                {contact.email}
-                            </a>
-                            {contact.phone && (
-                                <a href={`tel:${contact.phone.replace(/\s+/g, '')}`} className="text-xs text-secondary-foreground hover:text-primary transition-colors flex items-center gap-2">
-                                    <LucideIcons.Phone size={12} />
-                                    {contact.phone}
+                            <div className="flex items-center gap-2 group">
+                                <a href={`mailto:${contact.email}`} className="text-xs text-secondary-foreground hover:text-primary transition-colors flex items-center gap-2">
+                                    <LucideIcons.Mail size={12} />
+                                    {contact.email}
                                 </a>
+                                <CopyToClipboard text={contact.email} className="opacity-0 group-hover:opacity-100 transition-opacity" />
+                            </div>
+                            {contact.phone && (
+                                <div className="flex items-center gap-2 group">
+                                    <a href={`tel:${contact.phone.replaceAll(/\s+/g, '')}`} className="text-xs text-secondary-foreground hover:text-primary transition-colors flex items-center gap-2">
+                                        <LucideIcons.Phone size={12} />
+                                        {contact.phone}
+                                    </a>
+                                    <CopyToClipboard text={contact.phone} className="opacity-0 group-hover:opacity-100 transition-opacity" />
+                                </div>
                             )}
                         </div>
                     </div>

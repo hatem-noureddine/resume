@@ -9,7 +9,7 @@ import { localeMetadata } from "@/locales";
 import { SITE_CONFIG } from "@/config/site";
 
 export function FloatingActions() {
-    const { t, language } = useLanguage();
+    const { t, language, direction } = useLanguage();
     const [isVisible, setIsVisible] = useState(false);
 
     // Get text from locale but fallback to safe strings since proper type casting might be complex
@@ -39,11 +39,11 @@ export function FloatingActions() {
         <AnimatePresence>
             {isVisible && (
                 <motion.div
-                    initial={{ opacity: 0, x: 50 }}
+                    initial={{ opacity: 0, x: direction === "rtl" ? -50 : 50 }}
                     animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: 50 }}
+                    exit={{ opacity: 0, x: direction === "rtl" ? -50 : 50 }}
                     transition={{ duration: 0.3 }}
-                    className="fixed right-4 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col gap-3"
+                    className="fixed ltr:right-4 rtl:left-4 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col gap-3"
                 >
                     {/* Download CV Action */}
                     <motion.a
@@ -57,7 +57,7 @@ export function FloatingActions() {
                     >
                         <Download size={20} />
                         {/* Tooltip */}
-                        <span className="absolute right-full mr-2 px-2 py-1 bg-background border border-border rounded-md text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-sm">
+                        <span className="absolute ltr:right-full rtl:left-full ltr:mr-2 rtl:ml-2 px-2 py-1 bg-background border border-border rounded-md text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-sm">
                             {downloadCVText}
                         </span>
                     </motion.a>
@@ -79,7 +79,7 @@ export function FloatingActions() {
                             >
                                 <social.icon size={18} />
                                 {/* Tooltip */}
-                                <span className="absolute right-full mr-3 px-2 py-1 bg-background border border-border rounded-md text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-sm">
+                                <span className="absolute ltr:right-full rtl:left-full ltr:mr-3 rtl:ml-3 px-2 py-1 bg-background border border-border rounded-md text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-sm">
                                     {social.label}
                                 </span>
                             </motion.a>

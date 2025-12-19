@@ -1,4 +1,4 @@
-import { config, fields, collection } from '@keystatic/core';
+import { config, fields, collection, singleton } from '@keystatic/core';
 
 export default config({
     storage: {
@@ -22,6 +22,11 @@ export default config({
                 content: fields.markdoc({
                     label: 'Content',
                 }),
+                language: fields.relationship({
+                    label: 'Language',
+                    collection: 'languages',
+                    validation: { isRequired: true }
+                }),
             },
         }),
         projects: collection({
@@ -44,6 +49,11 @@ export default config({
                     itemLabel: (props) => props.value,
                 }),
                 content: fields.markdoc({ label: 'Detailed Case Study Content' }),
+                language: fields.relationship({
+                    label: 'Language',
+                    collection: 'languages',
+                    validation: { isRequired: true }
+                }),
             },
         }),
         experience: collection({
@@ -63,6 +73,11 @@ export default config({
                 skills: fields.array(fields.text({ label: 'Skill' }), {
                     label: 'Skills Used',
                     itemLabel: (props) => props.value,
+                }),
+                language: fields.relationship({
+                    label: 'Language',
+                    collection: 'languages',
+                    validation: { isRequired: true }
                 }),
             },
         }),
@@ -92,6 +107,11 @@ export default config({
                     label: 'Proficiency (0-100)',
                     validation: { min: 0, max: 100 },
                 }),
+                language: fields.relationship({
+                    label: 'Language',
+                    collection: 'languages',
+                    validation: { isRequired: true }
+                }),
             },
         }),
         resumes: collection({
@@ -100,14 +120,10 @@ export default config({
             path: 'src/content/resumes/*',
             schema: {
                 label: fields.slug({ name: { label: 'Label (e.g. Detailed, Compact)' } }),
-                language: fields.select({
+                language: fields.relationship({
                     label: 'Language',
-                    options: [
-                        { label: 'English', value: 'en' },
-                        { label: 'French', value: 'fr' },
-                        { label: 'Spanish', value: 'es' },
-                    ],
-                    defaultValue: 'en',
+                    collection: 'languages',
+                    validation: { isRequired: true }
                 }),
                 file: fields.file({
                     label: 'PDF File',
@@ -132,14 +148,10 @@ export default config({
                     validation: { min: 1, max: 5 },
                     defaultValue: 5,
                 }),
-                language: fields.select({
+                language: fields.relationship({
                     label: 'Language',
-                    options: [
-                        { label: 'English', value: 'en' },
-                        { label: 'French', value: 'fr' },
-                        { label: 'Spanish', value: 'es' },
-                    ],
-                    defaultValue: 'en',
+                    collection: 'languages',
+                    validation: { isRequired: true }
                 }),
             },
         }),
@@ -165,6 +177,44 @@ export default config({
                         { label: 'Other', value: 'other' },
                     ],
                     defaultValue: 'other',
+                }),
+                language: fields.relationship({
+                    label: 'Language',
+                    collection: 'languages',
+                    validation: { isRequired: true }
+                }),
+            },
+        }),
+        languages: collection({
+            label: 'Languages',
+            slugField: 'code',
+            path: 'src/content/languages/*',
+            schema: {
+                code: fields.slug({ name: { label: 'Language Code (e.g. en, fr, es)' } }),
+                name: fields.text({ label: 'Language Name (e.g. English)' }),
+                flag: fields.text({ label: 'Flag Emoji' }),
+                isEnabled: fields.checkbox({ label: 'Enabled', defaultValue: true }),
+            },
+        }),
+    },
+    singletons: {
+        linkedinSync: singleton({
+            label: 'LinkedIn Synchronization',
+            path: 'src/content/linkedin-sync',
+            schema: {
+                profileUrl: fields.text({
+                    label: 'LinkedIn Profile URL',
+                    description: 'The URL of the LinkedIn profile to sync from. [🚀 Trigger LinkedIn Sync](/api/sync/linkedin)',
+                    validation: { isRequired: true }
+                }),
+                lastSyncDate: fields.text({
+                    label: 'Last Successful Sync',
+                    description: 'Date and time of the last successful synchronization.',
+                    validation: { isRequired: false },
+                }),
+                syncLogs: fields.text({
+                    label: 'Sync Logs',
+                    multiline: true,
                 }),
             },
         }),

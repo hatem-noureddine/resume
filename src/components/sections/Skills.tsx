@@ -30,6 +30,7 @@ interface SkillItem {
     name: string;
     icon?: string;
     link?: string;
+    language?: string;
 }
 
 interface SkillCategory {
@@ -512,14 +513,24 @@ export function Skills({
     professionalItems?: (string | SkillItem)[],
     technicalCategories?: SkillCategory[]
 }>) {
-    const { t } = useLanguage();
+    const { t, language: currentLang } = useLanguage();
     const { skills } = t;
     const prefersReducedMotion = usePrefersReducedMotion();
     const isMobile = useIsMobile();
     const [activeFilter, setActiveFilter] = useState<number | null>(null);
 
-    const displayProfesh = (professionalItems && professionalItems.length > 0) ? professionalItems : skills.professional.items;
-    const displayTech = (technicalCategories && technicalCategories.length > 0) ? technicalCategories : skills.technical.categories;
+    const professionalSkillsToFilter = (professionalItems && professionalItems.length > 0) ? professionalItems : [];
+    const displayProfesh = professionalSkillsToFilter.length > 0
+        ? professionalSkillsToFilter.filter(s => typeof s === 'string' || !s.language || s.language === currentLang)
+        : skills.professional.items;
+
+    const technicalCategoriesToFilter = (technicalCategories && technicalCategories.length > 0) ? technicalCategories : [];
+    const displayTech = technicalCategoriesToFilter.length > 0
+        ? technicalCategoriesToFilter.map(cat => ({
+            ...cat,
+            items: cat.items.filter(s => typeof s === 'string' || !s.language || s.language === currentLang)
+        })).filter(cat => cat.items.length > 0)
+        : skills.technical.categories;
 
     return (
         <section id="skills" className="py-16 md:py-24 relative overflow-hidden bg-background">

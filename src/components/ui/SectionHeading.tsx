@@ -8,9 +8,10 @@ interface SectionHeadingProps {
     subtitle: string;
     className?: string;
     align?: "left" | "center";
+    id?: string;
 }
 
-export function SectionHeading({ title, subtitle, className, align = "center" }: SectionHeadingProps) {
+export function SectionHeading({ title, subtitle, className, align = "center", id }: Readonly<SectionHeadingProps>) {
     return (
         <div className={cn("mb-12", align === "center" ? "text-center" : "text-left", className)}>
             <motion.span
@@ -23,6 +24,7 @@ export function SectionHeading({ title, subtitle, className, align = "center" }:
                 {subtitle}
             </motion.span>
             <motion.h2
+                id={id}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}

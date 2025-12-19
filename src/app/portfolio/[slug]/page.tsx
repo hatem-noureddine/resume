@@ -6,6 +6,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ExternalLink, Tag, Sparkles } from "lucide-react";
 import { DocumentRenderer } from '@keystatic/core/renderer';
+import { SITE_CONFIG } from "@/config/site";
+import type { Metadata } from 'next';
 
 interface Project {
     title: string;
@@ -16,6 +18,47 @@ interface Project {
     technologies?: string[];
     gallery?: string[];
     content: () => Promise<unknown>;
+}
+
+export async function generateMetadata({
+    params
+}: {
+    params: Promise<{ slug: string }>
+}): Promise<Metadata> {
+    const { slug } = await params;
+    const project = await getProjectBySlug(slug) as unknown as Project;
+
+    if (!project) {
+        return {
+            title: 'Project Not Found',
+        };
+    }
+
+    const ogImageUrl = `${SITE_CONFIG.url}api/og?title=${encodeURIComponent(project.title)}&subtitle=${encodeURIComponent(project.description)}&category=${encodeURIComponent(project.category)}`;
+
+    return {
+        title: `${project.title} | ${SITE_CONFIG.name}`,
+        description: project.description,
+        openGraph: {
+            title: project.title,
+            description: project.description,
+            url: `${SITE_CONFIG.url}portfolio/${slug}`,
+            images: [
+                {
+                    url: ogImageUrl,
+                    width: 1200,
+                    height: 630,
+                    alt: project.title,
+                },
+            ],
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: project.title,
+            description: project.description,
+            images: [ogImageUrl],
+        },
+    };
 }
 
 export default async function ProjectPage({ params }: { params: Promise<{ slug: string }> }) {

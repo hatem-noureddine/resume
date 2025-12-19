@@ -29,6 +29,19 @@ jest.mock('@/hooks/usePrefersReducedMotion', () => ({
     usePrefersReducedMotion: () => false
 }));
 
+// Mock LanguageContext
+jest.mock('@/context/LanguageContext', () => ({
+    useLanguage: () => ({
+        t: {
+            testimonials: {
+                title: 'What Clients Say',
+                subtitle: 'Testimonials from clients',
+            }
+        },
+        language: 'en',
+    }),
+}));
+
 const mockTestimonials: Testimonial[] = [
     {
         author: 'John Doe',
