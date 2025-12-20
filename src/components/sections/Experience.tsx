@@ -357,7 +357,7 @@ export function Experience({ items }: Readonly<{ items?: ExperienceItem[] }>) {
 
                     {/* Desktop Layout with Timeline */}
                     <div className="hidden md:flex gap-8 lg:gap-16">
-                        {/* Left Column: Timeline */}
+                        {/* Left Column: Timeline (Scrollable Trigger) */}
                         <div className="md:w-1/3 relative" ref={containerRef}>
                             {/* Vertical Timeline Line - Background */}
                             <div className="absolute ltr:left-5 rtl:right-5 top-8 bottom-8 w-0.5 bg-foreground/5 rounded-full" />
@@ -368,14 +368,25 @@ export function Experience({ items }: Readonly<{ items?: ExperienceItem[] }>) {
                                 style={{ scaleY: scrollProgress }}
                             />
 
-                            <div className="flex flex-col gap-2 relative z-10">
+                            <div className="flex flex-col gap-12 relative z-10 pb-24">
                                 {visibleItems.map((item, index) => {
                                     const currentYear = item.startDate?.split('-')[0];
                                     const prevYear = index > 0 ? visibleItems[index - 1].startDate?.split('-')[0] : null;
                                     const showYear = currentYear && currentYear !== prevYear;
 
                                     return (
-                                        <div key={item.id} className="relative">
+                                        <motion.div
+                                            key={item.id}
+                                            className="relative"
+                                            initial={{ opacity: 0.5, x: -20 }}
+                                            whileInView={{ opacity: 1, x: 0 }}
+                                            viewport={{ margin: "-40% 0px -40% 0px", amount: 0.5 }}
+                                            onViewportEnter={() => {
+                                                if (!prefersReducedMotion) {
+                                                    setActiveId(item.id);
+                                                }
+                                            }}
+                                        >
                                             {showYear && (
                                                 <div className="absolute ltr:-left-12 rtl:-right-12 top-6 text-[10px] font-bold text-primary/40 uppercase tracking-widest ltr:rotate-270 rtl:rotate-90 origin-center">
                                                     {currentYear}
@@ -384,10 +395,10 @@ export function Experience({ items }: Readonly<{ items?: ExperienceItem[] }>) {
                                             <button
                                                 onClick={() => setActiveId(item.id)}
                                                 className={cn(
-                                                    "ltr:text-left rtl:text-right p-4 ltr:pl-12 rtl:pr-12 rounded-xl transition-all duration-300 border relative group focus:outline-none focus:ring-2 focus:ring-primary/50 w-full mb-2",
+                                                    "ltr:text-left rtl:text-right p-4 ltr:pl-12 rtl:pr-12 rounded-xl transition-all duration-300 border relative group focus:outline-none focus:ring-2 focus:ring-primary/50 w-full",
                                                     activeId === item.id
-                                                        ? "bg-primary text-white border-primary shadow-lg"
-                                                        : "bg-background text-secondary-foreground border-foreground/5 hover:bg-secondary hover:text-foreground"
+                                                        ? "bg-primary text-white border-primary shadow-lg scale-105"
+                                                        : "bg-background text-secondary-foreground border-foreground/5 hover:bg-secondary hover:text-foreground opacity-60 hover:opacity-100"
                                                 )}
                                             >
                                                 {/* Timeline Dot */}
@@ -421,15 +432,9 @@ export function Experience({ items }: Readonly<{ items?: ExperienceItem[] }>) {
                                                 )}>
                                                     <Calendar size={12} />
                                                     <span>{item.period}</span>
-                                                    {item.duration && (
-                                                        <>
-                                                            <span className="opacity-50">•</span>
-                                                            <span>{item.duration}</span>
-                                                        </>
-                                                    )}
                                                 </div>
                                             </button>
-                                        </div>
+                                        </motion.div>
                                     );
                                 })}
                             </div>
@@ -457,107 +462,116 @@ export function Experience({ items }: Readonly<{ items?: ExperienceItem[] }>) {
                             )}
                         </div>
 
-                        {/* Right Column: Details */}
-                        <div className="md:w-2/3 flex flex-col relative">
-                            <AnimatePresence mode="wait">
-                                <motion.div
-                                    key={activeExperience.id}
-                                    initial={prefersReducedMotion ? {} : { opacity: 0, x: direction === "rtl" ? -20 : 20 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    exit={prefersReducedMotion ? {} : { opacity: 0, x: direction === "rtl" ? 20 : -20 }}
-                                    transition={{ duration: 0.3 }}
-                                    className="bg-background border border-foreground/5 p-8 md:p-10 rounded-2xl relative overflow-hidden"
-                                >
-                                    {/* Background Decoration */}
-                                    <div className="absolute top-0 ltr:right-0 rtl:left-0 w-40 h-40 bg-primary/5 ltr:rounded-bl-full rtl:rounded-br-full ltr:-mr-10 rtl:-ml-10 -mt-10" />
-                                    <div className="absolute bottom-0 ltr:left-0 rtl:right-0 w-24 h-24 bg-primary/3 ltr:rounded-tr-full rtl:rounded-tl-full ltr:-ml-6 rtl:-mr-6 -mb-6" />
+                        {/* Right Column: Details (Sticky) */}
+                        <div className="md:w-2/3 relative h-full">
+                            <div className="sticky top-24">
+                                <AnimatePresence mode="wait">
+                                    <motion.div
+                                        key={activeExperience.id}
+                                        initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={prefersReducedMotion ? {} : { opacity: 0, y: -20 }}
+                                        transition={{ duration: 0.4, ease: "easeOut" }}
+                                        className="bg-background border border-foreground/5 p-8 md:p-10 rounded-2xl relative overflow-hidden shadow-2xl shadow-primary/5"
+                                    >
+                                        {/* Background Decoration */}
+                                        <div className="absolute top-0 ltr:right-0 rtl:left-0 w-40 h-40 bg-primary/5 ltr:rounded-bl-full rtl:rounded-br-full ltr:-mr-10 rtl:-ml-10 -mt-10" />
+                                        <div className="absolute bottom-0 ltr:left-0 rtl:right-0 w-24 h-24 bg-primary/3 ltr:rounded-tr-full rtl:rounded-tl-full ltr:-ml-6 rtl:-mr-6 -mb-6" />
 
-                                    <div className="relative z-10">
-                                        {/* Header */}
-                                        <div className="flex flex-col md:flex-row gap-6 md:items-start mb-6">
-                                            <div className={cn("w-16 h-16 text-2xl rounded-xl bg-linear-to-br from-primary/20 to-primary/5 flex items-center justify-center border border-primary/10 font-bold text-primary shrink-0 uppercase shadow-lg")}>
-                                                {activeExperience.company.charAt(0)}
-                                            </div>
+                                        <div className="relative z-10">
+                                            {/* Header */}
+                                            <div className="flex flex-col md:flex-row gap-6 md:items-start mb-8">
+                                                <motion.div
+                                                    initial={{ scale: 0.8 }}
+                                                    animate={{ scale: 1 }}
+                                                    className={cn("w-20 h-20 text-3xl rounded-2xl bg-linear-to-br from-primary/20 to-primary/5 flex items-center justify-center border border-primary/10 font-bold text-primary shrink-0 uppercase shadow-lg backdrop-blur-sm")}
+                                                >
+                                                    {activeExperience.company.charAt(0)}
+                                                </motion.div>
 
-                                            <div className="flex-1">
-                                                <h3 className="text-2xl lg:text-3xl font-bold font-outfit text-foreground mb-2">
-                                                    {activeExperience.role}
-                                                </h3>
-                                                <div className="flex flex-wrap items-center gap-3 text-sm">
-                                                    <span className="text-primary font-medium">{activeExperience.company}</span>
-                                                    <span className="w-1.5 h-1.5 rounded-full bg-foreground/20" />
-                                                    <span className="flex items-center gap-1.5 text-secondary-foreground">
-                                                        <Calendar size={14} />
-                                                        {activeExperience.period}
-                                                    </span>
-                                                    {activeExperience.duration && (
-                                                        <>
-                                                            <span className="w-1.5 h-1.5 rounded-full bg-foreground/20" />
-                                                            <span className="flex items-center gap-1.5 text-secondary-foreground">
-                                                                <Clock size={14} />
-                                                                {activeExperience.duration}
-                                                            </span>
-                                                        </>
-                                                    )}
+                                                <div className="flex-1">
+                                                    <h3 className="text-3xl lg:text-4xl font-bold font-outfit text-foreground mb-3">
+                                                        {activeExperience.role}
+                                                    </h3>
+                                                    <div className="flex flex-wrap items-center gap-4 text-sm">
+                                                        <span className="text-primary font-bold text-lg">{activeExperience.company}</span>
+                                                        <span className="w-1.5 h-1.5 rounded-full bg-foreground/20" />
+                                                        <span className="flex items-center gap-2 text-secondary-foreground font-medium">
+                                                            <Calendar size={16} />
+                                                            {activeExperience.period}
+                                                        </span>
+                                                        {activeExperience.duration && (
+                                                            <>
+                                                                <span className="w-1.5 h-1.5 rounded-full bg-foreground/20" />
+                                                                <span className="flex items-center gap-2 text-secondary-foreground">
+                                                                    <Clock size={16} />
+                                                                    {activeExperience.duration}
+                                                                </span>
+                                                            </>
+                                                        )}
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
 
-                                        {/* Description */}
-                                        <div className="mb-6">
-                                            <p className="text-lg text-secondary-foreground leading-relaxed">
-                                                {activeExperience.description}
-                                            </p>
-                                        </div>
-
-                                        {/* Highlights */}
-                                        {activeExperience.highlights && activeExperience.highlights.length > 0 && (
-                                            <div className="mb-6">
-                                                <h4 className="text-xs uppercase tracking-wider text-secondary-foreground/60 font-bold mb-3">
-                                                    {roleDescLabel}
-                                                </h4>
-                                                <ul className="space-y-2">
-                                                    {activeExperience.highlights.map((highlight) => (
-                                                        <motion.li
-                                                            key={highlight}
-                                                            initial={prefersReducedMotion ? {} : { opacity: 0, x: direction === "rtl" ? 10 : -10 }}
-                                                            animate={{ opacity: 1, x: 0 }}
-                                                            className="flex items-start gap-3 text-secondary-foreground"
-                                                        >
-                                                            <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 shrink-0" />
-                                                            <span>{highlight}</span>
-                                                        </motion.li>
-                                                    ))}
-                                                </ul>
+                                            {/* Description */}
+                                            <div className="mb-8">
+                                                <p className="text-lg md:text-xl text-secondary-foreground leading-relaxed font-light">
+                                                    {activeExperience.description}
+                                                </p>
                                             </div>
-                                        )}
 
-                                        {/* Skills Tags - Clickable for filtering */}
-                                        {activeExperience.skills && activeExperience.skills.length > 0 && (
-                                            <div className="pt-4 border-t border-foreground/5">
-                                                <div className="flex flex-wrap gap-2">
-                                                    {activeExperience.skills.map((skill) => (
-                                                        <motion.button
-                                                            key={skill}
-                                                            onClick={() => setSelectedSkill(skill === selectedSkill ? null : skill)}
-                                                            initial={{ opacity: 0, scale: 0.8 }}
-                                                            animate={{ opacity: 1, scale: 1 }}
-                                                            className={cn(
-                                                                "text-sm px-3 py-1 rounded-full border font-medium transition-all",
-                                                                selectedSkill === skill
-                                                                    ? "bg-primary text-white border-primary"
-                                                                    : "bg-primary/10 text-primary border-primary/20 hover:bg-primary/20"
-                                                            )}
-                                                        >
-                                                            {skill}
-                                                        </motion.button>
-                                                    ))}
+                                            {/* Highlights */}
+                                            {activeExperience.highlights && activeExperience.highlights.length > 0 && (
+                                                <div className="mb-8 p-6 bg-secondary/30 rounded-xl border border-foreground/5">
+                                                    <h4 className="text-xs uppercase tracking-wider text-secondary-foreground/60 font-bold mb-4 flex items-center gap-2">
+                                                        <Briefcase size={14} />
+                                                        {roleDescLabel}
+                                                    </h4>
+                                                    <ul className="grid grid-cols-1 gap-4">
+                                                        {activeExperience.highlights.map((highlight, index) => (
+                                                            <motion.li
+                                                                key={highlight}
+                                                                initial={prefersReducedMotion ? {} : { opacity: 0, x: 20 }}
+                                                                animate={{ opacity: 1, x: 0 }}
+                                                                transition={{ delay: index * 0.1 }}
+                                                                className="flex items-start gap-3 text-secondary-foreground"
+                                                            >
+                                                                <span className="w-2 h-2 rounded-full bg-success mt-2 shrink-0 shadow-sm shadow-success/50" />
+                                                                <span>{highlight}</span>
+                                                            </motion.li>
+                                                        ))}
+                                                    </ul>
                                                 </div>
-                                            </div>
-                                        )}
-                                    </div>
-                                </motion.div>
-                            </AnimatePresence>
+                                            )}
+
+                                            {/* Skills Tags - Clickable for filtering */}
+                                            {activeExperience.skills && activeExperience.skills.length > 0 && (
+                                                <div className="pt-6 border-t border-foreground/5">
+                                                    <div className="flex flex-wrap gap-2">
+                                                        {activeExperience.skills.map((skill, index) => (
+                                                            <motion.button
+                                                                key={skill}
+                                                                onClick={() => setSelectedSkill(skill === selectedSkill ? null : skill)}
+                                                                initial={{ opacity: 0, scale: 0.8 }}
+                                                                animate={{ opacity: 1, scale: 1 }}
+                                                                transition={{ delay: 0.2 + (index * 0.05) }}
+                                                                className={cn(
+                                                                    "text-sm px-4 py-1.5 rounded-full border font-medium transition-all hover:scale-105 active:scale-95",
+                                                                    selectedSkill === skill
+                                                                        ? "bg-primary text-white border-primary shadow-md shadow-primary/20"
+                                                                        : "bg-background text-secondary-foreground border-foreground/10 hover:border-primary/50 hover:bg-secondary"
+                                                                )}
+                                                            >
+                                                                {skill}
+                                                            </motion.button>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </motion.div>
+                                </AnimatePresence>
+                            </div>
                         </div>
                     </div>
 

@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import { AnimatedBackground } from "@/components/ui/AnimatedBackground";
 import { Download, Mail, ChevronDown, ChevronUp, Share2 } from "lucide-react";
 import { QRCodeModal } from "@/components/ui/QRCodeModal";
+import { MagneticButton } from "@/components/ui/MagneticButton";
 import { useLanguage } from "@/context/LanguageContext";
 import { localeMetadata } from "@/locales";
 import { SITE_CONFIG } from "@/config/site";
@@ -21,6 +22,7 @@ import scrollMouseAnimation from "@/../public/lottie/scroll-mouse.json";
 
 const ClientCarousel = dynamic(() => import("@/components/sections/ClientCarousel").then(mod => mod.ClientCarousel), { ssr: false });
 const TechCarousel = dynamic(() => import("@/components/sections/TechCarousel").then(mod => mod.TechCarousel), { ssr: false });
+const Hero3D = dynamic(() => import("@/components/ui/Hero3D").then(mod => mod.Hero3D), { ssr: false });
 
 const GithubIcon = ({ size = 24, className = "" }: { size?: number, className?: string }) => (
     <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" /><path d="M9 18c-4.51 2-5-2.67-5-2.67" /></svg>
@@ -188,6 +190,7 @@ export function Hero({ resumes = [] }: Readonly<{ resumes?: Resume[] }>) {
         <SectionTracker sectionId="hero">
             <section ref={sectionRef} className="min-h-screen flex flex-col pt-20 relative overflow-hidden bg-background">
                 <AnimatedBackground />
+                {!isMobile && !prefersReducedMotion && <Hero3D />}
 
                 <div className="container mx-auto px-4 flex flex-col-reverse lg:grid lg:grid-cols-2 gap-8 lg:gap-12 items-center grow py-8 lg:py-12 relative">
                     <motion.div
@@ -274,18 +277,20 @@ export function Hero({ resumes = [] }: Readonly<{ resumes?: Resume[] }>) {
                             {currentResumes.length > 1 ? (
                                 <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
                                     <div className="relative w-full sm:w-auto" ref={resumeMenuRef}>
-                                        <Button
-                                            variant="outline"
-                                            size="lg"
-                                            onClick={() => setIsResumeMenuOpen(!isResumeMenuOpen)}
-                                            className="border-primary/20 hover:bg-primary/10 gap-2 rounded-full px-6 w-full sm:w-auto"
-                                            aria-haspopup="true"
-                                            aria-expanded={isResumeMenuOpen}
-                                        >
-                                            <Download size={18} />
-                                            <span>{downloadCVText}</span>
-                                            <ChevronDown size={14} className={cn("transition-transform", isResumeMenuOpen && "rotate-180")} />
-                                        </Button>
+                                        <MagneticButton className="w-full sm:w-auto">
+                                            <Button
+                                                variant="outline"
+                                                size="lg"
+                                                onClick={() => setIsResumeMenuOpen(!isResumeMenuOpen)}
+                                                className="border-primary/20 hover:bg-primary/10 gap-2 rounded-full px-6 w-full sm:w-auto"
+                                                aria-haspopup="true"
+                                                aria-expanded={isResumeMenuOpen}
+                                            >
+                                                <Download size={18} />
+                                                <span>{downloadCVText}</span>
+                                                <ChevronDown size={14} className={cn("transition-transform", isResumeMenuOpen && "rotate-180")} />
+                                            </Button>
+                                        </MagneticButton>
 
                                         <AnimatePresence>
                                             {isResumeMenuOpen && (
@@ -313,40 +318,46 @@ export function Hero({ resumes = [] }: Readonly<{ resumes?: Resume[] }>) {
                                             )}
                                         </AnimatePresence>
                                     </div>
-                                    <Button
-                                        variant="outline"
-                                        size="lg"
-                                        onClick={handleShareProfile}
-                                        className="border-primary/20 hover:bg-primary/10 gap-2 rounded-full px-6 w-full sm:w-auto"
-                                        aria-label="Share profile"
-                                    >
-                                        <Share2 size={18} />
-                                    </Button>
+                                    <MagneticButton className="w-full sm:w-auto">
+                                        <Button
+                                            variant="outline"
+                                            size="lg"
+                                            onClick={handleShareProfile}
+                                            className="border-primary/20 hover:bg-primary/10 gap-2 rounded-full px-6 w-full sm:w-auto"
+                                            aria-label="Share profile"
+                                        >
+                                            <Share2 size={18} />
+                                        </Button>
+                                    </MagneticButton>
                                 </div>
                             ) : (
                                 <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-                                    <Button variant="outline" size="lg" asChild className="border-primary/20 hover:bg-primary/10 gap-2 rounded-full px-6 w-full sm:w-auto">
-                                        <a
-                                            href={currentResumes.length === 1 ? currentResumes[0].file : localeMetadata[language].resume}
-                                            download
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            onClick={() => handleResumeDownload(currentResumes.length === 1 ? currentResumes[0].label : 'default')}
-                                        >
-                                            <Download size={18} />
-                                            <span>{downloadCVText}</span>
-                                        </a>
-                                    </Button>
+                                    <MagneticButton className="w-full sm:w-auto">
+                                        <Button variant="outline" size="lg" asChild className="border-primary/20 hover:bg-primary/10 gap-2 rounded-full px-6 w-full sm:w-auto">
+                                            <a
+                                                href={currentResumes.length === 1 ? currentResumes[0].file : localeMetadata[language].resume}
+                                                download
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                onClick={() => handleResumeDownload(currentResumes.length === 1 ? currentResumes[0].label : 'default')}
+                                            >
+                                                <Download size={18} />
+                                                <span>{downloadCVText}</span>
+                                            </a>
+                                        </Button>
+                                    </MagneticButton>
 
-                                    <Button
-                                        variant="outline"
-                                        size="lg"
-                                        onClick={handleShareProfile}
-                                        className="border-primary/20 hover:bg-primary/10 gap-2 rounded-full px-6 w-full sm:w-auto"
-                                        aria-label="Share profile"
-                                    >
-                                        <Share2 size={18} />
-                                    </Button>
+                                    <MagneticButton className="w-full sm:w-auto">
+                                        <Button
+                                            variant="outline"
+                                            size="lg"
+                                            onClick={handleShareProfile}
+                                            className="border-primary/20 hover:bg-primary/10 gap-2 rounded-full px-6 w-full sm:w-auto"
+                                            aria-label="Share profile"
+                                        >
+                                            <Share2 size={18} />
+                                        </Button>
+                                    </MagneticButton>
                                 </div>
                             )}
 

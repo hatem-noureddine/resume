@@ -218,5 +218,44 @@ export default config({
                 }),
             },
         }),
+        theme: singleton({
+            label: 'Theme Settings',
+            path: 'src/content/theme',
+            schema: {
+                primaryColor: fields.text({
+                    label: 'Primary Color',
+                    description: 'Main brand color (HEX code, e.g. #2c75ff)',
+                    validation: { length: { min: 4, max: 9 } }
+                }),
+                lightMode: fields.object({
+                    background: fields.text({
+                        label: 'Background Color',
+                        description: 'Page background in Light Mode (e.g. #fafafa)'
+                    }),
+                    foreground: fields.text({
+                        label: 'Text Color',
+                        description: 'Main text color in Light Mode (e.g. #171717)'
+                    }),
+                    secondary: fields.text({
+                        label: 'Secondary Background',
+                        description: 'Used for cards, inputs etc. (e.g. #f4f4f5)'
+                    })
+                }),
+                darkMode: fields.object({
+                    background: fields.text({
+                        label: 'Background Color',
+                        description: 'Page background in Dark Mode (e.g. #0f0f0f)'
+                    }),
+                    foreground: fields.text({
+                        label: 'Text Color',
+                        description: 'Main text color in Dark Mode (e.g. #ededed)'
+                    }),
+                    secondary: fields.text({
+                        label: 'Secondary Background',
+                        description: 'Used for cards, inputs etc. (e.g. #1f1f1f)'
+                    })
+                })
+            }
+        }),
     },
 });

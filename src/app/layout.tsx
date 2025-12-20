@@ -12,7 +12,9 @@ import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
 import { ServiceWorkerRegistration } from "@/components/pwa/ServiceWorkerRegistration";
 import { PWAInstallPrompt } from "@/components/pwa/PWAInstallPrompt";
 import { SITE_METADATA, JSON_LD } from "@/config/site";
-import { getLanguages } from "@/lib/keystatic";
+import { NoiseOverlay } from "@/components/ui/NoiseOverlay";
+import { getLanguages, getThemeSettings } from "@/lib/keystatic";
+import { ExperimentProvider } from "@/context/ExperimentContext";
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit', display: 'swap' });
@@ -21,17 +23,36 @@ export const metadata: Metadata = SITE_METADATA;
 
 export { VIEWPORT_CONFIG as viewport } from "@/config/site";
 
-
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   const cmsLanguages = await getLanguages();
+  const themeSettings = await getThemeSettings();
+
+  const themeCss = themeSettings ? `
+    :root {
+      ${themeSettings.primaryColor ? `--color-primary: ${themeSettings.primaryColor};` : ''}
+    }
+    .light {
+      ${themeSettings.lightMode?.background ? `--color-background: ${themeSettings.lightMode.background};` : ''}
+      ${themeSettings.lightMode?.foreground ? `--color-foreground: ${themeSettings.lightMode.foreground};` : ''}
+      ${themeSettings.lightMode?.secondary ? `--color-secondary: ${themeSettings.lightMode.secondary};` : ''}
+    }
+    .dark {
+      ${themeSettings.darkMode?.background ? `--color-background: ${themeSettings.darkMode.background};` : ''}
+      ${themeSettings.darkMode?.foreground ? `--color-foreground: ${themeSettings.darkMode.foreground};` : ''}
+      ${themeSettings.darkMode?.secondary ? `--color-secondary: ${themeSettings.darkMode.secondary};` : ''}
+    }
+  ` : '';
 
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        {themeCss && (
+          <style dangerouslySetInnerHTML={{ __html: themeCss }} />
+        )}
         {/* Blocking script to prevent theme flash */}
         <script
           dangerouslySetInnerHTML={{
@@ -69,6 +90,7 @@ export default async function RootLayout({
         className={cn(inter.variable, outfit.variable, "bg-background text-foreground font-sans antialiased overflow-x-hidden")}
         suppressHydrationWarning
       >
+        <NoiseOverlay />
         {/* Skip to content link for accessibility */}
         <a
           href="#main-content"
@@ -79,15 +101,17 @@ export default async function RootLayout({
         <ThemeProvider defaultTheme="system" storageKey="theme">
           <LanguageProvider cmsLanguages={cmsLanguages}>
             <FeatureFlagProvider>
-              <AnnouncerProvider>
-                <ServiceWorkerRegistration />
-                <PWAInstallPrompt />
-                {children}
-                <ErrorBoundary fallback={null}>
-                  <ChatWidget />
-                </ErrorBoundary>
-                <VercelAnalytics />
-              </AnnouncerProvider>
+              <ExperimentProvider>
+                <AnnouncerProvider>
+                  <ServiceWorkerRegistration />
+                  <PWAInstallPrompt />
+                  {children}
+                  <ErrorBoundary fallback={null}>
+                    <ChatWidget />
+                  </ErrorBoundary>
+                  <VercelAnalytics />
+                </AnnouncerProvider>
+              </ExperimentProvider>
             </FeatureFlagProvider>
           </LanguageProvider>
         </ThemeProvider>
@@ -95,5 +119,3 @@ export default async function RootLayout({
     </html>
   );
 }
-
-

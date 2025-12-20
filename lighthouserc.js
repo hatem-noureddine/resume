@@ -1,0 +1,24 @@
+module.exports = {
+    ci: {
+        collect: {
+            startServerCommand: 'npm run start',
+            url: ['http://localhost:3000/'],
+            numberOfRuns: 1,
+            settings: {
+                preset: 'desktop',
+            },
+        },
+        upload: {
+            target: 'temporary-public-storage',
+        },
+        assert: {
+            preset: 'lighthouse:recommended',
+            assertions: {
+                'categories:performance': ['warn', { minScore: 0.9 }],
+                'categories:accessibility': ['warn', { minScore: 1.0 }],
+                'categories:best-practices': ['warn', { minScore: 0.9 }],
+                'categories:seo': ['warn', { minScore: 0.9 }],
+            },
+        },
+    },
+};

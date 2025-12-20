@@ -47,6 +47,14 @@ const nextConfig = {
       },
     ];
   },
+  experimental: {
+    optimizePackageImports: [
+      'lucide-react',
+      'framer-motion',
+      'react-icons',
+      'date-fns',
+    ],
+  },
 };
 
 export default withBundleAnalyzer({

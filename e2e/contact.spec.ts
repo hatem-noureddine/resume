@@ -69,4 +69,29 @@ test.describe('Contact Section', () => {
         const contactSection = page.locator('#contact');
         await expect(contactSection).toBeInViewport({ ratio: 0.1 });
     });
+
+    test('should submit newsletter form successfully', async ({ page }) => {
+        // Mock the API response
+        await page.route('/api/newsletter', async route => {
+            const json = { message: 'Success' };
+            await route.fulfill({ json });
+        });
+
+        await page.goto('');
+        await page.locator('#contact').scrollIntoViewIfNeeded();
+
+        // Target the email input and button
+        const emailInput = page.getByPlaceholder(/enter your email/i);
+        const submitButton = page.getByRole('button', { name: /subscribe/i });
+
+        await expect(emailInput).toBeVisible();
+        await emailInput.fill('test@example.com');
+        await submitButton.click();
+
+        // Verify success message
+        await expect(page.getByText('Thanks for subscribing!')).toBeVisible();
+
+        // Ensure input is gone (replaced by success message)
+        await expect(emailInput).not.toBeVisible();
+    });
 });

@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState, useMemo } from "react";
+import { createContext, useContext, useEffect, useState, useMemo, use } from "react";
 
 type Theme = "dark" | "light" | "system";
 type FontSize = "small" | "medium" | "large";
@@ -52,12 +52,12 @@ export function ThemeProvider({
         }
         const storedHighContrast = localStorage.getItem(HIGH_CONTRAST_KEY);
         if (storedHighContrast === "true") {
-             
+
             setHighContrastState(true);
         }
         const storedFontSize = localStorage.getItem(FONT_SIZE_KEY) as FontSize;
         if (storedFontSize && ["small", "medium", "large"].includes(storedFontSize)) {
-             
+
             setFontSizeState(storedFontSize);
         }
     }, [storageKey]);
@@ -129,7 +129,7 @@ export function ThemeProvider({
 }
 
 export const useTheme = () => {
-    const context = useContext(ThemeProviderContext);
+    const context = use(ThemeProviderContext);
 
     if (context === undefined)
         throw new Error("useTheme must be used within a ThemeProvider");
