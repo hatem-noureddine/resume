@@ -17,13 +17,8 @@ jest.mock('framer-motion', () => ({
 }));
 
 // Mock qrcode.react
-const MockQRCode = React.forwardRef((props: any, ref: any) => (
-    <svg {...props} ref={ref} data-testid="qr-code-svg" />
-));
-MockQRCode.displayName = 'QRCodeSVG';
-
 jest.mock('qrcode.react', () => ({
-    QRCodeSVG: MockQRCode,
+    QRCodeSVG: (props: any) => <svg {...props} data-testid="qr-code-svg" />,
 }));
 
 describe('QRCodeModal', () => {

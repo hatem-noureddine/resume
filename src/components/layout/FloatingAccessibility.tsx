@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Accessibility, Minus, Plus, Contrast, X, Eye, Type } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 import { useLanguage } from "@/context/LanguageContext";
+import { useAnnouncer } from "@/context/AnnouncerContext";
 
 type FontSize = 'small' | 'medium' | 'large';
 
@@ -20,10 +21,11 @@ const fontSizeConfig: Record<FontSize, { label: string }> = {
  */
 export function FloatingAccessibility() {
     const [isVisible, setIsVisible] = useState(false);
-    const [isOpen, setIsOpen] = useState(false);
     const [showTooltip, setShowTooltip] = useState(true);
     const { fontSize, setFontSize, highContrast, setHighContrast } = useTheme();
     const { direction } = useLanguage();
+    // Use shared state from context instead of local state
+    const { isAccessibilityMenuOpen: isOpen, setAccessibilityMenuOpen: setIsOpen } = useAnnouncer();
     const panelRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -52,6 +54,7 @@ export function FloatingAccessibility() {
             document.addEventListener('mousedown', handleClickOutside);
             return () => document.removeEventListener('mousedown', handleClickOutside);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isOpen]);
 
     const handleFontSizeChange = (direction: 'increase' | 'decrease') => {

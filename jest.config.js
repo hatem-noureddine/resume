@@ -24,6 +24,12 @@ const customJestConfig = {
         '!**/node_modules/**',
         '!src/app/manifest.ts',
         '!src/**/index.ts',
+        // Exclude WebGL/Canvas/Speech API components (untestable in JSDOM)
+        '!src/components/ui/Hero3D.tsx',
+        '!src/components/ui/Android3D.tsx',
+        '!src/components/ui/Kotlin3D.tsx',
+        '!src/components/ui/ParticleBackground.tsx',
+        '!src/components/accessibility/VoiceNavigation.tsx',
     ],
     transformIgnorePatterns: [
         '/node_modules/(?!(@vercel/analytics|@vercel/speed-insights|@keystatic|@giscus/react|react-markdown|remark-gfm|vfile|unist-.*|unified|bail|is-plain-obj|trough|remark-.*|mdast-util-.*|micromark|decode-named-character-reference|character-entities|property-information|hast-util-whitespace|space-separated-tokens|comma-separated-tokens|pretty-bytes|ccount|escape-string-regexp|markdown-table)/)',

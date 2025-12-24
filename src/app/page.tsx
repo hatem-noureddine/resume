@@ -35,10 +35,6 @@ const CertificationsSection = dynamic(() => import("@/components/sections/Certif
   loading: () => <SectionSkeleton />
 });
 
-const NewsletterSection = dynamic(() => import("@/components/ui/NewsletterForm").then((mod) => mod.NewsletterForm), {
-  loading: () => <SectionSkeleton />
-});
-
 import {
   getBlogPosts,
   getProjects,

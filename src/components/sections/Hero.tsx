@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import { AnimatedBackground } from "@/components/ui/AnimatedBackground";
 import { Download, Mail, ChevronDown, ChevronUp, Share2 } from "lucide-react";
 import { QRCodeModal } from "@/components/ui/QRCodeModal";
+import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { useLanguage } from "@/context/LanguageContext";
 import { localeMetadata } from "@/locales";
@@ -190,7 +191,9 @@ export function Hero({ resumes = [] }: Readonly<{ resumes?: Resume[] }>) {
         <SectionTracker sectionId="hero">
             <section ref={sectionRef} className="min-h-screen flex flex-col pt-20 relative overflow-hidden bg-background">
                 <AnimatedBackground />
-                {!isMobile && !prefersReducedMotion && <Hero3D />}
+                <ErrorBoundary name="Hero3D" fallback={null}>
+                    {!isMobile && !prefersReducedMotion && <Hero3D />}
+                </ErrorBoundary>
 
                 <div className="container mx-auto px-4 flex flex-col-reverse lg:grid lg:grid-cols-2 gap-8 lg:gap-12 items-center grow py-8 lg:py-12 relative">
                     <motion.div

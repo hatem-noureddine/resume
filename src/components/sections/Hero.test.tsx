@@ -34,7 +34,14 @@ jest.mock('framer-motion', () => ({
     },
     useScroll: () => ({ scrollYProgress: { get: () => 0 } }),
     useTransform: () => 0,
+    useSpring: (value: any) => ({ get: () => (typeof value === 'number' ? value : 0), set: () => { } }),
+    AnimatePresence: ({ children }: any) => <>{children}</>,
 }));
+
+jest.mock('@/components/ui/MagneticButton', () => ({
+    MagneticButton: ({ children, ...props }: any) => <div {...props}>{children}</div>,
+}));
+
 
 jest.mock('@/components/sections/ClientCarousel', () => ({
     ClientCarousel: () => <div data-testid="client-carousel" />
@@ -50,6 +57,7 @@ jest.mock('@/components/ui/AnimatedBackground', () => ({
 }));
 
 jest.mock('@/components/ui/BlurImage', () => ({
+    // eslint-disable-next-line @next/next/no-img-element
     BlurImage: (props: any) => <img {...props} alt={props.alt || ''} />,
 }));
 

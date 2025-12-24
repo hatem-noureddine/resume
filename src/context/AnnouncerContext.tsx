@@ -6,6 +6,8 @@ type AnnouncementPoliteness = "polite" | "assertive";
 
 interface AnnouncerContextType {
     announce: (message: string, politeness?: AnnouncementPoliteness) => void;
+    isAccessibilityMenuOpen: boolean;
+    setAccessibilityMenuOpen: (isOpen: boolean) => void;
 }
 
 const AnnouncerContext = createContext<AnnouncerContextType | null>(null);
@@ -28,6 +30,7 @@ interface AnnouncerProviderProps {
 export function AnnouncerProvider({ children }: AnnouncerProviderProps) {
     const [politeMessage, setPoliteMessage] = useState("");
     const [assertiveMessage, setAssertiveMessage] = useState("");
+    const [isAccessibilityMenuOpen, setAccessibilityMenuOpen] = useState(false);
 
     const announce = useCallback((message: string, politeness: AnnouncementPoliteness = "polite") => {
         // Clear the message first to ensure screen readers announce repeated messages
@@ -41,7 +44,11 @@ export function AnnouncerProvider({ children }: AnnouncerProviderProps) {
         }
     }, []);
 
-    const value = useMemo(() => ({ announce }), [announce]);
+    const value = useMemo(() => ({
+        announce,
+        isAccessibilityMenuOpen,
+        setAccessibilityMenuOpen
+    }), [announce, isAccessibilityMenuOpen]);
 
     return (
         <AnnouncerContext.Provider value={value}>

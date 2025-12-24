@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Mic, MicOff, X, Volume2 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
+import { useAnnouncer } from "@/context/AnnouncerContext";
 
 // Web Speech API type declarations
 interface SpeechRecognitionType extends EventTarget {
@@ -83,6 +84,7 @@ export function VoiceNavigation({ className = "" }: VoiceNavigationProps) {
     const [isVisible, setIsVisible] = useState(false);
     const recognitionRef = useRef<SpeechRecognitionType | null>(null);
     const { direction } = useLanguage();
+    const { isAccessibilityMenuOpen } = useAnnouncer();
 
     // Show on scroll like accessibility
     useEffect(() => {
@@ -206,6 +208,7 @@ export function VoiceNavigation({ className = "" }: VoiceNavigationProps) {
 
         setFeedback("Command not recognized");
         return false;
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [commands, stopListening, transcript]);
 
     const startListening = useCallback(() => {
@@ -298,7 +301,7 @@ export function VoiceNavigation({ className = "" }: VoiceNavigationProps) {
                         mass: 0.8,
                         delay: 0.1
                     }}
-                    className={`fixed ltr:left-4 rtl:right-4 top-1/2 translate-y-[calc(50%+2.5rem)] z-40 hidden md:flex flex-col items-start gap-3 ${className}`}
+                    className={`fixed ltr:left-4 rtl:right-4 transition-all duration-300 z-40 hidden md:flex flex-col items-start gap-3 ${isAccessibilityMenuOpen ? 'top-1/2 translate-y-[13rem]' : 'top-1/2 translate-y-[calc(50%+2.5rem)]'} ${className}`}
                 >
                     {/* Feedback Toast */}
                     <AnimatePresence>
@@ -393,7 +396,7 @@ export function VoiceNavigation({ className = "" }: VoiceNavigationProps) {
                                     </button>
                                 </div>
                                 <div className="space-y-3">
-                                    {/* eslint-disable-next-line react-hooks/refs */}
+                                    { }
                                     {commands.map((cmd, i) => (
                                         <div key={i} className="group flex items-start gap-3 p-2 rounded-xl hover:bg-foreground/5 transition-colors">
                                             <div className="mt-1 w-1.5 h-1.5 rounded-full bg-primary shrink-0 opacity-40 group-hover:opacity-100" />

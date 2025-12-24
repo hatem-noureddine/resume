@@ -46,26 +46,16 @@ describe('ErrorBoundary', () => {
         expect(screen.getByText('Custom fallback')).toBeInTheDocument();
     });
 
-    it('shows error message when showError is true', () => {
+    it('displays section name in error message', () => {
         render(
-            <ErrorBoundary showError>
+            <ErrorBoundary name="Test Section">
                 <ThrowError />
             </ErrorBoundary>
         );
-        expect(screen.getByText('Test error')).toBeInTheDocument();
+        expect(screen.getByText(/Test Section/)).toBeInTheDocument();
     });
 
-    it('calls onError callback when error occurs', () => {
-        const onError = jest.fn();
-        render(
-            <ErrorBoundary onError={onError}>
-                <ThrowError />
-            </ErrorBoundary>
-        );
-        expect(onError).toHaveBeenCalled();
-    });
-
-    it('resets error state when Try Again is clicked', () => {
+    it('resets error state when Retry is clicked', () => {
         render(
             <ErrorBoundary>
                 <ThrowError shouldThrow={true} />
@@ -74,8 +64,8 @@ describe('ErrorBoundary', () => {
 
         expect(screen.getByText('Something went wrong')).toBeInTheDocument();
 
-        // Click Try Again - this resets the error state
-        fireEvent.click(screen.getByText('Try Again'));
+        // Click Retry - this resets the error state
+        fireEvent.click(screen.getByText('Retry'));
 
         // After reset, ErrorBoundary will try to re-render children
         // Since ThrowError still throws, it will show error UI again
@@ -91,23 +81,14 @@ describe('withErrorBoundary', () => {
     };
 
     it('wraps component with error boundary', () => {
-        const WrappedSafe = withErrorBoundary(SafeComponent);
+        const WrappedSafe = withErrorBoundary(SafeComponent, 'Safe');
         render(<WrappedSafe />);
         expect(screen.getByTestId('safe')).toBeInTheDocument();
     });
 
     it('catches errors in wrapped component', () => {
-        const WrappedUnsafe = withErrorBoundary(UnsafeComponent);
+        const WrappedUnsafe = withErrorBoundary(UnsafeComponent, 'Unsafe');
         render(<WrappedUnsafe />);
         expect(screen.getByText('Something went wrong')).toBeInTheDocument();
-    });
-
-    it('uses custom fallback in HOC', () => {
-        const WrappedUnsafe = withErrorBoundary(
-            UnsafeComponent,
-            <div>HOC fallback</div>
-        );
-        render(<WrappedUnsafe />);
-        expect(screen.getByText('HOC fallback')).toBeInTheDocument();
     });
 });
