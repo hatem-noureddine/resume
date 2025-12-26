@@ -154,9 +154,6 @@
 - **Performance monitoring dashboard** - Real-time Core Web Vitals
 
 ### Long-Term
-- **AR Business Card** - Augmented reality experience with camera
 - **AI cover letter generator** - Generate tailored cover letters
 - **Interview scheduler** - Calendly integration
-- **Skills assessment quiz** - Interactive tech knowledge test
-- **Collaborative resume builder** - Multi-user editing for teams
 - **Live resume preview** - Real-time preview while editing in CMS
