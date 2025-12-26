@@ -221,40 +221,148 @@ export default config({
         theme: singleton({
             label: 'Theme Settings',
             path: 'src/content/theme',
+            format: { data: 'json' },
             schema: {
                 primaryColor: fields.text({
-                    label: 'Primary Color',
-                    description: 'Main brand color (HEX code, e.g. #2c75ff)',
+                    label: '🔵 Primary Color',
+                    description: 'Main brand color in HEX format',
+                    defaultValue: '#2c75ff',
+                    validation: { length: { min: 4, max: 9 } }
+                }),
+                primaryDark: fields.text({
+                    label: '🔷 Primary Dark Color',
+                    description: 'Darker shade of primary for hover states',
+                    defaultValue: '#185ad7',
                     validation: { length: { min: 4, max: 9 } }
                 }),
                 lightMode: fields.object({
                     background: fields.text({
-                        label: 'Background Color',
-                        description: 'Page background in Light Mode (e.g. #fafafa)'
+                        label: '⬜ Background Color',
+                        description: 'Page background in Light Mode',
+                        defaultValue: '#fafafa',
+                        validation: { length: { min: 4, max: 9 } }
                     }),
                     foreground: fields.text({
-                        label: 'Text Color',
-                        description: 'Main text color in Light Mode (e.g. #171717)'
+                        label: '⬛ Text Color',
+                        description: 'Main text color in Light Mode',
+                        defaultValue: '#171717',
+                        validation: { length: { min: 4, max: 9 } }
                     }),
                     secondary: fields.text({
-                        label: 'Secondary Background',
-                        description: 'Used for cards, inputs etc. (e.g. #f4f4f5)'
+                        label: '🔲 Secondary Background',
+                        description: 'Cards, inputs background',
+                        defaultValue: '#f4f4f5',
+                        validation: { length: { min: 4, max: 9 } }
+                    }),
+                    secondaryForeground: fields.text({
+                        label: '🔳 Secondary Text Color',
+                        description: 'Muted text color',
+                        defaultValue: '#52525b',
+                        validation: { length: { min: 4, max: 9 } }
                     })
-                }),
+                }, { label: '☀️ Light Mode Colors' }),
                 darkMode: fields.object({
                     background: fields.text({
-                        label: 'Background Color',
-                        description: 'Page background in Dark Mode (e.g. #0f0f0f)'
+                        label: '⬛ Background Color',
+                        description: 'Page background in Dark Mode',
+                        defaultValue: '#0f0f0f',
+                        validation: { length: { min: 4, max: 9 } }
                     }),
                     foreground: fields.text({
-                        label: 'Text Color',
-                        description: 'Main text color in Dark Mode (e.g. #ededed)'
+                        label: '⬜ Text Color',
+                        description: 'Main text color in Dark Mode',
+                        defaultValue: '#ededed',
+                        validation: { length: { min: 4, max: 9 } }
                     }),
                     secondary: fields.text({
-                        label: 'Secondary Background',
-                        description: 'Used for cards, inputs etc. (e.g. #1f1f1f)'
+                        label: '🔳 Secondary Background',
+                        description: 'Cards, inputs background',
+                        defaultValue: '#1f1f1f',
+                        validation: { length: { min: 4, max: 9 } }
+                    }),
+                    secondaryForeground: fields.text({
+                        label: '🔲 Secondary Text Color',
+                        description: 'Muted text color',
+                        defaultValue: '#a1a1aa',
+                        validation: { length: { min: 4, max: 9 } }
                     })
-                })
+                }, { label: '🌙 Dark Mode Colors' }),
+                highContrast: fields.object({
+                    background: fields.text({
+                        label: '⬜ HC Background',
+                        description: 'Page background',
+                        defaultValue: '#ffffff',
+                        validation: { length: { min: 4, max: 9 } }
+                    }),
+                    foreground: fields.text({
+                        label: '⬛ HC Text',
+                        description: 'Main text color',
+                        defaultValue: '#000000',
+                        validation: { length: { min: 4, max: 9 } }
+                    }),
+                    primary: fields.text({
+                        label: '🔵 HC Primary',
+                        description: 'Primary brand color',
+                        defaultValue: '#0000ee',
+                        validation: { length: { min: 4, max: 9 } }
+                    }),
+                    primaryDark: fields.text({
+                        label: '🔷 HC Primary Dark',
+                        description: 'Darker primary shade',
+                        defaultValue: '#000099',
+                        validation: { length: { min: 4, max: 9 } }
+                    }),
+                    secondary: fields.text({
+                        label: '🔲 HC Secondary',
+                        description: 'Secondary background',
+                        defaultValue: '#f0f0f0',
+                        validation: { length: { min: 4, max: 9 } }
+                    }),
+                    secondaryForeground: fields.text({
+                        label: '🔳 HC Secondary Text',
+                        description: 'Secondary text color',
+                        defaultValue: '#000000',
+                        validation: { length: { min: 4, max: 9 } }
+                    })
+                }, { label: '👁️ High Contrast (Light)' }),
+                highContrastDark: fields.object({
+                    background: fields.text({
+                        label: '⬛ HC Dark Background',
+                        description: 'Page background',
+                        defaultValue: '#000000',
+                        validation: { length: { min: 4, max: 9 } }
+                    }),
+                    foreground: fields.text({
+                        label: '⬜ HC Dark Text',
+                        description: 'Main text color',
+                        defaultValue: '#ffffff',
+                        validation: { length: { min: 4, max: 9 } }
+                    }),
+                    primary: fields.text({
+                        label: '🟡 HC Dark Primary',
+                        description: 'Primary brand color',
+                        defaultValue: '#ffff00',
+                        validation: { length: { min: 4, max: 9 } }
+                    }),
+                    primaryDark: fields.text({
+                        label: '🔶 HC Dark Primary Dark',
+                        description: 'Darker primary shade',
+                        defaultValue: '#cccc00',
+                        validation: { length: { min: 4, max: 9 } }
+                    }),
+                    secondary: fields.text({
+                        label: '🔳 HC Dark Secondary',
+                        description: 'Secondary background',
+                        defaultValue: '#1a1a1a',
+                        validation: { length: { min: 4, max: 9 } }
+                    }),
+                    secondaryForeground: fields.text({
+                        label: '⬜ HC Dark Secondary Text',
+                        description: 'Secondary text color',
+                        defaultValue: '#ffffff',
+                        validation: { length: { min: 4, max: 9 } }
+                    })
+                }, { label: '👁️ High Contrast (Dark)' })
             }
         }),
     },
