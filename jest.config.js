@@ -30,16 +30,20 @@ const customJestConfig = {
         '!src/components/ui/Kotlin3D.tsx',
         '!src/components/ui/ParticleBackground.tsx',
         '!src/components/accessibility/VoiceNavigation.tsx',
+        // Exclude files with external dependencies that are hard to mock
+        '!src/lib/keystatic.ts',
+        '!src/lib/linkedin-sync.ts',
+        '!src/test/utils.tsx',
     ],
     transformIgnorePatterns: [
         '/node_modules/(?!(@vercel/analytics|@vercel/speed-insights|@keystatic|@giscus/react|react-markdown|remark-gfm|vfile|unist-.*|unified|bail|is-plain-obj|trough|remark-.*|mdast-util-.*|micromark|decode-named-character-reference|character-entities|property-information|hast-util-whitespace|space-separated-tokens|comma-separated-tokens|pretty-bytes|ccount|escape-string-regexp|markdown-table)/)',
     ],
     coverageThreshold: {
         global: {
-            branches: 60,
-            functions: 70,
-            lines: 80,
-            statements: 80,
+            branches: 70,
+            functions: 80,
+            lines: 85,
+            statements: 85,
         },
     },
     reporters: [

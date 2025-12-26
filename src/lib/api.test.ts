@@ -10,9 +10,17 @@ import {
 const mockFetch = jest.fn();
 global.fetch = mockFetch;
 
+// Speed up tests by mocking setTimeout
+jest.useFakeTimers();
+
 describe('API Utilities', () => {
     beforeEach(() => {
         mockFetch.mockClear();
+        jest.clearAllTimers();
+    });
+
+    afterEach(() => {
+        jest.runAllTimers();
     });
 
     describe('API_ENDPOINTS', () => {
@@ -50,9 +58,11 @@ describe('API Utilities', () => {
                 json: () => Promise.resolve({ reply: 'Hello!' }),
             });
 
-            const result = await sendChatMessage([
+            const resultPromise = sendChatMessage([
                 { role: 'user', content: 'Hi' }
             ]);
+            jest.runAllTimers();
+            const result = await resultPromise;
 
             expect(mockFetch).toHaveBeenCalledWith(
                 '/api/chat',
@@ -72,7 +82,9 @@ describe('API Utilities', () => {
                 json: () => Promise.resolve({ error: 'Bad request' }),
             });
 
-            const result = await sendChatMessage([]);
+            const resultPromise = sendChatMessage([]);
+            jest.runAllTimers();
+            const result = await resultPromise;
 
             expect(result.data).toBeNull();
             expect(result.error).toBe('Bad request');
@@ -87,7 +99,9 @@ describe('API Utilities', () => {
                 json: () => Promise.resolve({}),
             });
 
-            const result = await sendChatMessage([]);
+            const resultPromise = sendChatMessage([]);
+            jest.runAllTimers();
+            const result = await resultPromise;
 
             expect(result.error).toBe('Request failed with status 404');
         });
@@ -99,11 +113,142 @@ describe('API Utilities', () => {
                 json: () => Promise.resolve({ reply: 'Test reply' }),
             });
 
-            const result = await sendChatMessage([{ role: 'user', content: 'test' }]);
+            const resultPromise = sendChatMessage([{ role: 'user', content: 'test' }]);
+            jest.runAllTimers();
+            const result = await resultPromise;
 
             expect(result.status).toBe(200);
             expect(result.data?.reply).toBe('Test reply');
             expect(result.error).toBeNull();
+        });
+
+        it('retries on 500 server error and eventually succeeds', async () => {
+            // First call fails with 500
+            mockFetch.mockResolvedValueOnce({
+                ok: false,
+                status: 500,
+                json: () => Promise.resolve({ error: 'Server error' }),
+            });
+            // Second call succeeds
+            mockFetch.mockResolvedValueOnce({
+                ok: true,
+                status: 200,
+                json: () => Promise.resolve({ reply: 'Success after retry' }),
+            });
+
+            const resultPromise = sendChatMessage([{ role: 'user', content: 'test' }]);
+
+            // Run timers for retry delays
+            await jest.advanceTimersByTimeAsync(300);
+            await jest.advanceTimersByTimeAsync(600);
+
+            const result = await resultPromise;
+
+            expect(mockFetch).toHaveBeenCalledTimes(2);
+            expect(result.data?.reply).toBe('Success after retry');
+            expect(result.error).toBeNull();
+        });
+
+        it('retries on 429 rate limit error', async () => {
+            // First call fails with 429
+            mockFetch.mockResolvedValueOnce({
+                ok: false,
+                status: 429,
+                json: () => Promise.resolve({ error: 'Rate limited' }),
+            });
+            // Second call succeeds
+            mockFetch.mockResolvedValueOnce({
+                ok: true,
+                status: 200,
+                json: () => Promise.resolve({ reply: 'Success' }),
+            });
+
+            const resultPromise = sendChatMessage([{ role: 'user', content: 'test' }]);
+
+            await jest.advanceTimersByTimeAsync(300);
+            await jest.advanceTimersByTimeAsync(600);
+
+            const result = await resultPromise;
+
+            expect(mockFetch).toHaveBeenCalledTimes(2);
+            expect(result.data?.reply).toBe('Success');
+        });
+
+        it('fails after exhausting all retries on persistent 500 error', async () => {
+            // All calls fail with 500
+            mockFetch.mockResolvedValue({
+                ok: false,
+                status: 500,
+                json: () => Promise.resolve({ error: 'Server error' }),
+            });
+
+            const resultPromise = sendChatMessage([{ role: 'user', content: 'test' }]);
+
+            // Run through all retry delays
+            await jest.advanceTimersByTimeAsync(300);
+            await jest.advanceTimersByTimeAsync(600);
+            await jest.advanceTimersByTimeAsync(1200);
+            await jest.advanceTimersByTimeAsync(2400);
+
+            const result = await resultPromise;
+
+            expect(mockFetch).toHaveBeenCalledTimes(4); // Initial + 3 retries
+            expect(result.error).toBe('Server error');
+            expect(result.data).toBeNull();
+        });
+
+        it('retries on network error and eventually succeeds', async () => {
+            // First call throws network error
+            mockFetch.mockRejectedValueOnce(new Error('Network error'));
+            // Second call succeeds
+            mockFetch.mockResolvedValueOnce({
+                ok: true,
+                status: 200,
+                json: () => Promise.resolve({ reply: 'Success' }),
+            });
+
+            const resultPromise = sendChatMessage([{ role: 'user', content: 'test' }]);
+
+            await jest.advanceTimersByTimeAsync(300);
+            await jest.advanceTimersByTimeAsync(600);
+
+            const result = await resultPromise;
+
+            expect(mockFetch).toHaveBeenCalledTimes(2);
+            expect(result.data?.reply).toBe('Success');
+        });
+
+        it('fails after exhausting all retries on persistent network error', async () => {
+            // All calls throw network error
+            mockFetch.mockRejectedValue(new Error('Network error'));
+
+            const resultPromise = sendChatMessage([{ role: 'user', content: 'test' }]);
+
+            await jest.advanceTimersByTimeAsync(300);
+            await jest.advanceTimersByTimeAsync(600);
+            await jest.advanceTimersByTimeAsync(1200);
+            await jest.advanceTimersByTimeAsync(2400);
+
+            const result = await resultPromise;
+
+            expect(mockFetch).toHaveBeenCalledTimes(4);
+            expect(result.error).toBe('Network error');
+            expect(result.status).toBe(0);
+        });
+
+        it('handles non-Error object thrown', async () => {
+            mockFetch.mockRejectedValue('string error');
+
+            const resultPromise = sendChatMessage([{ role: 'user', content: 'test' }]);
+
+            await jest.advanceTimersByTimeAsync(300);
+            await jest.advanceTimersByTimeAsync(600);
+            await jest.advanceTimersByTimeAsync(1200);
+            await jest.advanceTimersByTimeAsync(2400);
+
+            const result = await resultPromise;
+
+            expect(result.error).toBe('Unknown error occurred');
         });
     });
 
@@ -115,7 +260,9 @@ describe('API Utilities', () => {
                 json: () => Promise.resolve({ success: true, message: 'Subscribed!' }),
             });
 
-            const result = await subscribeToNewsletter('test@example.com');
+            const resultPromise = subscribeToNewsletter('test@example.com');
+            jest.runAllTimers();
+            const result = await resultPromise;
 
             expect(mockFetch).toHaveBeenCalledWith(
                 '/api/newsletter',
@@ -134,7 +281,9 @@ describe('API Utilities', () => {
                 json: () => Promise.resolve({ error: 'Invalid email' }),
             });
 
-            const result = await subscribeToNewsletter('invalid');
+            const resultPromise = subscribeToNewsletter('invalid');
+            jest.runAllTimers();
+            const result = await resultPromise;
 
             expect(result.error).toBe('Invalid email');
             expect(result.status).toBe(400);
@@ -147,9 +296,34 @@ describe('API Utilities', () => {
                 json: () => Promise.resolve({ success: true, message: 'Welcome!' }),
             });
 
-            const result = await subscribeToNewsletter('user@example.com');
+            const resultPromise = subscribeToNewsletter('user@example.com');
+            jest.runAllTimers();
+            const result = await resultPromise;
 
             expect(result.data?.message).toBe('Welcome!');
+        });
+
+        it('retries on server error for newsletter', async () => {
+            mockFetch.mockResolvedValueOnce({
+                ok: false,
+                status: 502,
+                json: () => Promise.resolve({ error: 'Bad gateway' }),
+            });
+            mockFetch.mockResolvedValueOnce({
+                ok: true,
+                status: 200,
+                json: () => Promise.resolve({ success: true, message: 'Subscribed!' }),
+            });
+
+            const resultPromise = subscribeToNewsletter('test@example.com');
+
+            await jest.advanceTimersByTimeAsync(300);
+            await jest.advanceTimersByTimeAsync(600);
+
+            const result = await resultPromise;
+
+            expect(mockFetch).toHaveBeenCalledTimes(2);
+            expect(result.data?.success).toBe(true);
         });
     });
 
