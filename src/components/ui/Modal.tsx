@@ -4,6 +4,7 @@ import { useEffect, useRef, ReactNode, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 import { createPortal } from 'react-dom';
+import { useFocusTrap } from '@/hooks/useFocusTrap';
 
 interface ModalProps {
     isOpen: boolean;
@@ -17,7 +18,7 @@ interface ModalProps {
 }
 
 /**
- * Accessible modal component with animation and keyboard support.
+ * Accessible modal component with animation, keyboard support, and focus trap.
  * 
  * Usage:
  * ```tsx
@@ -39,7 +40,7 @@ export function Modal({
     className = '',
 }: Readonly<ModalProps>) {
     const modalRef = useRef<HTMLDivElement>(null);
-    const previousActiveElement = useRef<HTMLElement | null>(null);
+    const closeButtonRef = useRef<HTMLButtonElement>(null);
 
     const sizeClasses: Record<string, string> = {
         sm: 'max-w-sm',
@@ -49,6 +50,12 @@ export function Modal({
         full: 'max-w-full mx-4',
     };
 
+    // Use focus trap hook for proper keyboard navigation
+    useFocusTrap(modalRef, isOpen, {
+        initialFocusRef: showCloseButton ? closeButtonRef : undefined,
+        returnFocusOnDeactivate: true,
+    });
+
     // Handle escape key
     const handleKeyDown = useCallback((e: KeyboardEvent) => {
         if (e.key === 'Escape') {
@@ -56,17 +63,14 @@ export function Modal({
         }
     }, [onClose]);
 
-    // Focus trap and restoration
+    // Lock body scroll and handle escape key
     useEffect(() => {
         if (isOpen) {
-            previousActiveElement.current = document.activeElement as HTMLElement;
-            modalRef.current?.focus();
             document.addEventListener('keydown', handleKeyDown);
             document.body.style.overflow = 'hidden';
         } else {
             document.removeEventListener('keydown', handleKeyDown);
             document.body.style.overflow = '';
-            previousActiveElement.current?.focus();
         }
 
         return () => {
@@ -124,6 +128,7 @@ export function Modal({
                                 )}
                                 {showCloseButton && (
                                     <button
+                                        ref={closeButtonRef}
                                         onClick={onClose}
                                         className="p-2 rounded-lg hover:bg-secondary/30 transition-colors ml-auto"
                                         aria-label="Close modal"

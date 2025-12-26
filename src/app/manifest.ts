@@ -7,9 +7,11 @@ export default function manifest(): MetadataRoute.Manifest {
         short_name: "Hatem",
         description: SITE_CONFIG.description,
         start_url: '/',
+        scope: '/',
+        id: '/',
         display: 'standalone',
-        background_color: '#ffffff',
-        theme_color: '#000000',
+        background_color: '#0f0f0f',
+        theme_color: '#0f0f0f',
         icons: [
             {
                 src: '/icon-192.png',

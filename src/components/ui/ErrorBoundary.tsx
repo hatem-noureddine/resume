@@ -1,14 +1,13 @@
 'use client';
 
-import { Component, ErrorInfo, ReactNode } from 'react';
-import { Button } from '@/components/ui/Button';
-import { AlertTriangle, RefreshCw } from 'lucide-react';
+import React, { Component, ErrorInfo, ReactNode } from 'react';
+import { Button } from './Button';
+import { AlertCircle, RefreshCcw } from 'lucide-react';
 
 interface Props {
     children: ReactNode;
     fallback?: ReactNode;
-    onError?: (error: Error, errorInfo: ErrorInfo) => void;
-    showError?: boolean;
+    name?: string;
 }
 
 interface State {
@@ -17,67 +16,55 @@ interface State {
 }
 
 /**
- * Reusable Error Boundary component for catching JavaScript errors
- * in component trees and displaying a fallback UI.
- * 
- * Usage:
- * ```tsx
- * <ErrorBoundary fallback={<p>Something went wrong</p>}>
- *   <MyComponent />
- * </ErrorBoundary>
- * ```
+ * ErrorBoundary component that catches JavaScript errors anywhere in its child 
+ * component tree, logs those errors, and displays a fallback UI instead of 
+ * the component tree that crashed.
  */
 export class ErrorBoundary extends Component<Props, State> {
-    constructor(props: Props) {
-        super(props);
-        this.state = { hasError: false, error: null };
-    }
+    public state: State = {
+        hasError: false,
+        error: null,
+    };
 
-    static getDerivedStateFromError(error: Error): State {
+    public static getDerivedStateFromError(error: Error): State {
+        // Update state so the next render will show the fallback UI.
         return { hasError: true, error };
     }
 
-    componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
-        // Log error to console in development
-        console.error('ErrorBoundary caught an error:', error, errorInfo);
-
-        // Call custom error handler if provided
-        this.props.onError?.(error, errorInfo);
+    public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+        console.error(`ErrorBoundary caught an error in [${this.props.name || 'Anonymous Section'}]:`, error, errorInfo);
     }
 
-    handleReset = (): void => {
+    private readonly handleReset = () => {
         this.setState({ hasError: false, error: null });
+        globalThis.location.reload();
     };
 
-    render(): ReactNode {
+    public render() {
         if (this.state.hasError) {
-            // Render custom fallback if provided
             if (this.props.fallback) {
                 return this.props.fallback;
             }
 
-            // Default fallback UI
             return (
-                <div className="flex flex-col items-center justify-center p-6 rounded-xl bg-secondary/20 border border-destructive/20">
-                    <AlertTriangle className="w-12 h-12 text-destructive mb-4" />
-                    <h3 className="text-lg font-semibold text-foreground mb-2">
-                        Something went wrong
-                    </h3>
-                    <p className="text-sm text-secondary-foreground text-center mb-4 max-w-sm">
-                        An error occurred while rendering this section. Please try again.
-                    </p>
-                    {this.props.showError && this.state.error && (
-                        <div className="text-xs bg-secondary/30 p-3 rounded-lg mb-4 font-mono text-secondary-foreground overflow-auto max-w-full">
-                            {this.state.error.message}
-                        </div>
-                    )}
+                <div role="alert" className="p-6 rounded-2xl bg-destructive/10 border border-destructive/20 flex flex-col items-center justify-center text-center space-y-4 my-8">
+                    <div className="w-12 h-12 rounded-full bg-destructive/20 flex items-center justify-center text-destructive">
+                        <AlertCircle size={24} />
+                    </div>
+                    <div>
+                        <h3 className="text-xl font-bold mb-2">Something went wrong</h3>
+                        <p className="text-secondary-foreground max-w-md mx-auto">
+                            The section &quot;{this.props.name || 'Content'}&quot; failed to load. This might be a temporary issue.
+                        </p>
+                    </div>
                     <Button
-                        onClick={this.handleReset}
+                        variant="outline"
                         size="sm"
+                        onClick={this.handleReset}
                         className="flex items-center gap-2"
                     >
-                        <RefreshCw className="w-4 h-4" />
-                        Try Again
+                        <RefreshCcw size={16} />
+                        Retry
                     </Button>
                 </div>
             );
@@ -88,15 +75,15 @@ export class ErrorBoundary extends Component<Props, State> {
 }
 
 /**
- * Higher-order component to wrap a component with an error boundary
+ * A functional wrapper for ErrorBoundary.
  */
 export function withErrorBoundary<P extends object>(
     WrappedComponent: React.ComponentType<P>,
-    fallback?: ReactNode
-): React.FC<P> {
-    return function WithErrorBoundary(props: P) {
+    boundaryName: string
+) {
+    return function WithErrorBoundaryWrapper(props: P) {
         return (
-            <ErrorBoundary fallback={fallback}>
+            <ErrorBoundary name={boundaryName}>
                 <WrappedComponent {...props} />
             </ErrorBoundary>
         );

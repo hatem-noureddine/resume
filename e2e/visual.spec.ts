@@ -80,4 +80,41 @@ test.describe('Visual Regression', () => {
         await scrollToBottom(page);
         await expect(page).toHaveScreenshot('portfolio-page.png', screenshotOptions);
     });
+
+    test('dark mode should match snapshot', async ({ page }) => {
+        await page.goto('/');
+        // Click the theme toggle button (moon icon initially)
+        // Adjust selector if needed, assuming aria-label="Switch to dark mode" or similar
+        // Based on previous knowledge, it might be in Header or accessibility menu.
+        // Let's use the local storage injection for reliability if UI is tricky, 
+        // but UI interaction is better for E2E.
+        // Assuming there is a button with aria-label="Switch to dark mode" or similar.
+        // If not sure, we can set localStorage before reload.
+
+        await page.evaluate(() => {
+            window.localStorage.setItem('theme', 'dark');
+        });
+        await page.reload();
+        await page.waitForLoadState('networkidle');
+        await scrollToBottom(page);
+        await expect(page).toHaveScreenshot('homepage-dark.png', screenshotOptions);
+    });
+
+    test('rtl arabic should match snapshot', async ({ page }) => {
+        await page.goto('/');
+
+        // Switch to Arabic
+        // Same here, using localStorage for stability in visual test
+        await page.evaluate(() => {
+            window.localStorage.setItem('language', 'ar');
+        });
+        await page.reload();
+        await page.waitForLoadState('networkidle');
+
+        // Wait for RTL direction to apply
+        await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
+
+        await scrollToBottom(page);
+        await expect(page).toHaveScreenshot('homepage-arabic.png', screenshotOptions);
+    });
 });

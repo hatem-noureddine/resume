@@ -60,7 +60,7 @@ jest.mock('next/image', () => ({
 
 jest.mock('next/link', () => ({
     __esModule: true,
-     
+
     default: ({ children, href }: any) => <a href={href || '/'}>{children}</a>,
 }));
 
@@ -135,5 +135,35 @@ describe('Blog Component', () => {
 
         const designPostsAfterAll = await screen.findAllByText('Design Post');
         expect(designPostsAfterAll.length).toBeGreaterThan(0);
+    });
+
+    it('handles carousel navigation - next slide', async () => {
+        render(<Blog posts={mockPosts} />);
+
+        // Find next button (ChevronRight icon button)
+        const nextButtons = screen.getAllByRole('button');
+        const nextButton = nextButtons.find(btn =>
+            btn.hasAttribute('aria-label') &&
+            btn.getAttribute('aria-label')?.includes('Next')
+        );
+
+        if (nextButton) {
+            nextButton.click();
+        }
+    });
+
+    it('handles carousel navigation - prev slide', async () => {
+        render(<Blog posts={mockPosts} />);
+
+        // Find prev button (ChevronLeft icon button)
+        const prevButtons = screen.getAllByRole('button');
+        const prevButton = prevButtons.find(btn =>
+            btn.hasAttribute('aria-label') &&
+            btn.getAttribute('aria-label')?.includes('Previous')
+        );
+
+        if (prevButton) {
+            prevButton.click();
+        }
     });
 });

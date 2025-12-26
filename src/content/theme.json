@@ -1,0 +1,32 @@
+{
+    "primaryColor": "#2c75ff",
+    "primaryDark": "#185ad7",
+    "lightMode": {
+        "background": "#fafafa",
+        "foreground": "#171717",
+        "secondary": "#f4f4f5",
+        "secondaryForeground": "#52525b"
+    },
+    "darkMode": {
+        "background": "#0f0f0f",
+        "foreground": "#ededed",
+        "secondary": "#1f1f1f",
+        "secondaryForeground": "#a1a1aa"
+    },
+    "highContrast": {
+        "background": "#ffffff",
+        "foreground": "#000000",
+        "primary": "#0000ee",
+        "primaryDark": "#000099",
+        "secondary": "#f0f0f0",
+        "secondaryForeground": "#000000"
+    },
+    "highContrastDark": {
+        "background": "#000000",
+        "foreground": "#ffffff",
+        "primary": "#ffff00",
+        "primaryDark": "#cccc00",
+        "secondary": "#1a1a1a",
+        "secondaryForeground": "#ffffff"
+    }
+}

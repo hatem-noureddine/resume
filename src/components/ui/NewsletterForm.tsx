@@ -78,7 +78,16 @@ export function NewsletterForm({
                 });
                 if (!response.ok) throw new Error('Subscription failed');
             } else {
-                throw new Error('No subscription service configured');
+                // Default to local API
+                const response = await fetch('/api/newsletter', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email }),
+                });
+                if (!response.ok) {
+                    const error = await response.json().catch(() => ({}));
+                    throw new Error(error.error || 'Subscription failed');
+                }
             }
 
             setStatus('success');

@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { BlurImage } from "@/components/ui/BlurImage";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { ArrowUpRight, ArrowRight } from "lucide-react";
+import { ArrowUpRight, ArrowRight, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { useLanguage } from "@/context/LanguageContext";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
@@ -16,10 +16,10 @@ function useIsMobile(breakpoint = 768) {
     const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
-        const checkMobile = () => setIsMobile(window.innerWidth < breakpoint);
+        const checkMobile = () => setIsMobile(globalThis.innerWidth < breakpoint);
         checkMobile();
-        window.addEventListener("resize", checkMobile);
-        return () => window.removeEventListener("change", checkMobile);
+        globalThis.addEventListener("resize", checkMobile);
+        return () => globalThis.removeEventListener("resize", checkMobile);
     }, [breakpoint]);
 
     return isMobile;
@@ -29,19 +29,21 @@ interface PortfolioLocale {
     title: string;
     viewAll?: string;
     allCategory?: string;
+    viewProject?: string;
     items: {
-        id: number;
+        id: number | string;
         title: string;
         category: string;
         image: string;
         link: string;
+        slug?: string;
     }[];
 }
 
-export function Portfolio() {
-    const { t } = useLanguage();
+export function Portfolio({ items }: Readonly<{ items?: PortfolioLocale['items'] }>) {
+    const { t, direction } = useLanguage();
     const portfolio = t.portfolio as PortfolioLocale;
-    const portfolioData = portfolio.items;
+    const portfolioData = (items && items.length > 0) ? items : portfolio.items;
     const [filter, setFilter] = useState("All");
 
     const isMobile = useIsMobile();
@@ -68,9 +70,9 @@ export function Portfolio() {
     const cardVariants = prefersReducedMotion
         ? { hidden: { opacity: 1 }, show: { opacity: 1 }, exit: { opacity: 0 } }
         : {
-            hidden: { opacity: 0, scale: 0.8 },
-            show: { opacity: 1, scale: 1 },
-            exit: { opacity: 0, scale: 0.8 }
+            hidden: { opacity: 0, scale: 0.8, x: direction === "rtl" ? 20 : -20 },
+            show: { opacity: 1, scale: 1, x: 0 },
+            exit: { opacity: 0, scale: 0.8, x: direction === "rtl" ? -20 : 20 }
         };
 
     return (
@@ -80,6 +82,7 @@ export function Portfolio() {
                     title={portfolio.title}
                     subtitle="Portfolio"
                     className="mb-8 md:mb-12"
+                    id="portfolio-title"
                 />
 
                 {/* Filters - horizontal scroll on mobile, responsive sizing */}
@@ -92,7 +95,7 @@ export function Portfolio() {
                                 className={`px-4 md:px-6 py-1.5 md:py-2 rounded-full text-xs md:text-sm font-medium transition-all duration-300 whitespace-nowrap ${filter === cat
                                     ? "bg-primary text-white shadow-md"
                                     : "bg-secondary text-secondary-foreground hover:bg-primary hover:text-white"
-                                    }`}
+                                    } `}
                             >
                                 {cat}
                             </button>
@@ -125,7 +128,7 @@ export function Portfolio() {
                                     src={project.image}
                                     alt={project.title}
                                     fill
-                                    className={`object-cover ${isMobile ? '' : 'group-hover:scale-110'}`}
+                                    className={`object-cover ${isMobile ? '' : 'group-hover:scale-110'} `}
                                     sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                                     loading={index === 0 ? "eager" : "lazy"}
                                 />
@@ -134,23 +137,38 @@ export function Portfolio() {
                                 <div className={`absolute inset-0 bg-linear-to-t from-black/90 via-black/40 to-transparent flex items-end p-4 md:p-6 transition-opacity duration-300 ${isMobile
                                     ? 'opacity-100'
                                     : 'opacity-0 group-hover:opacity-100'
-                                    }`}>
+                                    } `}>
                                     <div className={`w-full transition-transform duration-300 ${isMobile
                                         ? ''
                                         : 'translate-y-4 group-hover:translate-y-0'
-                                        }`}>
+                                        } `}>
                                         <div className="flex items-center justify-between">
-                                            <div>
-                                                <p className="text-gray-300 text-xs md:text-sm mb-0.5 md:mb-1">{project.category}</p>
-                                                <h3 className="text-base md:text-xl font-bold font-outfit text-white">{project.title}</h3>
+                                            <div className="flex-1">
+                                                <p className="text-gray-300 text-sm mb-1">{project.category}</p>
+                                                <h3 className="text-xl font-bold font-outfit text-white group-hover:text-primary transition-colors">
+                                                    {project.title}
+                                                </h3>
                                             </div>
-                                            <a
-                                                href={project.link}
-                                                className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-primary text-white flex items-center justify-center hover:bg-primary/80 transition-colors shrink-0"
-                                                aria-label={`View ${project.title}`}
-                                            >
-                                                <ArrowUpRight size={isMobile ? 16 : 20} />
-                                            </a>
+                                            <div className="flex gap-2">
+                                                {project.slug && (
+                                                    <Link
+                                                        href={`/portfolio/${project.slug}`}
+                                                        className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md text-white flex items-center justify-center hover:bg-primary transition-colors"
+                                                        aria-label={`View case study for ${project.title}`}
+                                                    >
+                                                        <Sparkles size={20} />
+                                                    </Link>
+                                                )}
+                                                <a
+                                                    href={project.link}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center hover:bg-primary-dark transition-colors"
+                                                    aria-label={`${portfolio.viewProject || "View"} ${project.title} `}
+                                                >
+                                                    <ArrowUpRight size={20} />
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -169,15 +187,16 @@ export function Portfolio() {
             </div>
 
             {/* Custom CSS for hiding scrollbar */}
-            <style jsx>{`
-                .scrollbar-hide {
-                    -ms-overflow-style: none;
-                    scrollbar-width: none;
-                }
-                .scrollbar-hide::-webkit-scrollbar {
-                    display: none;
-                }
-            `}</style>
+            <style dangerouslySetInnerHTML={{
+                __html: `
+    .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+    }
+`}} />
         </section>
     );
 }

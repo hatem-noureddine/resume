@@ -13,7 +13,7 @@ import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { Logo } from "@/components/ui/Logo";
 
 export function Header({ hasBlogPosts = true }: Readonly<{ hasBlogPosts?: boolean }>) {
-    const { t, language, setLanguage, availableLanguages } = useLanguage();
+    const { t, language, setLanguage, availableLanguages, direction } = useLanguage();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
     const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false);
@@ -113,12 +113,12 @@ export function Header({ hasBlogPosts = true }: Readonly<{ hasBlogPosts?: boolea
     return (
         <header
             className={cn(
-                "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+                "fixed top-0 inset-x-0 z-50 transition-all duration-300",
                 isScrolled ? "bg-background/80 backdrop-blur-md shadow-sm py-3 md:py-4" : "bg-transparent py-4 md:py-6"
             )}
         >
             {/* Scroll Progress Bar */}
-            <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-foreground/5">
+            <div className="absolute bottom-0 inset-x-0 h-0.5 bg-foreground/5">
                 <motion.div
                     className="h-full bg-linear-to-r from-primary to-purple-500"
                     style={{ width: `${scrollProgress}%` }}
@@ -154,7 +154,7 @@ export function Header({ hasBlogPosts = true }: Readonly<{ hasBlogPosts?: boolea
                             {isLinkActive(link.href) && (
                                 <motion.span
                                     layoutId="activeSection"
-                                    className="absolute -bottom-0.5 left-0 right-0 h-0.5 bg-primary rounded-full"
+                                    className="absolute -bottom-0.5 inset-x-0 h-0.5 bg-primary rounded-full"
                                     initial={{ opacity: 0, scaleX: 0 }}
                                     animate={{ opacity: 1, scaleX: 1 }}
                                     transition={{ duration: 0.2 }}
@@ -190,7 +190,7 @@ export function Header({ hasBlogPosts = true }: Readonly<{ hasBlogPosts?: boolea
                                         animate={{ opacity: 1, y: 0, scale: 1 }}
                                         exit={{ opacity: 0, y: 10, scale: 0.95 }}
                                         transition={{ duration: 0.2 }}
-                                        className="absolute top-full right-0 mt-2 min-w-[160px] bg-background/95 backdrop-blur-xl border border-foreground/10 rounded-xl shadow-xl overflow-hidden py-2"
+                                        className="absolute top-full ltr:right-0 rtl:left-0 mt-2 min-w-[160px] bg-background/95 backdrop-blur-xl border border-foreground/10 rounded-xl shadow-xl overflow-hidden py-2"
                                     >
                                         <div className="flex flex-col">
                                             {availableLanguages.map((lang) => (
@@ -223,8 +223,15 @@ export function Header({ hasBlogPosts = true }: Readonly<{ hasBlogPosts?: boolea
 
                     <ThemeToggle />
 
-                    <Link
+                    <a
                         href="#contact"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            const contactSection = document.getElementById('contact');
+                            if (contactSection) {
+                                contactSection.scrollIntoView({ behavior: 'smooth' });
+                            }
+                        }}
                         className={cn(
                             "inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/10 border border-green-500/20 text-green-600 dark:text-green-400 text-sm font-medium hover:bg-green-500/20 transition-colors",
                             isLinkActive("#contact") && "ring-2 ring-green-500/50"
@@ -236,7 +243,7 @@ export function Header({ hasBlogPosts = true }: Readonly<{ hasBlogPosts?: boolea
                         </span>
                         <Sparkles size={14} />
                         {t.contact?.title || "Contact Me"}
-                    </Link>
+                    </a>
                 </nav>
 
                 {/* Mobile Menu Toggle */}
@@ -273,11 +280,11 @@ export function Header({ hasBlogPosts = true }: Readonly<{ hasBlogPosts?: boolea
 
                             {/* Content */}
                             <motion.div
-                                initial={{ x: "100%" }}
+                                initial={{ x: direction === "rtl" ? "-100%" : "100%" }}
                                 animate={{ x: 0 }}
-                                exit={{ x: "100%" }}
+                                exit={{ x: direction === "rtl" ? "-100%" : "100%" }}
                                 transition={{ type: "spring", damping: 25, stiffness: 200 }}
-                                className="absolute inset-y-0 right-0 w-full bg-background flex flex-col"
+                                className="absolute inset-y-0 ltr:right-0 rtl:left-0 w-full bg-background flex flex-col"
                             >
                                 <div className="container mx-auto px-4 h-20 flex items-center justify-end">
                                     <button

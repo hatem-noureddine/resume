@@ -3,7 +3,25 @@ import React from 'react';
 
 import { TextEncoder, TextDecoder } from 'node:util';
 
-Object.assign(globalThis, { TextDecoder, TextEncoder });
+Object.assign(globalThis, {
+    TextDecoder,
+    TextEncoder,
+});
+
+// Polyfill fetch if not present (jsdom doesn't include it by default)
+if (!globalThis.fetch) {
+    globalThis.fetch = jest.fn().mockImplementation(() =>
+        Promise.resolve({
+            ok: true,
+            json: () => Promise.resolve({}),
+            text: () => Promise.resolve(""),
+            blob: () => Promise.resolve(new Blob()),
+        })
+    );
+    globalThis.Request = jest.fn();
+    globalThis.Response = jest.fn();
+    globalThis.Headers = jest.fn();
+}
 
 if (globalThis.window !== undefined) {
     // Mock window.matchMedia for reduced motion hook
@@ -22,26 +40,22 @@ if (globalThis.window !== undefined) {
     });
 
     // Mock IntersectionObserver
-    class IntersectionObserver {
-        observe = jest.fn();
-        unobserve = jest.fn();
-        disconnect = jest.fn();
-    }
-    Object.defineProperty(globalThis, 'IntersectionObserver', {
-        writable: true,
-        value: IntersectionObserver,
-    });
+    globalThis.IntersectionObserver = class {
+        constructor() {
+            this.observe = jest.fn();
+            this.unobserve = jest.fn();
+            this.disconnect = jest.fn();
+        }
+    };
 
     // Mock ResizeObserver
-    class ResizeObserver {
-        observe = jest.fn();
-        unobserve = jest.fn();
-        disconnect = jest.fn();
-    }
-    Object.defineProperty(globalThis, 'ResizeObserver', {
-        writable: true,
-        value: ResizeObserver,
-    });
+    globalThis.ResizeObserver = class {
+        constructor() {
+            this.observe = jest.fn();
+            this.unobserve = jest.fn();
+            this.disconnect = jest.fn();
+        }
+    };
 }
 
 // -----------------------------------------------------------------------------
@@ -49,27 +63,32 @@ if (globalThis.window !== undefined) {
 // -----------------------------------------------------------------------------
 
 // Mock next/image
-jest.mock('next/image', () => ({
-    __esModule: true,
-    default: (props) => {
+jest.mock('next/image', () => {
+    const MockImage = (props) => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { fill, priority, placeholder, blurDataURL, overrideSrc, ...rest } = props;
         // eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text
         return <img {...rest} />;
-    },
-}));
+    };
+    MockImage.displayName = 'NextImage';
+    return {
+        __esModule: true,
+        default: MockImage,
+    };
+});
 
 // Mock framer-motion
 jest.mock('framer-motion', () => {
     const actual = jest.requireActual('framer-motion');
+    const MockAnimatePresence = ({ children }) => <>{children}</>;
+    MockAnimatePresence.displayName = 'AnimatePresence';
+
     return {
         ...actual,
-
-        AnimatePresence: ({ children }) => <>{children}</>,
+        AnimatePresence: MockAnimatePresence,
         motion: new Proxy({}, {
             get: (target, prop) => {
-                // eslint-disable-next-line react/display-name
-                return React.forwardRef((props, ref) => {
+                const MotionComponent = React.forwardRef((props, ref) => {
                     /* eslint-disable @typescript-eslint/no-unused-vars */
                     // Destructure and discard Framer Motion specific props to avoid DOM warnings
                     const {
@@ -88,17 +107,25 @@ jest.mock('framer-motion', () => {
                     /* eslint-enable @typescript-eslint/no-unused-vars */
                     return React.createElement(prop, { ref, ...rest });
                 });
+                MotionComponent.displayName = `motion.${prop}`;
+                return MotionComponent;
             }
         }),
     };
 });
 
 // Mock Vercel Analytics
+jest.mock('@vercel/analytics', () => ({
+    track: jest.fn(),
+}));
 jest.mock('@vercel/analytics/react', () => ({
     Analytics: () => null,
 }));
 jest.mock('@vercel/analytics/next', () => ({
     Analytics: () => null,
+}));
+jest.mock('@vercel/speed-insights', () => ({
+    track: jest.fn(),
 }));
 jest.mock('@vercel/speed-insights/next', () => ({
     SpeedInsights: () => null,
@@ -139,3 +166,67 @@ jest.mock('lottie-react', () => {
         ),
     };
 });
+// Mock SectionTracker - default to pass through children
+jest.mock('@/components/ui/SectionTracker', () => ({
+    SectionTracker: ({ children }) => <>{children}</>,
+}));
+
+// Mock Keystatic
+jest.mock('@keystatic/core', () => ({
+    config: jest.fn().mockReturnValue({}),
+    collection: jest.fn(),
+    singleton: jest.fn(),
+    fields: new Proxy({}, {
+        get: () => jest.fn().mockReturnValue({}),
+    }),
+}));
+jest.mock('@keystatic/core/reader', () => ({
+    createReader: () => ({
+        collections: {
+            posts: {
+                all: jest.fn().mockResolvedValue([]),
+                read: jest.fn().mockResolvedValue(null),
+            },
+            portfolio: {
+                all: jest.fn().mockResolvedValue([]),
+                read: jest.fn().mockResolvedValue(null),
+            },
+        },
+        singletons: {
+            resume: {
+                read: jest.fn().mockResolvedValue(null),
+            },
+        },
+    }),
+}));
+
+// Mock @/lib/keystatic to avoid Keystatic integration in tests
+jest.mock('@/lib/keystatic', () => ({
+    getResumes: jest.fn().mockResolvedValue([]),
+    getPortfolioProjects: jest.fn().mockResolvedValue([]),
+    getPosts: jest.fn().mockResolvedValue([]),
+    getCertifications: jest.fn().mockResolvedValue([]),
+    getExperiences: jest.fn().mockResolvedValue([]),
+    getLanguages: jest.fn().mockResolvedValue([]),
+    getBlogPosts: jest.fn().mockResolvedValue([]),
+    getProjects: jest.fn().mockResolvedValue([]),
+    getExperience: jest.fn().mockResolvedValue([]),
+    getSkills: jest.fn().mockResolvedValue([]),
+    getServices: jest.fn().mockResolvedValue([]),
+    getTestimonials: jest.fn().mockResolvedValue([]),
+    reader: {
+        collections: {
+            posts: { all: jest.fn().mockResolvedValue([]) },
+            portfolio: { all: jest.fn().mockResolvedValue([]) },
+        },
+        singletons: { resume: { read: jest.fn().mockResolvedValue(null) } },
+    },
+}));
+
+// Mock @/context/AnnouncerContext to provide useAnnouncer without provider
+jest.mock('@/context/AnnouncerContext', () => ({
+    useAnnouncer: () => ({
+        announce: jest.fn(),
+    }),
+    AnnouncerProvider: ({ children }) => children,
+}));

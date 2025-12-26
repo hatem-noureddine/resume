@@ -13,8 +13,13 @@ jest.mock('framer-motion', () => ({
         li: ({ children, className }: any) => <li className={className}>{children}</li>,
         button: ({ children, className, onClick }: any) => <button className={className} onClick={onClick}>{children}</button>,
         section: ({ children, className, id }: any) => <section className={className} id={id}>{children}</section>,
+        svg: ({ children, className, ...rest }: any) => <svg className={className} {...rest}>{children}</svg>,
+        path: ({ className, ...rest }: any) => <path className={className} {...rest} />,
     },
     AnimatePresence: ({ children }: any) => <>{children}</>,
+    useScroll: () => ({ scrollYProgress: { current: 0, onChange: jest.fn() } }),
+    useTransform: () => 0,
+    useSpring: () => 0,
 }));
 
 jest.mock('lucide-react', () => ({

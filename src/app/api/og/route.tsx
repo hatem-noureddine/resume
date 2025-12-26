@@ -3,138 +3,161 @@ import { NextRequest } from 'next/server';
 
 export const runtime = 'edge';
 
-// OG Image dimensions
-const WIDTH = 1200;
-const HEIGHT = 630;
-
-/**
- * Dynamic OG Image generation API.
- * 
- * Usage: /api/og?title=My%20Title&subtitle=Subtitle&category=Tech
- * 
- * Query params:
- * - title: Main title text
- * - subtitle: Optional subtitle
- * - category: Optional category badge
- */
 export async function GET(req: NextRequest) {
-    const { searchParams } = new URL(req.url);
+    try {
+        const { searchParams } = new URL(req.url);
 
-    const title = searchParams.get('title') || 'Hatem Noureddine';
-    const subtitle = searchParams.get('subtitle') || 'Kotlin Android Developer';
-    const category = searchParams.get('category');
+        // Dynamic parameters
+        // Dynamic parameters
+        const title = searchParams.get('title') || 'Hatem Noureddine';
+        const description = searchParams.get('subtitle') || searchParams.get('description') || 'Android & Kotlin Developer';
+        const label = searchParams.get('category') || searchParams.get('label') || 'Portfolio';
 
-    return new ImageResponse(
-        (
-            <div
-                style={{
-                    width: '100%',
-                    height: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                    fontFamily: 'system-ui, sans-serif',
-                    padding: '60px',
-                }}
-            >
-                {/* Background pattern */}
+        return new ImageResponse(
+            (
                 <div
                     style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        background: 'radial-gradient(circle at 20% 30%, rgba(255,255,255,0.1) 0%, transparent 50%)',
-                    }}
-                />
-
-                {/* Category badge */}
-                {category && (
-                    <div
-                        style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            backgroundColor: 'rgba(255, 255, 255, 0.2)',
-                            borderRadius: '9999px',
-                            padding: '12px 24px',
-                            marginBottom: '24px',
-                        }}
-                    >
-                        <span style={{ color: 'white', fontSize: '24px', fontWeight: 500 }}>
-                            {category}
-                        </span>
-                    </div>
-                )}
-
-                {/* Title */}
-                <h1
-                    style={{
-                        fontSize: title.length > 40 ? '48px' : '64px',
-                        fontWeight: 700,
-                        color: 'white',
-                        textAlign: 'center',
-                        margin: 0,
-                        lineHeight: 1.2,
-                        maxWidth: '900px',
-                        textShadow: '0 4px 8px rgba(0,0,0,0.2)',
-                    }}
-                >
-                    {title}
-                </h1>
-
-                {/* Subtitle */}
-                {subtitle && (
-                    <p
-                        style={{
-                            fontSize: '28px',
-                            color: 'rgba(255, 255, 255, 0.85)',
-                            textAlign: 'center',
-                            margin: '24px 0 0 0',
-                            maxWidth: '800px',
-                        }}
-                    >
-                        {subtitle}
-                    </p>
-                )}
-
-                {/* Logo/Brand */}
-                <div
-                    style={{
-                        position: 'absolute',
-                        bottom: '40px',
+                        height: '100%',
+                        width: '100%',
                         display: 'flex',
-                        alignItems: 'center',
-                        gap: '12px',
+                        flexDirection: 'column',
+                        alignItems: 'flex-start',
+                        justifyContent: 'center',
+                        backgroundColor: '#0f0f0f',
+                        backgroundImage: 'radial-gradient(circle at 25% 25%, #1a1a1a 0%, #0f0f0f 100%)',
+                        padding: '80px',
+                        fontFamily: 'sans-serif',
                     }}
                 >
+                    {/* Subtle background accent */}
                     <div
                         style={{
-                            width: '48px',
-                            height: '48px',
-                            borderRadius: '50%',
-                            backgroundColor: 'white',
+                            position: 'absolute',
+                            top: '-150px',
+                            right: '-150px',
+                            width: '500px',
+                            height: '500px',
+                            background: 'radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%)',
+                            borderRadius: '100%',
+                        }}
+                    />
+
+                    <div
+                        style={{
                             display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            fontWeight: 700,
-                            fontSize: '20px',
-                            color: '#667eea',
+                            flexDirection: 'column',
+                            gap: '20px',
+                            zIndex: 10,
                         }}
                     >
-                        HN
+                        <div
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '12px',
+                                marginBottom: '10px',
+                            }}
+                        >
+                            <div
+                                style={{
+                                    padding: '6px 14px',
+                                    backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                                    border: '1px solid rgba(99, 102, 241, 0.2)',
+                                    borderRadius: '20px',
+                                    color: '#818cf8',
+                                    fontSize: '20px',
+                                    fontWeight: 600,
+                                    textTransform: 'uppercase',
+                                    letterSpacing: '0.05em',
+                                }}
+                            >
+                                {label}
+                            </div>
+                        </div>
+
+                        <h1
+                            style={{
+                                fontSize: '72px',
+                                fontWeight: 800,
+                                color: 'white',
+                                lineHeight: 1.1,
+                                marginBottom: '10px',
+                                maxWidth: '900px',
+                                overflow: 'hidden',
+                                display: '-webkit-box',
+                                WebkitLineClamp: 2,
+                                WebkitBoxOrient: 'vertical',
+                            }}
+                        >
+                            {title}
+                        </h1>
+
+                        <p
+                            style={{
+                                fontSize: '32px',
+                                color: '#94a3b8',
+                                lineHeight: 1.4,
+                                maxWidth: '800px',
+                                margin: 0,
+                                overflow: 'hidden',
+                                display: '-webkit-box',
+                                WebkitLineClamp: 3,
+                                WebkitBoxOrient: 'vertical',
+                            }}
+                        >
+                            {description}
+                        </p>
                     </div>
-                    <span style={{ color: 'white', fontSize: '24px', fontWeight: 500 }}>
-                        hatem-noureddine.dev
-                    </span>
+
+                    <div
+                        style={{
+                            position: 'absolute',
+                            bottom: '80px',
+                            left: '80px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '15px',
+                        }}
+                    >
+                        <div
+                            style={{
+                                width: '40px',
+                                height: '40px',
+                                borderRadius: '8px',
+                                backgroundColor: '#6366f1',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                color: 'white',
+                                fontWeight: 'bold',
+                                fontSize: '24px',
+                            }}
+                        >
+                            H
+                        </div>
+                        <div
+                            style={{
+                                fontSize: '24px',
+                                fontWeight: 600,
+                                color: '#cbd5e1',
+                                letterSpacing: '-0.02em',
+                            }}
+                        >
+                            hatem-noureddine.dev
+                        </div>
+                    </div>
                 </div>
-            </div>
-        ),
-        {
-            width: WIDTH,
-            height: HEIGHT,
-        }
-    );
+            ),
+            {
+                width: 1200,
+                height: 630,
+            }
+        );
+    } catch (e: unknown) {
+        const message = e instanceof Error ? e.message : 'Unknown error';
+        console.log(message);
+        return new Response(`Failed to generate the image`, {
+            status: 500,
+        });
+    }
 }
