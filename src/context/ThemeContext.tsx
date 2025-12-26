@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState, useMemo, use } from "react";
+import { createContext, useEffect, useState, useMemo, use } from "react";
 
 type Theme = "dark" | "light" | "system";
 type FontSize = "small" | "medium" | "large";
