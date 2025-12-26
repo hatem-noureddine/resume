@@ -8,15 +8,15 @@
 - [x] Unit test coverage > 85% lines/statements
 - [x] Branch coverage > 75%
 - [ ] Increase branch coverage to 80%+ (requires extensive component mocking)
-- [ ] Fix SonarCloud deprecated action warning
-- [ ] Clean up unused variables flagged in lint warnings
 
-### CI/CD Improvements (In Progress)
+### CI/CD Improvements (Completed ✅)
 - [x] Visual regression tests (non-blocking due to OS differences)
 - [x] PR comment permissions fixed
 - [x] Vercel deployment with legacy-peer-deps
+- [x] SonarCloud action upgraded to v4
+- [x] Workflow permissions moved to job-level for security
+- [x] Unused variable lint warnings cleaned up
 - [ ] Platform-specific visual regression snapshots (Linux for CI)
-- [ ] Move workflow permissions from workflow-level to job-level
 
 ---
 
