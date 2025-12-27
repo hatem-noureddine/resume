@@ -16,7 +16,7 @@
 - [x] SonarCloud action upgraded to v4
 - [x] Workflow permissions moved to job-level for security
 - [x] Unused variable lint warnings cleaned up
-- [ ] Platform-specific visual regression snapshots (Linux for CI)
+- [x] Platform-specific visual regression snapshots (Linux for CI)
 
 ---
 
