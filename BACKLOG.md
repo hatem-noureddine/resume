@@ -1,142 +1,140 @@
 # Resume Portfolio - Feature Backlog
 
-> Last updated: December 26, 2025
+> Last updated: December 27, 2025
 
-## 🚀 High Priority
+## 🚀 Active Development
 
-### User Experience Enhancements
-- [x] **Dark/Light mode persistence** - Save theme preference to localStorage
-- [x] **Smooth scroll-to-section** - Add animated scrolling for navigation links
-- [x] **Loading skeleton components** - Add skeleton loaders for async content
-- [x] **Page transition animations** - Smooth transitions between routes
-- [x] **Scroll progress indicator** - Show reading progress bar at top
-- [x] **Theme Configuration** - Customize colors via Keystatic Admin
+### Testing & Quality (In Progress)
+- [x] Unit test coverage > 85% lines/statements
+- [x] Branch coverage > 75%
+- [ ] Increase branch coverage to 80%+ (requires extensive component mocking)
 
-### Content & Personalization
-- [x] **Dynamic resume data from CMS** - Integrate Keystatic for content management
-- [x] **Multiple CV versions** - Support different resume layouts (detailed vs compact)
-- [x] **Project case studies** - Detailed project pages with images and tech stack
-- [x] **Testimonials section** - Add client/colleague testimonials with carousel
-- [x] **Certifications showcase** - Display professional certifications with badges
-
-### SEO & Performance
-- [x] **Structured data (JSON-LD)** - Add schema markup for Person, Resume
-- [x] **Open Graph images** - Dynamic OG images for social sharing
-- [x] **Core Web Vitals optimization** - Improve LCP, FID, CLS scores
-- [x] **Preload critical assets** - Fonts, hero images, above-fold content
-- [x] **Service Worker caching** - Offline support for static content
+### CI/CD Improvements (Completed ✅)
+- [x] Visual regression tests (non-blocking due to OS differences)
+- [x] PR comment permissions fixed
+- [x] Vercel deployment with legacy-peer-deps
+- [x] SonarCloud action upgraded to v4
+- [x] Workflow permissions moved to job-level for security
+- [x] Unused variable lint warnings cleaned up
+- [x] Platform-specific visual regression snapshots (Linux for CI)
 
 ---
 
-## ⚡ Medium Priority
+## ✅ Recently Completed (December 2025)
 
-### Interactive Features
-- [x] **Interactive timeline** - Clickable/filterable experience timeline
-- [x] **Project filtering** - Filter by technology, year, or category
-- [x] **Contact form with validation** - Real form submission (Formspree/EmailJS)
-- [x] **Copy-to-clipboard** - Quick copy for email/phone
-- [x] **QR code generation** - Generate QR code linking to resume
+### Test Coverage Improvements
+- [x] Added `ai-service.ts` tests (100% coverage)
+- [x] Added `site.ts` config tests (100% coverage)
+- [x] Enhanced `api.ts` tests with retry logic, error handling
+- [x] Enhanced `PWAInstallPrompt.tsx` tests (iOS, standalone, localStorage, install flow)
+- [x] Enhanced `FloatingAccessibility.tsx` tests (menu toggle, click-outside, font size bounds, RTL)
+- [x] Excluded hard-to-test files from coverage (keystatic.ts, linkedin-sync.ts)
+- [x] 959 tests passing (up from 912)
 
-### Analytics & Insights
-- [x] Resume download tracking
-- [x] Section visibility tracking (`SectionTracker` component)
-- [x] Chat analytics
-- [x] QR Code interaction tracking
-- [x] **A/B testing support** - Test different layouts/content
+### Theme & Configuration
+- [x] High Contrast theme colors configurable via Keystatic Admin
+- [x] Dark mode High Contrast variant support
+- [x] Refactored theme CSS injection with `buildCssVars` helper
+- [x] Upgraded dependencies (Next.js 16.1.1, Storybook 10.1.10, Vitest 4.0.16)
 
-### Unit Testing & Coverage
-- [x] `SectionTracker` tests (100% component coverage)
-- [x] `QRCodeModal` tests (100% component coverage)
-- [x] Jest `fetch` polyfill and environment fixes
-- [x] Global mocks for `@keystatic/core`, `@vercel/analytics`
-- [x] (Remaining) Integration-level tests for `App`, `Experience`, `Testimonials`, `Certifications`
-
-### Accessibility Improvements
-- [x] **Skip to content link** - Keyboard navigation shortcut
-- [x] **High contrast mode** - Alternative color scheme option (WCAG AAA compliant)
-- [x] **Font size controls** - Allow users to adjust text size (small/medium/large)
-- [x] **Screen reader announcements** - Live regions for dynamic content (AnnouncerContext)
-- [x] **Focus trap for modals** - Proper focus management (useFocusTrap hook)
-
-### Developer Experience
-- [x] **Storybook documentation** - Component library with examples
-- [x] **E2E test coverage** - Playwright tests for critical flows
-- [x] **Visual regression tests** - Screenshot comparison testing
-- [x] **Bundle analyzer dashboard** - Size monitoring in CI
-- [x] **Lighthouse CI checks** - Performance gates in PR checks
-
----
-
-## 🎨 Low Priority / Nice to Have
-
-### Visual Enhancements
-- [x] **Particle background** - Subtle interactive particle effect (ParticleBackground component)
-- [x] **Cursor effects** - Custom cursor with hover trails (CustomCursor component)
-- [x] **3D elements** - Three.js integration for hero section
-- [x] **Scrollytelling Experience** - Interactive sticky timeline for Experience section
-- [x] **Glassmorphism cards** - Modern glass-effect UI elements (GlassCard enhanced)
-- [x] **Animated icons** - Lottie animations for all section icons (LottieAnimation + 12 animations)
-- [x] **Gradient animations** - Moving gradient backgrounds (AnimatedBackground enhanced)
-- [x] **Parallax scrolling** - Depth effect on scroll (ParallaxSection component)
-
-### Social Features
-- [x] **Social share buttons** - Share profile on social media
-- [x] **LinkedIn sync** - Auto-import from LinkedIn profile
-- [x] **GitHub activity widget** - Show recent commits/contributions (GitHubActivity component)
-- [x] **Blog RSS feed** - Syndicate blog content (/feed.xml)
-- [x] **Newsletter signup** - Mailchimp/ConvertKit/Local API integration
-
-### Internationalization
-- [x] **Additional languages** - English, French, Spanish support
-- [x] **RTL layout support** - Right-to-left for Arabic
-- [x] **Auto-detect locale** - Browser language detection (via middleware/hook)
-- [x] **Language-specific formatting** - Dates, numbers, etc.
-
-### Advanced Features
-- [x] **PWA support** - Installable web app with manifest (PWAInstallPrompt component)
-- [x] **Voice navigation** - Web Speech API commands (VoiceNavigation component)
-- [x] **AI resume suggestions** - Content improvement recommendations (`/admin/assist`)
-
----
-
-## ✅ Completed
-
-### Code Quality (Dec 2025)
-- [x] Type safety improvements - strict locale types, no `any`
+### Code Quality
+- [x] Type safety improvements - strict locale types
 - [x] Shared test utilities - `test/utils.tsx`
 - [x] Centralized animation system - `lib/animations.ts`
-- [x] API abstraction layer - `lib/api.ts`
+- [x] API abstraction layer with retry logic - `lib/api.ts`
 - [x] Barrel exports for all modules
 
-### Accessibility (Dec 2025)
-- [x] Keyboard support for interactive elements
-- [x] ARIA roles and labels
-- [x] Focus states and indicators
-- [x] Reduced motion support
-- [x] One-click Copy-to-Clipboard utility
-- [x] Professional skills visibility animations
-- [x] One-click Copy-to-Clipboard for contact details
-- [x] Fixed syntax errors in production components
+### Accessibility
+- [x] Skip to content link
+- [x] High contrast mode (WCAG AAA compliant)
+- [x] Font size controls (small/medium/large)
+- [x] Screen reader announcements (AnnouncerContext)
+- [x] Focus trap for modals (useFocusTrap hook)
+- [x] Keyboard support for all interactive elements
 
-### Performance (Dec 2025)
+### Performance
 - [x] Lazy-loaded Lottie animations
 - [x] Optimized image loading
 - [x] Bundle size monitoring
-
-### Bug Fixes (Dec 2025)
-- [x] Professional skills visibility (animation variant fix)
-- [x] AnimatedCounter test stability (CI memory issues)
-- [x] Removed tracked gitignored files from remote
-
-### Theme & Configuration (Dec 26, 2025)
-- [x] High Contrast theme colors configurable via Keystatic Admin
-- [x] Dark mode High Contrast variant support
-- [x] Refactored theme CSS injection for reduced complexity
-- [x] Upgraded all dependencies to latest versions (Next.js 16.1.1, Storybook 10.1.10, Vitest 4.0.16)
+- [x] Service Worker caching for offline support
+- [x] Core Web Vitals optimization
 
 ---
 
-## 📋 Technical Debt
+## ✅ Completed Features
+
+### User Experience
+- [x] Dark/Light mode persistence with localStorage
+- [x] Smooth scroll-to-section with animation
+- [x] Loading skeleton components
+- [x] Page transition animations
+- [x] Scroll progress indicator
+- [x] Theme customization via Keystatic Admin
+
+### Content & CMS
+- [x] Dynamic resume data from Keystatic CMS
+- [x] Multiple CV versions support
+- [x] Project case studies with images and tech stack
+- [x] Testimonials section with carousel
+- [x] Certifications showcase with badges
+
+### SEO & Performance
+- [x] Structured data (JSON-LD) for Person, Resume
+- [x] Dynamic Open Graph images
+- [x] Core Web Vitals optimization
+- [x] Preload critical assets
+- [x] Service Worker caching
+
+### Interactive Features
+- [x] Interactive timeline
+- [x] Project filtering by technology, year, category
+- [x] Contact form with validation (Formspree)
+- [x] Copy-to-clipboard for email/phone
+- [x] QR code generation
+
+### Analytics
+- [x] Resume download tracking
+- [x] Section visibility tracking
+- [x] Chat analytics
+- [x] A/B testing support
+
+### Developer Experience
+- [x] Storybook documentation
+- [x] E2E test coverage (Playwright)
+- [x] Visual regression tests
+- [x] Bundle analyzer dashboard
+- [x] Lighthouse CI checks
+
+### Visual Enhancements
+- [x] Particle background
+- [x] Custom cursor effects
+- [x] 3D elements (Three.js)
+- [x] Glassmorphism cards
+- [x] Animated Lottie icons
+- [x] Gradient animations
+- [x] Parallax scrolling
+
+### Social Features
+- [x] Social share buttons
+- [x] LinkedIn sync
+- [x] GitHub activity widget
+- [x] Blog RSS feed
+- [x] Newsletter signup
+
+### Internationalization
+- [x] English, French, Spanish, Arabic support
+- [x] RTL layout support
+- [x] Auto-detect locale
+- [x] Language-specific formatting
+
+### Advanced Features
+- [x] PWA support (installable web app)
+- [x] Voice navigation (Web Speech API)
+- [x] AI resume suggestions (`/admin/assist`)
+
+---
+
+## 📋 Technical Debt (All Resolved ✅)
 
 | Issue | Priority | Status |
 |-------|----------|--------|
@@ -150,9 +148,40 @@
 
 ## 💡 Ideas for Future Consideration
 
-- **AR Business Card** - Augmented reality experience with camera
-- **Voice-controlled navigation** - "Show me your projects"
-- **AI cover letter generator** - Generate tailored cover letters
-- **Interview scheduler** - Calendly integration
-- **Skills assessment quiz** - Interactive tech knowledge test
-- **Collaborative resume builder** - Multi-user editing for teams
+### 🔧 Quick Wins (Low Effort, High Impact)
+- [x] **Add dependency caching in CI** - Faster CI runs (30-50% faster)
+- [x] **Add bundle size budget checks** - Catch size regressions in PRs (500KB chunk / 2MB total)
+- [x] **Fix remaining SonarQube warnings** - Refactored ThemeContext.tsx, cleaner internal naming
+- [x] **Print stylesheet** - Clean print version of resume optimized for A4/Letter
+
+### 📊 Test Coverage Enhancements
+- [ ] **Increase branch coverage to 80%** - Focus on Hero.tsx (62%), NewsletterForm.tsx (72%), markdown-components.tsx (46%)
+- [ ] **Integration tests for key flows** - Contact form, language switching, theme persistence
+- [ ] **E2E tests for admin flows** - CMS editing, AI suggestions
+
+### 🚀 Performance Improvements
+- [ ] **Image optimization** - Convert remaining images to WebP/AVIF, add blur placeholders
+- [ ] **Code splitting** - Lazy load admin sections and heavy 3D components
+- [ ] **Aggressive caching headers** - Static assets, API responses with SWR
+
+### 🎨 UX/UI Enhancements
+- [ ] **Skeleton loading improvements** - Add shimmer effects, smoother transitions
+- [ ] **Micro-interactions** - Haptic-like feedback on buttons, subtle hover animations
+- [ ] **Mobile navigation improvements** - Better touch targets, swipe gestures
+
+### 🔒 Security & Reliability
+- [ ] **Error tracking integration** - Sentry or similar for production monitoring
+- [ ] **Rate limiting** - API routes protection (contact form, newsletter)
+
+---
+
+### Near-Term (Completed ✅)
+- [x] **Cross-browser visual snapshots** - Platform-specific snapshot paths configured
+- [x] **Upgrade SonarCloud action** - Migrated to `sonarqube-scan-action@v4`
+- [x] **Performance monitoring dashboard** - Real-time Core Web Vitals at `/admin/performance`
+
+### Long-Term
+- [ ] **AI cover letter generator** - Generate tailored cover letters
+- [ ] **Interview scheduler** - Calendly integration
+- [ ] **Live resume preview** - Real-time preview while editing in CMS
+

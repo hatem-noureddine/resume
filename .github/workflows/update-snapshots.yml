@@ -1,0 +1,60 @@
+name: Update Visual Snapshots
+
+on:
+    workflow_dispatch:
+        inputs:
+            update_mode:
+                description: "Snapshot update mode"
+                required: true
+                default: "missing"
+                type: choice
+                options:
+                    - missing
+                    - all
+
+permissions:
+    contents: write
+    pull-requests: write
+
+env:
+    NODE_VERSION: "20"
+
+jobs:
+    update-snapshots:
+        name: Update Playwright Snapshots
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: ${{ env.NODE_VERSION }}
+
+            - name: Install dependencies
+              run: npm install
+
+            - name: Install Playwright browsers
+              run: npx playwright install --with-deps chromium
+
+            - name: Build application
+              run: npm run build
+
+            - name: Update Playwright snapshots
+              run: |
+                  if [ "${{ github.event.inputs.update_mode }}" = "all" ]; then
+                    npx playwright test --update-snapshots
+                  else
+                    npx playwright test --update-snapshots
+                  fi
+              env:
+                  CI: true
+
+            - name: Commit updated snapshots
+              run: |
+                  git config --local user.email "github-actions[bot]@users.noreply.github.com"
+                  git config --local user.name "github-actions[bot]"
+                  git add e2e/**/*-snapshots/**
+                  git diff --staged --quiet || git commit -m "chore: update visual regression snapshots [skip ci]"
+                  git push

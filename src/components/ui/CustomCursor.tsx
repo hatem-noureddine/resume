@@ -4,10 +4,6 @@ import { useEffect, useState, useCallback } from "react";
 import { motion, useSpring, useMotionValue } from "framer-motion";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
-interface Position {
-    x: number;
-    y: number;
-}
 
 /**
  * Custom cursor component with smooth trailing effect.

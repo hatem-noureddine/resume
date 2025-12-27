@@ -49,7 +49,7 @@ function customRender(
     const {
         withLanguage = false,
         withTheme = false,
-        initialLanguage = 'en',
+        initialLanguage: _initialLanguage = 'en',
         ...renderOptions
     } = options;
 

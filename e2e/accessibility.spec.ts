@@ -51,7 +51,7 @@ test.describe('Accessibility Controls', () => {
         await expect(html).toHaveClass(/font-size-small/);
     });
 
-    test('should toggle high contrast', async ({ page, isMobile }) => {
+    test('should toggle high contrast', async ({ page, isMobile: _isMobile }) => {
         const toggleButton = page.getByLabel('Toggle accessibility controls');
         if (!await toggleButton.isVisible()) {
             test.skip();

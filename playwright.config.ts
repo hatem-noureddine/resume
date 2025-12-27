@@ -1,4 +1,8 @@
 import { defineConfig, devices } from '@playwright/test';
+import os from 'node:os';
+
+// Determine platform for snapshot naming
+const platform = os.platform(); // 'darwin', 'linux', 'win32'
 
 export default defineConfig({
     testDir: './e2e',
@@ -12,11 +16,15 @@ export default defineConfig({
         ['json', { outputFile: 'reports/playwright-results.json' }],
         ['junit', { outputFile: 'playwright-report/results.xml' }]
     ],
+    // Update screenshots only when running with --update-snapshots
+    updateSnapshots: 'missing',
     expect: {
         toHaveScreenshot: {
-            pathTemplate: '{testDir}/{testFileDir}/{testFileName}-snapshots/{arg}-{projectName}{ext}',
+            // Include platform in path to allow different baselines for different OS
+            pathTemplate: '{testDir}/{testFileDir}/{testFileName}-snapshots/{arg}-{projectName}-{platform}{ext}',
         },
     },
+    snapshotPathTemplate: '{testDir}/{testFileDir}/{testFileName}-snapshots/{arg}-{projectName}-' + platform + '{ext}',
     use: {
         baseURL: process.env.BASE_URL || 'http://localhost:3002/',
         trace: 'on-first-retry',

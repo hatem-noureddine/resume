@@ -60,7 +60,8 @@
     "remark-gfm": "^4.0.1",
     "tailwind-merge": "^3.4.0",
     "three": "^0.182.0",
-    "util": "^0.12.5"
+    "util": "^0.12.5",
+    "web-vitals": "^5.1.0"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.11.0",

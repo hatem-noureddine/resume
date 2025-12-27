@@ -20,13 +20,11 @@ interface AssistantClientProps {
 
 export function AssistantClient({ initialExperience, initialProjects }: AssistantClientProps) {
     const [selectedItem, setSelectedItem] = useState<Item | null>(null);
-    const [selectedType, setSelectedType] = useState<'experience' | 'project' | null>(null);
     const [suggestions, setSuggestions] = useState<string[]>([]);
     const [isLoading, setIsLoading] = useState(false);
 
     const handleAnalyze = async (item: Item, type: 'experience' | 'project') => {
         setSelectedItem(item);
-        setSelectedType(type);
         setIsLoading(true);
         setSuggestions([]);
 

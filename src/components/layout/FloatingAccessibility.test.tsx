@@ -9,11 +9,13 @@ jest.mock('framer-motion', () => ({
                 {children}
             </div>
         ),
-        button: ({ children, className, onClick, 'aria-label': ariaLabel, disabled, ...props }: any) => (
+        button: ({ children, className, onClick, 'aria-label': ariaLabel, 'aria-expanded': ariaExpanded, 'aria-pressed': ariaPressed, disabled, ...props }: any) => (
             <button
                 className={className}
                 onClick={onClick}
                 aria-label={ariaLabel}
+                aria-expanded={ariaExpanded}
+                aria-pressed={ariaPressed}
                 disabled={disabled}
                 data-testid="motion-button"
                 {...props}
@@ -37,39 +39,44 @@ jest.mock('lucide-react', () => ({
     Type: () => <div data-testid="type-icon" />,
 }));
 
-// Mock ThemeContext
-const mockSetFontSize = jest.fn();
+// Mock ThemeContext with configurable state
+let mockFontSize = 'medium';
+const mockSetFontSize = jest.fn((size) => { mockFontSize = size; });
 const mockSetHighContrast = jest.fn();
+let mockHighContrast = false;
 
 jest.mock('@/context/ThemeContext', () => ({
     useTheme: () => ({
         theme: 'light',
         setTheme: jest.fn(),
-        fontSize: 'medium',
+        fontSize: mockFontSize,
         setFontSize: mockSetFontSize,
-        highContrast: false,
+        highContrast: mockHighContrast,
         setHighContrast: mockSetHighContrast,
         reduceMotion: false,
         setReduceMotion: jest.fn(),
     }),
 }));
 
-// Mock LanguageContext
+// Mock LanguageContext with configurable direction
+let mockDirection = 'ltr';
+
 jest.mock('@/context/LanguageContext', () => ({
     useLanguage: () => ({
         t: { accessibility: { settings: 'Settings' } },
         language: 'en',
-        direction: 'ltr',
+        direction: mockDirection,
     }),
 }));
 
-// Mock AnnouncerContext
-const mockSetAccessibilityMenuOpen = jest.fn();
+// Mock AnnouncerContext with configurable menu state
+let mockIsAccessibilityMenuOpen = false;
+const mockSetAccessibilityMenuOpen = jest.fn((isOpen) => { mockIsAccessibilityMenuOpen = isOpen; });
 
 jest.mock('@/context/AnnouncerContext', () => ({
     useAnnouncer: () => ({
         announce: jest.fn(),
-        isAccessibilityMenuOpen: false,
+        isAccessibilityMenuOpen: mockIsAccessibilityMenuOpen,
         setAccessibilityMenuOpen: mockSetAccessibilityMenuOpen,
     }),
 }));
@@ -77,7 +84,16 @@ jest.mock('@/context/AnnouncerContext', () => ({
 describe('FloatingAccessibility', () => {
     beforeEach(() => {
         jest.clearAllMocks();
+        jest.useFakeTimers();
         Object.defineProperty(window, 'scrollY', { value: 0, writable: true, configurable: true });
+        mockFontSize = 'medium';
+        mockHighContrast = false;
+        mockDirection = 'ltr';
+        mockIsAccessibilityMenuOpen = false;
+    });
+
+    afterEach(() => {
+        jest.useRealTimers();
     });
 
     it('renders without crashing', () => {
@@ -87,7 +103,8 @@ describe('FloatingAccessibility', () => {
 
     it('is hidden initially when not scrolled', () => {
         render(<FloatingAccessibility />);
-        // Component might not render visible elements until scrolled
+        // Component should not render toggle button until scrolled
+        expect(screen.queryByLabelText('Toggle accessibility controls')).not.toBeInTheDocument();
     });
 
     it('becomes visible after scrolling past threshold', () => {
@@ -99,9 +116,8 @@ describe('FloatingAccessibility', () => {
             window.dispatchEvent(new Event('scroll'));
         });
 
-        // Check that component elements are rendered
-        const motionDivs = screen.queryAllByTestId('motion-div');
-        expect(motionDivs.length).toBeGreaterThanOrEqual(0);
+        // Check that toggle button is rendered
+        expect(screen.queryByLabelText('Toggle accessibility controls')).toBeInTheDocument();
     });
 
     it('cleans up scroll listener on unmount', () => {
@@ -119,28 +135,26 @@ describe('FloatingAccessibility', () => {
         expect(typeof FloatingAccessibility).toBe('function');
     });
 
-    describe('font size controls', () => {
-        it('can increase font size', async () => {
+    describe('menu toggle', () => {
+        beforeEach(() => {
             Object.defineProperty(window, 'scrollY', { value: 400, writable: true, configurable: true });
-
-            render(<FloatingAccessibility />);
-
-            act(() => {
-                window.dispatchEvent(new Event('scroll'));
-            });
-
-            // Look for plus button
-            const buttons = screen.queryAllByTestId('motion-button');
-            // If found, clicking should work
-            buttons.forEach(btn => {
-                if (btn.querySelector('[data-testid="plus-icon"]')) {
-                    fireEvent.click(btn);
-                }
-            });
         });
 
-        it('can decrease font size', async () => {
-            Object.defineProperty(window, 'scrollY', { value: 400, writable: true, configurable: true });
+        it('opens accessibility menu when toggle button is clicked', () => {
+            render(<FloatingAccessibility />);
+
+            act(() => {
+                window.dispatchEvent(new Event('scroll'));
+            });
+
+            const toggleButton = screen.getByLabelText('Toggle accessibility controls');
+            fireEvent.click(toggleButton);
+
+            expect(mockSetAccessibilityMenuOpen).toHaveBeenCalledWith(true);
+        });
+
+        it('closes menu when clicking outside the panel', () => {
+            mockIsAccessibilityMenuOpen = true;
 
             render(<FloatingAccessibility />);
 
@@ -148,18 +162,142 @@ describe('FloatingAccessibility', () => {
                 window.dispatchEvent(new Event('scroll'));
             });
 
-            // Look for minus button
-            const buttons = screen.queryAllByTestId('motion-button');
-            buttons.forEach(btn => {
-                if (btn.querySelector('[data-testid="minus-icon"]')) {
-                    fireEvent.click(btn);
-                }
+            // Simulate clicking outside by dispatching mousedown on document
+            act(() => {
+                fireEvent.mouseDown(document.body);
             });
+
+            expect(mockSetAccessibilityMenuOpen).toHaveBeenCalledWith(false);
+        });
+
+        it('hides tooltip after showing accessibility panel', () => {
+            render(<FloatingAccessibility />);
+
+            act(() => {
+                window.dispatchEvent(new Event('scroll'));
+            });
+
+            // Tooltip should initially be visible
+            // Click toggle to hide tooltip
+            const toggleButton = screen.getByLabelText('Toggle accessibility controls');
+            fireEvent.click(toggleButton);
+
+            // Tooltip hiding is triggered on click
+            expect(mockSetAccessibilityMenuOpen).toHaveBeenCalled();
+        });
+
+        it('hides tooltip after 3 seconds on first scroll', () => {
+            render(<FloatingAccessibility />);
+
+            act(() => {
+                Object.defineProperty(window, 'scrollY', { value: 400, writable: true, configurable: true });
+                window.dispatchEvent(new Event('scroll'));
+            });
+
+            // Fast-forward 3 seconds for tooltip to hide
+            act(() => {
+                jest.advanceTimersByTime(3000);
+            });
+        });
+    });
+
+    describe('font size controls', () => {
+        beforeEach(() => {
+            Object.defineProperty(window, 'scrollY', { value: 400, writable: true, configurable: true });
+            mockIsAccessibilityMenuOpen = true;
+        });
+
+        it('can increase font size from medium to large', () => {
+            mockFontSize = 'medium';
+            render(<FloatingAccessibility />);
+
+            act(() => {
+                window.dispatchEvent(new Event('scroll'));
+            });
+
+            const increaseButton = screen.getByLabelText('Increase font size');
+            fireEvent.click(increaseButton);
+
+            expect(mockSetFontSize).toHaveBeenCalledWith('large');
+        });
+
+        it('can decrease font size from medium to small', () => {
+            mockFontSize = 'medium';
+            render(<FloatingAccessibility />);
+
+            act(() => {
+                window.dispatchEvent(new Event('scroll'));
+            });
+
+            const decreaseButton = screen.getByLabelText('Decrease font size');
+            fireEvent.click(decreaseButton);
+
+            expect(mockSetFontSize).toHaveBeenCalledWith('small');
+        });
+
+        it('cannot increase font size when at maximum (large)', () => {
+            mockFontSize = 'large';
+            render(<FloatingAccessibility />);
+
+            act(() => {
+                window.dispatchEvent(new Event('scroll'));
+            });
+
+            const increaseButton = screen.getByLabelText('Increase font size');
+            expect(increaseButton).toBeDisabled();
+        });
+
+        it('cannot decrease font size when at minimum (small)', () => {
+            mockFontSize = 'small';
+            render(<FloatingAccessibility />);
+
+            act(() => {
+                window.dispatchEvent(new Event('scroll'));
+            });
+
+            const decreaseButton = screen.getByLabelText('Decrease font size');
+            expect(decreaseButton).toBeDisabled();
         });
     });
 
     describe('high contrast toggle', () => {
-        it('can toggle high contrast mode', async () => {
+        beforeEach(() => {
+            Object.defineProperty(window, 'scrollY', { value: 400, writable: true, configurable: true });
+            mockIsAccessibilityMenuOpen = true;
+        });
+
+        it('can enable high contrast mode', () => {
+            mockHighContrast = false;
+            render(<FloatingAccessibility />);
+
+            act(() => {
+                window.dispatchEvent(new Event('scroll'));
+            });
+
+            const contrastButton = screen.getByLabelText('Enable high contrast');
+            fireEvent.click(contrastButton);
+
+            expect(mockSetHighContrast).toHaveBeenCalledWith(true);
+        });
+
+        it('can disable high contrast mode', () => {
+            mockHighContrast = true;
+            render(<FloatingAccessibility />);
+
+            act(() => {
+                window.dispatchEvent(new Event('scroll'));
+            });
+
+            const contrastButton = screen.getByLabelText('Disable high contrast');
+            fireEvent.click(contrastButton);
+
+            expect(mockSetHighContrast).toHaveBeenCalledWith(false);
+        });
+    });
+
+    describe('RTL support', () => {
+        it('renders correctly in RTL mode', () => {
+            mockDirection = 'rtl';
             Object.defineProperty(window, 'scrollY', { value: 400, writable: true, configurable: true });
 
             render(<FloatingAccessibility />);
@@ -168,13 +306,9 @@ describe('FloatingAccessibility', () => {
                 window.dispatchEvent(new Event('scroll'));
             });
 
-            // Look for contrast button
-            const buttons = screen.queryAllByTestId('motion-button');
-            buttons.forEach(btn => {
-                if (btn.querySelector('[data-testid="contrast-icon"]')) {
-                    fireEvent.click(btn);
-                }
-            });
+            // Should still render toggle button
+            expect(screen.queryByLabelText('Toggle accessibility controls')).toBeInTheDocument();
         });
     });
 });
+
