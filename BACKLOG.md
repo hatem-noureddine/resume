@@ -1,6 +1,6 @@
 # Resume Portfolio - Feature Backlog
 
-> Last updated: December 26, 2025
+> Last updated: December 27, 2025
 
 ## 🚀 Active Development
 
@@ -148,12 +148,40 @@
 
 ## 💡 Ideas for Future Consideration
 
+### 🔧 Quick Wins (Low Effort, High Impact)
+- [ ] **Add dependency caching in CI** - Faster CI runs (30-50% faster)
+- [ ] **Add bundle size budget checks** - Catch size regressions in PRs
+- [ ] **Fix remaining SonarQube warnings** - Cleaner codebase, better maintainability
+- [ ] **Print stylesheet** - Clean print version of resume optimized for A4/Letter
+
+### 📊 Test Coverage Enhancements
+- [ ] **Increase branch coverage to 80%** - Focus on Hero.tsx (62%), NewsletterForm.tsx (72%), markdown-components.tsx (46%)
+- [ ] **Integration tests for key flows** - Contact form, language switching, theme persistence
+- [ ] **E2E tests for admin flows** - CMS editing, AI suggestions
+
+### 🚀 Performance Improvements
+- [ ] **Image optimization** - Convert remaining images to WebP/AVIF, add blur placeholders
+- [ ] **Code splitting** - Lazy load admin sections and heavy 3D components
+- [ ] **Aggressive caching headers** - Static assets, API responses with SWR
+
+### 🎨 UX/UI Enhancements
+- [ ] **Skeleton loading improvements** - Add shimmer effects, smoother transitions
+- [ ] **Micro-interactions** - Haptic-like feedback on buttons, subtle hover animations
+- [ ] **Mobile navigation improvements** - Better touch targets, swipe gestures
+
+### 🔒 Security & Reliability
+- [ ] **Error tracking integration** - Sentry or similar for production monitoring
+- [ ] **Rate limiting** - API routes protection (contact form, newsletter)
+
+---
+
 ### Near-Term
-- **Cross-browser visual snapshots** - Generate snapshots on CI environment
-- **Upgrade SonarCloud action** - Migrate to `sonarqube-scan-action`
-- **Performance monitoring dashboard** - Real-time Core Web Vitals
+- [ ] **Cross-browser visual snapshots** - Generate snapshots on CI environment
+- [ ] **Upgrade SonarCloud action** - Migrate to `sonarqube-scan-action`
+- [ ] **Performance monitoring dashboard** - Real-time Core Web Vitals
 
 ### Long-Term
-- **AI cover letter generator** - Generate tailored cover letters
-- **Interview scheduler** - Calendly integration
-- **Live resume preview** - Real-time preview while editing in CMS
+- [ ] **AI cover letter generator** - Generate tailored cover letters
+- [ ] **Interview scheduler** - Calendly integration
+- [ ] **Live resume preview** - Real-time preview while editing in CMS
+
