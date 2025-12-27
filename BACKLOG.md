@@ -151,7 +151,7 @@
 ### 🔧 Quick Wins (Low Effort, High Impact)
 - [x] **Add dependency caching in CI** - Faster CI runs (30-50% faster)
 - [x] **Add bundle size budget checks** - Catch size regressions in PRs (500KB chunk / 2MB total)
-- [ ] **Fix remaining SonarQube warnings** - Cleaner codebase, better maintainability
+- [x] **Fix remaining SonarQube warnings** - Refactored ThemeContext.tsx, cleaner internal naming
 - [x] **Print stylesheet** - Clean print version of resume optimized for A4/Letter
 
 ### 📊 Test Coverage Enhancements
