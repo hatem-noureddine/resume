@@ -175,10 +175,10 @@
 
 ---
 
-### Near-Term
-- [ ] **Cross-browser visual snapshots** - Generate snapshots on CI environment
-- [ ] **Upgrade SonarCloud action** - Migrate to `sonarqube-scan-action`
-- [ ] **Performance monitoring dashboard** - Real-time Core Web Vitals
+### Near-Term (Completed ✅)
+- [x] **Cross-browser visual snapshots** - Platform-specific snapshot paths configured
+- [x] **Upgrade SonarCloud action** - Migrated to `sonarqube-scan-action@v4`
+- [x] **Performance monitoring dashboard** - Real-time Core Web Vitals at `/admin/performance`
 
 ### Long-Term
 - [ ] **AI cover letter generator** - Generate tailored cover letters
