@@ -149,10 +149,10 @@
 ## 💡 Ideas for Future Consideration
 
 ### 🔧 Quick Wins (Low Effort, High Impact)
-- [ ] **Add dependency caching in CI** - Faster CI runs (30-50% faster)
-- [ ] **Add bundle size budget checks** - Catch size regressions in PRs
+- [x] **Add dependency caching in CI** - Faster CI runs (30-50% faster)
+- [x] **Add bundle size budget checks** - Catch size regressions in PRs (500KB chunk / 2MB total)
 - [ ] **Fix remaining SonarQube warnings** - Cleaner codebase, better maintainability
-- [ ] **Print stylesheet** - Clean print version of resume optimized for A4/Letter
+- [x] **Print stylesheet** - Clean print version of resume optimized for A4/Letter
 
 ### 📊 Test Coverage Enhancements
 - [ ] **Increase branch coverage to 80%** - Focus on Hero.tsx (62%), NewsletterForm.tsx (72%), markdown-components.tsx (46%)

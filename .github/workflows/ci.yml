@@ -32,6 +32,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
 
       - name: Install dependencies
         run: npm install
@@ -106,6 +107,30 @@ jobs:
           # Export for next steps
           echo "REPORT_PATH=$REPORT_FILE" >> $GITHUB_ENV
 
+      - name: Check Bundle Size Budget
+        run: |
+          # Define size budgets (in bytes)
+          MAX_JS_CHUNK_SIZE=500000      # 500KB per chunk
+          MAX_TOTAL_JS_SIZE=2000000     # 2MB total JS
+
+          echo "### 📏 Bundle Size Budget Check" >> $GITHUB_STEP_SUMMARY
+
+          # Check largest JS chunk
+          LARGEST_CHUNK=$(find .next/static -name "*.js" -exec du -b {} + 2>/dev/null | sort -rn | head -1 | cut -f1)
+          if [ -n "$LARGEST_CHUNK" ] && [ "$LARGEST_CHUNK" -gt "$MAX_JS_CHUNK_SIZE" ]; then
+            echo "⚠️ **Warning:** Largest JS chunk ($(numfmt --to=iec $LARGEST_CHUNK)) exceeds budget ($(numfmt --to=iec $MAX_JS_CHUNK_SIZE))" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "✅ Largest chunk within budget" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          # Check total JS size
+          TOTAL_JS=$(find .next/static -name "*.js" -exec du -cb {} + 2>/dev/null | tail -1 | cut -f1)
+          if [ -n "$TOTAL_JS" ] && [ "$TOTAL_JS" -gt "$MAX_TOTAL_JS_SIZE" ]; then
+            echo "⚠️ **Warning:** Total JS ($(numfmt --to=iec $TOTAL_JS)) exceeds budget ($(numfmt --to=iec $MAX_TOTAL_JS_SIZE))" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "✅ Total JS size within budget" >> $GITHUB_STEP_SUMMARY
+          fi
+
       - name: Post PR Comment
         uses: marocchino/sticky-pull-request-comment@v2
         if: github.event_name == 'pull_request'
@@ -141,6 +166,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
 
       - name: Download build artifact
         uses: actions/download-artifact@v4
