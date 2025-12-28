@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { onCLS, onFCP, onINP, onLCP, onTTFB, type Metric } from "web-vitals";
-import { Activity, Gauge, Clock, Zap, Eye } from "lucide-react";
+import { Activity, Gauge, Clock, Zap, Eye, Download } from "lucide-react";
 
 interface VitalsData {
     CLS: number | null;
@@ -188,10 +188,58 @@ export function PerformanceDashboard() {
         return "text-red-500";
     };
 
+    // Export to JSON
+    const exportToJSON = useCallback(() => {
+        const data = {
+            timestamp: lastUpdated?.toISOString() || new Date().toISOString(),
+            overallScore,
+            metrics: Object.entries(vitals).reduce((acc, [key, value]) => {
+                const info = VITALS_INFO[key as keyof VitalsData];
+                return {
+                    ...acc,
+                    [key]: {
+                        value,
+                        unit: info.unit,
+                        status: value !== null ? getVitalStatus(value, info) : null,
+                        threshold: { good: info.good, needsImprovement: info.needsImprovement }
+                    }
+                };
+            }, {})
+        };
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `web-vitals-${new Date().toISOString().split('T')[0]}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+    }, [vitals, lastUpdated, overallScore]);
+
+    // Export to CSV
+    const exportToCSV = useCallback(() => {
+        const headers = ['Metric', 'Value', 'Unit', 'Status', 'Good Threshold', 'Needs Improvement Threshold'];
+        const rows = Object.entries(vitals).map(([key, value]) => {
+            const info = VITALS_INFO[key as keyof VitalsData];
+            const status = value !== null ? getVitalStatus(value, info) : 'not measured';
+            return [key, value ?? 'N/A', info.unit, status, info.good, info.needsImprovement];
+        });
+        const csvContent = [
+            headers.join(','),
+            ...rows.map(row => row.join(','))
+        ].join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `web-vitals-${new Date().toISOString().split('T')[0]}.csv`;
+        a.click();
+        URL.revokeObjectURL(url);
+    }, [vitals]);
+
     return (
         <div className="w-full rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm shadow-lg">
             <div className="p-6">
-                <div className="flex items-center justify-between mb-6">
+                <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
                     <div>
                         <h2 className="text-xl font-bold flex items-center gap-2">
                             <Activity className="w-6 h-6 text-primary" />
@@ -201,14 +249,36 @@ export function PerformanceDashboard() {
                             Real-time performance monitoring
                         </p>
                     </div>
-                    <div className="text-right">
-                        {overallScore !== null && (
-                            <div className={`text-3xl font-bold ${getScoreColor(overallScore)}`}>
-                                {overallScore}%
+                    <div className="flex items-center gap-4">
+                        {/* Export Buttons */}
+                        <div className="flex gap-2">
+                            <button
+                                onClick={exportToJSON}
+                                className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-secondary/50 hover:bg-secondary rounded-lg transition-colors"
+                                title="Export as JSON"
+                            >
+                                <Download className="w-3.5 h-3.5" />
+                                JSON
+                            </button>
+                            <button
+                                onClick={exportToCSV}
+                                className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-secondary/50 hover:bg-secondary rounded-lg transition-colors"
+                                title="Export as CSV"
+                            >
+                                <Download className="w-3.5 h-3.5" />
+                                CSV
+                            </button>
+                        </div>
+                        {/* Score */}
+                        <div className="text-right">
+                            {overallScore !== null && (
+                                <div className={`text-3xl font-bold ${getScoreColor(overallScore)}`}>
+                                    {overallScore}%
+                                </div>
+                            )}
+                            <div className="text-xs text-muted-foreground">
+                                {measuredCount}/5 metrics measured
                             </div>
-                        )}
-                        <div className="text-xs text-muted-foreground">
-                            {measuredCount}/5 metrics measured
                         </div>
                     </div>
                 </div>

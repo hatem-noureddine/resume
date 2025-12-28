@@ -200,14 +200,14 @@
 ### Performance Dashboard Enhancements
 - [ ] **Historical data** - Store and display performance trends over time
 - [ ] **Page-specific metrics** - Select which page to measure
-- [ ] **Export functionality** - Download metrics as JSON/CSV
+- [x] **Export functionality** - Download metrics as JSON/CSV
 - [ ] **Performance alerts** - Visual warning when metrics degrade
 - [ ] **Comparison mode** - Compare current vs baseline metrics
 
 ### AI Assistant Improvements
 - [ ] **Bulk analysis** - Analyze all experience/project items at once
 - [ ] **Custom prompts** - Let users customize the AI suggestions
-- [ ] **Copy to clipboard** - Easy copy of generated suggestions
+- [x] **Copy to clipboard** - Easy copy of generated suggestions
 - [ ] **Suggestion history** - Save and view previous suggestions
 - [ ] **Apply suggestions** - One-click apply to Keystatic content
 
