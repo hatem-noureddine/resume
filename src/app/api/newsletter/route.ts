@@ -1,10 +1,18 @@
 
 import { NextResponse } from 'next/server';
+import { checkRateLimit, rateLimitedResponse, getClientIP, RATE_LIMITS } from '@/lib/rate-limit';
 
 // RFC 5322 simplified email regex for better validation
 const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
 export async function POST(request: Request) {
+    // Rate limiting: 2 requests per hour per IP
+    const clientIP = getClientIP(request);
+    const rateLimitResult = checkRateLimit(`newsletter:${clientIP}`, RATE_LIMITS.newsletter);
+    if (!rateLimitResult.success) {
+        return rateLimitedResponse(rateLimitResult);
+    }
+
     const { email } = await request.json();
 
     // Security: Validate email format properly

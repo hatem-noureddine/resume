@@ -165,13 +165,13 @@
 - [ ] **Aggressive caching headers** - Static assets, API responses with SWR
 
 ### 🎨 UX/UI Enhancements
-- [ ] **Skeleton loading improvements** - Add shimmer effects, smoother transitions
+- [x] **Skeleton loading improvements** - Shimmer animation effects already implemented
 - [ ] **Micro-interactions** - Haptic-like feedback on buttons, subtle hover animations
 - [ ] **Mobile navigation improvements** - Better touch targets, swipe gestures
 
 ### 🔒 Security & Reliability
 - [ ] **Error tracking integration** - Sentry or similar for production monitoring
-- [ ] **Rate limiting** - API routes protection (contact form, newsletter)
+- [x] **Rate limiting** - API routes protected (newsletter: 2/hr, chat: 10/min)
 
 ---
 

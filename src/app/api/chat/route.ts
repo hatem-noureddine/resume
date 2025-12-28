@@ -1,4 +1,5 @@
 import { CHATBOT_SYSTEM_PROMPT } from '@/config/resume';
+import { checkRateLimit, rateLimitedResponse, getClientIP, RATE_LIMITS } from '@/lib/rate-limit';
 
 export const runtime = 'edge';
 
@@ -9,6 +10,13 @@ interface ChatMessage {
 
 export async function POST(req: Request) {
     try {
+        // Rate limiting: 10 requests per minute per IP
+        const clientIP = getClientIP(req);
+        const rateLimitResult = checkRateLimit(`chat:${clientIP}`, RATE_LIMITS.ai);
+        if (!rateLimitResult.success) {
+            return rateLimitedResponse(rateLimitResult);
+        }
+
         const { messages } = await req.json() as { messages: ChatMessage[] };
 
         if (!messages || !Array.isArray(messages)) {
