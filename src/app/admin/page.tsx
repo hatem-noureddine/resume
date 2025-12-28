@@ -4,23 +4,20 @@ import {
     MessageSquare,
     FileText,
     Rocket,
-    Users,
     BarChart3,
-    Palette,
-    ExternalLink,
     Settings,
     Briefcase,
     Award,
     Languages,
 } from "lucide-react";
 import { getBlogPosts, getProjects, getExperience, getSkills, getLanguages, getCertifications } from "@/lib/keystatic";
+import { DevToolsSection } from "@/components/admin/DevToolsSection";
 
 interface AdminToolCard {
     title: string;
     description: string;
     href: string;
     icon: React.ReactNode;
-    external?: boolean;
     badge?: string;
 }
 
@@ -45,22 +42,6 @@ const adminTools: AdminToolCard[] = [
         href: "/admin/assist",
         icon: <MessageSquare className="w-6 h-6" />,
         badge: "AI",
-    },
-    {
-        title: "Bundle Analyzer",
-        description: "Analyze and optimize bundle size and dependencies",
-        href: "/.next/analyze/client.html",
-        icon: <BarChart3 className="w-6 h-6" />,
-        external: true,
-        badge: "Dev",
-    },
-    {
-        title: "Storybook",
-        description: "Component documentation and visual testing playground",
-        href: "http://localhost:6006",
-        icon: <Palette className="w-6 h-6" />,
-        external: true,
-        badge: "Dev",
     },
 ];
 
@@ -88,35 +69,35 @@ function StatCard({ label, value, icon, href }: StatCardProps) {
     return content;
 }
 
-function ToolCard({ title, description, href, icon, external, badge }: AdminToolCard) {
-    const CardWrapper = external ? 'a' : Link;
-    const cardProps = external
-        ? { href, target: "_blank", rel: "noopener noreferrer" }
-        : { href };
+interface ToolCardProps {
+    readonly title: string;
+    readonly description: string;
+    readonly href: string;
+    readonly icon: React.ReactNode;
+    readonly badge?: string;
+}
 
+function ToolCard({ title, description, href, icon, badge }: ToolCardProps) {
     return (
-        <CardWrapper
-            {...cardProps}
+        <Link
+            href={href}
             className="group block p-6 rounded-xl bg-secondary/30 border border-white/10 hover:border-primary/50 hover:bg-secondary/50 transition-all duration-200"
         >
             <div className="flex items-start justify-between mb-3">
                 <div className="p-2 bg-primary/20 rounded-lg group-hover:bg-primary/30 transition-colors">
                     <span className="text-primary">{icon}</span>
                 </div>
-                <div className="flex items-center gap-2">
-                    {badge && (
-                        <span className="text-xs px-2 py-0.5 bg-primary/20 text-primary rounded-full">
-                            {badge}
-                        </span>
-                    )}
-                    {external && <ExternalLink className="w-4 h-4 text-muted-foreground" />}
-                </div>
+                {badge && (
+                    <span className="text-xs px-2 py-0.5 bg-primary/20 text-primary rounded-full">
+                        {badge}
+                    </span>
+                )}
             </div>
             <h3 className="font-semibold mb-1 group-hover:text-primary transition-colors">
                 {title}
             </h3>
             <p className="text-sm text-muted-foreground">{description}</p>
-        </CardWrapper>
+        </Link>
     );
 }
 
@@ -186,20 +167,11 @@ export default async function AdminPage() {
                 </div>
             </section>
 
-            {/* Help Section */}
-            <section className="p-6 rounded-xl bg-secondary/30 border border-white/10">
-                <h3 className="font-semibold mb-2">💡 Getting Started</h3>
-                <ul className="text-sm text-muted-foreground space-y-2">
-                    <li>• <strong>Keystatic CMS</strong> - Edit your resume data, blog posts, and projects</li>
-                    <li>• <strong>Performance Dashboard</strong> - Monitor Core Web Vitals in real-time</li>
-                    <li>• <strong>AI Assistant</strong> - Get suggestions to improve your content</li>
-                    <li>• <strong>Bundle Analyzer</strong> - Run <code className="bg-secondary px-1 rounded">npm run analyze</code> first</li>
-                    <li>• <strong>Storybook</strong> - Run <code className="bg-secondary px-1 rounded">npm run storybook</code> first</li>
-                </ul>
-            </section>
+            {/* Dev Tools Section (Client Component) */}
+            <DevToolsSection />
 
             {/* Quick Actions */}
-            <section className="p-6 rounded-xl bg-gradient-to-r from-primary/10 to-primary/5 border border-primary/20">
+            <section className="p-6 rounded-xl bg-linear-to-r from-primary/10 to-primary/5 border border-primary/20">
                 <h3 className="font-semibold mb-3 flex items-center gap-2">
                     <Rocket className="w-5 h-5 text-primary" />
                     Quick Actions
