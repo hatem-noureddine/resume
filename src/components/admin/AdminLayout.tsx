@@ -54,6 +54,20 @@ const navItems: NavItem[] = [
         icon: <MessageSquare className="w-5 h-5" />,
         badge: "AI",
     },
+    {
+        label: "Bundle Analyzer",
+        href: "/admin/analyze/client.html",
+        icon: <BarChart3 className="w-5 h-5" />,
+        external: true,
+        badge: "Dev",
+    },
+    {
+        label: "Storybook",
+        href: "/admin/storybook/index.html",
+        icon: <Palette className="w-5 h-5" />,
+        external: true,
+        badge: "Dev",
+    },
 ];
 
 // Breadcrumb mapping for known routes

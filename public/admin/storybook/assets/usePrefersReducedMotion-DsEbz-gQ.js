@@ -1,0 +1,1 @@
+import{r as c}from"./iframe-Co86Tdbj.js";const t="(prefers-reduced-motion: reduce)";function u(){const n=e=>{const r=window.matchMedia(t);return r.addEventListener("change",e),()=>r.removeEventListener("change",e)},o=()=>window.matchMedia(t).matches,s=()=>!1;return c.useSyncExternalStore(n,o,s)}export{u};

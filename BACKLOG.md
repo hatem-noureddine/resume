@@ -214,6 +214,6 @@
 ### Admin UX Enhancements
 - [ ] **Admin search bar** - Quick search across all admin tools
 - [ ] **Status indicators** - Show if services are running (Storybook, etc.)
-- [ ] **Quick actions** - Common tasks accessible from dashboard
+- [x] **Production Dev Tools** - Access Storybook and Bundle Analyzer in prod
 - [x] **Keyboard shortcuts** - Power user navigation (Cmd+K command palette)
 - [x] **Admin theme toggle** - Dark/light mode in admin sidebar

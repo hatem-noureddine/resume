@@ -27,7 +27,9 @@
     "verify:quick": "npm run lint && npm run test && npm run build",
     "prepare": "husky",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "build:admin": "node scripts/build-admin-tools.mjs",
+    "build:all": "npm run analyze && npm run build:admin"
   },
   "dependencies": {
     "@formspree/react": "^3.0.0",
