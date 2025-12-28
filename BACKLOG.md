@@ -194,7 +194,7 @@
 - [x] **Breadcrumb navigation** - Show context on subpages (Admin > Performance)
 - [x] **Back to dashboard** link on all subpages
 - [x] **Responsive sidebar** - Collapsible sidebar for mobile admin access
-- [ ] **Dynamic stats** - Fetch real counts from Keystatic (blog posts, projects)
+- [x] **Dynamic stats** - Real counts from Keystatic (blog, projects, experience, skills, languages, certs)
 - [ ] **Activity feed** - Show recent content changes/updates
 
 ### Performance Dashboard Enhancements
