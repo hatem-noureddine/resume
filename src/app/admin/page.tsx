@@ -11,7 +11,7 @@ import {
     Languages,
 } from "lucide-react";
 import { getBlogPosts, getProjects, getExperience, getSkills, getLanguages, getCertifications } from "@/lib/keystatic";
-import { DevToolsSection } from "@/components/admin/DevToolsSection";
+import { DevToolsSection, ActivityFeed } from "@/components/admin";
 
 interface AdminToolCard {
     title: string;
@@ -54,7 +54,7 @@ interface StatCardProps {
 
 function StatCard({ label, value, icon, href }: StatCardProps) {
     const content = (
-        <div className="p-4 rounded-lg bg-secondary/30 border border-white/10 hover:border-primary/30 transition-colors">
+        <div className="p-4 rounded-lg bg-secondary/30 border border-white/10 hover:border-primary/30 transition-colors h-full">
             <div className="flex items-center gap-2 text-muted-foreground mb-1">
                 {icon}
                 <span className="text-xs">{label}</span>
@@ -64,7 +64,7 @@ function StatCard({ label, value, icon, href }: StatCardProps) {
     );
 
     if (href) {
-        return <Link href={href}>{content}</Link>;
+        return <Link href={href} className="block h-full">{content}</Link>;
     }
     return content;
 }
@@ -81,7 +81,7 @@ function ToolCard({ title, description, href, icon, badge }: ToolCardProps) {
     return (
         <Link
             href={href}
-            className="group block p-6 rounded-xl bg-secondary/30 border border-white/10 hover:border-primary/50 hover:bg-secondary/50 transition-all duration-200"
+            className="group block p-6 rounded-xl bg-secondary/30 border border-white/10 hover:border-primary/50 hover:bg-secondary/50 transition-all duration-200 h-full"
         >
             <div className="flex items-start justify-between mb-3">
                 <div className="p-2 bg-primary/20 rounded-lg group-hover:bg-primary/30 transition-colors">
@@ -122,7 +122,7 @@ export default async function AdminPage() {
     ];
 
     return (
-        <div className="space-y-8">
+        <div className="space-y-8 pb-8">
             {/* Page Header */}
             <div>
                 <h1 className="text-2xl font-bold flex items-center gap-3">
@@ -134,7 +134,7 @@ export default async function AdminPage() {
                 </p>
             </div>
 
-            {/* Stats Overview - Now with real data! */}
+            {/* Stats Overview */}
             <section>
                 <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
                     <Rocket className="w-5 h-5 text-primary" />
@@ -154,49 +154,82 @@ export default async function AdminPage() {
                 </div>
             </section>
 
-            {/* Admin Tools Grid */}
-            <section>
-                <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                    <Settings className="w-5 h-5 text-primary" />
-                    Admin Tools
-                </h2>
-                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                    {adminTools.map((tool) => (
-                        <ToolCard key={tool.href} {...tool} />
-                    ))}
-                </div>
-            </section>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                {/* Main Content Area (Left/Middle) */}
+                <div className="lg:col-span-2 space-y-8">
+                    {/* Admin Tools Grid */}
+                    <section>
+                        <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                            <Settings className="w-5 h-5 text-primary" />
+                            Admin Tools
+                        </h2>
+                        <div className="grid gap-4 sm:grid-cols-2">
+                            {adminTools.map((tool) => (
+                                <ToolCard key={tool.href} {...tool} />
+                            ))}
+                        </div>
+                    </section>
 
-            {/* Dev Tools Section (Client Component) */}
-            <DevToolsSection />
+                    {/* Dev Tools Section (Client Component) */}
+                    <DevToolsSection />
 
-            {/* Quick Actions */}
-            <section className="p-6 rounded-xl bg-linear-to-r from-primary/10 to-primary/5 border border-primary/20">
-                <h3 className="font-semibold mb-3 flex items-center gap-2">
-                    <Rocket className="w-5 h-5 text-primary" />
-                    Quick Actions
-                </h3>
-                <div className="flex flex-wrap gap-3">
-                    <Link
-                        href="/keystatic/collection/blog/create"
-                        className="px-4 py-2 bg-primary/20 hover:bg-primary/30 rounded-lg text-sm font-medium text-primary transition-colors"
-                    >
-                        + New Blog Post
-                    </Link>
-                    <Link
-                        href="/keystatic/collection/projects/create"
-                        className="px-4 py-2 bg-primary/20 hover:bg-primary/30 rounded-lg text-sm font-medium text-primary transition-colors"
-                    >
-                        + New Project
-                    </Link>
-                    <Link
-                        href="/keystatic/collection/experience/create"
-                        className="px-4 py-2 bg-primary/20 hover:bg-primary/30 rounded-lg text-sm font-medium text-primary transition-colors"
-                    >
-                        + New Experience
-                    </Link>
+                    {/* Quick Actions */}
+                    <section className="p-6 rounded-xl bg-linear-to-r from-primary/10 to-primary/5 border border-primary/20">
+                        <h3 className="font-semibold mb-3 flex items-center gap-2">
+                            <Rocket className="w-5 h-5 text-primary" />
+                            Quick Actions
+                        </h3>
+                        <div className="flex flex-wrap gap-3">
+                            <Link
+                                href="/keystatic/collection/blog/create"
+                                className="px-4 py-2 bg-primary/20 hover:bg-primary/30 rounded-lg text-sm font-medium text-primary transition-colors border border-primary/10"
+                            >
+                                + New Blog Post
+                            </Link>
+                            <Link
+                                href="/keystatic/collection/projects/create"
+                                className="px-4 py-2 bg-primary/20 hover:bg-primary/30 rounded-lg text-sm font-medium text-primary transition-colors border border-primary/10"
+                            >
+                                + New Project
+                            </Link>
+                            <Link
+                                href="/keystatic/collection/experience/create"
+                                className="px-4 py-2 bg-primary/20 hover:bg-primary/30 rounded-lg text-sm font-medium text-primary transition-colors border border-primary/10"
+                            >
+                                + New Experience
+                            </Link>
+                        </div>
+                    </section>
                 </div>
-            </section>
+
+                {/* Sidebar Area (Right) */}
+                <div className="space-y-8">
+                    {/* Activity Feed */}
+                    <ActivityFeed />
+
+                    {/* Help/Shortcuts Card */}
+                    <section className="p-5 rounded-xl bg-secondary/30 border border-white/10">
+                        <h4 className="font-semibold text-sm mb-4 flex items-center gap-2">
+                            <Settings className="w-4 h-4 text-primary" />
+                            Admin Shortcuts
+                        </h4>
+                        <ul className="space-y-3">
+                            <li className="flex items-center justify-between text-xs">
+                                <span className="text-muted-foreground">Command Palette</span>
+                                <kbd className="px-1.5 py-0.5 bg-black/40 rounded border border-white/10 font-mono">⌘ K</kbd>
+                            </li>
+                            <li className="flex items-center justify-between text-xs">
+                                <span className="text-muted-foreground">Toggle Theme</span>
+                                <span className="text-[10px] text-muted-foreground italic">(sidebar toggle)</span>
+                            </li>
+                            <li className="flex items-center justify-between text-xs">
+                                <span className="text-muted-foreground">Exit Admin</span>
+                                <Link href="/" className="text-primary hover:underline">Back to Site</Link>
+                            </li>
+                        </ul>
+                    </section>
+                </div>
+            </div>
         </div>
     );
 }

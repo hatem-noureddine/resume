@@ -1,6 +1,6 @@
 "use client";
 
-import { BarChart3, Palette, Terminal, Copy, Check, ExternalLink } from "lucide-react";
+import { BarChart3, Palette, Terminal, Copy, Check, ExternalLink, Activity } from "lucide-react";
 import { useState, useEffect } from "react";
 
 interface DevToolInfo {
@@ -34,12 +34,26 @@ const devTools: DevToolInfo[] = [
     },
 ];
 
+type Status = 'online' | 'offline' | 'checking';
+
+function getStatusColor(status: Status) {
+    if (status === 'online') return 'bg-green-500';
+    if (status === 'offline') return 'bg-red-500';
+    return 'bg-yellow-500';
+}
+
+function getStatusLabel(status: Status) {
+    if (status === 'online') return 'Active';
+    if (status === 'offline') return 'Offline';
+    return 'Checking';
+}
+
 function DevToolCard({ title, description, command, localUrl, prodUrl, icon }: Readonly<Omit<DevToolInfo, 'id'>>) {
     const [copied, setCopied] = useState(false);
     const [isProduction, setIsProduction] = useState(false);
+    const [status, setStatus] = useState<Status>('checking');
 
     useEffect(() => {
-        // Safe way to check if we're on a production-like URL or environment
         // eslint-disable-next-line react-hooks/set-state-in-effect
         setIsProduction(
             globalThis.location.hostname !== 'localhost' &&
@@ -47,20 +61,61 @@ function DevToolCard({ title, description, command, localUrl, prodUrl, icon }: R
         );
     }, []);
 
+    useEffect(() => {
+        const checkStatus = async () => {
+            const urlToCheck = isProduction ? prodUrl : localUrl;
+
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 2000);
+
+                await fetch(urlToCheck, {
+                    method: 'HEAD',
+                    mode: 'no-cors',
+                    signal: controller.signal,
+                    cache: 'no-store'
+                });
+
+                clearTimeout(timeoutId);
+                setStatus('online');
+            } catch {
+                setStatus('offline');
+            }
+        };
+
+        checkStatus();
+        const interval = setInterval(checkStatus, 30000);
+        return () => clearInterval(interval);
+    }, [isProduction, localUrl, prodUrl]);
+
     const handleCopy = async () => {
         await navigator.clipboard.writeText(command);
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
     };
 
+    const statusColor = getStatusColor(status);
+    const statusLabel = getStatusLabel(status);
+
     return (
-        <div className="p-4 rounded-xl bg-secondary/30 border border-white/10">
+        <div className="p-4 rounded-xl bg-secondary/30 border border-white/10 relative overflow-hidden group">
+            {/* Status Indicator Bar */}
+            <div className={`absolute top-0 left-0 w-1 h-full transition-colors duration-500 ${statusColor}`} />
+
             <div className="flex items-start gap-3">
                 <div className="p-2 bg-amber-500/20 rounded-lg">
                     <span className="text-amber-500">{icon}</span>
                 </div>
                 <div className="flex-1 min-w-0">
-                    <h4 className="font-medium text-sm">{title}</h4>
+                    <div className="flex items-center justify-between gap-2 mb-0.5">
+                        <h4 className="font-medium text-sm truncate">{title}</h4>
+                        <div className="flex items-center gap-1.5 shrink-0">
+                            <span className={`w-2 h-2 rounded-full ${statusColor} ${status !== 'offline' ? 'animate-pulse' : ''}`} />
+                            <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">
+                                {statusLabel}
+                            </span>
+                        </div>
+                    </div>
                     <p className="text-xs text-muted-foreground mb-3">{description}</p>
 
                     {isProduction ? (
@@ -104,7 +159,7 @@ function DevToolCard({ title, description, command, localUrl, prodUrl, icon }: R
                                 href={localUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1.5 text-xs text-primary hover:underline"
+                                className="inline-flex items-center gap-1.5 text-xs text-primary hover:underline hover:text-primary/80 transition-colors"
                             >
                                 <Terminal className="w-3 h-3" />
                                 Open at {localUrl}
@@ -130,13 +185,18 @@ export function DevToolsSection() {
 
     return (
         <section>
-            <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                <Terminal className="w-5 h-5 text-amber-500" />
-                Developer Tools
-                <span className="text-xs font-normal text-muted-foreground ml-2">
-                    {isProduction ? "(built reports)" : "(requires terminal)"}
-                </span>
-            </h2>
+            <div className="flex items-center justify-between mb-4">
+                <h2 className="text-lg font-semibold flex items-center gap-2">
+                    <Activity className="w-5 h-5 text-amber-500" />
+                    Service Status & Tools
+                    <span className="text-xs font-normal text-muted-foreground ml-2">
+                        {isProduction ? "(production build)" : "(local env)"}
+                    </span>
+                </h2>
+                <div className="text-[10px] text-muted-foreground bg-secondary/50 px-2 py-0.5 rounded border border-white/5 uppercase tracking-widest font-bold">
+                    Real-time Monitoring
+                </div>
+            </div>
             <div className="grid gap-4 md:grid-cols-2">
                 {devTools.map((tool) => (
                     <DevToolCard
