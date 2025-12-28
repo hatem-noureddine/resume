@@ -16,7 +16,11 @@ import {
     Palette,
     ExternalLink,
     ChevronLeft,
+    Moon,
+    Sun,
 } from "lucide-react";
+import { CommandPalette, CommandTrigger, useCommandPalette } from "./CommandPalette";
+import { useTheme } from "@/context/ThemeContext";
 
 interface NavItem {
     label: string;
@@ -75,12 +79,14 @@ const breadcrumbLabels: Record<string, string> = {
 };
 
 interface AdminLayoutProps {
-    children: React.ReactNode;
+    readonly children: React.ReactNode;
 }
 
 export function AdminLayout({ children }: AdminLayoutProps) {
     const pathname = usePathname();
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    const { theme, setTheme } = useTheme();
+    const commandPalette = useCommandPalette();
 
     // Generate breadcrumbs from pathname
     const pathSegments = pathname.split("/").filter(Boolean);
@@ -90,8 +96,15 @@ export function AdminLayout({ children }: AdminLayoutProps) {
         return { label, href };
     });
 
+    const toggleTheme = () => {
+        setTheme(theme === "dark" ? "light" : "dark");
+    };
+
     return (
         <div className="min-h-screen bg-background">
+            {/* Command Palette */}
+            <CommandPalette isOpen={commandPalette.isOpen} onClose={commandPalette.close} />
+
             {/* Mobile Menu Button */}
             <button
                 onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -103,9 +116,11 @@ export function AdminLayout({ children }: AdminLayoutProps) {
 
             {/* Sidebar Overlay (Mobile) */}
             {sidebarOpen && (
-                <div
-                    className="fixed inset-0 bg-black/50 z-40 md:hidden"
+                <button
+                    type="button"
+                    className="fixed inset-0 bg-black/50 z-40 md:hidden cursor-default"
                     onClick={() => setSidebarOpen(false)}
+                    aria-label="Close sidebar"
                 />
             )}
 
@@ -167,8 +182,24 @@ export function AdminLayout({ children }: AdminLayoutProps) {
                     })}
                 </nav>
 
-                {/* Back to Site */}
-                <div className="absolute bottom-0 left-0 right-0 p-3 border-t border-white/10">
+                {/* Theme Toggle & Back to Site */}
+                <div className="absolute bottom-0 left-0 right-0 p-3 border-t border-white/10 space-y-2">
+                    <button
+                        onClick={toggleTheme}
+                        className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-muted-foreground hover:bg-white/5 hover:text-foreground transition-colors"
+                    >
+                        {theme === "dark" ? (
+                            <>
+                                <Sun className="w-4 h-4" />
+                                Light Mode
+                            </>
+                        ) : (
+                            <>
+                                <Moon className="w-4 h-4" />
+                                Dark Mode
+                            </>
+                        )}
+                    </button>
                     <Link
                         href="/"
                         className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-muted-foreground hover:bg-white/5 hover:text-foreground transition-colors"
@@ -183,7 +214,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
             <main className="md:ml-64">
                 {/* Breadcrumbs Header */}
                 <header className="sticky top-0 z-30 bg-background/80 backdrop-blur-md border-b border-white/10">
-                    <div className="px-4 md:px-6 py-3">
+                    <div className="px-4 md:px-6 py-3 flex items-center justify-between">
                         {/* Breadcrumbs */}
                         <nav aria-label="Breadcrumb" className="flex items-center gap-1 text-sm">
                             <Link
@@ -210,6 +241,9 @@ export function AdminLayout({ children }: AdminLayoutProps) {
                                 </span>
                             ))}
                         </nav>
+
+                        {/* Command Palette Trigger */}
+                        <CommandTrigger onClick={commandPalette.open} />
                     </div>
                 </header>
 

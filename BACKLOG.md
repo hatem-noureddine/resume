@@ -215,5 +215,5 @@
 - [ ] **Admin search bar** - Quick search across all admin tools
 - [ ] **Status indicators** - Show if services are running (Storybook, etc.)
 - [ ] **Quick actions** - Common tasks accessible from dashboard
-- [ ] **Keyboard shortcuts** - Power user navigation (Cmd+K, etc.)
-- [ ] **Admin theme toggle** - Dark/light mode in admin header
+- [x] **Keyboard shortcuts** - Power user navigation (Cmd+K command palette)
+- [x] **Admin theme toggle** - Dark/light mode in admin sidebar
