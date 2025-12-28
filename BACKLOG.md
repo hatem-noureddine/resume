@@ -185,3 +185,35 @@
 - [ ] **Interview scheduler** - Calendly integration
 - [ ] **Live resume preview** - Real-time preview while editing in CMS
 
+---
+
+## 🛠️ Admin Dashboard Improvements
+
+### Admin Hub & Navigation
+- [ ] **Shared admin layout** - Consistent header/sidebar across all admin pages
+- [ ] **Breadcrumb navigation** - Show context on subpages (Admin > Performance)
+- [ ] **Back to dashboard** link on all subpages
+- [ ] **Responsive sidebar** - Collapsible sidebar for mobile admin access
+- [ ] **Dynamic stats** - Fetch real counts from Keystatic (blog posts, projects)
+- [ ] **Activity feed** - Show recent content changes/updates
+
+### Performance Dashboard Enhancements
+- [ ] **Historical data** - Store and display performance trends over time
+- [ ] **Page-specific metrics** - Select which page to measure
+- [ ] **Export functionality** - Download metrics as JSON/CSV
+- [ ] **Performance alerts** - Visual warning when metrics degrade
+- [ ] **Comparison mode** - Compare current vs baseline metrics
+
+### AI Assistant Improvements
+- [ ] **Bulk analysis** - Analyze all experience/project items at once
+- [ ] **Custom prompts** - Let users customize the AI suggestions
+- [ ] **Copy to clipboard** - Easy copy of generated suggestions
+- [ ] **Suggestion history** - Save and view previous suggestions
+- [ ] **Apply suggestions** - One-click apply to Keystatic content
+
+### Admin UX Enhancements
+- [ ] **Admin search bar** - Quick search across all admin tools
+- [ ] **Status indicators** - Show if services are running (Storybook, etc.)
+- [ ] **Quick actions** - Common tasks accessible from dashboard
+- [ ] **Keyboard shortcuts** - Power user navigation (Cmd+K, etc.)
+- [ ] **Admin theme toggle** - Dark/light mode in admin header
