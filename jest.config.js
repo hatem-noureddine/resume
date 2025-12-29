@@ -34,6 +34,16 @@ const customJestConfig = {
         '!src/lib/keystatic.ts',
         '!src/lib/linkedin-sync.ts',
         '!src/test/utils.tsx',
+        // Exclude server-side API routes (tested via E2E)
+        '!src/app/api/admin/login/route.ts',
+        '!src/app/api/admin/logout/route.ts',
+        '!src/app/api/assist/route.ts',
+        '!src/app/api/cover-letter/route.ts',
+        '!src/app/api/newsletter/route.ts',
+        '!src/app/api/sync/linkedin/route.ts',
+        '!src/app/api/keystatic/[...params]/route.ts',
+        // Exclude Keystatic pages (CMS admin, tested manually)
+        '!src/app/keystatic/**/*',
     ],
     transformIgnorePatterns: [
         '/node_modules/(?!(@vercel/analytics|@vercel/speed-insights|@keystatic|@giscus/react|react-markdown|remark-gfm|vfile|unist-.*|unified|bail|is-plain-obj|trough|remark-.*|mdast-util-.*|micromark|decode-named-character-reference|character-entities|property-information|hast-util-whitespace|space-separated-tokens|comma-separated-tokens|pretty-bytes|ccount|escape-string-regexp|markdown-table)/)',
