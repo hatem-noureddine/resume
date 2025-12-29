@@ -30,7 +30,6 @@ describe('PWAInstallPrompt', () => {
     let originalWindowRemoveEventListener: typeof window.removeEventListener;
     let beforeInstallPromptCallback: ((e: Event) => void) | null = null;
     let originalMatchMedia: typeof window.matchMedia;
-    let originalNavigator: typeof navigator;
 
     beforeEach(() => {
         jest.clearAllMocks();

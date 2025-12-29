@@ -110,7 +110,7 @@ function DevToolCard({ title, description, command, localUrl, prodUrl, icon }: R
                     <div className="flex items-center justify-between gap-2 mb-0.5">
                         <h4 className="font-medium text-sm truncate">{title}</h4>
                         <div className="flex items-center gap-1.5 shrink-0">
-                            <span className={`w-2 h-2 rounded-full ${statusColor} ${status !== 'offline' ? 'animate-pulse' : ''}`} />
+                            <span className={`w-2 h-2 rounded-full ${statusColor} ${(status === 'online' || status === 'checking') ? 'animate-pulse' : ''}`} />
                             <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">
                                 {statusLabel}
                             </span>

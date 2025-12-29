@@ -9,6 +9,7 @@ import { AnnouncerProvider } from "@/context/AnnouncerContext";
 import { VercelAnalytics } from "@/components/analytics/VercelAnalytics";
 import { ChatWidget } from "@/components/chat/ChatWidget";
 import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
+import { PerformanceReporter } from "@/components/performance/PerformanceReporter";
 import { ServiceWorkerRegistration } from "@/components/pwa/ServiceWorkerRegistration";
 import { PWAInstallPrompt } from "@/components/pwa/PWAInstallPrompt";
 import { SITE_METADATA, JSON_LD } from "@/config/site";
@@ -141,6 +142,7 @@ export default async function RootLayout({
             <FeatureFlagProvider>
               <ExperimentProvider>
                 <AnnouncerProvider>
+                  <PerformanceReporter />
                   <ServiceWorkerRegistration />
                   <PWAInstallPrompt />
                   {children}

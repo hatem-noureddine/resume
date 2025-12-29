@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import {
     Settings,
@@ -18,6 +18,7 @@ import {
     ChevronLeft,
     Moon,
     Sun,
+    LogOut,
 } from "lucide-react";
 import { CommandPalette, CommandTrigger, useCommandPalette } from "./CommandPalette";
 import { useTheme } from "@/context/ThemeContext";
@@ -84,9 +85,22 @@ interface AdminLayoutProps {
 
 export function AdminLayout({ children }: AdminLayoutProps) {
     const pathname = usePathname();
+    const router = useRouter();
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const { theme, setTheme } = useTheme();
     const commandPalette = useCommandPalette();
+
+    const handleLogout = async () => {
+        try {
+            const response = await fetch("/api/admin/logout", { method: "POST" });
+            if (response.ok) {
+                router.push("/admin/login");
+                router.refresh();
+            }
+        } catch (error) {
+            console.error("Logout failed:", error);
+        }
+    };
 
     // Generate breadcrumbs from pathname
     const pathSegments = pathname.split("/").filter(Boolean);
@@ -182,11 +196,11 @@ export function AdminLayout({ children }: AdminLayoutProps) {
                     })}
                 </nav>
 
-                {/* Theme Toggle & Back to Site */}
-                <div className="absolute bottom-0 left-0 right-0 p-3 border-t border-white/10 space-y-2">
+                {/* Theme Toggle, Logout & Back to Site */}
+                <div className="absolute bottom-0 left-0 right-0 p-3 border-t border-white/10 space-y-1">
                     <button
                         onClick={toggleTheme}
-                        className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-muted-foreground hover:bg-white/5 hover:text-foreground transition-colors"
+                        className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-[13px] text-muted-foreground hover:bg-white/5 hover:text-foreground transition-colors"
                     >
                         {theme === "dark" ? (
                             <>
@@ -200,9 +214,18 @@ export function AdminLayout({ children }: AdminLayoutProps) {
                             </>
                         )}
                     </button>
+
+                    <button
+                        onClick={handleLogout}
+                        className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-[13px] text-red-400/80 hover:bg-red-500/10 hover:text-red-400 transition-colors"
+                    >
+                        <LogOut className="w-4 h-4" />
+                        Log Out
+                    </button>
+
                     <Link
                         href="/"
-                        className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-muted-foreground hover:bg-white/5 hover:text-foreground transition-colors"
+                        className="flex items-center gap-2 px-3 py-2 rounded-lg text-[13px] text-muted-foreground hover:bg-white/5 hover:text-foreground transition-colors"
                     >
                         <ChevronLeft className="w-4 h-4" />
                         Back to Site

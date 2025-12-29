@@ -69,6 +69,12 @@ jest.mock('@/components/ui/QRCodeModal', () => ({
     QRCodeModal: () => <div data-testid="qr-code-modal" />
 }));
 
+// Mock usePrefersReducedMotion
+const mockUsePrefersReducedMotion = jest.fn().mockReturnValue(false);
+jest.mock('@/hooks/usePrefersReducedMotion', () => ({
+    usePrefersReducedMotion: () => mockUsePrefersReducedMotion()
+}));
+
 // Define mock function outside
 const mockUseLanguage = jest.fn();
 
@@ -82,20 +88,24 @@ describe('Hero Component', () => {
     const defaultHero = {
         greeting: 'Hi there',
         name: 'Hatem Noureddine',
-        role: 'Full Stack Developer',
+        roles: ['Full Stack Developer'],
         description: 'A very long description that should exceed the limit for the read more button to appear. '.repeat(10),
         actions: { contact: 'Contact', download: 'Download' },
-        stats: [{ value: '10+', label: 'Years' }]
+        stats: [{ value: '10+', label: 'Years' }],
+        image: '/test.jpg'
     };
 
     beforeEach(() => {
+        jest.clearAllMocks();
         mockUseLanguage.mockReturnValue({
             t: {
                 hero: defaultHero,
                 contact: { title: 'Contact', subtitle: 'Get in touch' }
             },
-            language: 'en'
+            language: 'en',
+            direction: 'ltr'
         });
+        mockUsePrefersReducedMotion.mockReturnValue(false);
     });
 
     const renderWithContext = () => {
@@ -109,16 +119,8 @@ describe('Hero Component', () => {
     it('renders the main heading', () => {
         renderWithContext();
         expect(screen.getByRole('heading', { level: 1 })).toBeInTheDocument();
-        expect(screen.getByText('Hatem')).toBeInTheDocument();
-        expect(screen.getByText('Noureddine')).toBeInTheDocument();
-    });
-
-    it('renders the role/title with typing animation cycle', async () => {
-        jest.useFakeTimers();
-        renderWithContext();
-
-        // Typing and Stats tests removed due to mocking issues
-        // They are visual/content rendering that is hard to mock with current setup.
+        expect(screen.getByText(/Hatem/)).toBeInTheDocument();
+        expect(screen.getByText(/Noureddine/)).toBeInTheDocument();
     });
 
     it('renders social links', () => {
@@ -131,7 +133,7 @@ describe('Hero Component', () => {
     it('renders call to action buttons', () => {
         renderWithContext();
         expect(screen.getByTestId('icon-mail')).toBeInTheDocument();
-        expect(screen.getByTestId('icon-download')).toBeInTheDocument();
+        expect(screen.getByTestId('icon-share2')).toBeInTheDocument();
     });
 
     it('handles mobile view interactions', () => {
@@ -142,12 +144,12 @@ describe('Hero Component', () => {
         renderWithContext();
 
         // Check for read more button
-        const readMoreBtn = screen.getByText('Read more');
+        const readMoreBtn = screen.getByRole('button', { name: /Read more/i });
         expect(readMoreBtn).toBeInTheDocument();
 
         // Expand
         fireEvent.click(readMoreBtn);
-        expect(screen.getByText('Read less')).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: /Read less/i })).toBeInTheDocument();
     });
 
     it('handles scroll down click', () => {
@@ -163,5 +165,74 @@ describe('Hero Component', () => {
         expect(scrollIntoViewMock).toHaveBeenCalledWith({ behavior: 'smooth' });
 
         jest.restoreAllMocks();
+    });
+
+    it('renders multiple resumes in a dropdown menu', () => {
+        const multipleResumes = [
+            { label: 'Resume EN', language: 'en', file: '/resume-en.pdf' },
+            { label: 'Resume FR', language: 'en', file: '/resume-en-v2.pdf' },
+        ];
+
+        render(
+            <LanguageProvider>
+                <Hero resumes={multipleResumes} />
+            </LanguageProvider>
+        );
+
+        const downloadCVBtn = screen.getByText(/Download CV/i);
+        fireEvent.click(downloadCVBtn);
+
+        expect(screen.getByText('Resume EN')).toBeInTheDocument();
+        expect(screen.getByText('Resume FR')).toBeInTheDocument();
+
+        // Click outside to close
+        fireEvent.mouseDown(document.body);
+        expect(screen.queryByText('Resume EN')).not.toBeInTheDocument();
+    });
+
+    it('handles QR code modal toggle', () => {
+        renderWithContext();
+        const shareBtn = screen.getByLabelText('Share profile');
+        fireEvent.click(shareBtn);
+        expect(screen.getByTestId('qr-code-modal')).toBeInTheDocument();
+    });
+
+    it('uses fallbacks for missing hero data', () => {
+        mockUseLanguage.mockReturnValue({
+            t: {
+                hero: {
+                    name: 'First Last',
+                    description: 'Short desc',
+                    image: '/test.jpg'
+                }
+            },
+            language: 'en',
+            direction: 'ltr'
+        });
+
+        renderWithContext();
+        expect(screen.getByText(/First/)).toBeInTheDocument();
+        expect(screen.getByText(/Last/)).toBeInTheDocument();
+        // Check for cursor
+        expect(screen.getByText('|')).toBeInTheDocument();
+    });
+
+    it('renders correctly in RTL mode', () => {
+        mockUseLanguage.mockReturnValue({
+            t: { hero: defaultHero },
+            language: 'ar',
+            direction: 'rtl'
+        });
+
+        renderWithContext();
+        expect(screen.getByText(/Hatem/)).toBeInTheDocument();
+    });
+
+    it('renders fallback when 3D elements are disabled via reduced motion', () => {
+        mockUsePrefersReducedMotion.mockReturnValue(true);
+
+        renderWithContext();
+        // and scroll indicator should use fallback div instead of Lottie
+        expect(screen.queryByTestId('lottie-animation')).not.toBeInTheDocument();
     });
 });

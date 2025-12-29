@@ -10,13 +10,15 @@ interface MagneticButtonProps {
     strength?: number; // How strong the pull is (default: 0.5)
 }
 
-export function MagneticButton({ children, className = "", strength = 0.5 }: MagneticButtonProps) {
+export function MagneticButton({ children, className = "", strength = 0.5 }: Readonly<MagneticButtonProps>) {
     const ref = useRef<HTMLDivElement>(null);
     const prefersReducedMotion = usePrefersReducedMotion();
 
-    // Physics springs for smooth movement
-    const x = useSpring(0, { stiffness: 150, damping: 15, mass: 0.1 });
-    const y = useSpring(0, { stiffness: 150, damping: 15, mass: 0.1 });
+    // Physics springs for a more natural, "magnetic" feel
+    const springConfig = { stiffness: 100, damping: 10, mass: 0.1 };
+    const x = useSpring(0, springConfig);
+    const y = useSpring(0, springConfig);
+    const scale = useSpring(1, { stiffness: 200, damping: 20 });
 
     const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
         if (prefersReducedMotion || !ref.current) return;
@@ -33,11 +35,13 @@ export function MagneticButton({ children, className = "", strength = 0.5 }: Mag
         // Move the button towards the cursor
         x.set(distanceX * strength);
         y.set(distanceY * strength);
+        scale.set(1.05); // Subtle grow when active
     };
 
     const handleMouseLeave = () => {
         x.set(0);
         y.set(0);
+        scale.set(1);
     };
 
     if (prefersReducedMotion) {
@@ -49,7 +53,7 @@ export function MagneticButton({ children, className = "", strength = 0.5 }: Mag
             ref={ref}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
-            style={{ x, y }}
+            style={{ x, y, scale }}
             className={className}
         >
             {children}

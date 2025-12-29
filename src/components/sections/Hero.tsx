@@ -284,6 +284,7 @@ export function Hero({ resumes = [] }: Readonly<{ resumes?: Resume[] }>) {
                                             <Button
                                                 variant="outline"
                                                 size="lg"
+                                                withHaptic
                                                 onClick={() => setIsResumeMenuOpen(!isResumeMenuOpen)}
                                                 className="border-primary/20 hover:bg-primary/10 gap-2 rounded-full px-6 w-full sm:w-auto"
                                                 aria-haspopup="true"
@@ -325,6 +326,7 @@ export function Hero({ resumes = [] }: Readonly<{ resumes?: Resume[] }>) {
                                         <Button
                                             variant="outline"
                                             size="lg"
+                                            withHaptic
                                             onClick={handleShareProfile}
                                             className="border-primary/20 hover:bg-primary/10 gap-2 rounded-full px-6 w-full sm:w-auto"
                                             aria-label="Share profile"
@@ -336,7 +338,7 @@ export function Hero({ resumes = [] }: Readonly<{ resumes?: Resume[] }>) {
                             ) : (
                                 <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
                                     <MagneticButton className="w-full sm:w-auto">
-                                        <Button variant="outline" size="lg" asChild className="border-primary/20 hover:bg-primary/10 gap-2 rounded-full px-6 w-full sm:w-auto">
+                                        <Button variant="outline" size="lg" asChild withHaptic className="border-primary/20 hover:bg-primary/10 gap-2 rounded-full px-6 w-full sm:w-auto">
                                             <a
                                                 href={currentResumes.length === 1 ? currentResumes[0].file : localeMetadata[language].resume}
                                                 download

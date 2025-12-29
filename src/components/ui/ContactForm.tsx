@@ -203,13 +203,14 @@ export function ContactForm({ onSubmit, formspreeId }: Readonly<ContactFormProps
                                         animate={{ opacity: 1, y: 0 }}
                                         className="flex items-center gap-2 text-red-500 bg-red-500/10 p-4 rounded-xl"
                                     >
-                                        <AlertCircle className="w-5 h-5 flex-shrink-0" />
+                                        <AlertCircle className="w-5 h-5 shrink-0" />
                                         <span>{errorMessage || 'Failed to send message. Please try again.'}</span>
                                     </motion.div>
                                 )}
 
                                 <Button
                                     type="submit"
+                                    withHaptic
                                     disabled={status === 'submitting'}
                                     className="w-full md:w-auto"
                                 >

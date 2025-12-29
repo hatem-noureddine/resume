@@ -30,19 +30,33 @@ const buttonVariants = cva(
     }
 )
 
+import { haptic } from "@/lib/haptic"
+
 export interface ButtonProps
     extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
     asChild?: boolean
+    withHaptic?: boolean
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-    ({ className, variant, size, asChild = false, ...props }, ref) => {
+    ({ className, variant, size, asChild = false, withHaptic = false, onClick, ...props }, ref) => {
         const Comp = asChild ? Slot : "button"
+
+        const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+            if (withHaptic) {
+                haptic.subtle();
+            }
+            if (onClick) {
+                onClick(e);
+            }
+        };
+
         return (
             <Comp
                 className={cn(buttonVariants({ variant, size, className }))}
                 ref={ref}
+                onClick={handleClick}
                 {...props}
             />
         )
