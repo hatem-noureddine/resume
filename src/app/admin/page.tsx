@@ -1,4 +1,6 @@
 import Link from "next/link";
+import dynamic from "next/dynamic";
+import { Suspense } from "react";
 import {
     Activity,
     MessageSquare,
@@ -11,7 +13,12 @@ import {
     Languages,
 } from "lucide-react";
 import { getBlogPosts, getProjects, getExperience, getSkills, getLanguages, getCertifications } from "@/lib/keystatic";
-import { DevToolsSection, ActivityFeed } from "@/components/admin";
+import { ActivityFeed } from "@/components/admin";
+
+// Lazy load client components
+const DevToolsSection = dynamic(() => import("@/components/admin/DevToolsSection").then(mod => mod.DevToolsSection), {
+    loading: () => <div className="h-64 rounded-xl bg-secondary/20 animate-pulse border border-white/5" />
+});
 
 interface AdminToolCard {
     title: string;
@@ -205,7 +212,9 @@ export default async function AdminPage() {
                 {/* Sidebar Area (Right) */}
                 <div className="space-y-8">
                     {/* Activity Feed */}
-                    <ActivityFeed />
+                    <Suspense fallback={<div className="h-48 rounded-xl bg-secondary/20 animate-pulse border border-white/5" />}>
+                        <ActivityFeed />
+                    </Suspense>
 
                     {/* Help/Shortcuts Card */}
                     <section className="p-5 rounded-xl bg-secondary/30 border border-white/10">
