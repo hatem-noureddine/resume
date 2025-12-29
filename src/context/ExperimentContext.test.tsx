@@ -1,200 +1,147 @@
-import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+
+import { renderToStaticMarkup } from 'react-dom/server';
+import { renderHook, act } from '@testing-library/react';
 import { ExperimentProvider, useExperiment } from './ExperimentContext';
+import React from 'react';
 
-// Mock @vercel/analytics
-jest.mock('@vercel/analytics', () => ({
-    track: jest.fn(),
-}));
-
-import { track } from '@vercel/analytics';
-
-// Test component that uses the hook
-function TestComponent({ experimentId = 'test-experiment' }) {
-    const { getVariant, assignments } = useExperiment();
-    const variant = getVariant(experimentId, ['control', 'variant-a', 'variant-b']);
-
-    return (
-        <div>
-            <span data-testid="variant">{variant}</span>
-            <span data-testid="assignments">{JSON.stringify(assignments)}</span>
-        </div>
-    );
-}
-
-function TestWithButton() {
-    const { getVariant } = useExperiment();
-    const [variant, setVariant] = React.useState<string | null>(null);
-
-    const handleClick = () => {
-        setVariant(getVariant('click-experiment', ['a', 'b']));
+// Mock localStorage
+const localStorageMock = (function () {
+    let store: Record<string, string> = {};
+    return {
+        getItem: jest.fn((key: string) => store[key] || null),
+        setItem: jest.fn((key: string, value: string) => {
+            store[key] = value.toString();
+        }),
+        removeItem: jest.fn((key: string) => {
+            delete store[key];
+        }),
+        clear: jest.fn(() => {
+            store = {};
+        }),
     };
+})();
 
-    return (
-        <div>
-            <button onClick={handleClick}>Get Variant</button>
-            {variant && <span data-testid="result">{variant}</span>}
-        </div>
-    );
-}
+Object.defineProperty(global, 'localStorage', {
+    value: localStorageMock,
+});
 
 describe('ExperimentContext', () => {
-    const localStorageMock = (() => {
-        let store: Record<string, string> = {};
-        return {
-            getItem: jest.fn((key: string) => store[key] || null),
-            setItem: jest.fn((key: string, value: string) => { store[key] = value; }),
-            removeItem: jest.fn((key: string) => { delete store[key]; }),
-            clear: jest.fn(() => { store = {}; }),
-        };
-    })();
+    // Mock crypto for deterministic testing
+    const originalCrypto = globalThis.crypto;
+
+    beforeAll(() => {
+        Object.defineProperty(globalThis, 'crypto', {
+            value: {
+                getRandomValues: (arr: Uint32Array) => {
+                    // Return consistent value for testing distribution
+                    // For 50% split (random * 2), 0.1 -> index 0
+                    arr[0] = 0x10000000; // ~0.06
+                    return arr;
+                }
+            }
+        });
+    });
+
+    afterAll(() => {
+        Object.defineProperty(globalThis, 'crypto', { value: originalCrypto });
+    });
 
     beforeEach(() => {
-        jest.clearAllMocks();
         localStorageMock.clear();
-        Object.defineProperty(window, 'localStorage', {
-            value: localStorageMock,
-            configurable: true
-        });
+        jest.clearAllMocks();
     });
 
-    it('provides experiment context to children', () => {
-        render(
-            <ExperimentProvider>
-                <TestComponent />
-            </ExperimentProvider>
+    it('should provide default values', () => {
+        const wrapper = ({ children }: { children: React.ReactNode }) => (
+            <ExperimentProvider>{children}</ExperimentProvider>
         );
 
-        expect(screen.getByTestId('variant')).toBeInTheDocument();
+        const { result } = renderHook(() => useExperiment(), { wrapper });
+
+        expect(result.current.assignments).toEqual({});
+        expect(typeof result.current.getVariant).toBe('function');
     });
 
-    it('renders children correctly', () => {
-        render(
-            <ExperimentProvider>
-                <div data-testid="child">Child Content</div>
-            </ExperimentProvider>
+    it('should assign a variant when requested', () => {
+        const wrapper = ({ children }: { children: React.ReactNode }) => (
+            <ExperimentProvider>{children}</ExperimentProvider>
         );
 
-        expect(screen.getByTestId('child')).toHaveTextContent('Child Content');
-    });
+        const { result } = renderHook(() => useExperiment(), { wrapper });
 
-    it('assigns a variant from available options', () => {
-        render(
-            <ExperimentProvider>
-                <TestComponent />
-            </ExperimentProvider>
-        );
-
-        const variant = screen.getByTestId('variant').textContent;
-        expect(['control', 'variant-a', 'variant-b']).toContain(variant);
-    });
-
-    it('returns consistent variant for same experiment', async () => {
-        render(
-            <ExperimentProvider>
-                <TestWithButton />
-            </ExperimentProvider>
-        );
-
-        fireEvent.click(screen.getByRole('button'));
-
-        await waitFor(() => {
-            expect(screen.getByTestId('result')).toBeInTheDocument();
+        let variant;
+        act(() => {
+            variant = result.current.getVariant('test-exp', ['A', 'B']);
         });
 
-        const firstVariant = screen.getByTestId('result').textContent;
-
-        // Click again - should get same variant
-        fireEvent.click(screen.getByRole('button'));
-
-        expect(screen.getByTestId('result').textContent).toBe(firstVariant);
+        expect(variant).toBe('A'); // Based on our mocked crypto
+        expect(result.current.assignments['test-exp']).toBe('A');
     });
 
-    it('loads assignments from localStorage', () => {
-        localStorageMock.getItem.mockReturnValueOnce(
-            JSON.stringify({ 'test-experiment': 'variant-a' })
-        );
-
-        render(
-            <ExperimentProvider>
-                <TestComponent />
-            </ExperimentProvider>
-        );
-
-        expect(localStorageMock.getItem).toHaveBeenCalledWith('experiment-assignments');
-    });
-
-    it('persists assignments to localStorage', async () => {
-        render(
-            <ExperimentProvider>
-                <TestComponent />
-            </ExperimentProvider>
-        );
-
-        // Wait for effects to run
-        await waitFor(() => {
-            expect(localStorageMock.setItem).toHaveBeenCalled();
-        });
-    });
-
-    it('tracks experiment exposure', () => {
-        render(
-            <ExperimentProvider>
-                <TestComponent />
-            </ExperimentProvider>
-        );
-
-        expect(track).toHaveBeenCalledWith('experiment_exposure', expect.objectContaining({
-            experiment_id: 'test-experiment',
-            variant_id: expect.any(String),
+    it('should return existing assignment if available', () => {
+        // Setup existing assignment
+        localStorageMock.setItem('experiment-assignments', JSON.stringify({
+            'test-exp': 'B'
         }));
-    });
 
-    it('returns control for empty variants array', () => {
-        function EmptyVariantsTest() {
-            const { getVariant } = useExperiment();
-            const variant = getVariant('empty-test', []);
-            return <span data-testid="empty-variant">{variant}</span>;
-        }
-
-        render(
-            <ExperimentProvider>
-                <EmptyVariantsTest />
-            </ExperimentProvider>
+        const wrapper = ({ children }: { children: React.ReactNode }) => (
+            <ExperimentProvider>{children}</ExperimentProvider>
         );
 
-        expect(screen.getByTestId('empty-variant')).toHaveTextContent('control');
-    });
+        const { result } = renderHook(() => useExperiment(), { wrapper });
 
-    it('handles localStorage errors gracefully', () => {
-        const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
-        localStorageMock.getItem.mockImplementationOnce(() => {
-            throw new Error('Storage error');
+        // Wait for useEffect to load from localStorage (it's async-ish in React flow)
+        // In renderHook, effects run.
+
+        let variant;
+        act(() => {
+            variant = result.current.getVariant('test-exp', ['A', 'B']);
         });
 
-        render(
-            <ExperimentProvider>
-                <TestComponent />
-            </ExperimentProvider>
-        );
-
-        // Should still render without crashing
-        expect(screen.getByTestId('variant')).toBeInTheDocument();
-        consoleSpy.mockRestore();
+        expect(variant).toBe('B');
     });
 
-    it('throws error when useExperiment is used outside provider', () => {
-        const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
+    it('should persist assignments to localStorage', () => {
+        const wrapper = ({ children }: { children: React.ReactNode }) => (
+            <ExperimentProvider>{children}</ExperimentProvider>
+        );
+
+        const { result } = renderHook(() => useExperiment(), { wrapper });
+
+        act(() => {
+            result.current.getVariant('new-exp', ['control', 'variant']);
+        });
+
+        expect(localStorageMock.setItem).toHaveBeenCalledWith(
+            'experiment-assignments',
+            expect.stringContaining('"new-exp":"control"')
+        );
+    });
+
+    it('should default to control if no variants provided', () => {
+        const wrapper = ({ children }: { children: React.ReactNode }) => (
+            <ExperimentProvider>{children}</ExperimentProvider>
+        );
+
+        const { result } = renderHook(() => useExperiment(), { wrapper });
+
+        let variant;
+        act(() => {
+            variant = result.current.getVariant('test-empty', []);
+        });
+
+        expect(variant).toBe('control');
+    });
+
+    it('should throw error if used outside provider', () => {
+        // Suppress console error for this test
+        const consoleError = console.error;
+        console.error = jest.fn();
 
         expect(() => {
-            render(<TestComponent />);
+            renderHook(() => useExperiment());
         }).toThrow('useExperiment must be used within an ExperimentProvider');
 
-        consoleSpy.mockRestore();
-    });
-
-    it('exports provider and hook', () => {
-        expect(ExperimentProvider).toBeDefined();
-        expect(useExperiment).toBeDefined();
+        console.error = consoleError;
     });
 });

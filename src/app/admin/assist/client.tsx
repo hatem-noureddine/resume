@@ -77,7 +77,7 @@ export function AssistantClient({ initialExperience, initialProjects }: Assistan
 
     const addToHistory = useCallback((item: Item, type: 'experience' | 'project', suggestions: string[], instructions?: string) => {
         const result: AnalysisResult = {
-            id: Math.random().toString(36).substring(7),
+            id: crypto.randomUUID(),
             itemSlug: item.slug,
             itemTitle: item.title || `${item.role} at ${item.company}`,
             type,
