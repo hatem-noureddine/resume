@@ -1,4 +1,4 @@
-import { generateSuggestions } from './ai-service';
+import { generateSuggestions, generateCoverLetter } from './ai-service';
 
 describe('ai-service', () => {
     const originalFetch = globalThis.fetch;
@@ -114,6 +114,68 @@ describe('ai-service', () => {
             const result = await generateSuggestions('content', 'experience');
             expect(result.suggestions).toContain("- Suggestion 1");
             expect(result.suggestions).toContain("- Suggestion 2");
+        });
+    });
+
+    describe('generateCoverLetter', () => {
+        const mockCoverLetterResponse = (content: string) => {
+            return Promise.resolve({
+                ok: true,
+                json: () => Promise.resolve({
+                    choices: [
+                        {
+                            message: {
+                                content
+                            }
+                        }
+                    ]
+                })
+            });
+        };
+
+        it('should return generated cover letter', async () => {
+            const letter = "Dear Hiring Manager...";
+            (globalThis.fetch as jest.Mock).mockImplementationOnce(() => mockCoverLetterResponse(letter));
+
+            const result = await generateCoverLetter('Job Desc', 'Resume Context');
+
+            expect(result).toBe(letter);
+            expect(globalThis.fetch).toHaveBeenCalledWith(
+                expect.stringContaining('api.groq.com'),
+                expect.objectContaining({
+                    body: expect.stringContaining('Job Desc')
+                })
+            );
+        });
+
+        it('should include custom instructions', async () => {
+            const letter = "Custom letter";
+            (globalThis.fetch as jest.Mock).mockImplementationOnce(() => mockCoverLetterResponse(letter));
+
+            await generateCoverLetter('Job', 'Resume', 'Make it concise');
+
+            expect(globalThis.fetch).toHaveBeenCalledWith(
+                expect.stringContaining('api.groq.com'),
+                expect.objectContaining({
+                    body: expect.stringContaining('Additional Instructions: Make it concise')
+                })
+            );
+        });
+
+        it('should throw error if GROQ_API_KEY is missing', async () => {
+            delete process.env.GROQ_API_KEY;
+            await expect(generateCoverLetter('Job', 'Resume'))
+                .rejects.toThrow("GROQ_API_KEY is not configured");
+        });
+
+        it('should handle API errors', async () => {
+            (globalThis.fetch as jest.Mock).mockImplementationOnce(() => Promise.resolve({
+                ok: false,
+                json: () => Promise.resolve({ error: { message: "API Error" } })
+            }));
+
+            await expect(generateCoverLetter('Job', 'Resume'))
+                .rejects.toThrow("API Error");
         });
     });
 });
