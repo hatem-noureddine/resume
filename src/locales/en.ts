@@ -1,6 +1,7 @@
 
 import { SITE_CONFIG } from "@/config/site";
 import type { Locale } from "./types";
+import profileImage from "@/../public/profile.webp";
 
 export const en: Locale = {
     header: {
@@ -32,7 +33,7 @@ export const en: Locale = {
             projects: { value: "50+", label: "Projects", sublabel: "Completed" },
             experience: { value: "12", label: "Years", sublabel: "Experience" }
         },
-        image: "/profile.webp",
+        image: profileImage,
     },
     services: {
         title: "My Services",

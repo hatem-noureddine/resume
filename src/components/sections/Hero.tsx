@@ -83,24 +83,7 @@ function useTypingAnimation(texts: string[], typingSpeed = 100, deletingSpeed = 
     return displayText;
 }
 
-interface HeroLocale {
-    name: string;
-    title: string;
-    roles?: string[];
-    description: string;
-    downloadCV?: string;
-    followMe?: string;
-    availableForHire?: string;
-    scrollDown?: string;
-    readMore?: string;
-    readLess?: string;
-    stats: { value: string; label: string }[];
-    floatingCards?: {
-        projects: { value: string; label: string; sublabel: string };
-        experience: { value: string; label: string; sublabel: string };
-    };
-    image: string;
-}
+import { type HeroLocale } from "@/locales/types";
 
 interface Resume {
     label: string;

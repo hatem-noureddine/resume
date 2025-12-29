@@ -1,4 +1,5 @@
 import { SITE_CONFIG } from "@/config/site";
+import profileImage from "@/../public/profile.webp";
 
 export const es = {
     header: {
@@ -30,7 +31,7 @@ export const es = {
             projects: { value: "50+", label: "Proyectos", sublabel: "Completados" },
             experience: { value: "12", label: "Años", sublabel: "Experiencia" }
         },
-        image: "/profile.webp",
+        image: profileImage,
     },
     services: {
         title: "Mes Services",
