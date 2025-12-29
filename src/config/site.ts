@@ -22,7 +22,8 @@ export const SITE_CONFIG = {
         repoId: "",
         category: "Announcements",
         categoryId: ""
-    }
+    },
+    calendlyUrl: "https://calendly.com/hatem-noureddine"
 };
 
 export const SITE_METADATA: Metadata = {

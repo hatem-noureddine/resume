@@ -8,12 +8,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/context/LanguageContext";
 import { useFeatureFlags } from "@/context/FeatureFlags";
+import { useChatUI } from "@/context/ChatUIContext";
 import { localeMetadata } from "@/locales";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { Logo } from "@/components/ui/Logo";
 
 export function Header({ hasBlogPosts = true }: Readonly<{ hasBlogPosts?: boolean }>) {
     const { t, language, setLanguage, availableLanguages, direction } = useLanguage();
+    const { setIsOpen: setIsChatOpen } = useChatUI();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
     const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false);
@@ -227,10 +229,7 @@ export function Header({ hasBlogPosts = true }: Readonly<{ hasBlogPosts?: boolea
                         href="#contact"
                         onClick={(e) => {
                             e.preventDefault();
-                            const contactSection = document.getElementById('contact');
-                            if (contactSection) {
-                                contactSection.scrollIntoView({ behavior: 'smooth' });
-                            }
+                            setIsChatOpen(true);
                         }}
                         className={cn(
                             "inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/10 border border-green-500/20 text-green-600 dark:text-green-400 text-sm font-medium hover:bg-green-500/20 transition-colors",
@@ -344,7 +343,11 @@ export function Header({ hasBlogPosts = true }: Readonly<{ hasBlogPosts?: boolea
                                     >
                                         <Link
                                             href="#contact"
-                                            onClick={() => setMobileMenuOpen(false)}
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                setMobileMenuOpen(false);
+                                                setIsChatOpen(true);
+                                            }}
                                             className="mt-4 inline-flex items-center gap-3 px-6 py-3 rounded-full bg-green-500/10 border border-green-500/20 text-green-600 dark:text-green-400 text-lg font-medium hover:bg-green-500/20 transition-colors"
                                         >
                                             <span className="relative flex h-3 w-3">

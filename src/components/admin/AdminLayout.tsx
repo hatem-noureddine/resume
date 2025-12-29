@@ -81,6 +81,7 @@ const breadcrumbLabels: Record<string, string> = {
 
 interface AdminLayoutProps {
     readonly children: React.ReactNode;
+    readonly title?: string;
 }
 
 export function AdminLayout({ children }: AdminLayoutProps) {

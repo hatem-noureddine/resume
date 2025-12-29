@@ -74,7 +74,15 @@ jest.mock('@/components/sections/Certifications', () => ({
     Certifications: () => <div data-testid="certifications" />,
 }));
 
-import { getTestimonials, getSkills } from '@/lib/keystatic';
+import {
+    getTestimonials,
+    getSkills,
+    getExperience,
+    getProjects,
+    getCertifications,
+    getResumes,
+    getBlogPosts
+} from '@/lib/keystatic';
 
 
 describe('Home Page', () => {
@@ -154,6 +162,84 @@ describe('Home Page', () => {
         // Let's rely on the fact that it renders without crashing with data
         const ui = await Home();
         render(ui);
+        expect(screen.getByTestId('skills')).toBeInTheDocument();
+    });
+    it('renders sections with populated data', async () => {
+        // Mock data
+        const mockSkills = [
+            { slug: 'react', entry: { name: 'React', category: 'frontend', isProfessional: true, language: 'en' } },
+            { slug: 'node', entry: { name: 'Node.js', category: 'backend', isProfessional: false, language: 'en' } },
+        ];
+        const mockExperience = [
+            { slug: 'job1', entry: { role: 'Dev', company: 'Corp', startDate: '2020', endDate: '2021', description: 'Desc', highlights: ['H1'], isProfessional: true, language: 'en' } },
+        ];
+        const mockProjects = [
+            { slug: 'proj1', entry: { title: 'Proj 1', category: 'Web', image: 'img.jpg', link: 'url', language: 'en' } },
+        ];
+        const mockTestimonials = [
+            { slug: 't1', entry: { author: 'Bob', role: 'CEO', company: 'Inc', content: 'Good', avatar: 'img', rating: 5, language: 'en' } },
+        ];
+        const mockCertifications = [
+            { slug: 'c1', entry: { name: 'Cert', issuer: 'Issuer', date: '2022', category: 'cloud', language: 'en' } }
+        ];
+        const mockResumes = [
+            { slug: 'r1', entry: { label: 'Resume', language: 'en', file: '/resume.pdf' } }
+        ];
+        const mockPosts = [
+            { slug: 'p1', entry: { title: 'Post 1', date: '2023', description: 'Desc', tags: ['tag'], category: 'Tech', language: 'en' } }
+        ];
+
+        // Apply mocks
+        (getSkills as jest.Mock).mockResolvedValue(mockSkills);
+        (getExperience as jest.Mock).mockResolvedValue(mockExperience);
+        (getProjects as jest.Mock).mockResolvedValue(mockProjects);
+        (getTestimonials as jest.Mock).mockResolvedValue(mockTestimonials);
+        (getCertifications as jest.Mock).mockResolvedValue(mockCertifications);
+        (getResumes as jest.Mock).mockResolvedValue(mockResumes);
+        (getBlogPosts as jest.Mock).mockResolvedValue(mockPosts);
+
+        const ui = await Home();
+        render(ui);
+
+        expect(screen.getByTestId('skills')).toBeInTheDocument();
+        expect(screen.getByTestId('testimonials')).toBeInTheDocument();
+        expect(screen.getByTestId('experience')).toBeInTheDocument();
+    });
+
+    it('renders sections with sparse data (hits fallbacks)', async () => {
+        // Mock data with missing optional fields
+        const mockSkills = [
+            { slug: 'other', entry: { name: 'Other', category: 'other', isProfessional: false } }, // Missing language
+        ] as any;
+        const mockExperience = [
+            { slug: 'job2', entry: { role: 'Intern', company: 'Inc', startDate: '2022' } }, // Missing endDate, description, highlights, language
+        ] as any;
+        const mockProjects = [
+            { slug: 'proj2', entry: { title: 'Proj 2' } }, // Missing category, image, link, language
+        ] as any;
+        const mockTestimonials = [
+            { slug: 't2', entry: { author: 'Alice', content: 'Nice' } }, // Missing role, company, avatar, language
+        ] as any;
+        const mockCertifications = [
+            { slug: 'c2', entry: { name: 'Cert 2', issuer: 'Issuer', date: '2023', category: 'other' } }
+        ] as any;
+        const mockPosts = [
+            { slug: 'p2', entry: { title: 'Post 2' } } // Missing date, description, tags, category
+        ] as any;
+
+        // Apply mocks
+        (getSkills as jest.Mock).mockResolvedValue(mockSkills);
+        (getExperience as jest.Mock).mockResolvedValue(mockExperience);
+        (getProjects as jest.Mock).mockResolvedValue(mockProjects);
+        (getTestimonials as jest.Mock).mockResolvedValue(mockTestimonials);
+        (getCertifications as jest.Mock).mockResolvedValue(mockCertifications);
+        (getResumes as jest.Mock).mockResolvedValue([]);
+        (getBlogPosts as jest.Mock).mockResolvedValue(mockPosts);
+
+        const ui = await Home();
+        render(ui);
+
+        // Assertions are just to ensure render completed
         expect(screen.getByTestId('skills')).toBeInTheDocument();
     });
 });

@@ -155,14 +155,14 @@
 - [x] **Print stylesheet** - Clean print version of resume optimized for A4/Letter
 
 ### 📊 Test Coverage Enhancements
-- [x] **Increase branch coverage to 80%+** - Achieved 100% for NewsletterForm and markdown-components, ~78% for Hero.tsx
+- [x] **Increase branch coverage to 80%+** - Achieved >80% for Hero.tsx (80.5%) and Header.tsx (87.0%)
 - [x] **Integration tests for key flows** - Contact form, language switching, theme persistence
 - [x] **E2E tests for admin flows** - Authentication, AI Assistant, Performance Dashboard
 
 ### 🚀 Performance Improvements
 - [x] **Image optimization** - Convert remaining images to WebP/AVIF, add blur placeholders
-- [ ] **Code splitting** - Lazy load admin sections and heavy 3D components
-- [ ] **Aggressive caching headers** - Static assets, API responses with SWR
+- [x] **Code splitting** - Lazy load admin sections and heavy 3D components
+- [x] **Aggressive caching headers** - Static assets, API responses with SWR
 
 ### 🎨 UX/UI Enhancements
 - [x] **Skeleton loading improvements** - Shimmer animation effects already implemented
@@ -170,7 +170,7 @@
 - [x] **Mobile navigation improvements** - Better touch targets, swipe gestures
 
 ### 🔒 Security & Reliability
-- [ ] **Error tracking integration** - Sentry or similar for production monitoring
+- [x] **Error tracking integration** - Integrated Sentry (requires DSN in .env)
 - [x] **Rate limiting** - API routes protected (newsletter: 2/hr, chat: 10/min)
 
 ---
@@ -181,8 +181,8 @@
 - [x] **Performance monitoring dashboard** - Real-time Core Web Vitals with history and comparison mode at `/admin/performance`
 
 ### Long-Term
-- [ ] **AI cover letter generator** - Generate tailored cover letters
-- [ ] **Interview scheduler** - Calendly integration
+- [x] **AI cover letter generator** - Generate tailored cover letters (Implemented at /admin/cover-letter)
+- [x] **Interview scheduler** - Calendly integration (Relocated to Chat Widget)
 - [ ] **Live resume preview** - Real-time preview while editing in CMS
 
 ---
@@ -218,3 +218,4 @@
 - [x] **Production Dev Tools** - Access Storybook and Bundle Analyzer in prod
 - [x] **Keyboard shortcuts** - Power user navigation (Cmd+K command palette)
 - [x] **Admin theme toggle** - Dark/light mode in admin sidebar
+- [x] **Quality badges** - Display code quality status from SonarCloud

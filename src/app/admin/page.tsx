@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
@@ -158,6 +159,32 @@ export default async function AdminPage() {
                             href={stat.href}
                         />
                     ))}
+                </div>
+            </section>
+
+            {/* Quality Status */}
+            <section>
+                <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                    <Activity className="w-5 h-5 text-primary" />
+                    Quality Status
+                    <span className="text-xs font-normal text-muted-foreground ml-2">(SonarCloud)</span>
+                </h2>
+                <div className="flex flex-wrap gap-4 p-4 rounded-xl bg-secondary/30 border border-white/10">
+                    <a href="https://sonarcloud.io/summary/new_code?id=hatem-noureddine_resume" target="_blank" rel="noopener noreferrer">
+                        <img src="https://sonarcloud.io/api/project_badges/measure?project=hatem-noureddine_resume&metric=alert_status" alt="Quality Gate Status" />
+                    </a>
+                    <a href="https://sonarcloud.io/summary/new_code?id=hatem-noureddine_resume" target="_blank" rel="noopener noreferrer">
+                        <img src="https://sonarcloud.io/api/project_badges/measure?project=hatem-noureddine_resume&metric=bugs" alt="Bugs" />
+                    </a>
+                    <a href="https://sonarcloud.io/summary/new_code?id=hatem-noureddine_resume" target="_blank" rel="noopener noreferrer">
+                        <img src="https://sonarcloud.io/api/project_badges/measure?project=hatem-noureddine_resume&metric=vulnerabilities" alt="Vulnerabilities" />
+                    </a>
+                    <a href="https://sonarcloud.io/summary/new_code?id=hatem-noureddine_resume" target="_blank" rel="noopener noreferrer">
+                        <img src="https://sonarcloud.io/api/project_badges/measure?project=hatem-noureddine_resume&metric=code_smells" alt="Code Smells" />
+                    </a>
+                    <a href="https://sonarcloud.io/summary/new_code?id=hatem-noureddine_resume" target="_blank" rel="noopener noreferrer">
+                        <img src="https://sonarcloud.io/api/project_badges/measure?project=hatem-noureddine_resume&metric=coverage" alt="Coverage" />
+                    </a>
                 </div>
             </section>
 

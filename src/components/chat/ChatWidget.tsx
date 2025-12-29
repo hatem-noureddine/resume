@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Send, Bot, User, Loader2, Mail, FileText, Trash2, MessageCircle } from "lucide-react";
+import { X, Send, Bot, User, Loader2, Mail, FileText, Trash2, MessageCircle, Calendar } from "lucide-react";
 import { SiLinkedin } from "react-icons/si";
 import { cn } from "@/lib/utils";
 import { RESUME_CONTEXT } from "@/config/resume";
@@ -10,6 +10,8 @@ import { useLanguage } from "@/context/LanguageContext";
 import { en } from "@/locales/en";
 import { useChat } from "@/hooks/useChat";
 import { TypingIndicator } from "@/components/ui/TypingIndicator";
+import { CalendlyModal } from "@/components/ui/CalendlyModal";
+import { useChatUI } from "@/context/ChatUIContext";
 
 export function ChatWidget() {
     const { t } = useLanguage();
@@ -30,7 +32,8 @@ export function ChatWidget() {
         setMessages
     } = useChat();
 
-    const [isOpen, setIsOpen] = useState(false);
+    const { isOpen, setIsOpen } = useChatUI();
+    const [isCalendlyOpen, setIsCalendlyOpen] = useState(false);
     const [unreadCount, setUnreadCount] = useState(0);
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
@@ -206,6 +209,16 @@ export function ChatWidget() {
                                     <FileText size={12} />
                                     {chat.viewResume}
                                 </a>
+                                <button
+                                    onClick={() => {
+                                        setIsOpen(false);
+                                        setIsCalendlyOpen(true);
+                                    }}
+                                    className="flex items-center gap-1.5 px-3 py-1.5 bg-white/20 hover:bg-white/30 rounded-full text-xs transition-colors"
+                                >
+                                    <Calendar size={12} />
+                                    <span>Schedule a call</span>
+                                </button>
                             </div>
                         </div>
 
@@ -313,6 +326,11 @@ export function ChatWidget() {
                     </motion.div>
                 )}
             </AnimatePresence>
+
+            <CalendlyModal
+                isOpen={isCalendlyOpen}
+                onClose={() => setIsCalendlyOpen(false)}
+            />
         </>
     );
 }

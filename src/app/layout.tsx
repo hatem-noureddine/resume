@@ -16,6 +16,7 @@ import { SITE_METADATA, JSON_LD } from "@/config/site";
 import { NoiseOverlay } from "@/components/ui/NoiseOverlay";
 import { getLanguages, getThemeSettings } from "@/lib/keystatic";
 import { ExperimentProvider } from "@/context/ExperimentContext";
+import { ChatUIProvider } from "@/context/ChatUIContext";
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit', display: 'swap' });
@@ -142,14 +143,16 @@ export default async function RootLayout({
             <FeatureFlagProvider>
               <ExperimentProvider>
                 <AnnouncerProvider>
-                  <PerformanceReporter />
-                  <ServiceWorkerRegistration />
-                  <PWAInstallPrompt />
-                  {children}
-                  <ErrorBoundary fallback={null}>
-                    <ChatWidget />
-                  </ErrorBoundary>
-                  <VercelAnalytics />
+                  <ChatUIProvider>
+                    <PerformanceReporter />
+                    <ServiceWorkerRegistration />
+                    <PWAInstallPrompt />
+                    {children}
+                    <ErrorBoundary fallback={null}>
+                      <ChatWidget />
+                    </ErrorBoundary>
+                    <VercelAnalytics />
+                  </ChatUIProvider>
                 </AnnouncerProvider>
               </ExperimentProvider>
             </FeatureFlagProvider>
