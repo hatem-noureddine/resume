@@ -2,6 +2,17 @@ import { render, screen, fireEvent, act } from '@testing-library/react';
 import { Header } from './Header';
 import { LanguageProvider } from '@/context/LanguageContext';
 
+// Mock ChatUIContext
+const mockSetIsOpen = jest.fn();
+jest.mock('@/context/ChatUIContext', () => ({
+    useChatUI: () => ({
+        setIsOpen: mockSetIsOpen,
+        isOpen: false,
+        toggleChat: jest.fn(),
+    }),
+    ChatUIProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>,
+}));
+
 // Mock dependencies
 jest.mock('next/link', () => ({
     __esModule: true,
@@ -273,32 +284,12 @@ describe('Header Component', () => {
         expect(document.body.style.overflow).toBe('unset');
     });
 
-    it('scrolls to contact section', () => {
-        const scrollIntoViewMock = jest.fn();
-        jest.spyOn(document, 'getElementById').mockImplementation((id) => {
-            if (id === 'contact') return { scrollIntoView: scrollIntoViewMock } as any;
-            return null;
-        });
-
-        const { unmount } = renderHeader();
+    it('opens chat widget when clicking contact', () => {
+        renderHeader();
         const contactBtn = screen.getByText('Contact Me').closest('a');
         fireEvent.click(contactBtn!);
 
-        expect(document.getElementById).toHaveBeenCalledWith('contact');
-        expect(scrollIntoViewMock).toHaveBeenCalled();
-        unmount();
-
-        // Test missing contact section (branch coverage)
-        jest.clearAllMocks();
-        jest.spyOn(document, 'getElementById').mockReturnValue(null);
-
-        const { unmount: unmount2 } = renderHeader();
-        const contactBtn2 = screen.getByText('Contact Me').closest('a');
-        fireEvent.click(contactBtn2!);
-
-        expect(document.getElementById).toHaveBeenCalledWith('contact');
-        expect(scrollIntoViewMock).not.toHaveBeenCalled();
-        unmount2();
+        expect(mockSetIsOpen).toHaveBeenCalledWith(true);
     });
 
     it('hides blog link if hasBlogPosts is false', () => {

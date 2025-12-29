@@ -23,9 +23,17 @@ jest.mock('sonner', () => ({
 
 jest.mock('@/lib/haptic', () => ({
     hapticFeedback: {
-        impact: { medium: jest.fn(), light: jest.fn() },
-        notification: { success: jest.fn(), error: jest.fn() },
+        medium: jest.fn(),
+        subtle: jest.fn(),
+        heavy: jest.fn(),
+        error: jest.fn(),
     },
+    haptic: {
+        medium: jest.fn(),
+        subtle: jest.fn(),
+        heavy: jest.fn(),
+        error: jest.fn(),
+    }
 }));
 
 // Mock fetch

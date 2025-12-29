@@ -40,11 +40,15 @@ jest.mock('@/config/resume', () => ({
     },
 }));
 
+import { ChatUIProvider } from '@/context/ChatUIContext';
+
 // Helper to render with providers
 const renderWithProviders = (ui: React.ReactElement) => {
     return render(
         <LanguageProvider>
-            {ui}
+            <ChatUIProvider>
+                {ui}
+            </ChatUIProvider>
         </LanguageProvider>
     );
 };
