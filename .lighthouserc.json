@@ -59,8 +59,10 @@
                     {}
                 ],
                 "valid-source-maps": [
-                    "off",
-                    {}
+                    "error",
+                    {
+                        "minScore": 1
+                    }
                 ],
                 "total-byte-weight": [
                     "off",

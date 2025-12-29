@@ -9,7 +9,6 @@ import { BlurImage } from "@/components/ui/BlurImage";
 import { cn } from "@/lib/utils";
 import { AnimatedBackground } from "@/components/ui/AnimatedBackground";
 import { Download, Mail, ChevronDown, ChevronUp, Share2 } from "lucide-react";
-import { QRCodeModal } from "@/components/ui/QRCodeModal";
 import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { useLanguage } from "@/context/LanguageContext";
@@ -18,7 +17,7 @@ import { SITE_CONFIG } from "@/config/site";
 import { track } from "@vercel/analytics";
 import { SectionTracker } from "@/components/ui/SectionTracker";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
-import Lottie from "lottie-react";
+import { LottieAnimation } from "@/components/ui/LottieAnimation";
 import scrollMouseAnimation from "@/../public/lottie/scroll-mouse.json";
 
 // Loading components
@@ -40,6 +39,9 @@ const TechCarousel = dynamic(() => import("@/components/sections/TechCarousel").
 const Hero3D = dynamic(() => import("@/components/ui/Hero3D").then(mod => mod.Hero3D), {
     ssr: false,
     loading: () => <Hero3DLoader />
+});
+const QRCodeModal = dynamic(() => import("@/components/ui/QRCodeModal").then(mod => mod.QRCodeModal), {
+    ssr: false
 });
 
 const GithubIcon = ({ size = 24, className = "" }: { size?: number, className?: string }) => (
@@ -477,12 +479,11 @@ export function Hero({ resumes = [] }: Readonly<{ resumes?: Resume[] }>) {
                         </>
                     ) : (
                         /* Lottie scroll indicator */
-                        <Lottie
+                        <LottieAnimation
                             animationData={scrollMouseAnimation}
                             loop
                             autoplay
-                            style={{ width: 40, height: 70 }}
-                            className="opacity-70 group-hover:opacity-100 transition-opacity"
+                            className="w-[40px] h-[70px] opacity-70 group-hover:opacity-100 transition-opacity"
                         />
                     )}
                 </motion.button>
