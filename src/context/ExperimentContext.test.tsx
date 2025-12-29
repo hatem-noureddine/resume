@@ -1,5 +1,4 @@
 
-import { renderToStaticMarkup } from 'react-dom/server';
 import { renderHook, act } from '@testing-library/react';
 import { ExperimentProvider, useExperiment } from './ExperimentContext';
 import React from 'react';
@@ -21,7 +20,7 @@ const localStorageMock = (function () {
     };
 })();
 
-Object.defineProperty(global, 'localStorage', {
+Object.defineProperty(globalThis, 'localStorage', {
     value: localStorageMock,
 });
 

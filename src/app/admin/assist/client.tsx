@@ -278,7 +278,7 @@ export function AssistantClient({ initialExperience, initialProjects }: Assistan
                 </div>
 
                 {/* MIDDLE/RIGHT COL: Analysis & Results */}
-                <div className={`space-y-6 ${showHistory ? 'lg:col-span-2' : 'lg:col-span-2'}`}>
+                <div className="space-y-6 lg:col-span-2">
                     {/* CUSTOM PROMPT CARD */}
                     <Card className="bg-secondary/20 border-white/10 overflow-hidden relative">
                         <div className="absolute top-0 right-0 p-4 opacity-5">

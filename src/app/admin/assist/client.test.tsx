@@ -197,4 +197,79 @@ describe('AssistantClient', () => {
             expect(screen.getByText('Funny one')).toBeInTheDocument();
         });
     });
+
+    it('shows loading state during analysis', async () => {
+        // Make fetch slow
+        mockFetch.mockImplementation(() => new Promise(resolve => setTimeout(() => resolve({
+            json: () => Promise.resolve({ suggestions: ['Done'] })
+        }), 100)));
+
+        render(<AssistantClient initialExperience={mockExperience} initialProjects={mockProjects} />);
+
+        fireEvent.click(screen.getByText('Dev'));
+
+        expect(screen.getByText('Llama 3.1 is thinking...')).toBeInTheDocument();
+
+        await waitFor(() => {
+            expect(screen.queryByText('Llama 3.1 is thinking...')).not.toBeInTheDocument();
+        });
+    });
+
+    it('copies individual suggestion', async () => {
+        const mockResponse: SuggestionResponse = {
+            suggestions: ['Copy me']
+        };
+        mockFetch.mockResolvedValue({
+            json: async () => mockResponse,
+        });
+
+        const mockWriteText = jest.fn();
+        Object.assign(navigator, {
+            clipboard: {
+                writeText: mockWriteText,
+            },
+        });
+
+        render(<AssistantClient initialExperience={mockExperience} initialProjects={mockProjects} />);
+
+        fireEvent.click(screen.getByText('Dev'));
+
+        await waitFor(() => {
+            expect(screen.getByText('Copy me')).toBeInTheDocument();
+        });
+
+        const copyBtn = screen.getByTitle('Copy suggestion');
+        fireEvent.click(copyBtn);
+
+        expect(mockWriteText).toHaveBeenCalledWith('Copy me');
+    });
+
+    it('copies all suggestions', async () => {
+        const mockResponse: SuggestionResponse = {
+            suggestions: ['Suggestion 1', 'Suggestion 2']
+        };
+        mockFetch.mockResolvedValue({
+            json: async () => mockResponse,
+        });
+
+        const mockWriteText = jest.fn();
+        Object.assign(navigator, {
+            clipboard: {
+                writeText: mockWriteText,
+            },
+        });
+
+        render(<AssistantClient initialExperience={mockExperience} initialProjects={mockProjects} />);
+
+        fireEvent.click(screen.getByText('Dev'));
+
+        await waitFor(() => {
+            expect(screen.getByText('Suggestion 1')).toBeInTheDocument();
+        });
+
+        const copyAllBtn = screen.getByText(/Copy All/);
+        fireEvent.click(copyAllBtn);
+
+        expect(mockWriteText).toHaveBeenCalledWith("Suggestion 1\n\nSuggestion 2");
+    });
 });
