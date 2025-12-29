@@ -142,6 +142,7 @@ export function NewsletterForm({
                         </div>
                         <Button
                             type="submit"
+                            withHaptic
                             disabled={status === 'submitting'}
                             className="shrink-0"
                         >

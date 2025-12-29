@@ -6,10 +6,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/context/LanguageContext";
 import * as LucideIcons from "lucide-react";
 import { Logo } from "@/components/ui/Logo";
-import { ArrowUp } from "lucide-react";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import { NewsletterForm } from "@/components/ui/NewsletterForm";
 import { CopyToClipboard } from "@/components/ui/CopyToClipboard";
+
+const { ArrowUp } = LucideIcons;
 
 export function Footer({ hasBlogPosts = true }: Readonly<{ hasBlogPosts?: boolean }>) {
     const { t } = useLanguage();
@@ -132,6 +133,7 @@ export function Footer({ hasBlogPosts = true }: Readonly<{ hasBlogPosts?: boolea
 
 
 
+            {/* Back to Top Button */}
             {/* Back to Top Button */}
             <AnimatePresence>
                 {showBackToTop && (

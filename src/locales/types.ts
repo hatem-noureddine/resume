@@ -1,4 +1,5 @@
 // Locale Types - Comprehensive TypeScript definitions for translations
+import { StaticImageData } from "next/image";
 
 export interface NavItem {
     name: string;
@@ -29,6 +30,8 @@ export interface HeroLocale {
     description: string;
     downloadCV: string;
     followMe: string;
+    readMore?: string;
+    readLess?: string;
     availableForHire: string;
     scrollDown: string;
     stats: StatItem[];
@@ -36,7 +39,7 @@ export interface HeroLocale {
         projects: FloatingCard;
         experience: FloatingCard;
     };
-    image: string;
+    image: string | StaticImageData;
 }
 
 export interface ServiceItem {

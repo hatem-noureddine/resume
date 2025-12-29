@@ -8,12 +8,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/context/LanguageContext";
 import { useFeatureFlags } from "@/context/FeatureFlags";
+import { useChatUI } from "@/context/ChatUIContext";
 import { localeMetadata } from "@/locales";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { Logo } from "@/components/ui/Logo";
 
 export function Header({ hasBlogPosts = true }: Readonly<{ hasBlogPosts?: boolean }>) {
     const { t, language, setLanguage, availableLanguages, direction } = useLanguage();
+    const { setIsOpen: setIsChatOpen } = useChatUI();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
     const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false);
@@ -227,10 +229,7 @@ export function Header({ hasBlogPosts = true }: Readonly<{ hasBlogPosts?: boolea
                         href="#contact"
                         onClick={(e) => {
                             e.preventDefault();
-                            const contactSection = document.getElementById('contact');
-                            if (contactSection) {
-                                contactSection.scrollIntoView({ behavior: 'smooth' });
-                            }
+                            setIsChatOpen(true);
                         }}
                         className={cn(
                             "inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/10 border border-green-500/20 text-green-600 dark:text-green-400 text-sm font-medium hover:bg-green-500/20 transition-colors",
@@ -284,11 +283,29 @@ export function Header({ hasBlogPosts = true }: Readonly<{ hasBlogPosts?: boolea
                                 animate={{ x: 0 }}
                                 exit={{ x: direction === "rtl" ? "-100%" : "100%" }}
                                 transition={{ type: "spring", damping: 25, stiffness: 200 }}
-                                className="absolute inset-y-0 ltr:right-0 rtl:left-0 w-full bg-background flex flex-col"
+                                drag="x"
+                                dragConstraints={{ left: 0, right: 0 }}
+                                dragElastic={0.1}
+                                onDragEnd={(e, { offset, velocity }) => {
+                                    const swipeThreshold = 50;
+                                    const velocityThreshold = 0.5;
+
+                                    // LTR: Swipe right (positive) to close
+                                    // RTL: Swipe left (negative) to close
+                                    const isLTR = direction !== "rtl";
+                                    const swipedToClose = isLTR
+                                        ? offset.x > swipeThreshold || velocity.x > velocityThreshold
+                                        : offset.x < -swipeThreshold || velocity.x < -velocityThreshold;
+
+                                    if (swipedToClose) {
+                                        setMobileMenuOpen(false);
+                                    }
+                                }}
+                                className="absolute inset-y-0 ltr:right-0 rtl:left-0 w-full bg-background flex flex-col shadow-2xl"
                             >
                                 <div className="container mx-auto px-4 h-20 flex items-center justify-end">
                                     <button
-                                        className="p-2 text-foreground hover:text-primary transition-colors cursor-pointer relative z-50"
+                                        className="p-4 text-foreground hover:text-primary transition-colors cursor-pointer relative z-50 -mr-2"
                                         onClick={() => setMobileMenuOpen(false)}
                                         aria-label="Close menu"
                                     >
@@ -326,7 +343,11 @@ export function Header({ hasBlogPosts = true }: Readonly<{ hasBlogPosts?: boolea
                                     >
                                         <Link
                                             href="#contact"
-                                            onClick={() => setMobileMenuOpen(false)}
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                setMobileMenuOpen(false);
+                                                setIsChatOpen(true);
+                                            }}
                                             className="mt-4 inline-flex items-center gap-3 px-6 py-3 rounded-full bg-green-500/10 border border-green-500/20 text-green-600 dark:text-green-400 text-lg font-medium hover:bg-green-500/20 transition-colors"
                                         >
                                             <span className="relative flex h-3 w-3">

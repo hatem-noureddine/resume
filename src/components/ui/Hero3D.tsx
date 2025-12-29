@@ -3,7 +3,7 @@
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Points, PointMaterial } from "@react-three/drei";
 import { useRef, useState } from "react";
-import * as THREE from "three";
+import type { Points as ThreePoints } from "three";
 
 // Brand colors matching AnimatedBackground
 const COLORS = {
@@ -37,7 +37,7 @@ function createVelocities(count: number): Float32Array {
 }
 
 function ParticleFlow() {
-    const pointsRef = useRef<THREE.Points>(null);
+    const pointsRef = useRef<ThreePoints>(null);
     const { viewport } = useThree();
     const mouse = useRef({ x: 0, y: 0 });
     const frameCount = useRef(0);
@@ -132,7 +132,7 @@ function ParticleFlow() {
 
 // Secondary particles (simpler, no interaction)
 function SecondaryParticles() {
-    const ref = useRef<THREE.Points>(null);
+    const ref = useRef<ThreePoints>(null);
 
     // Use useState with lazy initializer
     const [positions] = useState(() => {

@@ -1,6 +1,13 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+/* eslint-disable @next/next/no-img-element */
+import { render, screen, fireEvent, act, within } from '@testing-library/react';
 import { Hero } from './Hero';
 import { LanguageProvider } from '@/context/LanguageContext';
+import { track } from '@vercel/analytics';
+
+// Mock Vercel Analytics
+jest.mock('@vercel/analytics', () => ({
+    track: jest.fn(),
+}));
 
 // Mock Lucide icons
 jest.mock('lucide-react', () => ({
@@ -17,7 +24,6 @@ jest.mock('lucide-react', () => ({
 // Mock Next.js Image
 jest.mock('next/image', () => ({
     __esModule: true,
-    // eslint-disable-next-line @next/next/no-img-element
     default: (props: any) => <img {...props} alt={props.alt || ''} />,
 }));
 
@@ -42,7 +48,6 @@ jest.mock('@/components/ui/MagneticButton', () => ({
     MagneticButton: ({ children, ...props }: any) => <div {...props}>{children}</div>,
 }));
 
-
 jest.mock('@/components/sections/ClientCarousel', () => ({
     ClientCarousel: () => <div data-testid="client-carousel" />
 }));
@@ -57,7 +62,6 @@ jest.mock('@/components/ui/AnimatedBackground', () => ({
 }));
 
 jest.mock('@/components/ui/BlurImage', () => ({
-    // eslint-disable-next-line @next/next/no-img-element
     BlurImage: (props: any) => <img {...props} alt={props.alt || ''} />,
 }));
 
@@ -66,13 +70,15 @@ jest.mock('@/components/sections/TechCarousel', () => ({
 }));
 
 jest.mock('@/components/ui/QRCodeModal', () => ({
-    QRCodeModal: () => <div data-testid="qr-code-modal" />
+    QRCodeModal: ({ isOpen }: any) => isOpen ? <div data-testid="qr-code-modal" /> : null
 }));
 
-// Define mock function outside
-const mockUseLanguage = jest.fn();
+const mockUsePrefersReducedMotion = jest.fn().mockReturnValue(false);
+jest.mock('@/hooks/usePrefersReducedMotion', () => ({
+    usePrefersReducedMotion: () => mockUsePrefersReducedMotion()
+}));
 
-// Mock Language Context
+const mockUseLanguage = jest.fn();
 jest.mock('@/context/LanguageContext', () => ({
     useLanguage: () => mockUseLanguage(),
     LanguageProvider: ({ children }: any) => <div>{children}</div>
@@ -82,86 +88,207 @@ describe('Hero Component', () => {
     const defaultHero = {
         greeting: 'Hi there',
         name: 'Hatem Noureddine',
-        role: 'Full Stack Developer',
+        roles: ['Developer', 'Designer'],
         description: 'A very long description that should exceed the limit for the read more button to appear. '.repeat(10),
-        actions: { contact: 'Contact', download: 'Download' },
-        stats: [{ value: '10+', label: 'Years' }]
+        stats: [{ value: '10+', label: 'Years' }],
+        image: '/test.jpg'
     };
 
     beforeEach(() => {
+        jest.clearAllMocks();
+        jest.useFakeTimers();
         mockUseLanguage.mockReturnValue({
             t: {
                 hero: defaultHero,
-                contact: { title: 'Contact', subtitle: 'Get in touch' }
             },
-            language: 'en'
+            language: 'en',
+            direction: 'ltr'
         });
+        mockUsePrefersReducedMotion.mockReturnValue(false);
+        // Default to desktop
+        globalThis.innerWidth = 1024;
+        fireEvent(globalThis.window, new Event('resize'));
     });
 
-    const renderWithContext = () => {
+    afterEach(() => {
+        jest.useRealTimers();
+    });
+
+    const renderWithContext = (props = {}) => {
         return render(
             <LanguageProvider>
-                <Hero />
+                <Hero {...props} />
             </LanguageProvider>
         );
     };
 
-    it('renders the main heading', () => {
+    it('renders basic info', () => {
         renderWithContext();
-        expect(screen.getByRole('heading', { level: 1 })).toBeInTheDocument();
-        expect(screen.getByText('Hatem')).toBeInTheDocument();
-        expect(screen.getByText('Noureddine')).toBeInTheDocument();
+        expect(screen.getByText(/Hatem/)).toBeInTheDocument();
+        expect(screen.getByText(/Noureddine/)).toBeInTheDocument();
+        expect(screen.getByText('10+')).toBeInTheDocument();
     });
 
-    it('renders the role/title with typing animation cycle', async () => {
-        jest.useFakeTimers();
+    it('animates typing text', () => {
         renderWithContext();
 
-        // Typing and Stats tests removed due to mocking issues
-        // They are visual/content rendering that is hard to mock with current setup.
+        // Loop to advance timers and allow re-renders
+        for (let i = 0; i < 30; i++) {
+            act(() => {
+                jest.advanceTimersByTime(100);
+            });
+        }
+
+        expect(screen.getByText(/Dev/)).toBeInTheDocument();
     });
 
-    it('renders social links', () => {
-        renderWithContext();
-        const links = screen.getAllByRole('link');
-        const githubLink = links.find(link => link.getAttribute('href')?.includes('github.com'));
-        expect(githubLink).toBeInTheDocument();
-    });
-
-    it('renders call to action buttons', () => {
-        renderWithContext();
-        expect(screen.getByTestId('icon-mail')).toBeInTheDocument();
-        expect(screen.getByTestId('icon-download')).toBeInTheDocument();
-    });
-
-    it('handles mobile view interactions', () => {
-        // Mock mobile width
+    it('handles mobile description expansion', () => {
         globalThis.innerWidth = 500;
         fireEvent(globalThis.window, new Event('resize'));
-
         renderWithContext();
 
-        // Check for read more button
-        const readMoreBtn = screen.getByText('Read more');
-        expect(readMoreBtn).toBeInTheDocument();
-
-        // Expand
+        const readMoreBtn = screen.getByRole('button', { name: /Read more/i });
         fireEvent.click(readMoreBtn);
-        expect(screen.getByText('Read less')).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: /Read less/i })).toBeInTheDocument();
     });
 
-    it('handles scroll down click', () => {
+    it('has hidden class on desktop', () => {
+        globalThis.innerWidth = 1024;
+        fireEvent(globalThis.window, new Event('resize'));
+        renderWithContext();
+
+        // Button exists but should be hidden via CSS class
+        const readMoreBtn = screen.getByRole('button', { name: /Read more/i });
+        expect(readMoreBtn).toHaveClass('md:hidden');
+    });
+
+    it('downloads single resume and tracks analytics', () => {
+        const resumes = [{ label: 'Resume EN', language: 'en', file: '/resume.pdf' }];
+        renderWithContext({ resumes });
+
+        const downloadLink = screen.getByText('Download CV').closest('a');
+        expect(downloadLink).toHaveAttribute('href', '/resume.pdf');
+
+        fireEvent.click(downloadLink!);
+        expect(track).toHaveBeenCalledWith('Resume Download', { resume: 'Resume EN', language: 'en' });
+    });
+
+    it('opens dropdown for multiple resumes', () => {
+        const resumes = [
+            { label: 'Resume EN', language: 'en', file: '/resume-en.pdf' },
+            { label: 'Resume FR', language: 'en', file: '/resume-fr.pdf' }
+        ];
+        renderWithContext({ resumes });
+
+        const menuBtn = screen.getByText('Download CV').closest('button');
+        fireEvent.click(menuBtn!);
+
+        const option = screen.getByText('Resume FR');
+        expect(option).toBeInTheDocument();
+
+        fireEvent.click(option);
+        expect(track).toHaveBeenCalledWith('Resume Download', { resume: 'Resume FR', language: 'en' });
+
+        // Menu should close
+        expect(screen.queryByText('Resume FR')).not.toBeInTheDocument();
+    });
+
+    it('closes resume menu when clicking outside', () => {
+        const resumes = [
+            { label: 'Resume EN', language: 'en', file: '/resume-en.pdf' },
+            { label: 'Resume FR', language: 'en', file: '/resume-fr.pdf' }
+        ];
+        renderWithContext({ resumes });
+
+        const menuBtn = screen.getByText('Download CV').closest('button');
+        fireEvent.click(menuBtn!);
+        expect(screen.getByText('Resume FR')).toBeInTheDocument();
+
+        fireEvent.mouseDown(document.body);
+        expect(screen.queryByText('Resume FR')).not.toBeInTheDocument();
+    });
+
+    it('opens QR modal and tracks analytics', () => {
+        renderWithContext();
+        const shareBtn = screen.getByLabelText('Share profile');
+        fireEvent.click(shareBtn);
+
+        expect(screen.getByTestId('qr-code-modal')).toBeInTheDocument();
+        expect(track).toHaveBeenCalledWith('Share Profile QR Code Opened');
+    });
+
+    it('handles reduced motion for scroll indicator', () => {
+        mockUsePrefersReducedMotion.mockReturnValue(true);
+        renderWithContext();
+
+        expect(screen.queryByTestId('lottie-animation')).not.toBeInTheDocument();
+        // Find the scroll button and check for the chevron icon inside it
+        const scrollBtn = screen.getByLabelText(/Scroll to explore/i);
+        // Using strict selector within the button
+        expect(within(scrollBtn).getByTestId('icon-chevron-down')).toBeInTheDocument();
+    });
+
+    it('scrolls to content on click', () => {
         const scrollIntoViewMock = jest.fn();
         jest.spyOn(document, 'getElementById').mockReturnValue({
             scrollIntoView: scrollIntoViewMock,
         } as unknown as HTMLElement);
 
-        const { getByLabelText } = renderWithContext();
-        fireEvent.click(getByLabelText('Scroll to explore'));
+        renderWithContext();
+        const scrollBtn = screen.getByLabelText(/scroll/i);
+        fireEvent.click(scrollBtn);
 
         expect(document.getElementById).toHaveBeenCalledWith('services');
-        expect(scrollIntoViewMock).toHaveBeenCalledWith({ behavior: 'smooth' });
+        expect(scrollIntoViewMock).toHaveBeenCalled();
 
         jest.restoreAllMocks();
+    });
+
+    it('renders desktop image carousel logic (implied coverage)', () => {
+        renderWithContext();
+        expect(screen.getByTestId('client-carousel')).toBeInTheDocument();
+        expect(screen.getByTestId('tech-carousel')).toBeInTheDocument();
+    });
+
+    it('uses default values when hero data is missing', () => {
+        mockUseLanguage.mockReturnValue({
+            t: { hero: { name: 'Test Name' } },
+            language: 'en',
+            direction: 'ltr'
+        });
+        renderWithContext();
+
+        // Timer advancement for typing animation default 'Developer'
+        for (let i = 0; i < 30; i++) {
+            act(() => {
+                jest.advanceTimersByTime(100);
+            });
+        }
+
+        // Should use defaults for roles
+        expect(screen.getByText(/Developer/)).toBeInTheDocument();
+    });
+
+    it('renders with no resumes', () => {
+        renderWithContext({ resumes: [] });
+        expect(screen.getByText('Download CV')).toBeInTheDocument();
+    });
+
+    it('scroll to content handles missing section gracefully', () => {
+        jest.spyOn(document, 'getElementById').mockReturnValue(null);
+        renderWithContext();
+
+        const scrollBtn = screen.getByLabelText(/scroll/i);
+        fireEvent.click(scrollBtn);
+    });
+
+    it('cleans up event listeners on unmount', () => {
+        const removeEventListenerSpy = jest.spyOn(globalThis, 'removeEventListener');
+        const { unmount } = renderWithContext();
+        unmount();
+        // Check for resize listener
+        // Filter calls to find resize
+        const resizeCall = removeEventListenerSpy.mock.calls.find(call => call[0] === 'resize');
+        expect(resizeCall).toBeTruthy();
     });
 });

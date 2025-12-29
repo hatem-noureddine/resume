@@ -1,5 +1,7 @@
 import withBundleAnalyzer from '@next/bundle-analyzer';
 
+import { withSentryConfig } from '@sentry/nextjs';
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // No output: 'export' - Vercel handles this automatically
@@ -25,7 +27,7 @@ const nextConfig = {
         headers: [
           {
             key: 'X-Frame-Options',
-            value: 'DENY',
+            value: 'SAMEORIGIN',
           },
           {
             key: 'X-Content-Type-Options',
@@ -45,8 +47,27 @@ const nextConfig = {
           },
         ],
       },
+      {
+        source: '/:all*(svg|jpg|png|webp|avif)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/:all*(woff|woff2)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
     ];
   },
+  productionBrowserSourceMaps: true,
   experimental: {
     optimizePackageImports: [
       'lucide-react',
@@ -57,7 +78,22 @@ const nextConfig = {
   },
 };
 
-export default withBundleAnalyzer({
-  enabled: process.env.ANALYZE === 'true',
-  openAnalyzer: false,
-})(nextConfig);
+export default withSentryConfig(
+  withBundleAnalyzer({
+    enabled: process.env.ANALYZE === 'true',
+    openAnalyzer: false,
+  })(nextConfig),
+  {
+    silent: true,
+    org: "nextjs-portfolio",
+    project: "resume-website",
+  },
+  {
+    widenClientFileUpload: false,
+    transpileClientSDK: false,
+    tunnelRoute: "/monitoring",
+    hideSourceMaps: false,
+    disableLogger: true,
+    automaticVercelMonitors: true,
+  }
+);

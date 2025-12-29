@@ -8,6 +8,22 @@ Object.assign(globalThis, {
     TextEncoder,
 });
 
+// Polyfill crypto if not present
+if (!globalThis.crypto) {
+    globalThis.crypto = {
+        getRandomValues: (arr) => {
+            for (let i = 0; i < arr.length; i++) {
+                arr[i] = Math.floor(Math.random() * 4294967296);
+            }
+            return arr;
+        },
+        randomUUID: () => '00000000-0000-0000-0000-000000000000',
+    };
+} else if (!globalThis.crypto.randomUUID) {
+    // If crypto exists but randomUUID doesn't (older Node/JSDOM)
+    globalThis.crypto.randomUUID = () => '00000000-0000-0000-0000-000000000000';
+}
+
 // Polyfill fetch if not present (jsdom doesn't include it by default)
 if (!globalThis.fetch) {
     globalThis.fetch = jest.fn().mockImplementation(() =>

@@ -32,23 +32,47 @@ describe('Markdown Components', () => {
         expect(screen.getByText('Quote').closest('blockquote')).toBeInTheDocument();
     });
 
-    it('renders headers with generated IDs', () => {
+    it('renders headers with complex nested children', () => {
         const H1 = markdownComponents.h1 as React.FC<any>;
-        render(<H1>Hello World</H1>);
-        const h1 = screen.getByText('Hello World');
-        expect(h1.id).toBe('hello-world');
+        render(
+            <H1>
+                <span>Nested</span> <strong>Text</strong>
+            </H1>
+        );
+        const h1 = screen.getByRole('heading', { level: 1 });
+        expect(h1.id).toBe('nested-text');
+    });
 
-        const H2 = markdownComponents.h2 as React.FC<any>;
-        render(<H2>Sub Title</H2>);
-        expect(screen.getByText('Sub Title').id).toBe('sub-title');
+    it('handles arrays and nested objects in getTextFromNode', () => {
+        const H1 = markdownComponents.h1 as React.FC<any>;
+        render(
+            <H1>
+                {['Part 1', ' ', 'Part 2']}
+            </H1>
+        );
+        expect(screen.getByRole('heading', { level: 1 }).id).toBe('part-1-part-2');
 
-        const H3 = markdownComponents.h3 as React.FC<any>;
-        render(<H3>Small Title</H3>);
-        expect(screen.getByText('Small Title').id).toBe('small-title');
+        render(
+            <H1>
+                <div>Outer <span>Inner</span></div>
+            </H1>
+        );
+        expect(screen.getAllByRole('heading', { level: 1 })[1].id).toBe('outer-inner');
+    });
 
-        const H4 = markdownComponents.h4 as React.FC<any>;
-        render(<H4>Tiny Title</H4>);
-        expect(screen.getByText('Tiny Title').id).toBe('tiny-title');
+    it('handles empty or non-string children gracefully in generateId', () => {
+        const H1 = markdownComponents.h1 as React.FC<any>;
+        const { container, rerender } = render(<H1>{null}</H1>);
+        expect(container.querySelector('h1')?.id).toBe('');
+
+        rerender(<H1>{123}</H1>);
+        expect(container.querySelector('h1')?.id).toBe('123');
+    });
+
+    it('handles special characters and whitespace in generateId', () => {
+        const H1 = markdownComponents.h1 as React.FC<any>;
+        render(<H1>Hello @ World!!!  </H1>);
+        expect(screen.getByRole('heading', { level: 1 }).id).toBe('hello-world');
     });
 
     it('renders link with target blank', () => {

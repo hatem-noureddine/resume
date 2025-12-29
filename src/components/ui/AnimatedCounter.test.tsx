@@ -11,10 +11,14 @@ describe('AnimatedCounter', () => {
     let observeMock: jest.Mock;
     let disconnectMock: jest.Mock;
     let intersectionCallback: (entries: IntersectionObserverEntry[]) => void;
+    let rafCallbacks: FrameRequestCallback[] = [];
+    let originalRaf: typeof requestAnimationFrame;
+    let originalPerformanceNow: typeof performance.now;
 
     beforeEach(() => {
         observeMock = jest.fn();
         disconnectMock = jest.fn();
+        rafCallbacks = [];
 
         // Mock IntersectionObserver
         globalThis.IntersectionObserver = jest.fn((callback) => {
@@ -30,11 +34,23 @@ describe('AnimatedCounter', () => {
             };
         }) as unknown as typeof IntersectionObserver;
 
+        // Mock requestAnimationFrame
+        originalRaf = globalThis.requestAnimationFrame;
+        globalThis.requestAnimationFrame = jest.fn((cb: FrameRequestCallback) => {
+            rafCallbacks.push(cb);
+            return rafCallbacks.length;
+        });
+
+        // Mock performance.now
+        originalPerformanceNow = performance.now;
+
         (usePrefersReducedMotion as jest.Mock).mockReturnValue(false);
     });
 
     afterEach(() => {
         jest.clearAllMocks();
+        globalThis.requestAnimationFrame = originalRaf;
+        performance.now = originalPerformanceNow;
     });
 
     const triggerIntersection = (isIntersecting: boolean) => {
@@ -148,6 +164,47 @@ describe('AnimatedCounter', () => {
         expect(container.querySelector('span')).toBeInTheDocument();
     });
 
+    it('animates through values when requestAnimationFrame is called', () => {
+        let mockTime = 0;
+        performance.now = jest.fn(() => mockTime);
+
+        render(<AnimatedCounter value={100} duration={1000} />);
+
+        // Trigger intersection to start animation
+        act(() => {
+            triggerIntersection(true);
+        });
+
+        // First raf call starts animation
+        expect(rafCallbacks.length).toBeGreaterThan(0);
+
+        // Execute first animation frame (progress 0)
+        act(() => {
+            if (rafCallbacks.length > 0) {
+                rafCallbacks[rafCallbacks.length - 1](mockTime);
+            }
+        });
+
+        // Move time forward to 50% of duration
+        mockTime = 500;
+        act(() => {
+            if (rafCallbacks.length > 0) {
+                rafCallbacks[rafCallbacks.length - 1](mockTime);
+            }
+        });
+
+        // Move time to 100% of duration (animation complete)
+        mockTime = 1000;
+        act(() => {
+            if (rafCallbacks.length > 0) {
+                rafCallbacks[rafCallbacks.length - 1](mockTime);
+            }
+        });
+
+        // Animation should have completed
+        expect(screen.getByText('100')).toBeInTheDocument();
+    });
+
     it('does not restart animation when scrolled out and back in', () => {
         render(<AnimatedCounter value={100} />);
 
@@ -194,3 +251,4 @@ describe('AnimatedCounter', () => {
         });
     });
 });
+

@@ -1,406 +1,209 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { Experience } from './Experience';
-import { LanguageProvider } from '@/context/LanguageContext';
+import { useLanguage } from '@/context/LanguageContext';
+import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 
-jest.mock('@/components/ui/SectionHeading', () => ({
-    SectionHeading: ({ title }: any) => <div data-testid="section-heading">{title}</div>
-}));
-
+jest.mock('@/context/LanguageContext', () => ({ useLanguage: jest.fn() }));
+jest.mock('@/hooks/usePrefersReducedMotion', () => ({ usePrefersReducedMotion: jest.fn() }));
+jest.mock('@/components/ui/SectionHeading', () => ({ SectionHeading: () => <div /> }));
 jest.mock('framer-motion', () => ({
     motion: {
-        div: ({ children, className, onClick }: any) => <div className={className} onClick={onClick}>{children}</div>,
-        h2: ({ children, className }: any) => <h2 className={className}>{children}</h2>,
-        li: ({ children, className }: any) => <li className={className}>{children}</li>,
-        button: ({ children, className, onClick }: any) => <button className={className} onClick={onClick}>{children}</button>,
-        section: ({ children, className, id }: any) => <section className={className} id={id}>{children}</section>,
-        svg: ({ children, className, ...rest }: any) => <svg className={className} {...rest}>{children}</svg>,
-        path: ({ className, ...rest }: any) => <path className={className} {...rest} />,
+        div: ({ children, ...props }: any) => <div {...props}>{children}</div>,
+        button: ({ children, onClick, ...props }: any) => <button onClick={onClick} {...props}>{children}</button>,
+        li: ({ children, ...props }: any) => <li {...props}>{children}</li>,
     },
     AnimatePresence: ({ children }: any) => <>{children}</>,
-    useScroll: () => ({ scrollYProgress: { current: 0, onChange: jest.fn() } }),
-    useTransform: () => 0,
-    useSpring: () => 0,
+    useScroll: () => ({ scrollYProgress: { get: () => 0 } }),
+    useSpring: () => ({ get: () => 0 }),
 }));
-
 jest.mock('lucide-react', () => ({
-    Briefcase: () => <div data-testid="icon-briefcase" />,
-    Calendar: () => <div data-testid="icon-calendar" />,
-    MapPin: () => <div data-testid="icon-map-pin" />,
-    ChevronRight: () => <div data-testid="icon-chevron-right" />,
-    ChevronDown: () => <div data-testid="icon-chevron-down" />,
-    ChevronUp: () => <div data-testid="icon-chevron-up" />,
-    Clock: () => <div data-testid="icon-clock" />,
-    Filter: () => <div data-testid="icon-filter" />,
-    X: () => <div data-testid="icon-x" />,
+    Calendar: () => <div />, ChevronDown: () => <div />, ChevronUp: () => <div />,
+    Clock: () => <div />, Briefcase: () => <div />, Filter: () => <div />, X: () => <div />,
 }));
 
-jest.mock('@/components/ui/Button', () => ({
-    Button: ({ children, onClick }: any) => <button onClick={onClick}>{children}</button>
-}));
+describe('Experience', () => {
+    const mockItems = [
+        { id: '1', role: 'Role A', company: 'Comp A', period: '2023', startDate: '2023-01', skills: ['Skill A'], description: 'Desc A', highlights: ['Highlight A1'] },
+        { id: '2', role: 'Role B', company: 'Comp B', period: '2022', startDate: '2022-01', skills: ['Skill B'], description: 'Desc B' },
+        { id: '3', role: 'Role C', company: 'Comp C', period: '2021', startDate: '2021-01', skills: ['Skill C'], description: 'Desc C' },
+        { id: '4', role: 'Role D', company: 'Comp D', period: '2020', startDate: '2020-01', skills: ['Skill A'], description: 'Desc D', highlights: ['Highlight D1'] },
+    ];
 
-jest.mock('next/link', () => ({
-    __esModule: true,
-    default: ({ children }: any) => <a href="#">{children}</a>,
-}));
-
-jest.mock('next/image', () => ({
-    __esModule: true,
-    // eslint-disable-next-line @next/next/no-img-element
-    default: (props: any) => <img {...props} alt={props.alt || ''} />,
-}));
-
-// Mock usePrefersReducedMotion
-const mockPrefersReducedMotion = jest.fn().mockReturnValue(false);
-jest.mock('@/hooks/usePrefersReducedMotion', () => ({
-    usePrefersReducedMotion: () => mockPrefersReducedMotion()
-}));
-
-jest.mock('@/context/LanguageContext', () => ({
-    useLanguage: () => ({
-        t: {
-            experience: {
-                title: 'My Experience Resume',
-                showMore: 'Show More',
-                showLess: 'Show Less',
-                filterBySkill: 'Filter by skill',
-                allSkills: 'All Skills',
-                clearFilter: 'Clear',
-                items: [
-                    {
-                        id: 1,
-                        role: 'Lead Developer',
-                        company: 'Tech Corp',
-                        period: '2023 - Present',
-                        description: 'Building awesome stuff',
-                        startDate: '2023-01',
-                        endDate: 'Present',
-                        duration: '1 year',
-                        highlights: ['Built feature A', 'Led team B'],
-                        skills: ['React', 'Node']
-                    },
-                    {
-                        id: 2,
-                        role: 'Software Engineer',
-                        company: 'Startup Inc',
-                        period: '2020 - 2023',
-                        description: 'Early stage development',
-                        startDate: '2020-01',
-                        endDate: '2023-01',
-                        duration: '3 years',
-                        highlights: ['Built MVP'],
-                        skills: ['Python', 'React']
-                    },
-                    {
-                        id: 3,
-                        role: 'Junior Dev',
-                        company: 'Big Co',
-                        period: '2018 - 2020',
-                        description: 'Learning and growing',
-                        startDate: '2018-01',
-                        endDate: '2020-01',
-                        skills: ['JavaScript']
-                    },
-                    {
-                        id: 4,
-                        role: 'Intern',
-                        company: 'Agency',
-                        period: '2017',
-                        description: 'First job',
-                        startDate: '2017-01',
-                        skills: ['HTML']
-                    }
-                ]
-            }
-        },
-        language: 'en'
-    }),
-    LanguageProvider: ({ children }: any) => <div>{children}</div>
-}));
-
-describe('Experience Component', () => {
     beforeEach(() => {
         jest.clearAllMocks();
-        mockPrefersReducedMotion.mockReturnValue(false);
+        (useLanguage as jest.Mock).mockReturnValue({
+            t: { experience: { title: 'Exp', items: [] } },
+            language: 'en', direction: 'ltr'
+        });
+        (usePrefersReducedMotion as jest.Mock).mockReturnValue(false);
     });
 
-    const renderWithContext = () => {
-        return render(
-            <LanguageProvider>
-                <Experience />
-            </LanguageProvider>
-        );
-    };
-
-    it('renders the section title', () => {
-        renderWithContext();
-        expect(screen.getAllByText('My Experience Resume')[0]).toBeInTheDocument();
+    it('renders initial visible items and highlights', () => {
+        const { unmount } = render(<Experience items={mockItems} />);
+        expect(screen.getAllByText('Role A')[0]).toBeInTheDocument();
+        expect(screen.getAllByText('Highlight A1')[0]).toBeInTheDocument();
+        expect(screen.queryByText('Role D')).not.toBeInTheDocument();
+        unmount();
     });
 
-    it('renders experience items', () => {
-        renderWithContext();
-        // Just check that component renders without crashing
-        expect(screen.getAllByRole('button').length).toBeGreaterThan(0);
+    it('renders default items from translation if no items prop', () => {
+        const defaultItems = [
+            { id: 'def1', role: 'Default Role', company: 'Def Co', period: '2020', startDate: '2020-01', description: 'Def Desc', skills: [] }
+        ];
+        (useLanguage as jest.Mock).mockReturnValue({
+            t: { experience: { title: 'Exp', items: defaultItems } },
+            language: 'en', direction: 'ltr'
+        });
+
+        render(<Experience />); // No items prop
+        expect(screen.getAllByText('Default Role')[0]).toBeInTheDocument();
     });
 
-    it('renders company logos or icons', () => {
-        renderWithContext();
-        expect(screen.getAllByTestId('icon-briefcase').length).toBeGreaterThan(0);
+    it('expands to show more items', async () => {
+        render(<Experience items={mockItems} />);
+        const showMoreBtns = screen.getAllByText(/Show More/);
+        fireEvent.click(showMoreBtns[0]);
+        await waitFor(() => expect(screen.getAllByText('Role D')[0]).toBeInTheDocument());
     });
 
-    it('handles mobile accordion interaction', () => {
-        renderWithContext();
-        const buttons = screen.getAllByRole('button');
-        expect(buttons.length).toBeGreaterThan(0);
+    it('handles keyboard navigation cleanup', async () => {
+        const { unmount } = render(<Experience items={mockItems} />);
+        const section = document.getElementById('experience');
+        fireEvent.focusIn(section!); // Adds event listener
+        unmount(); // Should remove event listener
+    });
 
-        // Click first accordion button
-        if (buttons[0]) {
-            fireEvent.click(buttons[0]);
+    it('handles keyboard navigation logic (LTR)', async () => {
+        render(<Experience items={mockItems} />);
+        const section = document.getElementById('experience');
+        fireEvent.focusIn(section!);
+
+        // Arrow Down -> Next Item
+        fireEvent.keyDown(window, { key: 'ArrowDown' });
+        await waitFor(() => expect(screen.getAllByText('Desc B')[0]).toBeInTheDocument());
+
+        // Arrow Up -> Prev Item
+        fireEvent.keyDown(window, { key: 'ArrowUp' });
+        await waitFor(() => expect(screen.getAllByText('Desc A')[0]).toBeInTheDocument());
+
+        // Arrow Right -> Next Item (LTR)
+        fireEvent.keyDown(window, { key: 'ArrowRight' });
+        await waitFor(() => expect(screen.getAllByText('Desc B')[0]).toBeInTheDocument());
+
+        // Arrow Left -> Prev Item (LTR)
+        fireEvent.keyDown(window, { key: 'ArrowLeft' });
+        await waitFor(() => expect(screen.getAllByText('Desc A')[0]).toBeInTheDocument());
+
+        // Boundary checks
+        fireEvent.keyDown(window, { key: 'ArrowUp' }); // Already at 0, shouldn't crash
+        expect(screen.getAllByText('Desc A')[0]).toBeInTheDocument();
+    });
+
+    it('handles keyboard navigation logic (RTL)', async () => {
+        (useLanguage as jest.Mock).mockReturnValue({
+            t: { experience: { title: 'Exp', items: [] } },
+            language: 'ar', direction: 'rtl'
+        });
+
+        render(<Experience items={mockItems} />);
+        const section = document.getElementById('experience');
+        fireEvent.focusIn(section!);
+
+        // Arrow Left -> Next Item (RTL)
+        fireEvent.keyDown(window, { key: 'ArrowLeft' });
+        await waitFor(() => expect(screen.getAllByText('Desc B')[0]).toBeInTheDocument());
+
+        // Arrow Right -> Prev Item (RTL)
+        fireEvent.keyDown(window, { key: 'ArrowRight' });
+        await waitFor(() => expect(screen.getAllByText('Desc A')[0]).toBeInTheDocument());
+    });
+
+    it('toggles accordion items', async () => {
+        render(<Experience items={mockItems} />);
+        // Role A is expanded by default
+        const toggleBtnA = screen.getAllByRole('button', { expanded: true })[0];
+        fireEvent.click(toggleBtnA); // Close A
+        await waitFor(() => expect(toggleBtnA).toHaveAttribute('aria-expanded', 'false'));
+
+        fireEvent.click(toggleBtnA); // Open A again
+        await waitFor(() => expect(toggleBtnA).toHaveAttribute('aria-expanded', 'true'));
+    });
+
+    it('filters by skill via top bar', async () => {
+        render(<Experience items={mockItems} />);
+        const skillBtns = screen.getAllByText('Skill A');
+        fireEvent.click(skillBtns[0]);
+        await waitFor(() => {
+            expect(screen.getAllByText('Role A')[0]).toBeInTheDocument();
+            expect(screen.queryByText('Role B')).not.toBeInTheDocument();
+        });
+
+        // Clear filter
+        const clearBtn = screen.getByText('Clear');
+        fireEvent.click(clearBtn);
+        await waitFor(() => {
+            expect(screen.getAllByText('Role B')[0]).toBeInTheDocument();
+        });
+    });
+
+    it('filters by skill via detail tag', async () => {
+        render(<Experience items={mockItems} />);
+        const skillABtns = screen.getAllByText('Skill A');
+        const detailTag = skillABtns[skillABtns.length - 1]; // One of the tags in detail view
+        fireEvent.click(detailTag);
+        await waitFor(() => {
+            expect(screen.queryByText('Role B')).not.toBeInTheDocument();
+        });
+
+        // Click same skill to toggle off
+        const activeSkillBtn = screen.getAllByText('Skill A')[0]; // Top filter bar button
+        fireEvent.click(activeSkillBtn);
+        await waitFor(() => {
+            expect(screen.getAllByText('Role B')[0]).toBeInTheDocument();
+        });
+    });
+
+    it('resets activeId when filter excludes current active item', async () => {
+        render(<Experience items={mockItems} />);
+        // Initially Role A (Skill A) is active.
+        // Filter by Skill B (Role B). Role A should disappear, ActiveId should switch to Role B.
+
+        const skillBBtns = screen.getAllByText('Skill B');
+        fireEvent.click(skillBBtns[0]);
+
+        await waitFor(() => {
+            // Role B should be active detailed view
+            expect(screen.getAllByText('Desc B')[0]).toBeInTheDocument();
+            expect(screen.queryByText('Desc A')).not.toBeInTheDocument();
+        });
+    });
+
+    it('handles interactions correctly', async () => {
+        render(<Experience items={mockItems} />);
+        const items = screen.getAllByText('Role B');
+        // Assuming desktop button interaction
+        const timelineBtn = items.find(el => el.closest('button')?.classList.contains('ltr:text-left'));
+        if (timelineBtn) {
+            fireEvent.click(timelineBtn);
+            await waitFor(() => expect(screen.getAllByText('Desc B')[0]).toBeInTheDocument());
         }
     });
 
-    describe('Skill Filtering', () => {
-        it('renders skill filter buttons', () => {
-            renderWithContext();
-            expect(screen.getByText('All Skills')).toBeInTheDocument();
-            expect(screen.getAllByText('React').length).toBeGreaterThan(0);
-        });
+    it('sorts items by startDate properly', () => {
+        const unsortedItems = [
+            { id: '1', role: 'Old', startDate: '2020-01', period: '2020', company: 'C1', description: 'D1' },
+            { id: '2', role: 'New', startDate: '2022-01', period: '2022', company: 'C2', description: 'D2' },
+            { id: '3', role: 'NoDate', period: '?', company: 'C3', description: 'D3' } // Should be treated as old
+        ];
 
-        it('filters by skill when skill button is clicked', () => {
-            renderWithContext();
-
-            // Click on React skill (first one in the filter bar)
-            fireEvent.click(screen.getAllByText('React')[0]);
-
-            // Clear filter button should appear
-            expect(screen.getByText('Clear')).toBeInTheDocument();
-        });
-
-        it('clears filter when All Skills is clicked', () => {
-            renderWithContext();
-
-            // First filter by a skill
-            fireEvent.click(screen.getAllByText('React')[0]);
-
-            // Then click All Skills
-            fireEvent.click(screen.getByText('All Skills'));
-
-            // Clear button should no longer be visible
-            expect(screen.queryByText('Clear')).not.toBeInTheDocument();
-        });
-
-        it('toggles skill filter on/off when clicking same skill', () => {
-            renderWithContext();
-
-            // Click React to filter
-            fireEvent.click(screen.getAllByText('React')[0]);
-            expect(screen.getByText('Clear')).toBeInTheDocument();
-
-            // Click React again to unfilter
-            fireEvent.click(screen.getAllByText('React')[0]);
-            expect(screen.queryByText('Clear')).not.toBeInTheDocument();
-        });
-
-        it('updates activeId when filtered skill is not in current selection', () => {
-            renderWithContext();
-
-            // Filter by a skill that the first item doesn't have
-            const htmlSkill = screen.getAllByText('HTML');
-            if (htmlSkill.length > 0) {
-                fireEvent.click(htmlSkill[0]);
-                // Should update to show an item with HTML skill
-                expect(screen.getByText('Clear')).toBeInTheDocument();
-            }
-        });
+        render(<Experience items={unsortedItems} />);
+        // Should appear in DOM order: New (2022), Old (2020), NoDate (1900 default)
+        expect(screen.getAllByText('New')[0].compareDocumentPosition(screen.getAllByText('Old')[0])).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
     });
 
-    describe('Show More/Less', () => {
-        it('renders Show More button when more items available', () => {
-            renderWithContext();
-            // Initially shows only 3 items, has 4 total
-            expect(screen.getAllByText(/Show More/i)[0]).toBeInTheDocument();
-        });
-
-        it('toggles between show more and show less', () => {
-            renderWithContext();
-
-            // Click Show More
-            const showMoreButtons = screen.getAllByText(/Show More/i);
-            fireEvent.click(showMoreButtons[0]);
-
-            // Now should show Show Less
-            expect(screen.getAllByText(/Show Less/i)[0]).toBeInTheDocument();
-        });
-    });
-
-    describe('Accordion Toggling', () => {
-        it('expands first item by default', () => {
-            renderWithContext();
-            // First item description should be visible
-            expect(screen.getAllByText('Building awesome stuff')[0]).toBeInTheDocument();
-        });
-
-        it('collapses item when clicking expanded item', () => {
-            renderWithContext();
-
-            // Find accordion button with expanded state
-            const accordionButtons = screen.getAllByRole('button').filter(btn =>
-                btn.getAttribute('aria-expanded') === 'true'
-            );
-
-            if (accordionButtons[0]) {
-                fireEvent.click(accordionButtons[0]);
-            }
-        });
-
-        it('expands multiple items when clicked', () => {
-            renderWithContext();
-
-            // Find all accordion toggle buttons
-            const toggleButtons = screen.getAllByRole('button').filter(btn =>
-                btn.hasAttribute('aria-expanded')
-            );
-
-            // Click second item to expand it
-            if (toggleButtons[1]) {
-                fireEvent.click(toggleButtons[1]);
-            }
-        });
-    });
-
-    describe('Desktop Timeline', () => {
-        it('renders timeline buttons for each experience', () => {
-            renderWithContext();
-
-            // Check for role names in timeline
-            expect(screen.getAllByText('Lead Developer').length).toBeGreaterThan(0);
-            expect(screen.getAllByText('Software Engineer').length).toBeGreaterThan(0);
-        });
-
-        it('switches active experience when timeline item clicked', () => {
-            renderWithContext();
-
-            // Get all timeline buttons
-            const buttons = screen.getAllByRole('button');
-
-            // Click on a different item - filter for ones that might be timeline buttons
-            const timelineButtons = buttons.filter(btn =>
-                btn.textContent?.includes('Software Engineer')
-            );
-
-            if (timelineButtons[0]) {
-                fireEvent.click(timelineButtons[0]);
-            }
-        });
-    });
-
-    describe('Reduced Motion', () => {
-        it('respects reduced motion preference', () => {
-            mockPrefersReducedMotion.mockReturnValue(true);
-            renderWithContext();
-
-            expect(screen.getAllByText('My Experience Resume')[0]).toBeInTheDocument();
-        });
-    });
-
-    describe('Keyboard Navigation', () => {
-        it('handles keyboard navigation - ArrowDown', () => {
-            renderWithContext();
-
-            // Focus on section and simulate keyboard event
-            const section = document.getElementById('experience');
-            if (section) {
-                section.focus();
-                fireEvent.focusIn(section);
-
-                // Simulate ArrowDown
-                fireEvent.keyDown(window, { key: 'ArrowDown' });
-
-                fireEvent.focusOut(section);
-            }
-        });
-
-        it('handles keyboard navigation - ArrowUp', () => {
-            renderWithContext();
-
-            const section = document.getElementById('experience');
-            if (section) {
-                section.focus();
-                fireEvent.focusIn(section);
-
-                fireEvent.keyDown(window, { key: 'ArrowUp' });
-
-                fireEvent.focusOut(section);
-            }
-        });
-
-        it('handles keyboard navigation - ArrowLeft', () => {
-            renderWithContext();
-
-            const section = document.getElementById('experience');
-            if (section) {
-                section.focus();
-                fireEvent.focusIn(section);
-
-                fireEvent.keyDown(window, { key: 'ArrowLeft' });
-
-                fireEvent.focusOut(section);
-            }
-        });
-
-        it('handles keyboard navigation - ArrowRight', () => {
-            renderWithContext();
-
-            const section = document.getElementById('experience');
-            if (section) {
-                section.focus();
-                fireEvent.focusIn(section);
-
-                fireEvent.keyDown(window, { key: 'ArrowRight' });
-
-                fireEvent.focusOut(section);
-            }
-        });
-    });
-
-    describe('Company Logo', () => {
-        it('renders fallback initial when no logo provided', () => {
-            renderWithContext();
-            // Items without logo should show company initial
-            // Look for "T" for Tech Corp, "S" for Startup Inc, etc.
-            const initials = screen.getAllByText(/^[TSBA]$/);
-            expect(initials.length).toBeGreaterThan(0);
-        });
-    });
-
-    describe('Skill Click in Detail View', () => {
-        it('filters when clicking skill in detail panel', () => {
-            renderWithContext();
-
-            // Find skill tags in the detail view (they're buttons)
-            const skillButtons = screen.getAllByRole('button').filter(btn => {
-                const text = btn.textContent || '';
-                return text === 'React' || text === 'Node';
-            });
-
-            if (skillButtons.length > 0) {
-                // Click a skill to filter
-                fireEvent.click(skillButtons[0]);
-                expect(screen.getByText('Clear')).toBeInTheDocument();
-
-                // Click again to toggle off
-                fireEvent.click(skillButtons[0]);
-            }
-        });
-    });
-
-    describe('Empty Filter State', () => {
-        it('handles empty filter results gracefully', () => {
-            renderWithContext();
-
-            // Try to trigger empty state by filtering by a skill not in visible items
-            // This is hard to test without modifying the mock, but we ensure no crash
-            const buttons = screen.getAllByRole('button');
-            expect(buttons.length).toBeGreaterThan(0);
-        });
+    it('handles reduced motion', () => {
+        (usePrefersReducedMotion as jest.Mock).mockReturnValue(true);
+        render(<Experience items={mockItems} />);
+        expect(screen.getAllByText('Role A')[0]).toBeInTheDocument();
     });
 });

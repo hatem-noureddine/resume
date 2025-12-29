@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState, useMemo, use } from "react";
+import { createContext, useEffect, useState, useMemo, use } from "react";
 
 type Theme = "dark" | "light" | "system";
 type FontSize = "small" | "medium" | "large";
@@ -40,8 +40,9 @@ export function ThemeProvider({
     storageKey = "theme",
 }: ThemeProviderProps) {
     const [theme, setTheme] = useState<Theme>(defaultTheme);
-    const [highContrast, setHighContrastState] = useState(false);
-    const [fontSize, setFontSizeState] = useState<FontSize>("medium");
+    // Internal setters - wrapped in context value with localStorage persistence
+    const [highContrast, setHighContrastInternal] = useState(false);
+    const [fontSize, setFontSizeInternal] = useState<FontSize>("medium");
 
     // Load saved preferences on mount
     useEffect(() => {
@@ -52,13 +53,11 @@ export function ThemeProvider({
         }
         const storedHighContrast = localStorage.getItem(HIGH_CONTRAST_KEY);
         if (storedHighContrast === "true") {
-
-            setHighContrastState(true);
+            setHighContrastInternal(true);
         }
         const storedFontSize = localStorage.getItem(FONT_SIZE_KEY) as FontSize;
         if (storedFontSize && ["small", "medium", "large"].includes(storedFontSize)) {
-
-            setFontSizeState(storedFontSize);
+            setFontSizeInternal(storedFontSize);
         }
     }, [storageKey]);
 
@@ -112,12 +111,12 @@ export function ThemeProvider({
         highContrast,
         setHighContrast: (enabled: boolean) => {
             localStorage.setItem(HIGH_CONTRAST_KEY, String(enabled));
-            setHighContrastState(enabled);
+            setHighContrastInternal(enabled);
         },
         fontSize,
         setFontSize: (size: FontSize) => {
             localStorage.setItem(FONT_SIZE_KEY, size);
-            setFontSizeState(size);
+            setFontSizeInternal(size);
         },
     }), [theme, storageKey, highContrast, fontSize]);
 

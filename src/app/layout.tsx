@@ -9,12 +9,14 @@ import { AnnouncerProvider } from "@/context/AnnouncerContext";
 import { VercelAnalytics } from "@/components/analytics/VercelAnalytics";
 import { ChatWidget } from "@/components/chat/ChatWidget";
 import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
+import { PerformanceReporter } from "@/components/performance/PerformanceReporter";
 import { ServiceWorkerRegistration } from "@/components/pwa/ServiceWorkerRegistration";
 import { PWAInstallPrompt } from "@/components/pwa/PWAInstallPrompt";
 import { SITE_METADATA, JSON_LD } from "@/config/site";
 import { NoiseOverlay } from "@/components/ui/NoiseOverlay";
 import { getLanguages, getThemeSettings } from "@/lib/keystatic";
 import { ExperimentProvider } from "@/context/ExperimentContext";
+import { ChatUIProvider } from "@/context/ChatUIContext";
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit', display: 'swap' });
@@ -141,13 +143,16 @@ export default async function RootLayout({
             <FeatureFlagProvider>
               <ExperimentProvider>
                 <AnnouncerProvider>
-                  <ServiceWorkerRegistration />
-                  <PWAInstallPrompt />
-                  {children}
-                  <ErrorBoundary fallback={null}>
-                    <ChatWidget />
-                  </ErrorBoundary>
-                  <VercelAnalytics />
+                  <ChatUIProvider>
+                    <PerformanceReporter />
+                    <ServiceWorkerRegistration />
+                    <PWAInstallPrompt />
+                    {children}
+                    <ErrorBoundary fallback={null}>
+                      <ChatWidget />
+                    </ErrorBoundary>
+                    <VercelAnalytics />
+                  </ChatUIProvider>
                 </AnnouncerProvider>
               </ExperimentProvider>
             </FeatureFlagProvider>

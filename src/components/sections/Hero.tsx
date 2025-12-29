@@ -9,7 +9,6 @@ import { BlurImage } from "@/components/ui/BlurImage";
 import { cn } from "@/lib/utils";
 import { AnimatedBackground } from "@/components/ui/AnimatedBackground";
 import { Download, Mail, ChevronDown, ChevronUp, Share2 } from "lucide-react";
-import { QRCodeModal } from "@/components/ui/QRCodeModal";
 import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { useLanguage } from "@/context/LanguageContext";
@@ -18,12 +17,32 @@ import { SITE_CONFIG } from "@/config/site";
 import { track } from "@vercel/analytics";
 import { SectionTracker } from "@/components/ui/SectionTracker";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
-import Lottie from "lottie-react";
+import { LottieAnimation } from "@/components/ui/LottieAnimation";
 import scrollMouseAnimation from "@/../public/lottie/scroll-mouse.json";
 
-const ClientCarousel = dynamic(() => import("@/components/sections/ClientCarousel").then(mod => mod.ClientCarousel), { ssr: false });
-const TechCarousel = dynamic(() => import("@/components/sections/TechCarousel").then(mod => mod.TechCarousel), { ssr: false });
-const Hero3D = dynamic(() => import("@/components/ui/Hero3D").then(mod => mod.Hero3D), { ssr: false });
+// Loading components
+const Hero3DLoader = () => null; // Invisible loader for background
+const CarouselLoader = () => (
+    <div className="w-full h-20 bg-background/5 animate-pulse flex items-center justify-center">
+        <div className="w-full max-w-4xl h-12 bg-foreground/5 rounded-lg" />
+    </div>
+);
+
+const ClientCarousel = dynamic(() => import("@/components/sections/ClientCarousel").then(mod => mod.ClientCarousel), {
+    ssr: false,
+    loading: () => <CarouselLoader />
+});
+const TechCarousel = dynamic(() => import("@/components/sections/TechCarousel").then(mod => mod.TechCarousel), {
+    ssr: false,
+    loading: () => <CarouselLoader />
+});
+const Hero3D = dynamic(() => import("@/components/ui/Hero3D").then(mod => mod.Hero3D), {
+    ssr: false,
+    loading: () => <Hero3DLoader />
+});
+const QRCodeModal = dynamic(() => import("@/components/ui/QRCodeModal").then(mod => mod.QRCodeModal), {
+    ssr: false
+});
 
 const GithubIcon = ({ size = 24, className = "" }: { size?: number, className?: string }) => (
     <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" /><path d="M9 18c-4.51 2-5-2.67-5-2.67" /></svg>
@@ -83,24 +102,7 @@ function useTypingAnimation(texts: string[], typingSpeed = 100, deletingSpeed = 
     return displayText;
 }
 
-interface HeroLocale {
-    name: string;
-    title: string;
-    roles?: string[];
-    description: string;
-    downloadCV?: string;
-    followMe?: string;
-    availableForHire?: string;
-    scrollDown?: string;
-    readMore?: string;
-    readLess?: string;
-    stats: { value: string; label: string }[];
-    floatingCards?: {
-        projects: { value: string; label: string; sublabel: string };
-        experience: { value: string; label: string; sublabel: string };
-    };
-    image: string;
-}
+import { type HeroLocale } from "@/locales/types";
 
 interface Resume {
     label: string;
@@ -284,6 +286,7 @@ export function Hero({ resumes = [] }: Readonly<{ resumes?: Resume[] }>) {
                                             <Button
                                                 variant="outline"
                                                 size="lg"
+                                                withHaptic
                                                 onClick={() => setIsResumeMenuOpen(!isResumeMenuOpen)}
                                                 className="border-primary/20 hover:bg-primary/10 gap-2 rounded-full px-6 w-full sm:w-auto"
                                                 aria-haspopup="true"
@@ -325,6 +328,7 @@ export function Hero({ resumes = [] }: Readonly<{ resumes?: Resume[] }>) {
                                         <Button
                                             variant="outline"
                                             size="lg"
+                                            withHaptic
                                             onClick={handleShareProfile}
                                             className="border-primary/20 hover:bg-primary/10 gap-2 rounded-full px-6 w-full sm:w-auto"
                                             aria-label="Share profile"
@@ -336,7 +340,7 @@ export function Hero({ resumes = [] }: Readonly<{ resumes?: Resume[] }>) {
                             ) : (
                                 <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
                                     <MagneticButton className="w-full sm:w-auto">
-                                        <Button variant="outline" size="lg" asChild className="border-primary/20 hover:bg-primary/10 gap-2 rounded-full px-6 w-full sm:w-auto">
+                                        <Button variant="outline" size="lg" asChild withHaptic className="border-primary/20 hover:bg-primary/10 gap-2 rounded-full px-6 w-full sm:w-auto">
                                             <a
                                                 href={currentResumes.length === 1 ? currentResumes[0].file : localeMetadata[language].resume}
                                                 download
@@ -475,12 +479,11 @@ export function Hero({ resumes = [] }: Readonly<{ resumes?: Resume[] }>) {
                         </>
                     ) : (
                         /* Lottie scroll indicator */
-                        <Lottie
+                        <LottieAnimation
                             animationData={scrollMouseAnimation}
                             loop
                             autoplay
-                            style={{ width: 40, height: 70 }}
-                            className="opacity-70 group-hover:opacity-100 transition-opacity"
+                            className="w-[40px] h-[70px] opacity-70 group-hover:opacity-100 transition-opacity"
                         />
                     )}
                 </motion.button>

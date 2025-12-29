@@ -108,13 +108,94 @@ describe('NewsletterForm', () => {
         });
     });
 
-    it('shows error when no service is configured', async () => {
-        const fetchSpy = jest.spyOn(globalThis, 'fetch').mockImplementation(() =>
-            Promise.resolve({
-                ok: false,
-                json: () => Promise.resolve({ error: 'No subscription service configured' }),
-            } as any)
-        );
+    it('supports Buttondown subscription', async () => {
+        const fetchSpy = jest.spyOn(globalThis, 'fetch').mockResolvedValue({
+            ok: true,
+        } as any);
+
+        render(<NewsletterForm buttondownId="test-token" />);
+
+        const input = screen.getByLabelText('Email address');
+        fireEvent.change(input, { target: { value: 'test@example.com' } });
+        fireEvent.submit(input.closest('form')!);
+
+        await waitFor(() => {
+            expect(fetchSpy).toHaveBeenCalledWith(
+                'https://api.buttondown.email/v1/subscribers',
+                expect.objectContaining({
+                    method: 'POST',
+                    headers: expect.objectContaining({
+                        'Authorization': 'Token test-token'
+                    })
+                })
+            );
+            expect(screen.getByText('Thanks for subscribing!')).toBeInTheDocument();
+        });
+
+        fetchSpy.mockRestore();
+    });
+
+    it('supports Formspree subscription', async () => {
+        const fetchSpy = jest.spyOn(globalThis, 'fetch').mockResolvedValue({
+            ok: true,
+        } as any);
+
+        render(<NewsletterForm formspreeId="test-form" />);
+
+        const input = screen.getByLabelText('Email address');
+        fireEvent.change(input, { target: { value: 'test@example.com' } });
+        fireEvent.submit(input.closest('form')!);
+
+        await waitFor(() => {
+            expect(fetchSpy).toHaveBeenCalledWith(
+                'https://formspree.io/f/test-form',
+                expect.objectContaining({ method: 'POST' })
+            );
+            expect(screen.getByText('Thanks for subscribing!')).toBeInTheDocument();
+        });
+
+        fetchSpy.mockRestore();
+    });
+
+    it('handles Buttondown failure', async () => {
+        const fetchSpy = jest.spyOn(globalThis, 'fetch').mockResolvedValue({
+            ok: false,
+        } as any);
+
+        render(<NewsletterForm buttondownId="test-token" />);
+
+        const input = screen.getByLabelText('Email address');
+        fireEvent.change(input, { target: { value: 'test@example.com' } });
+        fireEvent.submit(input.closest('form')!);
+
+        await waitFor(() => {
+            expect(screen.getByText('Subscription failed')).toBeInTheDocument();
+        });
+
+        fetchSpy.mockRestore();
+    });
+
+    it('handles Formspree failure', async () => {
+        const fetchSpy = jest.spyOn(globalThis, 'fetch').mockResolvedValue({
+            ok: false,
+        } as any);
+
+        render(<NewsletterForm formspreeId="test-form" />);
+
+        const input = screen.getByLabelText('Email address');
+        fireEvent.change(input, { target: { value: 'test@example.com' } });
+        fireEvent.submit(input.closest('form')!);
+
+        await waitFor(() => {
+            expect(screen.getByText('Subscription failed')).toBeInTheDocument();
+        });
+
+        fetchSpy.mockRestore();
+    });
+
+    it('handles generic error in catch block', async () => {
+        // Mock fetch to throw a non-Error object
+        jest.spyOn(globalThis, 'fetch').mockRejectedValue('Something went wrong');
 
         render(<NewsletterForm />);
 
@@ -123,24 +204,54 @@ describe('NewsletterForm', () => {
         fireEvent.submit(input.closest('form')!);
 
         await waitFor(() => {
-            expect(screen.getByText('No subscription service configured')).toBeInTheDocument();
+            expect(screen.getByText('Subscription failed')).toBeInTheDocument();
         });
 
-        fetchSpy.mockRestore();
+        jest.restoreAllMocks();
     });
 
-    it('disables button while submitting', async () => {
-        const mockSubmit = jest.fn().mockImplementation(() => new Promise(() => { }));
-        render(<NewsletterForm onSubmit={mockSubmit} />);
+    it('handles empty JSON error response', async () => {
+        jest.spyOn(globalThis, 'fetch').mockResolvedValue({
+            ok: false,
+            json: () => Promise.reject(new Error('Invalid JSON')),
+        } as any);
+
+        render(<NewsletterForm />);
 
         const input = screen.getByLabelText('Email address');
         fireEvent.change(input, { target: { value: 'test@example.com' } });
         fireEvent.submit(input.closest('form')!);
 
         await waitFor(() => {
-            expect(screen.getByRole('button')).toBeDisabled();
-            expect(screen.getByText('Subscribing...')).toBeInTheDocument();
+            expect(screen.getByText('Subscription failed')).toBeInTheDocument();
         });
+
+        jest.restoreAllMocks();
+    });
+
+    it('submits to default API endpoint when no props provided', async () => {
+        const fetchSpy = jest.spyOn(globalThis, 'fetch').mockResolvedValue({
+            ok: true,
+        } as any);
+
+        render(<NewsletterForm />);
+
+        const input = screen.getByLabelText('Email address');
+        fireEvent.change(input, { target: { value: 'test@api.com' } });
+        fireEvent.submit(input.closest('form')!);
+
+        await waitFor(() => {
+            expect(fetchSpy).toHaveBeenCalledWith(
+                '/api/newsletter',
+                expect.objectContaining({
+                    method: 'POST',
+                    body: JSON.stringify({ email: 'test@api.com' }),
+                })
+            );
+            expect(screen.getByText('Thanks for subscribing!')).toBeInTheDocument();
+        });
+
+        fetchSpy.mockRestore();
     });
 
     it('applies custom className', () => {

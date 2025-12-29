@@ -49,6 +49,7 @@ function customRender(
     const {
         withLanguage = false,
         withTheme = false,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         initialLanguage = 'en',
         ...renderOptions
     } = options;

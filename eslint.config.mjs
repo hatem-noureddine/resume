@@ -20,6 +20,7 @@ const eslintConfig = defineConfig([
     "playwright-report/**",
     ".lighthouseci/**",
     "node_modules/**",
+    "public/admin/**",
   ]),
   // Relax rules for test files - mocks commonly need flexible typing
   {

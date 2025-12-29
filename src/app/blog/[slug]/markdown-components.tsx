@@ -34,6 +34,7 @@ function getTextFromNode(node: React.ReactNode): string {
 function generateId(text: string): string {
     return text
         .toLowerCase()
+        .trim()
         .replaceAll(/[^a-z0-9\s-]/g, '')
         .replaceAll(/\s+/g, '-')
         .replaceAll(/-+/g, '-');
