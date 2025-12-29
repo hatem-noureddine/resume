@@ -1,0 +1,37 @@
+{
+    "title": {
+        "en": "Senior Android Developer",
+        "fr": "Développeur Android Senior"
+    },
+    "company": "PSA Group",
+    "location": "France",
+    "period": {
+        "en": "September 2020 – December 2020",
+        "fr": "Septembre 2020 – Décembre 2020"
+    },
+    "description": {
+        "en": "Redesign of the SDK and the components communicating with the cars of the different brands of the group.",
+        "fr": "Refonte du SDK et des composants communicants avec les voitures des différentes marques du groupe."
+    },
+    "achievements": {
+        "en": [
+            "Redesign of the SDK for communication with the group's vehicles, adopting Kotlin and Coroutines.",
+            "Optimize the use of smartphone resources with the Profiler.",
+            "Detecting and correcting memory leaks with leak-canary."
+        ],
+        "fr": [
+            "Refonte du SDK de communication avec les véhicules du groupe, avec adoption de Kotlin et Coroutines.",
+            "Optimiser l’utilisation des ressources du smartphone avec le Profiler.",
+            "Détection des fuites mémoires avec leak-canary et les corriger."
+        ]
+    },
+    "technologies": [
+        "Kotlin",
+        "Coroutines",
+        "Flow",
+        "Profiler",
+        "LeakCanary",
+        "Sonar",
+        "Detekt"
+    ]
+}

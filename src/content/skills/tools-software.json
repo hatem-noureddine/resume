@@ -1,0 +1,20 @@
+{
+    "name": {
+        "en": "Tools & Software",
+        "fr": "Outils & Logiciels"
+    },
+    "category": "technical",
+    "level": 85,
+    "icon": "Tool",
+    "keywords": [
+        "Jenkins",
+        "GitFlow",
+        "JUnit",
+        "Sonar",
+        "Mockito",
+        "Docker",
+        "Artifactory",
+        "Fastlane",
+        "GitHub Copilot"
+    ]
+}

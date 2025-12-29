@@ -1,0 +1,16 @@
+{
+    "name": {
+        "en": "Mobile Architecture",
+        "fr": "Architecture Mobile"
+    },
+    "category": "technical",
+    "level": 90,
+    "icon": "Layout",
+    "keywords": [
+        "Clean Architecture",
+        "MVVM",
+        "Modular Architecture",
+        "SOLID",
+        "KISS"
+    ]
+}

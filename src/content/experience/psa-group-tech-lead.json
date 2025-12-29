@@ -1,0 +1,46 @@
+{
+    "title": {
+        "en": "Tech Lead Android",
+        "fr": "Tech Lead Android"
+    },
+    "company": "PSA Group",
+    "location": "France",
+    "period": {
+        "en": "January 2021 – June 2022",
+        "fr": "Janvier 2021 – Juin 2022"
+    },
+    "description": {
+        "en": "Manage, assist and develop a modular white application that communicates with the different brands of the group.",
+        "fr": "Piloter, assister et développer une application blanche modulaire qui représente les différentes marques du groupe."
+    },
+    "achievements": {
+        "en": [
+            "Manage and develop the skills of a team of developers.",
+            "Development of the application with the MVVM architecture.",
+            "Integration of Atomic Design and development of graphic components.",
+            "Set up theme management in order to switch from one brand's theme to another in real time.",
+            "Use Kotlin-dsl with Gradle to centralize module configuration."
+        ],
+        "fr": [
+            "Piloter et faire monter en compétences une équipe de 4 développeurs.",
+            "Développement de l’application selon les principes de la Clean Architecture et du MVVM.",
+            "Intégration de l’Atomic Design et développement des composants graphiques.",
+            "Mettre en place une gestion de thème afin de passer du thème d’une marque à une autre en temps réel.",
+            "Utiliser le Kotlin-dsl avec Gradle pour centraliser la configuration des modules."
+        ]
+    },
+    "technologies": [
+        "Kotlin",
+        "MVVM",
+        "Coroutines",
+        "Flow",
+        "Livedata",
+        "Room",
+        "Koin",
+        "Retrofit",
+        "Atomic Design",
+        "Kotlin-dsl",
+        "Sonar",
+        "Detekt"
+    ]
+}
