@@ -222,7 +222,7 @@ jobs:
         continue-on-error: true
 
       - name: Run Lighthouse CI
-        run: npm run lh
+        run: npm run test:lighthouse
         continue-on-error: true
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
