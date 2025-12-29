@@ -39,7 +39,7 @@ describe('Header', () => {
     });
 
     it('updates scroll progress and active section', async () => {
-        jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb: any) => { cb(Date.now()); return 1; });
+        jest.spyOn(globalThis, 'requestAnimationFrame').mockImplementation((cb: any) => { cb(Date.now()); return 1; });
 
         render(<Header />);
 
@@ -53,7 +53,7 @@ describe('Header', () => {
         });
 
         act(() => {
-            fireEvent.scroll(window, { target: { scrollY: 200 } });
+            fireEvent.scroll(globalThis, { target: { scrollY: 200 } });
             jest.runAllTimers();
         });
 
@@ -84,5 +84,21 @@ describe('Header', () => {
         expect(screen.getByText('Français')).toBeInTheDocument();
         fireEvent.mouseDown(document.body);
         expect(screen.queryByText('Français')).not.toBeInTheDocument();
+    });
+    it('opens and closes mobile menu', () => {
+        render(<Header />);
+        const menuBtn = screen.getByLabelText('Open menu');
+        fireEvent.click(menuBtn);
+        expect(screen.getByLabelText('Close menu')).toBeInTheDocument();
+
+        const closeBtn = screen.getByLabelText('Close menu');
+        fireEvent.click(closeBtn);
+        // AnimatePresence keeps it in DOM briefly but with exit animation
+        // We can just verify the close button is gone after a wait or check visibility
+        // But since we mock framer-motion AnimatePresence to just render children, logic depends on state
+        // In our mock AnimatePresence renders children directly.
+        // Wait, AnimatePresence mock is: ({ children }: any) => <>{children}</>
+        // Use waitFor to handle potential state updates/removals
+        waitFor(() => expect(screen.queryByLabelText('Close menu')).not.toBeInTheDocument());
     });
 });
