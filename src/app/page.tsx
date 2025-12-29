@@ -221,6 +221,7 @@ export default async function Home() {
 
   const finalPosts = mappedBlogPosts.length > 0 ? mappedBlogPosts : posts;
   const hasBlogPosts = finalPosts.length > 0;
+  const hasProjects = mappedProjects.length > 0;
 
   return (
     <main id="main-content" className="min-h-screen">
@@ -276,19 +277,23 @@ export default async function Home() {
       </ErrorBoundary>
 
       {/* Wave divider before Portfolio */}
-      <Feature flag="projects">
-        <WaveDivider color="background" flip />
-      </Feature>
+      {hasProjects && (
+        <>
+          <Feature flag="projects">
+            <WaveDivider color="background" flip />
+          </Feature>
 
-      <Feature flag="projects">
-        <ErrorBoundary name="Portfolio">
-          <ScrollReveal>
-            <SectionTracker sectionId="portfolio">
-              <Portfolio items={mappedProjects} />
-            </SectionTracker>
-          </ScrollReveal>
-        </ErrorBoundary>
-      </Feature>
+          <Feature flag="projects">
+            <ErrorBoundary name="Portfolio">
+              <ScrollReveal>
+                <SectionTracker sectionId="portfolio">
+                  <Portfolio items={mappedProjects} />
+                </SectionTracker>
+              </ScrollReveal>
+            </ErrorBoundary>
+          </Feature>
+        </>
+      )}
 
       {/* Testimonials section */}
       {mappedTestimonials.length > 0 && (

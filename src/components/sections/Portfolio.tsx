@@ -43,7 +43,7 @@ interface PortfolioLocale {
 export function Portfolio({ items }: Readonly<{ items?: PortfolioLocale['items'] }>) {
     const { t, direction } = useLanguage();
     const portfolio = t.portfolio as PortfolioLocale;
-    const portfolioData = (items && items.length > 0) ? items : portfolio.items;
+    const portfolioData = items ?? portfolio.items;
     const [filter, setFilter] = useState("All");
 
     const isMobile = useIsMobile();
