@@ -219,7 +219,6 @@ const SkillTag = ({
     prefersReducedMotion: boolean,
     isFiltered: boolean
 }>) => {
-    const [showTooltip, setShowTooltip] = useState(false);
     const isSkillObject = typeof skill === 'object';
     const isLink = isSkillObject && !!skill.link;
     const content = isSkillObject ? skill.name : skill;
@@ -231,30 +230,11 @@ const SkillTag = ({
     const animationProps = prefersReducedMotion
         ? {}
         : {
-            initial: { opacity: 0, scale: 0.8 },
+            initial: { opacity: 0, scale: 0.9 },
             whileInView: { opacity: 1, scale: 1 },
             viewport: { once: true },
-            transition: { delay: index * 0.01 }
+            transition: { delay: index * 0.005 } // Faster delay
         };
-
-    const tooltipContent = (
-        <AnimatePresence>
-            {showTooltip && (
-                <motion.div
-                    initial={{ opacity: 0, y: 5 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 5 }}
-                    className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-foreground text-background text-xs rounded-lg shadow-lg whitespace-nowrap z-50"
-                >
-                    <div className="flex items-center gap-2">
-                        {getSkillIcon(content)}
-                        <span>{content}</span>
-                    </div>
-                    <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-4 border-transparent border-t-foreground" />
-                </motion.div>
-            )}
-        </AnimatePresence>
-    );
 
     if (isLink) {
         return (
@@ -263,11 +243,9 @@ const SkillTag = ({
                 href={link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`${baseClass} cursor-pointer hover:scale-105 relative`}
-                onMouseEnter={() => setShowTooltip(true)}
-                onMouseLeave={() => setShowTooltip(false)}
+                title={content}
+                className={`${baseClass} cursor-pointer hover:scale-105`}
             >
-                {tooltipContent}
                 {content}
             </motion.a>
         );
@@ -276,11 +254,9 @@ const SkillTag = ({
     return (
         <motion.span
             {...animationProps}
-            className={`${baseClass} relative`}
-            onMouseEnter={() => setShowTooltip(true)}
-            onMouseLeave={() => setShowTooltip(false)}
+            title={content}
+            className={baseClass}
         >
-            {tooltipContent}
             {content}
         </motion.span>
     );

@@ -17,8 +17,7 @@ import { SITE_CONFIG } from "@/config/site";
 import { track } from "@vercel/analytics";
 import { SectionTracker } from "@/components/ui/SectionTracker";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
-import { LottieAnimation } from "@/components/ui/LottieAnimation";
-import scrollMouseAnimation from "@/../public/lottie/scroll-mouse.json";
+// scrollMouseAnimation imported dynamically below
 
 // Loading components
 const Hero3DLoader = () => null; // Invisible loader for background
@@ -41,6 +40,9 @@ const Hero3D = dynamic(() => import("@/components/ui/Hero3D").then(mod => mod.He
     loading: () => <Hero3DLoader />
 });
 const QRCodeModal = dynamic(() => import("@/components/ui/QRCodeModal").then(mod => mod.QRCodeModal), {
+    ssr: false
+});
+const LottieAnimation = dynamic(() => import("@/components/ui/LottieAnimation").then(mod => mod.LottieAnimation), {
     ssr: false
 });
 
@@ -140,6 +142,11 @@ export function Hero({ resumes = [] }: Readonly<{ resumes?: Resume[] }>) {
         };
         document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
+
+    const [scrollAnimationData, setScrollAnimationData] = useState<unknown>(null);
+    useEffect(() => {
+        import("@/../public/lottie/scroll-mouse.json").then(mod => setScrollAnimationData(mod.default));
     }, []);
 
     // Parallax effect - only on desktop for performance
@@ -416,7 +423,8 @@ export function Hero({ resumes = [] }: Readonly<{ resumes?: Resume[] }>) {
                                         alt={hero.name}
                                         fill
                                         className="object-cover rounded-3xl"
-                                        loading="eager"
+                                        priority
+                                        fetchPriority="high"
                                         sizes="(max-width: 640px) 260px, (max-width: 768px) 320px, 500px"
                                     />
                                 </div>
@@ -479,12 +487,14 @@ export function Hero({ resumes = [] }: Readonly<{ resumes?: Resume[] }>) {
                         </>
                     ) : (
                         /* Lottie scroll indicator */
-                        <LottieAnimation
-                            animationData={scrollMouseAnimation}
-                            loop
-                            autoplay
-                            className="w-[40px] h-[70px] opacity-70 group-hover:opacity-100 transition-opacity"
-                        />
+                        scrollAnimationData && (
+                            <LottieAnimation
+                                animationData={scrollAnimationData}
+                                loop
+                                autoplay
+                                className="w-[40px] h-[70px] opacity-70 group-hover:opacity-100 transition-opacity"
+                            />
+                        )
                     )}
                 </motion.button>
 

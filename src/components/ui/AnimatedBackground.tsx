@@ -17,23 +17,9 @@ export function AnimatedBackground() {
 
     return (
         <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10">
-            {/* Animated Gradient Overlay */}
-            <motion.div
-                animate={{
-                    background: [
-                        "radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.15) 0%, transparent 50%)",
-                        "radial-gradient(circle at 80% 70%, rgba(168, 85, 247, 0.15) 0%, transparent 50%)",
-                        "radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 50%)",
-                        "radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.15) 0%, transparent 50%)",
-                    ],
-                }}
-                transition={{
-                    duration: 15,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                }}
-                className="absolute inset-0 opacity-60"
-            />
+            {/* Static Gradient Overlay - cheaper than animating the gradient property */}
+            <div className="absolute inset-0 opacity-40 bg-radial-[circle_at_20%_30%] from-primary/10 to-transparent" />
+            <div className="absolute inset-0 opacity-40 bg-radial-[circle_at_80%_70%] from-purple-500/10 to-transparent" />
 
             {/* Primary Blob - Top Right with color animation */}
             <motion.div
@@ -82,39 +68,15 @@ export function AnimatedBackground() {
             <motion.div
                 animate={{
                     x: ["-100%", "100%"],
-                    opacity: [0, 0.3, 0],
+                    opacity: [0, 0.2, 0],
                 }}
                 transition={{
-                    duration: 10,
+                    duration: 12,
                     repeat: Infinity,
                     ease: "linear"
                 }}
-                className="absolute top-1/3 w-full h-[200px] bg-linear-to-r from-transparent via-primary/10 to-transparent blur-3xl"
+                className="absolute top-1/3 w-full h-[150px] bg-linear-to-r from-transparent via-primary/5 to-transparent blur-3xl"
             />
-
-            {/* Floating particles - subtle dust effect */}
-            {['p1', 'p2', 'p3', 'p4', 'p5'].map((id, i) => (
-                <motion.div
-                    key={id}
-                    animate={{
-                        y: [0, -150, 0],
-                        x: [0, (i % 2 === 0 ? 80 : -80), 0],
-                        opacity: [0.1, 0.4, 0.1],
-                        scale: [1, 1.5, 1]
-                    }}
-                    transition={{
-                        duration: 12 + i * 4,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                        delay: i * 1.5
-                    }}
-                    style={{
-                        left: `${10 + i * 20}%`,
-                        top: `${30 + i * 12}%`
-                    }}
-                    className="absolute w-2 h-2 md:w-3 md:h-3 bg-primary rounded-full blur-sm opacity-20"
-                />
-            ))}
         </div>
     );
 }
