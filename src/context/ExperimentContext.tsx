@@ -52,8 +52,12 @@ export function ExperimentProvider({ children }: { readonly children: React.Reac
             return assignments[experimentId];
         }
 
-        // Assign new variant (simple uniform random distribution)
-        const randomIndex = Math.floor(Math.random() * variants.length);
+        // Assign new variant (secure random distribution)
+        const array = new Uint32Array(1);
+        crypto.getRandomValues(array);
+        const random = array[0] / (0xffffffff + 1);
+
+        const randomIndex = Math.floor(random * variants.length);
         const newVariant = variants[randomIndex];
 
         setAssignments(prev => {

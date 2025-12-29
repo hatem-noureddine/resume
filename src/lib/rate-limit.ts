@@ -55,7 +55,12 @@ export function checkRateLimit(
     const now = Date.now();
 
     // Clean up expired entries periodically
-    if (Math.random() < 0.1) {
+    // Use crypto for better randomness (Sonar scan fix)
+    const array = new Uint32Array(1);
+    crypto.getRandomValues(array);
+    const random = array[0] / (0xffffffff + 1);
+
+    if (random < 0.1) {
         cleanupExpiredEntries();
     }
 
