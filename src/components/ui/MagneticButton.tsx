@@ -4,13 +4,21 @@ import { useRef, MouseEvent } from "react";
 import { motion, useSpring } from "framer-motion";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
+import { haptic } from "@/lib/haptic";
+
 interface MagneticButtonProps {
     children: React.ReactNode;
     className?: string;
     strength?: number; // How strong the pull is (default: 0.5)
+    withHaptic?: boolean;
 }
 
-export function MagneticButton({ children, className = "", strength = 0.5 }: Readonly<MagneticButtonProps>) {
+export function MagneticButton({
+    children,
+    className = "",
+    strength = 0.5,
+    withHaptic = true
+}: Readonly<MagneticButtonProps>) {
     const ref = useRef<HTMLDivElement>(null);
     const prefersReducedMotion = usePrefersReducedMotion();
 
@@ -38,6 +46,12 @@ export function MagneticButton({ children, className = "", strength = 0.5 }: Rea
         scale.set(1.05); // Subtle grow when active
     };
 
+    const handleMouseEnter = () => {
+        if (withHaptic && !prefersReducedMotion) {
+            haptic.subtle();
+        }
+    };
+
     const handleMouseLeave = () => {
         x.set(0);
         y.set(0);
@@ -52,6 +66,7 @@ export function MagneticButton({ children, className = "", strength = 0.5 }: Rea
         <motion.div
             ref={ref}
             onMouseMove={handleMouseMove}
+            onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             style={{ x, y, scale }}
             className={className}

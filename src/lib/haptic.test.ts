@@ -2,23 +2,55 @@ import { haptic } from './haptic';
 
 describe('haptic utility', () => {
     const originalNavigator = globalThis.navigator;
+    const originalMatchMedia = globalThis.matchMedia;
     const mockVibrate = jest.fn();
+    const mockMatchMedia = jest.fn();
 
     beforeAll(() => {
-        Object.defineProperty(globalThis, 'navigator', {
+        Object.defineProperty(globalThis, "navigator", {
             value: {
                 vibrate: mockVibrate,
             },
             writable: true,
         });
+
+        Object.defineProperty(globalThis, "matchMedia", {
+            value: mockMatchMedia,
+            writable: true,
+        });
+
+        // Default mock for matchMedia (no reduced motion)
+        mockMatchMedia.mockReturnValue({
+            matches: false,
+            addListener: jest.fn(),
+            removeListener: jest.fn(),
+        });
     });
 
     afterAll(() => {
         globalThis.navigator = originalNavigator;
+        globalThis.matchMedia = originalMatchMedia;
     });
 
     beforeEach(() => {
         mockVibrate.mockClear();
+        mockMatchMedia.mockClear();
+        // Reset to no reduced motion
+        mockMatchMedia.mockReturnValue({
+            matches: false,
+        });
+    });
+
+    it('should report supported status correctly', () => {
+        expect(haptic.isSupported()).toBe(true);
+
+        const tempNavigator = globalThis.navigator;
+        Object.defineProperty(globalThis, "navigator", {
+            value: undefined,
+            writable: true,
+        });
+        expect(haptic.isSupported()).toBe(false);
+        globalThis.navigator = tempNavigator;
     });
 
     it('should vibrate with default pattern', () => {
@@ -51,6 +83,12 @@ describe('haptic utility', () => {
         expect(mockVibrate).toHaveBeenCalledWith([50, 50, 50]);
     });
 
+    it('should not vibrate if reduced motion is preferred', () => {
+        mockMatchMedia.mockReturnValue({ matches: true });
+        haptic.subtle();
+        expect(mockVibrate).not.toHaveBeenCalled();
+    });
+
     it('should handle missing navigator gracefully', () => {
         // Temporarily remove navigator
         Object.defineProperty(globalThis, 'navigator', {
@@ -67,7 +105,7 @@ describe('haptic utility', () => {
         });
     });
 
-    it('should handle vibration errors gracefully', () => {
+    it('should handle vibration errors gracefully (silent fail)', () => {
         mockVibrate.mockImplementationOnce(() => {
             throw new Error('Vibration failed');
         });
@@ -75,7 +113,8 @@ describe('haptic utility', () => {
         const consoleSpy = jest.spyOn(console, 'warn').mockImplementation(() => { });
 
         expect(() => haptic.subtle()).not.toThrow();
-        expect(consoleSpy).toHaveBeenCalledWith('Haptic feedback failed:', expect.any(Error));
+        // We no longer log errors
+        expect(consoleSpy).not.toHaveBeenCalled();
 
         consoleSpy.mockRestore();
     });

@@ -77,7 +77,7 @@ describe('Experience', () => {
         render(<Experience items={mockItems} />);
         const section = document.getElementById('experience');
         fireEvent.focusIn(section!);
-        fireEvent.keyDown(globalThis, { key: 'ArrowDown' });
+        fireEvent.keyDown(window, { key: 'ArrowDown' });
         await waitFor(() => expect(screen.getAllByText('Desc B')[0]).toBeInTheDocument());
     });
 

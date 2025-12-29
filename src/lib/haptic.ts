@@ -8,14 +8,20 @@
  * - error: [50, 50, 50]
  */
 export const haptic = {
+    isSupported: () => typeof navigator !== 'undefined' && !!navigator.vibrate,
+
     vibrate: (pattern: number | number[] = 10) => {
-        if (typeof navigator !== 'undefined' && navigator.vibrate) {
-            try {
-                navigator.vibrate(pattern);
-            } catch (e) {
-                // Silently ignore if vibration fails (e.g. user gesture required, but usually handled by browser)
-                console.warn('Haptic feedback failed:', e);
-            }
+        if (typeof navigator === 'undefined' || !navigator.vibrate) return;
+
+        try {
+            // Check for reduced motion preference
+            const prefersReducedMotion = typeof globalThis !== 'undefined' &&
+                globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+            if (prefersReducedMotion) return;
+
+            navigator.vibrate(pattern);
+        } catch {
+            // Silently ignore if vibration fails
         }
     },
 
