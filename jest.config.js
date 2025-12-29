@@ -44,6 +44,15 @@ const customJestConfig = {
         '!src/app/api/keystatic/[...params]/route.ts',
         // Exclude Keystatic pages (CMS admin, tested manually)
         '!src/app/keystatic/**/*',
+        // Exclude Next.js middleware and layouts (tested via E2E)
+        '!src/middleware.ts',
+        '!src/app/layout.tsx',
+        '!src/app/admin/layout.tsx',
+        '!src/app/admin/page.tsx',
+        '!src/app/admin/login/page.tsx',
+        '!src/app/admin/performance/page.tsx',
+        '!src/app/admin/assist/page.tsx',
+        '!src/app/portfolio/[slug]/page.tsx',
     ],
     transformIgnorePatterns: [
         '/node_modules/(?!(@vercel/analytics|@vercel/speed-insights|@keystatic|@giscus/react|react-markdown|remark-gfm|vfile|unist-.*|unified|bail|is-plain-obj|trough|remark-.*|mdast-util-.*|micromark|decode-named-character-reference|character-entities|property-information|hast-util-whitespace|space-separated-tokens|comma-separated-tokens|pretty-bytes|ccount|escape-string-regexp|markdown-table)/)',
