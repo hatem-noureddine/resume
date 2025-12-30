@@ -8,7 +8,9 @@ jest.mock('@/lib/posts', () => ({
 
 jest.mock('@/lib/keystatic', () => ({
     getBlogPosts: jest.fn().mockResolvedValue([]),
-    getProjects: jest.fn().mockResolvedValue([]),
+    getProjects: jest.fn().mockResolvedValue([
+        { slug: 'test-project', entry: { title: 'Test Project', category: 'Web', image: '/img.jpg', link: 'https://example.com', language: 'en' } }
+    ]),
     getExperience: jest.fn().mockResolvedValue([]),
     getSkills: jest.fn().mockResolvedValue([]),
     getResumes: jest.fn().mockResolvedValue([]),
