@@ -1,6 +1,8 @@
-# Contributing to Hatem Noureddine Portfolio
+# Contributing
 
-Thank you for your interest in contributing! This document provides guidelines and instructions for contributing to this project.
+[← Back to Home](Home)
+
+Thank you for your interest in contributing! This document provides guidelines for contributing to this project.
 
 ## Getting Started
 
@@ -34,40 +36,24 @@ npm run start      # Start production server
 Before submitting a PR, ensure your code passes all checks:
 
 ```bash
-npm run verify:quick   # Quick local check (lint, test, build)
-npm run verify         # Full verification (includes E2E tests)
+npm run verify:quick   # Quick check (lint, test, build)
+npm run verify         # Full verification (includes E2E)
 ```
-
-### Available Scripts
-
-| Script | Description |
-|--------|-------------|
-| `npm run lint` | Run ESLint |
-| `npm run lint:fix` | Auto-fix lint issues |
-| `npm run test` | Run unit tests |
-| `npm run test:coverage` | Run tests with coverage |
-| `npm run test:e2e` | Run Playwright E2E tests |
 
 ## Code Style Guidelines
 
 ### TypeScript
-
 - Use TypeScript for all new code
 - Define types explicitly, avoid `any`
 - Use interfaces for object shapes
 
 ### React Components
-
 - Use functional components with hooks
-- Follow the existing component structure:
-  - `src/components/sections/` - Page sections
-  - `src/components/ui/` - Reusable UI atoms
-  - `src/components/layout/` - Layout components
+- Follow the existing component structure
+- Props must be `Readonly<>`
 
 ### CSS
-
 - Use Tailwind CSS utility classes
-- Custom styles go in `globals.css`
 - Follow mobile-first responsive design
 
 ## Commit Messages
@@ -77,9 +63,7 @@ Follow [Conventional Commits](https://www.conventionalcommits.org/):
 ```
 feat: add new skill section
 fix: correct mobile menu z-index
-docs: update README with new scripts
-style: format code with prettier
-refactor: extract Button component
+docs: update README
 test: add Hero component tests
 chore: update dependencies
 ```
@@ -95,13 +79,13 @@ chore: update dependencies
 ## Reporting Issues
 
 When reporting bugs, please include:
-
 - Description of the issue
 - Steps to reproduce
 - Expected vs actual behavior
 - Browser/OS information
 - Screenshots if applicable
 
-## Questions?
+## Related Docs
 
-Open a GitHub issue or reach out via the contact form on the website.
+- [Development Guide](Development-Guide) - Coding standards
+- [Getting Started](Getting-Started) - Local setup

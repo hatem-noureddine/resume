@@ -1,4 +1,6 @@
-# Component Documentation
+# Components
+
+[← Back to Home](Home)
 
 This document describes the reusable UI components available in this project.
 
@@ -117,13 +119,6 @@ import { Tooltip } from '@/components/ui/Tooltip';
 </Tooltip>
 ```
 
-**Props:**
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `content` | ReactNode | - | Tooltip content |
-| `position` | 'top' \| 'bottom' \| 'left' \| 'right' | 'top' | Preferred position |
-| `delay` | number | 200 | Show delay in ms |
-
 ---
 
 ## Hover Effects
@@ -140,40 +135,14 @@ import { HoverCard } from '@/components/ui/HoverEffects';
 </HoverCard>
 ```
 
-### HoverButton
-
-Button with hover effects and shine animation.
+### HoverButton / HoverLink / HoverIcon
 
 ```tsx
-import { HoverButton } from '@/components/ui/HoverEffects';
+import { HoverButton, HoverLink, HoverIcon } from '@/components/ui/HoverEffects';
 
-<HoverButton variant="primary" onClick={handleClick}>
-  Click me
-</HoverButton>
-```
-
-### HoverLink
-
-Link with animated underline on hover.
-
-```tsx
-import { HoverLink } from '@/components/ui/HoverEffects';
-
-<HoverLink href="/about" underline>
-  About Us
-</HoverLink>
-```
-
-### HoverIcon
-
-Icon wrapper with rotation and scale effects.
-
-```tsx
-import { HoverIcon } from '@/components/ui/HoverEffects';
-
-<HoverIcon rotate={15} scale={1.1}>
-  <Settings className="w-5 h-5" />
-</HoverIcon>
+<HoverButton variant="primary">Click me</HoverButton>
+<HoverLink href="/about" underline>About Us</HoverLink>
+<HoverIcon rotate={15} scale={1.1}><Settings /></HoverIcon>
 ```
 
 ---
@@ -199,62 +168,13 @@ import { Skeleton, ImageWithSkeleton } from '@/components/ui/Skeleton';
 
 ## Other Components
 
-### Button
-
-Primary button component with variants.
-
-```tsx
-import { Button } from '@/components/ui/Button';
-
-<Button variant="default" size="lg">
-  Primary Button
-</Button>
-```
-
-### ErrorBoundary
-
-Error boundary with fallback UI.
-
-```tsx
-import { ErrorBoundary, withErrorBoundary } from '@/components/ui/ErrorBoundary';
-
-<ErrorBoundary fallback={<ErrorMessage />}>
-  <ChildComponent />
-</ErrorBoundary>
-
-// Or as HOC
-const SafeComponent = withErrorBoundary(MyComponent, <ErrorFallback />);
-```
-
-### ScrollProgress
-
-Reading progress indicator for blog posts.
-
-```tsx
-import { ScrollProgress } from '@/components/ui/ScrollProgress';
-
-<ScrollProgress />
-```
-
-### ShareButtons
-
-Social share buttons for blog posts.
-
-```tsx
-import { ShareButtons } from '@/components/ui/ShareButtons';
-
-<ShareButtons url={postUrl} title={postTitle} />
-```
-
-### BookmarkButton
-
-Bookmark button for saving posts.
-
-```tsx
-import { BookmarkButton } from '@/components/ui/BookmarkButton';
-
-<BookmarkButton postSlug={slug} postTitle={title} />
-```
+| Component | Description |
+|-----------|-------------|
+| `Button` | Primary button with variants |
+| `ErrorBoundary` | Error boundary with fallback UI |
+| `ScrollProgress` | Reading progress indicator |
+| `ShareButtons` | Social share buttons |
+| `BookmarkButton` | Save posts button |
 
 ---
 
@@ -265,3 +185,8 @@ import { BookmarkButton } from '@/components/ui/BookmarkButton';
 3. **Handle loading states** with Skeleton components
 4. **Wrap risky components** with ErrorBoundary
 5. **Test keyboard navigation** for interactive components
+
+## Related Docs
+
+- [Animation Guidelines](Animation-Guidelines) - Motion patterns
+- [Development Guide](Development-Guide) - Coding standards

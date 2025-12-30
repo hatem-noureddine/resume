@@ -1,5 +1,7 @@
 # Animation Guidelines
 
+[← Back to Home](Home)
+
 This document provides guidelines for using animations consistently across the portfolio website.
 
 ## Overview
@@ -70,14 +72,13 @@ Always respect the user's reduced motion preference:
 
 ```tsx
 import { usePrefersReducedMotion } from '@/hooks';
-import { fadeInUp, conditionalAnimation } from '@/lib/animations';
 
 function MyComponent() {
     const prefersReducedMotion = usePrefersReducedMotion();
     
     return (
         <motion.div
-            initial={conditionalAnimation({ opacity: 0, y: 20 }, prefersReducedMotion)}
+            initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
         >
             Content
@@ -100,11 +101,7 @@ function MyComponent() {
 - Use animations that block user interaction
 - Animate on every scroll (use viewport triggers sparingly)
 
-## Adding New Variants
+## Related Docs
 
-If you need a new animation pattern:
-
-1. Add it to `lib/animations.ts`
-2. Export it with proper TypeScript types
-3. Document it in this file
-4. Follow the naming convention: `{effect}{Direction}` (e.g., `fadeInUp`, `scaleInBounce`)
+- [Components](Components) - Component library
+- [Development Guide](Development-Guide) - Coding standards

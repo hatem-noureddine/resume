@@ -1,10 +1,14 @@
-# API Documentation
+# API Reference
+
+[← Back to Home](Home)
+
+This document covers the API endpoints available in the portfolio website.
 
 ## Chat API
 
 ### POST /api/chat
 
-AI-powered chat endpoint that uses Groq's LLama 3.1 model to respond to user messages about the portfolio owner's resume and experience.
+AI-powered chat endpoint using Groq's LLama 3.1 model to respond to questions about skills and experience.
 
 #### Request
 
@@ -27,7 +31,7 @@ Content-Type: application/json
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `messages` | array | Yes | Array of chat messages (max 10 used for context) |
+| `messages` | array | Yes | Chat messages (max 10 for context) |
 | `messages[].role` | string | Yes | Either "user" or "assistant" |
 | `messages[].content` | string | Yes | The message content |
 
@@ -42,16 +46,12 @@ data: [DONE]
 
 **Error (400):** Bad Request
 ```json
-{
-  "error": "Messages array is required"
-}
+{ "error": "Messages array is required" }
 ```
 
 **Error (500):** Server Error
 ```json
-{
-  "error": "Chat service not configured"
-}
+{ "error": "Chat service not configured" }
 ```
 
 #### Example Usage
@@ -61,9 +61,7 @@ const response = await fetch('/api/chat', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({
-    messages: [
-      { role: 'user', content: 'What are your skills?' }
-    ]
+    messages: [{ role: 'user', content: 'What are your skills?' }]
   })
 });
 
@@ -76,7 +74,6 @@ while (true) {
   if (done) break;
   
   const chunk = decoder.decode(value);
-  // Parse SSE format: "data: {...}\n\n"
   const lines = chunk.split('\n');
   for (const line of lines) {
     if (line.startsWith('data: ') && line !== 'data: [DONE]') {
@@ -87,12 +84,6 @@ while (true) {
 }
 ```
 
-#### Rate Limiting
-
-Client-side rate limiting is recommended:
-- Max 10 messages per minute
-- Implemented in `useChat` hook
-
 #### Environment Variables
 
 | Variable | Required | Description |
@@ -101,31 +92,31 @@ Client-side rate limiting is recommended:
 
 ---
 
+## Newsletter API
+
+### POST /api/newsletter
+
+Subscribe to newsletter.
+
+**Body:**
+```json
+{ "email": "user@example.com" }
+```
+
+---
+
 ## Contact Form (Formspree)
 
-The `ContactForm` component supports Formspree integration for serverless form handling.
+The `ContactForm` component supports Formspree integration.
 
 ### Setup
 
-1. Create an account at [formspree.io](https://formspree.io)
-2. Create a new form and get your form ID
+1. Create account at [formspree.io](https://formspree.io)
+2. Create a form and get your form ID
 3. Use the component:
 
 ```tsx
-import { ContactForm } from '@/components/ui/ContactForm';
-
 <ContactForm formspreeId="your-form-id" />
-```
-
-### Custom Handler
-
-```tsx
-<ContactForm onSubmit={async (data) => {
-  await fetch('/your-api', {
-    method: 'POST',
-    body: JSON.stringify(data)
-  });
-}} />
 ```
 
 ### Form Data Schema
@@ -138,3 +129,8 @@ interface ContactFormData {
   message: string;
 }
 ```
+
+## Related Docs
+
+- [Architecture](Architecture) - System design
+- [Development Guide](Development-Guide) - Coding standards
