@@ -20,6 +20,36 @@ interface Project {
     content: () => Promise<unknown>;
 }
 
+// Helper to safely load project content data
+async function getProjectContentData(project: Project): Promise<{ valid: boolean; doc?: unknown; error?: string }> {
+    try {
+        const content = await project.content();
+        // Check if content is a valid document structure for DocumentRenderer
+        if (!content || !Array.isArray(content)) {
+            return { valid: false, error: "empty" };
+        }
+        return { valid: true, doc: content };
+    } catch (e) {
+        console.error("Error loading project content:", e);
+        return { valid: false, error: "load_error" };
+    }
+}
+
+// Component to render project content
+async function ProjectContent({ project }: { project: Project }) {
+    const { valid, doc, error } = await getProjectContentData(project);
+
+    if (!valid) {
+        const message = error === "load_error"
+            ? "Content could not be loaded."
+            : "No detailed content available for this project.";
+        return <p className="text-secondary-foreground italic">{message}</p>;
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return <DocumentRenderer document={doc as any} />;
+}
+
 export async function generateMetadata({
     params
 }: {
@@ -141,8 +171,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
                                     Project Story
                                 </h2>
                                 <div className="prose prose-invert prose-lg max-w-none prose-headings:font-outfit prose-primary">
-                                    {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                                    <DocumentRenderer document={await project.content() as any} />
+                                    <ProjectContent project={project} />
                                 </div>
                             </div>
                         </div>

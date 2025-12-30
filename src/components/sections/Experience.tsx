@@ -230,7 +230,7 @@ export function Experience({ items }: Readonly<{ items?: ExperienceItem[] }>) {
                         className="md:hidden flex flex-col gap-4"
                         variants={prefersReducedMotion ? {} : container}
                         initial="hidden"
-                        whileInView="show"
+                        whileInView="visible"
                         viewport={{ once: true }}
                     >
                         {visibleItems.map((item) => (

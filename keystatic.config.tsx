@@ -33,7 +33,7 @@ export default config({
             label: 'Projects',
             slugField: 'title',
             path: 'src/content/projects/*',
-            format: { contentField: 'content' },
+            format: { data: 'json' },
             schema: {
                 title: fields.slug({ name: { label: 'Title' } }),
                 category: fields.text({ label: 'Category' }),
@@ -60,6 +60,7 @@ export default config({
             label: 'Experience',
             slugField: 'company',
             path: 'src/content/experience/*',
+            format: { data: 'json' },
             schema: {
                 company: fields.slug({ name: { label: 'Company' } }),
                 role: fields.text({ label: 'Role' }),
@@ -85,6 +86,7 @@ export default config({
             label: 'Skills',
             slugField: 'name',
             path: 'src/content/skills/*',
+            format: { data: 'json' },
             schema: {
                 name: fields.slug({ name: { label: 'Skill Name' } }),
                 category: fields.select({
@@ -118,6 +120,7 @@ export default config({
             label: 'Resume Versions',
             slugField: 'label',
             path: 'src/content/resumes/*',
+            format: { data: 'json' },
             schema: {
                 label: fields.slug({ name: { label: 'Label (e.g. Detailed, Compact)' } }),
                 language: fields.relationship({
@@ -137,6 +140,7 @@ export default config({
             label: 'Testimonials',
             slugField: 'author',
             path: 'src/content/testimonials/*',
+            format: { data: 'json' },
             schema: {
                 author: fields.slug({ name: { label: 'Author Name' } }),
                 role: fields.text({ label: 'Job Role/Title' }),
@@ -159,6 +163,7 @@ export default config({
             label: 'Certifications',
             slugField: 'name',
             path: 'src/content/certifications/*',
+            format: { data: 'json' },
             schema: {
                 name: fields.slug({ name: { label: 'Certification Name' } }),
                 issuer: fields.text({ label: 'Issuing Organization' }),
@@ -189,6 +194,7 @@ export default config({
             label: 'Languages',
             slugField: 'code',
             path: 'src/content/languages/*',
+            format: { data: 'json' },
             schema: {
                 code: fields.slug({ name: { label: 'Language Code (e.g. en, fr, es)' } }),
                 name: fields.text({ label: 'Language Name (e.g. English)' }),

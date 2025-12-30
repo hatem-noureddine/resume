@@ -54,18 +54,32 @@ export function LanguageProvider({
         localStorage.setItem("language", lang);
     }, []);
 
+    /* eslint-disable react-hooks/set-state-in-effect */
+    // This effect intentionally sets state to initialize language from URL/localStorage/browser
     useEffect(() => {
+        // 1. Check URL parameters
+        const params = new URLSearchParams(globalThis.location.search);
+        const langParam = params.get('lang') as SupportedLanguage;
+
+        if (langParam && availableLanguages.includes(langParam)) {
+            setLanguageState(langParam);
+            localStorage.setItem("language", langParam);
+            return;
+        }
+
+        // 2. Check localStorage
         const storedLang = localStorage.getItem("language") as SupportedLanguage;
         if (storedLang && availableLanguages.includes(storedLang)) {
             setLanguageState(storedLang);
         } else {
+            // 3. Browser language
             const browserLang = navigator.language.split("-")[0] as SupportedLanguage;
             if (availableLanguages.includes(browserLang)) {
                 setLanguageState(browserLang);
             }
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [availableLanguages]);
+    /* eslint-enable react-hooks/set-state-in-effect */
 
     const t = locales[language] || locales[defaultLanguage];
 

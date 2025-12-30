@@ -1,0 +1,23 @@
+{
+    "company": "PSA Group Senior (FR)",
+    "role": "Développeur Android Senior",
+    "startDate": "2019-03",
+    "endDate": "2021-01",
+    "description": "Refactoring et développement des fonctionnalités communes pour MyPeugeot, MyCitroën et MyDS.",
+    "highlights": [
+        "Développement de nouvelles fonctionnalités via Clean Architecture et MVVM.",
+        "Refonte de l'application MyDS (Java vers Kotlin).",
+        "Migration vers Retrofit et migration de Glide vers Coil.",
+        "Mise en place d'une architecture modulaire.",
+        "Création de vues personnalisées.",
+        "Maintenance et développement MyPeugeot et MyCitroën."
+    ],
+    "skills": [
+        "Kotlin",
+        "Java",
+        "Retrofit",
+        "Coil",
+        "Architecture Modulaire"
+    ],
+    "language": "fr"
+}

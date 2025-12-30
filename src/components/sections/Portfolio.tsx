@@ -41,11 +41,8 @@ interface PortfolioLocale {
 }
 
 export function Portfolio({ items }: Readonly<{ items?: PortfolioLocale['items'] }>) {
-    const { t, direction } = useLanguage();
+    const { t, direction, language } = useLanguage();
     const portfolio = t.portfolio as PortfolioLocale;
-    const portfolioData = items ?? portfolio.items;
-    const [filter, setFilter] = useState("All");
-
     const isMobile = useIsMobile();
     const prefersReducedMotion = usePrefersReducedMotion();
 
@@ -53,11 +50,29 @@ export function Portfolio({ items }: Readonly<{ items?: PortfolioLocale['items']
     const viewAllText = portfolio.viewAll || "View All Projects";
     const allCategoryText = portfolio.allCategory || "All";
 
-    const categories = [allCategoryText, ...Array.from(new Set(portfolioData.map((item) => item.category)))];
+    const [filter, setFilter] = useState(allCategoryText);
+
+    // Sync filter when language (allCategoryText) changes
+    useEffect(() => {
+        setFilter(allCategoryText);
+    }, [allCategoryText]);
+
+    const portfolioData = items ?? portfolio.items;
+
+    const filteredByLanguage = portfolioData.filter(item => {
+        // If it's from Keystatic, it has a language field
+        if (item && typeof item === 'object' && 'language' in item) {
+            return item.language === language;
+        }
+        // Fallback for static items or if language field is missing
+        return true;
+    });
+
+    const categories = [allCategoryText, ...Array.from(new Set(filteredByLanguage.map((item) => item.category)))].filter((value, index, self) => self.indexOf(value) === index);
 
     const filteredProjects = filter === allCategoryText
-        ? portfolioData
-        : portfolioData.filter((item) => item.category === filter);
+        ? filteredByLanguage
+        : filteredByLanguage.filter((item) => item.category === filter);
 
     if (!portfolioData || portfolioData.length === 0) {
         return null;
@@ -68,10 +83,10 @@ export function Portfolio({ items }: Readonly<{ items?: PortfolioLocale['items']
 
     // Animation variants with reduced motion support
     const cardVariants = prefersReducedMotion
-        ? { hidden: { opacity: 1 }, show: { opacity: 1 }, exit: { opacity: 0 } }
+        ? { hidden: { opacity: 1 }, visible: { opacity: 1 }, exit: { opacity: 0 } }
         : {
             hidden: { opacity: 0, scale: 0.8, x: direction === "rtl" ? 20 : -20 },
-            show: { opacity: 1, scale: 1, x: 0 },
+            visible: { opacity: 1, scale: 1, x: 0 },
             exit: { opacity: 0, scale: 0.8, x: direction === "rtl" ? -20 : 20 }
         };
 
@@ -108,7 +123,7 @@ export function Portfolio({ items }: Readonly<{ items?: PortfolioLocale['items']
                     layout={!prefersReducedMotion}
                     variants={prefersReducedMotion ? {} : container}
                     initial="hidden"
-                    whileInView="show"
+                    whileInView="visible"
                     viewport={{ once: true }}
                     className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 mb-8 md:mb-12"
                 >
@@ -119,7 +134,7 @@ export function Portfolio({ items }: Readonly<{ items?: PortfolioLocale['items']
                                 layout={!prefersReducedMotion}
                                 variants={cardVariants}
                                 initial="hidden"
-                                animate="show"
+                                animate="visible"
                                 exit="exit"
                                 transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
                                 className="group relative overflow-hidden rounded-xl md:rounded-2xl aspect-video md:aspect-4/3 bg-secondary/20 shadow-card ken-burns"

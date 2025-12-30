@@ -1,0 +1,23 @@
+{
+    "company": "PSA Group Tech Lead (FR)",
+    "role": "Tech Lead Android",
+    "startDate": "2021-01",
+    "endDate": "2022-06",
+    "description": "Piloter, assister et développer une application blanche modulaire pour les marques du groupe.",
+    "highlights": [
+        "Piloter et faire monter en compétences une équipe de 4 développeurs.",
+        "Développement selon Clean Architecture et MVVM.",
+        "Intégration de l’Atomic Design et composants graphiques.",
+        "Mise en place d'une gestion de thème en temps réel.",
+        "Utilisation du Kotlin-dsl avec Gradle pour la configuration centralisée."
+    ],
+    "skills": [
+        "Kotlin",
+        "Clean Architecture",
+        "MVVM",
+        "Coroutines",
+        "Atomic Design",
+        "Kotlin-dsl"
+    ],
+    "language": "fr"
+}

@@ -1,0 +1,24 @@
+{
+    "company": "Stellantis (FR)",
+    "role": "Android Tech Lead",
+    "startDate": "2022-06",
+    "endDate": "Présent",
+    "description": "Tech Lead Android pour le groupe Stellantis, intervenant sur l'univers mobile des différentes marques du groupe.",
+    "highlights": [
+        "Définir une vision architecturale mobile et la partager auprès des équipes.",
+        "Rédiger des documents de conception technique et veiller à la cohérence de l’architecture.",
+        "Piloter les décisions techniques et guider les équipes pluridisciplinaires.",
+        "Intervenir sur des problématiques techniques complexes et l'optimisation des performances.",
+        "Mettre en place une stratégie d’intégration et de déploiement continu.",
+        "Promouvoir l’excellence technique et les pratiques de clean code."
+    ],
+    "skills": [
+        "Kotlin",
+        "Android SDK",
+        "Jetpack Compose",
+        "Clean Architecture",
+        "MVVM",
+        "CI/CD"
+    ],
+    "language": "fr"
+}

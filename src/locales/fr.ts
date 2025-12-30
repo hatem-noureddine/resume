@@ -15,22 +15,22 @@ export const fr: Locale = {
     },
     hero: {
         name: "Hatem Noureddine",
-        title: "Designer Créatif & Développeur",
+        title: "Tech Lead Android",
         roles: ["Développeur Android", "Architecte Mobile", "Lead Tech", "Expert Kotlin"],
         description:
-            "Je décompose les problèmes d'expérience utilisateur complexes pour créer des solutions intègres qui connectent des milliards de personnes",
+            "13 ans d'expérience. Spécialisé dans la création d'écosystèmes mobiles complexes et performants. Direction d'équipes internationales pour livrer des solutions automobiles et d'entreprise innovantes.",
         downloadCV: "Télécharger CV",
         followMe: "Suivez-moi",
         availableForHire: "Disponible",
         scrollDown: "Défiler pour explorer",
         stats: [
-            { value: "12", label: "Années d'Expérience" },
+            { value: "13", label: "Années d'Expérience" },
             { value: "50+", label: "Projets Terminés" },
             { value: "1.5k", label: "Clients Satisfaits" },
         ],
         floatingCards: {
             projects: { value: "50+", label: "Projets", sublabel: "Terminés" },
-            experience: { value: "12", label: "Années", sublabel: "d'Expérience" }
+            experience: { value: "13", label: "Années", sublabel: "d'Expérience" }
         },
         image: profileImage,
     },
