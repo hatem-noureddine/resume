@@ -27,6 +27,31 @@ jest.mock('@/lib/posts', () => ({
     ]),
 }));
 
+jest.mock('@/lib/keystatic', () => ({
+    getBlogPosts: jest.fn().mockResolvedValue([]),
+    getProjects: jest.fn().mockResolvedValue([
+        {
+            slug: 'test-project',
+            entry: {
+                title: 'Test Project',
+                category: 'Web',
+                description: 'Test Description',
+                image: '/img1.jpg',
+                link: 'https://example.com',
+                technologies: ['React'],
+                gallery: [],
+                language: 'en',
+            }
+        }
+    ]),
+    getLanguages: jest.fn().mockResolvedValue([]),
+    getExperience: jest.fn().mockResolvedValue([]),
+    getSkills: jest.fn().mockResolvedValue([]),
+    getResumes: jest.fn().mockResolvedValue([]),
+    getCertifications: jest.fn().mockResolvedValue([]),
+    getTestimonials: jest.fn().mockResolvedValue([]),
+}));
+
 // Mock child components to avoid deep rendering issues
 jest.mock('@/components/sections/Hero', () => ({ Hero: () => <div data-testid="hero" /> }));
 jest.mock('@/components/sections/Services', () => ({ Services: () => <div data-testid="services" /> }));
