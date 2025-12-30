@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import PortfolioPage from '@/app/portfolio/page';
+import { PortfolioClient } from './PortfolioClient';
 import { LanguageProvider } from '@/context/LanguageContext';
 import { ThemeProvider } from '@/context/ThemeContext';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
@@ -18,35 +18,68 @@ jest.mock('@/hooks/usePrefersReducedMotion', () => ({
     usePrefersReducedMotion: jest.fn().mockReturnValue(false),
 }));
 
-// Mock portfolio data
-jest.mock('@/data/portfolio.json', () => [
-    { id: 1, title: 'Project 1', category: 'Web', image: '/img1.jpg', link: 'https://example.com' },
-    { id: 2, title: 'Project 2', category: 'Mobile', image: '/img2.jpg', link: 'https://example.com' },
-    { id: 3, title: 'Project 3', category: 'Web', image: '/img3.jpg', link: 'https://example.com' },
-]);
+// Mock framer-motion
+jest.mock('framer-motion', () => {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const React = require('react');
+    const MotionDiv = React.forwardRef(function MotionDiv(
+        { children, ...props }: React.PropsWithChildren<Record<string, unknown>>,
+        ref: React.Ref<HTMLDivElement>
+    ) {
+        return React.createElement('div', { ...props, ref }, children);
+    });
+    MotionDiv.displayName = 'MotionDiv';
+
+    const MotionSpan = React.forwardRef(function MotionSpan(
+        { children, ...props }: React.PropsWithChildren<Record<string, unknown>>,
+        ref: React.Ref<HTMLSpanElement>
+    ) {
+        return React.createElement('span', { ...props, ref }, children);
+    });
+    MotionSpan.displayName = 'MotionSpan';
+
+    const MotionButton = React.forwardRef(function MotionButton(
+        { children, ...props }: React.PropsWithChildren<Record<string, unknown>>,
+        ref: React.Ref<HTMLButtonElement>
+    ) {
+        return React.createElement('button', { ...props, ref }, children);
+    });
+    MotionButton.displayName = 'MotionButton';
+
+    return {
+        motion: {
+            div: MotionDiv,
+            span: MotionSpan,
+            button: MotionButton,
+        },
+        AnimatePresence: ({ children }: { children: React.ReactNode }) => children,
+    };
+});
 
 const mockUsePrefersReducedMotion = jest.mocked(usePrefersReducedMotion);
 
-const renderWithProviders = () => {
+// Mock project data that matches the PortfolioClient interface
+const mockProjects = [
+    { id: '1', title: 'Project 1', category: 'Web', image: '/img1.jpg', link: 'https://example.com', language: 'en' },
+    { id: '2', title: 'Project 2', category: 'Mobile', image: '/img2.jpg', link: 'https://example.com', language: 'en' },
+    { id: '3', title: 'Project 3', category: 'Web', image: '/img3.jpg', link: 'https://example.com', language: 'en' },
+];
+
+const renderWithProviders = (items = mockProjects) => {
     return render(
         <ThemeProvider>
             <LanguageProvider>
-                <PortfolioPage />
+                <PortfolioClient items={items} />
             </LanguageProvider>
         </ThemeProvider>
     );
 };
 
-describe('PortfolioPage', () => {
+describe('PortfolioClient', () => {
     beforeEach(() => {
         // Mock window.innerWidth
         Object.defineProperty(window, 'innerWidth', { writable: true, value: 1024 });
-    });
-
-    it('renders header and footer', () => {
-        renderWithProviders();
-        expect(screen.getByTestId('header')).toBeInTheDocument();
-        expect(screen.getByTestId('footer')).toBeInTheDocument();
+        mockUsePrefersReducedMotion.mockReturnValue(false);
     });
 
     it('renders page title', () => {
@@ -97,11 +130,6 @@ describe('PortfolioPage', () => {
         });
     });
 
-    it('renders breadcrumbs correctly', () => {
-        renderWithProviders();
-        expect(screen.getByRole('navigation', { name: /breadcrumb/i })).toBeInTheDocument();
-    });
-
     it('shows project count in category badges', () => {
         renderWithProviders();
         // "All" count (3), "Web" count (2), "Mobile" count (1)
@@ -116,13 +144,30 @@ describe('PortfolioPage', () => {
         window.dispatchEvent(new Event('resize'));
 
         renderWithProviders();
-        expect(screen.getByTestId('header')).toBeInTheDocument();
+        expect(screen.getByRole('heading', { level: 1 })).toBeInTheDocument();
     });
 
     it('applies reduced motion preferences', () => {
         mockUsePrefersReducedMotion.mockReturnValue(true);
 
         renderWithProviders();
+        expect(screen.getByRole('heading', { level: 1 })).toBeInTheDocument();
+    });
+
+    it('filters projects by language', () => {
+        const multiLangProjects = [
+            { id: '1', title: 'English Project', category: 'Web', image: '/img1.jpg', link: 'https://example.com', language: 'en' },
+            { id: '2', title: 'French Project', category: 'Web', image: '/img2.jpg', link: 'https://example.com', language: 'fr' },
+        ];
+
+        renderWithProviders(multiLangProjects);
+        // By default, LanguageProvider uses 'en', so only English project should show
+        expect(screen.getAllByRole('img').length).toBe(1);
+    });
+
+    it('renders empty state when no projects', () => {
+        renderWithProviders([]);
+        // Should still render the heading
         expect(screen.getByRole('heading', { level: 1 })).toBeInTheDocument();
     });
 });
