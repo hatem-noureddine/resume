@@ -18,7 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **CI Pipeline**: Fixed 50-minute hang in E2E tests by explicitly capturing `serve` dependency
 - **Components**: Fixed import structure in `Skeleton.tsx` and logic in `AnimatedCounter.tsx`
 
-## [1.0.0] - 2024-12-15
+## [1.0.0] - 2025-12-08
 
 ### Added
 - **SEO Enhancements**
@@ -48,7 +48,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Renamed project to `hatem-noureddine-portfolio`
 - Simplified npm scripts with unified `verify` command
 
-## [0.1.0] - 2024-11-01
+## [0.1.0] - 2025-12-01
 
 ### Added
 - Initial portfolio website
