@@ -1,0 +1,15 @@
+{
+    "title": "Stellantis Space App (EN)",
+    "category": "Mobile",
+    "description": "A featured project for Stellantis group.",
+    "image": "https://placehold.co/600x400/1f1f1f/FFF",
+    "link": "https://stellantis.com",
+    "technologies": [
+        "Kotlin",
+        "Jetpack Compose",
+        "Clean Architecture"
+    ],
+    "gallery": [],
+    "language": "en",
+    "content": ""
+}

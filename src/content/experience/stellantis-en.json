@@ -1,0 +1,24 @@
+{
+    "company": "Stellantis (EN)",
+    "role": "Android Tech Lead",
+    "startDate": "2022-06",
+    "endDate": "Present",
+    "description": "Android Tech Lead for the Stellantis Group, working on the mobile universe of various group brands.",
+    "highlights": [
+        "Defined a mobile architectural vision and shared it with teams.",
+        "Drafted technical design documents and ensured architectural consistency.",
+        "Led technical decisions and guided multidisciplinary teams internationally.",
+        "Intervened on complex issues and performance optimization.",
+        "Set up CI/CD strategy for group SDKs and applications.",
+        "Promoted technical excellence and clean code practices."
+    ],
+    "skills": [
+        "Kotlin",
+        "Android SDK",
+        "Jetpack Compose",
+        "Clean Architecture",
+        "MVVM",
+        "CI/CD"
+    ],
+    "language": "en"
+}

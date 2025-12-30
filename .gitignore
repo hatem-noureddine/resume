@@ -1,0 +1,71 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing & coverage
+/coverage
+/reports
+/test-results
+*.coverage.txt
+coverage*.txt
+*_coverage*.txt
+wrapper
+
+# playwright
+/playwright-report
+/playwright/.cache
+
+# lighthouse
+/.lighthouseci
+
+# next.js
+/.next/
+/out/
+
+# production builds
+/build
+/final_out
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (can opt-in for committing if needed)
+.env*
+!.env.example
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+*storybook.log
+storybook-static
+/public/admin
+
+# lock files
+
+yarn.lock
+pnpm-lock.yaml

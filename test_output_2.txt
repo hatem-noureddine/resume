@@ -1,0 +1,354 @@
+FAIL src/components/sections/Hero.test.tsx
+  Hero Component
+    ✕ renders the main heading (27 ms)
+    ✕ renders the role/title with typing animation cycle (8 ms)
+    ✕ renders social links (6 ms)
+    ✕ renders call to action buttons (4 ms)
+    ✕ handles mobile view interactions (6 ms)
+    ✕ handles scroll down click (5 ms)
+
+  ● Hero Component › renders the main heading
+
+    Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.
+
+    Check the render method of `Hero`.
+
+      82 |
+      83 |     const renderWithContext = () => {
+    > 84 |         return render(
+         |                      ^
+      85 |             <LanguageProvider>
+      86 |                 <Hero />
+      87 |             </LanguageProvider>
+
+      at createFiberFromTypeAndProps (node_modules/react-dom/cjs/react-dom-client.development.js:5021:28)
+      at createFiberFromElement (node_modules/react-dom/cjs/react-dom-client.development.js:5035:14)
+      at reconcileChildFibersImpl (node_modules/react-dom/cjs/react-dom-client.development.js:6920:31)
+      at node_modules/react-dom/cjs/react-dom-client.development.js:7098:33
+      at reconcileChildren (node_modules/react-dom/cjs/react-dom-client.development.js:9701:13)
+      at beginWork (node_modules/react-dom/cjs/react-dom-client.development.js:12049:13)
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom-client.development.js:17641:22)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom-client.development.js:17469:41)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom-client.development.js:17450:11)
+      at performWorkOnRoot (node_modules/react-dom/cjs/react-dom-client.development.js:16583:35)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-dom/cjs/react-dom-client.development.js:18957:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:590:34)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:884:10)
+      at node_modules/@testing-library/react/dist/act-compat.js:46:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:189:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:291:10)
+      at renderWithContext (src/components/sections/Hero.test.tsx:84:22)
+      at Object.renderWithContext (src/components/sections/Hero.test.tsx:92:9)
+
+  ● Hero Component › renders the role/title with typing animation cycle
+
+    Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.
+
+    Check the render method of `Hero`.
+
+      82 |
+      83 |     const renderWithContext = () => {
+    > 84 |         return render(
+         |                      ^
+      85 |             <LanguageProvider>
+      86 |                 <Hero />
+      87 |             </LanguageProvider>
+
+      at createFiberFromTypeAndProps (node_modules/react-dom/cjs/react-dom-client.development.js:5021:28)
+      at createFiberFromElement (node_modules/react-dom/cjs/react-dom-client.development.js:5035:14)
+      at reconcileChildFibersImpl (node_modules/react-dom/cjs/react-dom-client.development.js:6920:31)
+      at node_modules/react-dom/cjs/react-dom-client.development.js:7098:33
+      at reconcileChildren (node_modules/react-dom/cjs/react-dom-client.development.js:9701:13)
+      at beginWork (node_modules/react-dom/cjs/react-dom-client.development.js:12049:13)
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom-client.development.js:17641:22)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom-client.development.js:17469:41)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom-client.development.js:17450:11)
+      at performWorkOnRoot (node_modules/react-dom/cjs/react-dom-client.development.js:16583:35)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-dom/cjs/react-dom-client.development.js:18957:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:590:34)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:884:10)
+      at node_modules/@testing-library/react/dist/act-compat.js:46:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:189:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:291:10)
+      at renderWithContext (src/components/sections/Hero.test.tsx:84:22)
+      at Object.renderWithContext (src/components/sections/Hero.test.tsx:100:9)
+
+  ● Hero Component › renders social links
+
+    Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.
+
+    Check the render method of `Hero`.
+
+      82 |
+      83 |     const renderWithContext = () => {
+    > 84 |         return render(
+         |                      ^
+      85 |             <LanguageProvider>
+      86 |                 <Hero />
+      87 |             </LanguageProvider>
+
+      at createFiberFromTypeAndProps (node_modules/react-dom/cjs/react-dom-client.development.js:5021:28)
+      at createFiberFromElement (node_modules/react-dom/cjs/react-dom-client.development.js:5035:14)
+      at reconcileChildFibersImpl (node_modules/react-dom/cjs/react-dom-client.development.js:6920:31)
+      at node_modules/react-dom/cjs/react-dom-client.development.js:7098:33
+      at reconcileChildren (node_modules/react-dom/cjs/react-dom-client.development.js:9701:13)
+      at beginWork (node_modules/react-dom/cjs/react-dom-client.development.js:12049:13)
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom-client.development.js:17641:22)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom-client.development.js:17469:41)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom-client.development.js:17450:11)
+      at performWorkOnRoot (node_modules/react-dom/cjs/react-dom-client.development.js:16583:35)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-dom/cjs/react-dom-client.development.js:18957:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:590:34)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:884:10)
+      at node_modules/@testing-library/react/dist/act-compat.js:46:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:189:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:291:10)
+      at renderWithContext (src/components/sections/Hero.test.tsx:84:22)
+      at Object.renderWithContext (src/components/sections/Hero.test.tsx:107:9)
+
+  ● Hero Component › renders call to action buttons
+
+    Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.
+
+    Check the render method of `Hero`.
+
+      82 |
+      83 |     const renderWithContext = () => {
+    > 84 |         return render(
+         |                      ^
+      85 |             <LanguageProvider>
+      86 |                 <Hero />
+      87 |             </LanguageProvider>
+
+      at createFiberFromTypeAndProps (node_modules/react-dom/cjs/react-dom-client.development.js:5021:28)
+      at createFiberFromElement (node_modules/react-dom/cjs/react-dom-client.development.js:5035:14)
+      at reconcileChildFibersImpl (node_modules/react-dom/cjs/react-dom-client.development.js:6920:31)
+      at node_modules/react-dom/cjs/react-dom-client.development.js:7098:33
+      at reconcileChildren (node_modules/react-dom/cjs/react-dom-client.development.js:9701:13)
+      at beginWork (node_modules/react-dom/cjs/react-dom-client.development.js:12049:13)
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom-client.development.js:17641:22)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom-client.development.js:17469:41)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom-client.development.js:17450:11)
+      at performWorkOnRoot (node_modules/react-dom/cjs/react-dom-client.development.js:16583:35)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-dom/cjs/react-dom-client.development.js:18957:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:590:34)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:884:10)
+      at node_modules/@testing-library/react/dist/act-compat.js:46:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:189:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:291:10)
+      at renderWithContext (src/components/sections/Hero.test.tsx:84:22)
+      at Object.renderWithContext (src/components/sections/Hero.test.tsx:114:9)
+
+  ● Hero Component › handles mobile view interactions
+
+    Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.
+
+    Check the render method of `Hero`.
+
+      82 |
+      83 |     const renderWithContext = () => {
+    > 84 |         return render(
+         |                      ^
+      85 |             <LanguageProvider>
+      86 |                 <Hero />
+      87 |             </LanguageProvider>
+
+      at createFiberFromTypeAndProps (node_modules/react-dom/cjs/react-dom-client.development.js:5021:28)
+      at createFiberFromElement (node_modules/react-dom/cjs/react-dom-client.development.js:5035:14)
+      at reconcileChildFibersImpl (node_modules/react-dom/cjs/react-dom-client.development.js:6920:31)
+      at node_modules/react-dom/cjs/react-dom-client.development.js:7098:33
+      at reconcileChildren (node_modules/react-dom/cjs/react-dom-client.development.js:9701:13)
+      at beginWork (node_modules/react-dom/cjs/react-dom-client.development.js:12049:13)
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom-client.development.js:17641:22)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom-client.development.js:17469:41)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom-client.development.js:17450:11)
+      at performWorkOnRoot (node_modules/react-dom/cjs/react-dom-client.development.js:16583:35)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-dom/cjs/react-dom-client.development.js:18957:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:590:34)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:884:10)
+      at node_modules/@testing-library/react/dist/act-compat.js:46:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:189:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:291:10)
+      at renderWithContext (src/components/sections/Hero.test.tsx:84:22)
+      at Object.renderWithContext (src/components/sections/Hero.test.tsx:124:9)
+
+  ● Hero Component › handles scroll down click
+
+    Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.
+
+    Check the render method of `Hero`.
+
+      82 |
+      83 |     const renderWithContext = () => {
+    > 84 |         return render(
+         |                      ^
+      85 |             <LanguageProvider>
+      86 |                 <Hero />
+      87 |             </LanguageProvider>
+
+      at createFiberFromTypeAndProps (node_modules/react-dom/cjs/react-dom-client.development.js:5021:28)
+      at createFiberFromElement (node_modules/react-dom/cjs/react-dom-client.development.js:5035:14)
+      at reconcileChildFibersImpl (node_modules/react-dom/cjs/react-dom-client.development.js:6920:31)
+      at node_modules/react-dom/cjs/react-dom-client.development.js:7098:33
+      at reconcileChildren (node_modules/react-dom/cjs/react-dom-client.development.js:9701:13)
+      at beginWork (node_modules/react-dom/cjs/react-dom-client.development.js:12049:13)
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom-client.development.js:17641:22)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom-client.development.js:17469:41)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom-client.development.js:17450:11)
+      at performWorkOnRoot (node_modules/react-dom/cjs/react-dom-client.development.js:16583:35)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-dom/cjs/react-dom-client.development.js:18957:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:590:34)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:884:10)
+      at node_modules/@testing-library/react/dist/act-compat.js:46:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:189:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:291:10)
+      at renderWithContext (src/components/sections/Hero.test.tsx:84:22)
+      at Object.renderWithContext (src/components/sections/Hero.test.tsx:141:9)
+
+--------------------------------|---------|----------|---------|---------|-----------------------------------------------------------
+File                            | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s                                         
+--------------------------------|---------|----------|---------|---------|-----------------------------------------------------------
+All files                       |    3.85 |     2.41 |    1.58 |    4.05 |                                                           
+ app                            |       0 |        0 |       0 |       0 |                                                           
+  error.tsx                     |       0 |      100 |       0 |       0 | 3-27                                                      
+  global-error.tsx              |       0 |        0 |       0 |       0 | 3-37                                                      
+  layout.tsx                    |       0 |      100 |       0 |       0 | 2-28                                                      
+  not-found.tsx                 |       0 |      100 |       0 |       0 | 3-9                                                       
+  page.tsx                      |       0 |        0 |       0 |       0 | 1-223                                                     
+  sitemap.ts                    |       0 |      100 |       0 |       0 | 2-19                                                      
+  template.tsx                  |       0 |        0 |       0 |       0 | 3-11                                                      
+ app/api/chat                   |       0 |        0 |       0 |       0 |                                                           
+  route.ts                      |       0 |        0 |       0 |       0 | 1-94                                                      
+ app/api/keystatic/[...params]  |       0 |      100 |     100 |       0 |                                                           
+  route.ts                      |       0 |      100 |     100 |       0 | 1-4                                                       
+ app/api/newsletter             |       0 |        0 |       0 |       0 |                                                           
+  route.ts                      |       0 |        0 |       0 |       0 | 2-54                                                      
+ app/api/og                     |       0 |        0 |       0 |       0 |                                                           
+  route.tsx                     |       0 |        0 |       0 |       0 | 1-158                                                     
+ app/blog                       |       0 |      100 |       0 |       0 |                                                           
+  page.tsx                      |       0 |      100 |       0 |       0 | 1-7                                                       
+ app/blog/[slug]                |       0 |        0 |       0 |       0 |                                                           
+  markdown-components.tsx       |       0 |        0 |       0 |       0 | 1-84                                                      
+  page.tsx                      |       0 |        0 |       0 |       0 | 1-219                                                     
+ app/feed.xml                   |       0 |      100 |       0 |       0 |                                                           
+  route.ts                      |       0 |      100 |       0 |       0 | 1-38                                                      
+ app/keystatic                  |       0 |      100 |       0 |       0 |                                                           
+  keystatic.ts                  |       0 |      100 |     100 |       0 | 3-6                                                       
+  layout.tsx                    |       0 |      100 |       0 |       0 | 1-4                                                       
+ app/keystatic/[[...params]]    |       0 |      100 |       0 |       0 |                                                           
+  page.tsx                      |       0 |      100 |       0 |       0 | 1-2                                                       
+ app/portfolio                  |       0 |        0 |       0 |       0 |                                                           
+  page.tsx                      |       0 |        0 |       0 |       0 | 3-149                                                     
+ app/portfolio/[slug]           |       0 |        0 |       0 |       0 |                                                           
+  page.tsx                      |       0 |        0 |       0 |       0 | 1-207                                                     
+ components/analytics           |       0 |      100 |       0 |       0 |                                                           
+  VercelAnalytics.tsx           |       0 |      100 |       0 |       0 | 1-16                                                      
+ components/blog                |       0 |        0 |       0 |       0 |                                                           
+  BlogList.tsx                  |       0 |        0 |       0 |       0 | 3-280                                                     
+  Comments.tsx                  |       0 |        0 |       0 |       0 | 3-18                                                      
+  ReadingProgress.tsx           |       0 |        0 |       0 |       0 | 4-17                                                      
+  RelatedPosts.tsx              |       0 |        0 |       0 |       0 | 3-41                                                      
+  TableOfContents.tsx           |       0 |        0 |       0 |       0 | 3-65                                                      
+ components/chat                |       0 |        0 |       0 |       0 |                                                           
+  ChatWidget.tsx                |       0 |        0 |       0 |       0 | 3-295                                                     
+ components/layout              |       0 |        0 |       0 |       0 |                                                           
+  FloatingActions.tsx           |       0 |        0 |       0 |       0 | 3-71                                                      
+  Footer.tsx                    |       0 |        0 |       0 |       0 | 3-114                                                     
+  Header.tsx                    |       0 |        0 |       0 |       0 | 3-345                                                     
+ components/pwa                 |       0 |        0 |       0 |       0 |                                                           
+  ServiceWorkerRegistration.tsx |       0 |        0 |       0 |       0 | 3-25                                                      
+ components/sections            |   11.31 |     7.77 |    3.03 |   12.44 |                                                           
+  Blog.tsx                      |       0 |        0 |       0 |       0 | 3-144                                                     
+  Certifications.tsx            |       0 |        0 |       0 |       0 | 3-64                                                      
+  ClientCarousel.tsx            |       0 |      100 |       0 |       0 | 3-13                                                      
+  Experience.tsx                |       0 |        0 |       0 |       0 | 3-571                                                     
+  Hero.tsx                      |   53.84 |    41.17 |   15.62 |   60.86 | 22-23,42-45,58-77,131-137,172-174,179,183-234,280-334,483 
+  Portfolio.tsx                 |       0 |        0 |       0 |       0 | 3-117                                                     
+  Services.tsx                  |       0 |        0 |       0 |       0 | 3-233                                                     
+  Skills.tsx                    |       0 |        0 |       0 |       0 | 3-532                                                     
+  TechCarousel.tsx              |       0 |      100 |       0 |       0 | 3-15                                                      
+  Testimonials.tsx              |       0 |        0 |       0 |       0 | 3-134                                                     
+ components/seo                 |       0 |        0 |       0 |       0 |                                                           
+  JsonLd.tsx                    |       0 |        0 |       0 |       0 | 1-46                                                      
+ components/ui                  |       3 |     1.21 |    2.06 |     3.1 |                                                           
+  AnimatedBackground.tsx        |     100 |    66.66 |     100 |     100 | 9                                                         
+  AnimatedCounter.tsx           |       0 |        0 |       0 |       0 | 3-74                                                      
+  BlurImage.tsx                 |   66.66 |        0 |       0 |   66.66 | 8-19                                                      
+  BookmarkButton.tsx            |       0 |        0 |       0 |       0 | 3-48                                                      
+  Button.tsx                    |      90 |      100 |     100 |     100 |                                                           
+  CodeBlock.tsx                 |       0 |        0 |       0 |       0 | 3-212                                                     
+  ContactForm.tsx               |       0 |        0 |       0 |       0 | 3-119                                                     
+  CopyToClipboard.tsx           |       0 |        0 |       0 |       0 | 3-21                                                      
+  EmptyState.tsx                |       0 |        0 |       0 |       0 | 3-29                                                      
+  ErrorBoundary.tsx             |       0 |        0 |       0 |       0 | 3-97                                                      
+  FormField.tsx                 |       0 |        0 |       0 |       0 | 3-141                                                     
+  Glass.tsx                     |       0 |        0 |       0 |       0 | 4-171                                                     
+  HoverEffects.tsx              |       0 |        0 |       0 |       0 | 4-172                                                     
+  LoadingScreen.tsx             |       0 |        0 |       0 |       0 | 3-38                                                      
+  Logo.tsx                      |       0 |      100 |       0 |       0 | 3-5                                                       
+  LottieAnimation.tsx           |       0 |        0 |       0 |       0 | 3-134                                                     
+  LottieIcon.tsx                |       0 |        0 |       0 |       0 | 3-155                                                     
+  Modal.tsx                     |       0 |        0 |       0 |       0 | 3-152                                                     
+  NewsletterForm.tsx            |       0 |        0 |       0 |       0 | 3-137                                                     
+  PageTransition.tsx            |       0 |        0 |       0 |       0 | 4-152                                                     
+  QRCodeModal.tsx               |       0 |        0 |       0 |       0 | 3-65                                                      
+  ScrollProgress.tsx            |       0 |        0 |       0 |       0 | 3-20                                                      
+  ScrollReveal.tsx              |       0 |        0 |       0 |       0 | 3-38                                                      
+  SectionHeading.tsx            |       0 |        0 |       0 |       0 | 3-14                                                      
+  SectionSkeleton.tsx           |       0 |      100 |       0 |       0 | 3-138                                                     
+  SectionTracker.tsx            |       0 |        0 |       0 |       0 | 3-49                                                      
+  ShareButtons.tsx              |       0 |        0 |       0 |       0 | 3-56                                                      
+  Skeleton.tsx                  |       0 |        0 |       0 |       0 | 3-84                                                      
+  SocialLottieIcon.tsx          |       0 |        0 |       0 |       0 | 3-62                                                      
+  StarRating.tsx                |       0 |        0 |       0 |       0 | 3-104                                                     
+  ThemeToggle.tsx               |       0 |        0 |       0 |       0 | 3-37                                                      
+  TiltCard.tsx                  |       0 |        0 |       0 |       0 | 3-62                                                      
+  Toast.tsx                     |       0 |        0 |       0 |       0 | 3-42                                                      
+  Tooltip.tsx                   |       0 |        0 |       0 |       0 | 3-119                                                     
+  TypingIndicator.tsx           |       0 |        0 |       0 |       0 | 3-29                                                      
+  WaveDivider.tsx               |       0 |        0 |       0 |       0 | 3-12                                                      
+ config                         |   33.33 |        0 |       0 |   44.44 |                                                           
+  resume.ts                     |       0 |        0 |       0 |       0 | 6-119                                                     
+  site.ts                       |    62.5 |      100 |     100 |     100 |                                                           
+ context                        |       0 |        0 |       0 |       0 |                                                           
+  FeatureFlags.tsx              |       0 |        0 |       0 |       0 | 3-132                                                     
+  LanguageContext.tsx           |       0 |        0 |       0 |       0 | 3-101                                                     
+  ThemeContext.tsx              |       0 |        0 |       0 |       0 | 3-89                                                      
+ hooks                          |    2.07 |        0 |    2.77 |    2.31 |                                                           
+  useBookmarks.ts               |       0 |        0 |       0 |       0 | 3-64                                                      
+  useChat.ts                    |       0 |        0 |       0 |       0 | 3-192                                                     
+  useFocusManagement.ts         |       0 |        0 |       0 |       0 | 3-209                                                     
+  usePrefersReducedMotion.ts    |   61.53 |      100 |      40 |   66.66 | 7-9,17                                                    
+  useRating.ts                  |       0 |        0 |       0 |       0 | 3-192                                                     
+  useServiceWorker.ts           |       0 |        0 |       0 |       0 | 3-117                                                     
+ lib                            |    1.57 |        0 |    2.04 |    1.86 |                                                           
+  animations.ts                 |       0 |        0 |       0 |       0 | 23-322                                                    
+  api.ts                        |       0 |        0 |       0 |       0 | 36-140                                                    
+  colorContrast.ts              |       0 |        0 |       0 |       0 | 12-161                                                    
+  keystatic.ts                  |       0 |        0 |       0 |       0 | 1-48                                                      
+  posts.ts                      |       0 |        0 |       0 |       0 | 1-129                                                     
+  store.ts                      |       0 |        0 |       0 |       0 | 3-117                                                     
+  string-utils.ts               |       0 |      100 |       0 |       0 | 1-2                                                       
+  utils.ts                      |     100 |      100 |     100 |     100 |                                                           
+ locales                        |     100 |      100 |     100 |     100 |                                                           
+  en.ts                         |     100 |      100 |     100 |     100 |                                                           
+  es.ts                         |     100 |      100 |     100 |     100 |                                                           
+  fr.ts                         |     100 |      100 |     100 |     100 |                                                           
+ test                           |       0 |        0 |       0 |       0 |                                                           
+  utils.tsx                     |       0 |        0 |       0 |       0 | 19-253                                                    
+--------------------------------|---------|----------|---------|---------|-----------------------------------------------------------
+Jest: "global" coverage threshold for statements (80%) not met: 3.85%
+Jest: "global" coverage threshold for branches (60%) not met: 2.41%
+Jest: "global" coverage threshold for lines (80%) not met: 4.05%
+Jest: "global" coverage threshold for functions (70%) not met: 1.58%
+Test Suites: 1 failed, 1 total
+Tests:       6 failed, 6 total
+Snapshots:   0 total
+Time:        1.683 s
+Ran all test suites matching /src\/components\/sections\/Hero.test.tsx/i.

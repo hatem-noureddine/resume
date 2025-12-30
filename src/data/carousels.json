@@ -1,0 +1,58 @@
+{
+    "techs": [
+        {
+            "name": "React",
+            "icon": "/icons/react.svg"
+        },
+        {
+            "name": "Next.js",
+            "icon": "/icons/nextjs.svg"
+        },
+        {
+            "name": "TypeScript",
+            "icon": "/icons/typescript.svg"
+        },
+        {
+            "name": "Tailwind",
+            "icon": "/icons/tailwind.svg"
+        },
+        {
+            "name": "Node.js",
+            "icon": "/icons/nodejs.svg"
+        },
+        {
+            "name": "Figma",
+            "icon": "/icons/figma.svg"
+        },
+        {
+            "name": "GitHub",
+            "icon": "/icons/github.svg"
+        }
+    ],
+    "clients": [
+        {
+            "name": "TechCorp",
+            "icon": "/icons/techcorp.svg"
+        },
+        {
+            "name": "GlobalSol",
+            "icon": "/icons/globalsol.svg"
+        },
+        {
+            "name": "Innovate",
+            "icon": "/icons/innovate.svg"
+        },
+        {
+            "name": "DesignStudio",
+            "icon": "/icons/designstudio.svg"
+        },
+        {
+            "name": "StartUp",
+            "icon": "/icons/startup.svg"
+        },
+        {
+            "name": "Community",
+            "icon": "/icons/community.svg"
+        }
+    ]
+}
