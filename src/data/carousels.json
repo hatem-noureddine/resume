@@ -1,58 +1,142 @@
 {
     "techs": [
         {
-            "name": "React",
-            "icon": "/icons/react.svg"
+            "name": "Android",
+            "icon": "/icons/techs/android.svg?v=2"
         },
         {
-            "name": "Next.js",
-            "icon": "/icons/nextjs.svg"
+            "name": "Kotlin",
+            "icon": "/icons/techs/kotlin.svg?v=2"
         },
         {
-            "name": "TypeScript",
-            "icon": "/icons/typescript.svg"
+            "name": "Java",
+            "icon": "/icons/techs/java.svg?v=2"
         },
         {
-            "name": "Tailwind",
-            "icon": "/icons/tailwind.svg"
+            "name": "Coroutines",
+            "icon": "/icons/techs/coroutines.svg?v=2"
         },
         {
-            "name": "Node.js",
-            "icon": "/icons/nodejs.svg"
+            "name": "Compose",
+            "icon": "/icons/techs/compose.svg?v=2"
         },
         {
-            "name": "Figma",
-            "icon": "/icons/figma.svg"
+            "name": "Room",
+            "icon": "/icons/techs/room.svg?v=2"
+        },
+        {
+            "name": "Ktor",
+            "icon": "/icons/techs/ktor.svg?v=2"
+        },
+        {
+            "name": "Retrofit",
+            "icon": "/icons/techs/retrofit.svg?v=2"
+        },
+        {
+            "name": "Dagger",
+            "icon": "/icons/techs/dagger.svg?v=2"
+        },
+        {
+            "name": "Hilt",
+            "icon": "/icons/techs/hilt.svg?v=2"
+        },
+        {
+            "name": "Koin",
+            "icon": "/icons/techs/koin.png?v=2"
+        },
+        {
+            "name": "Firebase",
+            "icon": "/icons/techs/firebase.svg?v=2"
         },
         {
             "name": "GitHub",
-            "icon": "/icons/github.svg"
+            "icon": "/icons/techs/github.svg?v=2"
+        },
+        {
+            "name": "Fastlane",
+            "icon": "/icons/techs/fastlane.svg?v=2"
+        },
+        {
+            "name": "TeamCity",
+            "icon": "/icons/techs/teamcity.svg?v=2"
+        },
+        {
+            "name": "Figma",
+            "icon": "/icons/techs/figma.svg?v=2"
+        },
+        {
+            "name": "Style Dictionary",
+            "icon": "/icons/techs/styledictionary.svg?v=2"
         }
     ],
     "clients": [
         {
-            "name": "TechCorp",
-            "icon": "/icons/techcorp.svg"
+            "name": "Stellantis",
+            "icon": "/icons/clients/stellantis.svg?v=2"
         },
         {
-            "name": "GlobalSol",
-            "icon": "/icons/globalsol.svg"
+            "name": "PSA",
+            "icon": "/icons/clients/psa.png?v=2"
         },
         {
-            "name": "Innovate",
-            "icon": "/icons/innovate.svg"
+            "name": "JOHN PAUL",
+            "icon": "/icons/clients/johnpaul.svg?v=2"
         },
         {
-            "name": "DesignStudio",
-            "icon": "/icons/designstudio.svg"
+            "name": "LCL",
+            "icon": "/icons/clients/lcl.svg?v=2"
         },
         {
-            "name": "StartUp",
-            "icon": "/icons/startup.svg"
+            "name": "TESSI",
+            "icon": "/icons/clients/tessi.svg?v=2"
         },
         {
-            "name": "Community",
-            "icon": "/icons/community.svg"
+            "name": "ALLIANZ",
+            "icon": "/icons/clients/allianz.svg?v=2"
+        },
+        {
+            "name": "VAN CLEEF & Arpel",
+            "icon": "/icons/clients/vancleef.svg?v=2"
+        },
+        {
+            "name": "BOZER",
+            "icon": "/icons/clients/bozer.svg?v=2"
+        },
+        {
+            "name": "Tchapper",
+            "icon": "/icons/clients/tchapper.svg?v=2"
+        },
+        {
+            "name": "Dior",
+            "icon": "/icons/clients/dior.svg?v=2"
+        },
+        {
+            "name": "Gossip",
+            "icon": "/icons/clients/gossip.svg?v=2"
+        },
+        {
+            "name": "Betterise",
+            "icon": "/icons/clients/betterise.svg?v=2"
+        },
+        {
+            "name": "MyDesign",
+            "icon": "/icons/clients/mydesign.svg?v=2"
+        },
+        {
+            "name": "Consosmart",
+            "icon": "/icons/clients/consosmart.svg?v=2"
+        },
+        {
+            "name": "Port de Nice",
+            "icon": "/icons/clients/portdenice.png?v=2"
+        },
+        {
+            "name": "Walkit",
+            "icon": "/icons/clients/walkit.svg?v=2"
+        },
+        {
+            "name": "Munadhara",
+            "icon": "/icons/clients/munadhara.png?v=2"
         }
     ]
 }

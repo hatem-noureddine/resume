@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Lottie from "lottie-react";
-import emptyAnimation from "@/../public/lottie/empty-state.json";
+import emptyAnimation from "@/assets/lottie/empty-state.json";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import { Search } from "lucide-react";
 

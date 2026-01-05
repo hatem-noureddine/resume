@@ -24,6 +24,11 @@ const DEFAULT_FLAGS: FeatureFlags = {
     analytics: true,
     pwa: true,
     projects: true, // Projects section - enable when ready
+    showClientCarousel: false,
+    showTechCarousel: true,
+    showBlog: true,
+    showTestimonials: true,
+    showServices: true,
 };
 
 interface FeatureFlagProviderProps {

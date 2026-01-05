@@ -5,10 +5,10 @@ import Lottie, { LottieRefCurrentProps } from "lottie-react";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
 // Import all social Lottie animations
-import githubAnimation from "@/../public/lottie/github-icon.json";
-import linkedinAnimation from "@/../public/lottie/linkedin-icon.json";
-import mailAnimation from "@/../public/lottie/mail-icon.json";
-import downloadAnimation from "@/../public/lottie/download-arrow.json";
+import githubAnimation from "@/assets/lottie/github-icon.json";
+import linkedinAnimation from "@/assets/lottie/linkedin-icon.json";
+import mailAnimation from "@/assets/lottie/mail-icon.json";
+import downloadAnimation from "@/assets/lottie/download-arrow.json";
 
 // Map of icon names to their Lottie data
 const animations: Record<string, object> = {

@@ -1,0 +1,23 @@
+{
+    "company": "john-paul",
+    "role": "Senior Desarrollador Android",
+    "startDate": "2018-09",
+    "endDate": "2020-08",
+    "description": "Desarrollo de una aplicación modular para el servicio de conserjería de Accor Hotels y funciones para VISA y Toyota.",
+    "highlights": [
+        "Modularidad: Refactorización del código común en módulos y migración a Kotlin y AndroidX",
+        "Formularios Dinámicos: Creación de un sistema de generación dinámica de formularios a través de configuraciones JSON",
+        "Seguridad: Cifrado de datos sensibles en preparación para la certificación PCI",
+        "Integraciones: Google Maps/Places, Zendesk y SDK de pago (Stripe, Adyen)"
+    ],
+    "skills": [
+        "Kotlin",
+        "MVVM",
+        "Dagger 2",
+        "Retrofit",
+        "Fastlane",
+        "GitLab CI",
+        "Sentry"
+    ],
+    "language": "es"
+}

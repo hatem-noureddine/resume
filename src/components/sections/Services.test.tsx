@@ -75,15 +75,15 @@ describe('Services Component', () => {
     it('renders service cards on desktop', () => {
         renderWithProviders();
         // Services render in both mobile and desktop views, so use getAllByText
-        expect(screen.getAllByText('Web Design').length).toBeGreaterThan(0);
+        expect(screen.getAllByText('Code Audit').length).toBeGreaterThan(0);
         expect(screen.getAllByText('Development').length).toBeGreaterThan(0);
         expect(screen.getAllByText('UI/UX Design').length).toBeGreaterThan(0);
-        expect(screen.getAllByText('Graphics Design').length).toBeGreaterThan(0);
+        expect(screen.getAllByText('CI/CD').length).toBeGreaterThan(0);
     });
 
     it('displays service descriptions', () => {
         renderWithProviders();
-        expect(screen.getAllByText(/visually stunning/i).length).toBeGreaterThan(0);
+        expect(screen.getAllByText(/intuitive and engaging/i).length).toBeGreaterThan(0);
         expect(screen.getAllByText(/robust and scalable/i).length).toBeGreaterThan(0);
     });
 
@@ -154,7 +154,7 @@ describe('Services Component', () => {
         it('navigates to next slide with ArrowRight key', () => {
             renderWithProviders();
 
-            const carousel = screen.getByRole('region', { name: /carousel/i });
+            const carousel = screen.getByLabelText('Services carousel');
 
             fireEvent.keyDown(carousel, { key: 'ArrowRight' });
 
@@ -164,7 +164,7 @@ describe('Services Component', () => {
         it('navigates to previous slide with ArrowLeft key', () => {
             renderWithProviders();
 
-            const carousel = screen.getByRole('region', { name: /carousel/i });
+            const carousel = screen.getByLabelText('Services carousel');
 
             // First go to slide 2
             fireEvent.keyDown(carousel, { key: 'ArrowRight' });
@@ -180,7 +180,7 @@ describe('Services Component', () => {
         it('handles touch start', () => {
             renderWithProviders();
 
-            const carousel = screen.getByRole('region', { name: /carousel/i });
+            const carousel = screen.getByLabelText('Services carousel');
 
             fireEvent.touchStart(carousel, {
                 targetTouches: [{ clientX: 200 }]
@@ -193,7 +193,7 @@ describe('Services Component', () => {
         it('handles touch move', () => {
             renderWithProviders();
 
-            const carousel = screen.getByRole('region', { name: /carousel/i });
+            const carousel = screen.getByLabelText('Services carousel');
 
             fireEvent.touchStart(carousel, {
                 targetTouches: [{ clientX: 200 }]
@@ -209,7 +209,7 @@ describe('Services Component', () => {
         it('advances slide on left swipe', () => {
             renderWithProviders();
 
-            const carousel = screen.getByRole('region', { name: /carousel/i });
+            const carousel = screen.getByLabelText('Services carousel');
 
             // Simulate left swipe (start at 200, end at 100)
             fireEvent.touchStart(carousel, {
@@ -226,7 +226,7 @@ describe('Services Component', () => {
         it('goes to previous slide on right swipe', () => {
             renderWithProviders();
 
-            const carousel = screen.getByRole('region', { name: /carousel/i });
+            const carousel = screen.getByLabelText('Services carousel');
 
             // First advance one slide
             fireEvent.click(screen.getByLabelText('Next service'));
@@ -247,7 +247,7 @@ describe('Services Component', () => {
         it('does nothing on small swipe', () => {
             renderWithProviders();
 
-            const carousel = screen.getByRole('region', { name: /carousel/i });
+            const carousel = screen.getByLabelText('Services carousel');
 
             // Small swipe (less than minSwipeDistance of 50)
             fireEvent.touchStart(carousel, {

@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Lottie from "lottie-react";
-import typingAnimation from "@/../public/lottie/typing-indicator.json";
+import animationData from '@/assets/lottie/typing-indicator.json';
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
 export function TypingIndicator() {
@@ -13,7 +13,7 @@ export function TypingIndicator() {
         return (
             <div className="flex items-center h-5 px-1">
                 <Lottie
-                    animationData={typingAnimation}
+                    animationData={animationData}
                     loop
                     autoplay
                     style={{ width: 40, height: 20 }}

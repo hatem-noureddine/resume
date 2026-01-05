@@ -5,9 +5,9 @@ import { TechCarousel } from './TechCarousel';
 // Mock the carousel data
 jest.mock('@/data/carousels.json', () => ({
     techs: [
-        { name: 'React', icon: '/resume/icons/react.svg' },
-        { name: 'Next.js', icon: '/resume/icons/nextjs.svg' },
-        { name: 'TypeScript', icon: '/resume/icons/typescript.svg' },
+        { name: 'Android', icon: '/icons/techs/android.svg' },
+        { name: 'Kotlin', icon: '/icons/techs/kotlin.svg' },
+        { name: 'Java', icon: '/icons/techs/java.svg' },
     ],
 }));
 
@@ -24,14 +24,14 @@ describe('TechCarousel', () => {
         render(<TechCarousel />);
 
         // Multiple instances due to infinite scroll duplication
-        const reactItems = screen.getAllByText('React');
-        expect(reactItems.length).toBeGreaterThan(0);
+        const androidItems = screen.getAllByText('Android');
+        expect(androidItems.length).toBeGreaterThan(0);
 
-        const nextjsItems = screen.getAllByText('Next.js');
-        expect(nextjsItems.length).toBeGreaterThan(0);
+        const kotlinItems = screen.getAllByText('Kotlin');
+        expect(kotlinItems.length).toBeGreaterThan(0);
 
-        const typescriptItems = screen.getAllByText('TypeScript');
-        expect(typescriptItems.length).toBeGreaterThan(0);
+        const javaItems = screen.getAllByText('Java');
+        expect(javaItems.length).toBeGreaterThan(0);
     });
 
     it('renders gradient overlays for fade effect', () => {
@@ -42,19 +42,19 @@ describe('TechCarousel', () => {
         expect(gradients.length).toBe(2);
     });
 
-    it('renders icon elements with mask styles', () => {
+    it('renders icon images', () => {
         render(<TechCarousel />);
 
-        // Check for icon elements with background-mask styling
-        const icons = document.querySelectorAll('.w-8.h-8.bg-current');
-        expect(icons.length).toBeGreaterThan(0);
+        // Check for img elements
+        const images = document.querySelectorAll('img');
+        expect(images.length).toBeGreaterThan(0);
     });
 
     it('renders animation container for infinite scroll', () => {
         render(<TechCarousel />);
 
         // Check for the animated container
-        const animatedContainer = document.querySelector('.animate-infinite-scroll');
+        const animatedContainer = document.querySelector('.animate-infinite-scroll-half');
         expect(animatedContainer).toBeInTheDocument();
     });
 });

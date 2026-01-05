@@ -1,7 +1,7 @@
 {
-    "name": "Android Dev (EN)",
-    "category": "mobile",
-    "isProfessional": false,
-    "proficiency": 95,
-    "language": "en"
+  "name": "Android Dev (EN)",
+  "category": "development",
+  "isProfessional": false,
+  "proficiency": 95,
+  "language": "en"
 }

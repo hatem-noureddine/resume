@@ -1,0 +1,23 @@
+{
+    "company": "psa-group",
+    "role": "Senior Desarrollador Android / Tech Lead",
+    "startDate": "2020-09",
+    "endDate": "2022-06",
+    "description": "Remodelación del SDK de comunicación con los vehículos del grupo y desarrollo de una aplicación de muestra para facilitar la integración de terceros.",
+    "highlights": [
+        "Migración: Adaptación del SDK de comunicación a Kotlin y Coroutines para una exposición reactiva de datos",
+        "Design System: Integración de los principios de Atomic Design para soportar cartas gráficas multimarca",
+        "CI/CD: Automatización de los procesos de entrega mediante scripts personalizados de Python y Gradle",
+        "Documentación: Redacción de especificaciones técnicas estructuradas en Confluence para la alineación de los equipos"
+    ],
+    "skills": [
+        "Kotlin",
+        "Coroutines",
+        "Atomic Design",
+        "Koin",
+        "Room",
+        "TeamCity",
+        "Arquitectura Hexagonal"
+    ],
+    "language": "es"
+}

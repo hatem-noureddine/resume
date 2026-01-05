@@ -495,17 +495,20 @@ export function Skills({
     const isMobile = useIsMobile();
     const [activeFilter, setActiveFilter] = useState<number | null>(null);
 
-    const professionalSkillsToFilter = (professionalItems && professionalItems.length > 0) ? professionalItems : [];
-    const displayProfesh = professionalSkillsToFilter.length > 0
-        ? professionalSkillsToFilter.filter(s => typeof s === 'string' || !s.language || s.language === currentLang)
+    const professionalSkillsFromProps = (professionalItems && professionalItems.length > 0) ? professionalItems : [];
+    const filteredProfesh = professionalSkillsFromProps.filter(s => typeof s === 'object' && s.language === currentLang);
+    const displayProfesh = filteredProfesh.length > 0
+        ? filteredProfesh
         : skills.professional.items;
 
-    const technicalCategoriesToFilter = (technicalCategories && technicalCategories.length > 0) ? technicalCategories : [];
-    const displayTech = technicalCategoriesToFilter.length > 0
-        ? technicalCategoriesToFilter.map(cat => ({
-            ...cat,
-            items: cat.items.filter(s => typeof s === 'string' || !s.language || s.language === currentLang)
-        })).filter(cat => cat.items.length > 0)
+    const technicalCategoriesFromProps = (technicalCategories && technicalCategories.length > 0) ? technicalCategories : [];
+    const filteredTech = technicalCategoriesFromProps.map(cat => ({
+        ...cat,
+        items: cat.items.filter(s => typeof s === 'object' && s.language === currentLang)
+    })).filter(cat => cat.items.length > 0);
+
+    const displayTech = filteredTech.length > 0
+        ? filteredTech
         : skills.technical.categories;
 
     return (

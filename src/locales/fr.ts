@@ -18,7 +18,7 @@ export const fr: Locale = {
         title: "Tech Lead Android",
         roles: ["Développeur Android", "Architecte Mobile", "Lead Tech", "Expert Kotlin"],
         description:
-            "13 ans d'expérience. Spécialisé dans la création d'écosystèmes mobiles complexes et performants. Direction d'équipes internationales pour livrer des solutions automobiles et d'entreprise innovantes.",
+            "13 ans d'expérience. Spécialisé dans la création d'écosystèmes mobiles complexes et performants. Direction d'équipes internationales pour livrer des solutions d'entreprise innovantes.",
         downloadCV: "Télécharger CV",
         followMe: "Suivez-moi",
         availableForHire: "Disponible",
@@ -26,7 +26,7 @@ export const fr: Locale = {
         stats: [
             { value: "13", label: "Années d'Expérience" },
             { value: "50+", label: "Projets Terminés" },
-            { value: "1.5k", label: "Clients Satisfaits" },
+            { value: "15M", label: "Clients Satisfaits" },
         ],
         floatingCards: {
             projects: { value: "50+", label: "Projets", sublabel: "Terminés" },
@@ -36,30 +36,36 @@ export const fr: Locale = {
     },
     services: {
         title: "Mes Services",
+        showMore: "En savoir plus",
+        showLess: "Réduire",
         items: [
             {
                 id: 1,
-                title: "Web Design",
-                description: "Création de designs de sites web visuellement époustouflants et centrés sur l'utilisateur.",
-                icon: "Layout",
-            },
-            {
-                id: 2,
                 title: "Développement",
-                description: "Construction d'applications web robustes et évolutives.",
+                description: "Construction d'applications mobiles robustes et évolutives.",
+                longDescription: "Expertise en développement Android natif avec Kotlin et Jetpack Compose. Je conçois des architectures modulaires (MVVM, MVI) garantissant performance, testabilité et maintenabilité à long terme.",
                 icon: "Code",
             },
             {
-                id: 3,
+                id: 2,
                 title: "UI/UX Design",
                 description: "Création d'expériences utilisateur intuitives et engageantes.",
+                longDescription: "Travail en collaboration avec les équipes de design pour créer des interfaces utilisateur modernes et fluides centrées sur l'utilisateur mobile.",
+                icon: "Layout",
+            },
+            {
+                id: 3,
+                title: "Code Audit",
+                description: "Analyse et amélioration du code existant pour améliorer sa qualité et sa performance.",
+                longDescription: "Analyse approfondie de votre base de code pour identifier les dettes techniques, les goulots d'étranglement de performance et les failles de sécurité. Livraison d'un rapport détaillé avec des recommandations exploitables.",
                 icon: "Smartphone",
             },
             {
                 id: 4,
-                title: "Design Graphique",
-                description: "Communication visuelle à travers la typographie, la photographie et l'illustration.",
-                icon: "Palette",
+                title: "CI/CD",
+                description: "Mise en place d'un pipeline CI/CD pour automatiser les différents processus de déploiement.",
+                longDescription: "Automatisation complète du cycle de vie de vos applications : tests, analyse de qualité, génération de builds et déploiement sur les stores (Google Play) via GitHub Actions, Jenkins, teamCity ou Fastlane.",
+                icon: "Pipeline",
             },
         ]
     },
@@ -75,53 +81,93 @@ export const fr: Locale = {
         items: [
             {
                 id: 1,
-                period: "2020 - Présent",
-                role: "Développeur Lead",
-                company: "Tech Solutions Inc.",
+                period: "Juillet 2022 - Juin 2025",
+                role: "Lead Développeur Android",
+                company: "Stellantis",
                 logo: "/logo_HN.svg",
-                description: "Direction de l'équipe frontend et architecture de solutions évolutives pour les clients entreprise.",
-                duration: "4+ ans",
-                startDate: "2020-01",
+                description: "Conception et implémentation d'un SDK « Middleware » évolutif pour les services véhicules non-connectés et d'un SDK « Framework » graphique (Design System) commun aux marques du groupe.",
+                duration: "3 ans",
+                startDate: "2022-07",
+                endDate: "2025-06",
                 highlights: [
-                    "Direction d'une équipe de 8 développeurs pour livrer 15+ projets dans les délais",
-                    "Architecture de microservices réduisant le temps de chargement de 40%",
-                    "Implémentation du pipeline CI/CD améliorant la fréquence de déploiement par 3x"
+                    "Middleware SDK : Unification des backends hétérogènes par la normalisation des schémas de données et des formats d'API",
+                    "Framework SDK : Développement d'un SDK UI basé sur les Figma Design Tokens via JSON (mises à jour visuelles multi-marques en temps réel)",
+                    "Automatisation : Création de scripts Gradle pour la génération automatique de classes Kotlin à partir des design tokens",
+                    "Qualité : Leadership technique, revues de code et enforcement qualité via Sonar, Detekt et ktlint dans des pipelines CI/CD complexes",
+                    "Architecture : Mise en place d'une architecture modulaire (Clean Architecture, MVVM) orientée features"
                 ],
-                skills: ["Kotlin", "Android", "Jetpack Compose", "MVVM", "CI/CD"]
+                skills: ["Kotlin", "Jetpack Compose", "Coroutines", "Flow", "Ktor", "Koin", "Room", "Firebase Crashlytics", "GitHub Copilot", "TeamCity"]
             },
             {
                 id: 2,
-                period: "2018 - 2020",
-                role: "Développeur Android Senior",
-                company: "Creative Agency",
+                period: "Septembre 2020 - Juin 2022",
+                role: "Senior Développeur Android / Tech Lead",
+                company: "PSA (Stellantis)",
                 logo: "/logo_HN.svg",
-                description: "Développement d'applications mobiles haute performance pour des marques mondiales.",
+                description: "Refonte du SDK de communication avec les véhicules du groupe et développement d'une application témoin pour faciliter l'intégration tiers.",
                 duration: "2 ans",
-                startDate: "2018-01",
-                endDate: "2020-01",
+                startDate: "2020-09",
+                endDate: "2022-06",
                 highlights: [
-                    "Construction de 5 applications avec 1M+ téléchargements combinés",
-                    "Réduction du taux de crash de 85% grâce à une gestion d'erreurs appropriée",
-                    "Mentorat de 3 développeurs juniors sur les meilleures pratiques"
+                    "Migration : Portage du SDK de communication vers Kotlin et Coroutines pour une exposition réactive des données",
+                    "Design System : Intégration des principes d'Atomic Design pour supporter les chartes graphiques multi-marques",
+                    "CI/CD : Automatisation des processus de livraison via des scripts Python et Gradle personnalisés",
+                    "Documentation : Rédaction de spécifications techniques structurées sur Confluence pour l'alignement des équipes"
                 ],
-                skills: ["Kotlin", "Android", "Room", "Retrofit", "Koin"]
+                skills: ["Kotlin", "Coroutines", "Atomic Design", "Koin", "Room", "TeamCity", "Architecture Hexagonale"]
             },
             {
                 id: 3,
-                period: "2016 - 2018",
-                role: "Développeur Android",
-                company: "StartUp Hub",
+                period: "Septembre 2018 - Août 2020",
+                role: "Senior Développeur Android",
+                company: "John Paul (Accor Hotels)",
                 logo: "/logo_HN.svg",
-                description: "Collaboration avec des développeurs seniors pour construire des produits MVP pour startups.",
+                description: "Développement d'une application modulaire pour le service de conciergerie Accor Hotels et de fonctionnalités pour VISA et Toyota.",
                 duration: "2 ans",
-                startDate: "2016-01",
-                endDate: "2018-01",
+                startDate: "2018-09",
+                endDate: "2020-08",
                 highlights: [
-                    "Développement de 3 applications MVP from scratch",
-                    "Intégration d'APIs REST et SDKs tiers",
-                    "Participation aux sprints agiles et revues de code"
+                    "Modularité : Refactorisation du code commun en modules et migration vers Kotlin et AndroidX",
+                    "Formulaires Dynamiques : Création d'un système de génération dynamique de formulaires via des configurations JSON",
+                    "Sécurité : Chiffrement des données sensibles en vue de la préparation à la certification PCI",
+                    "Intégrations : Google Maps/Places, Zendesk, et SDKs de paiement (Stripe, Adyen)"
                 ],
-                skills: ["Java", "Android", "SQLite", "APIs REST"]
+                skills: ["Kotlin", "MVVM", "Dagger 2", "Retrofit", "Fastlane", "GitLab CI", "Sentry"]
+            },
+            {
+                id: 4,
+                period: "Décembre 2017 - Septembre 2018",
+                role: "Senior Développeur Android",
+                company: "LCL - Le Crédit Lyonnais",
+                logo: "/logo_HN.svg",
+                description: "Refonte profonde de l'application bancaire « LCL – Mes Comptes » et optimisation de la sécurité réseau.",
+                duration: "10 mois",
+                startDate: "2017-12",
+                endDate: "2018-09",
+                highlights: [
+                    "Tech Migration : Lead du passage de Java vers Kotlin et transition vers une architecture MVP",
+                    "Performance UI : Optimisation des layouts via ConstraintLayout pour améliorer la fluidité",
+                    "Sécurité Réseau : Migration vers Retrofit avec implémentation de SSL pinning",
+                    "Banking : Développement des fonctionnalités de virements permanents et différés"
+                ],
+                skills: ["Kotlin", "Retrofit", "SSL Pinning", "MVP", "ConstraintLayout", "Jenkins", "Sonar"]
+            },
+            {
+                id: 5,
+                period: "Janvier 2012 - Novembre 2017",
+                role: "Lead Développeur Android",
+                company: "Proxym-IT Agency",
+                logo: "/logo_HN.svg",
+                description: "Lead développeur sur de nombreux projets clients stratégiques (Allianz connect, BOZER, VanCleef & Arpel, Dior, etc.).",
+                duration: "5+ ans",
+                startDate: "2012-01",
+                endDate: "2017-11",
+                highlights: [
+                    "SDK Banking : Développement d'un SDK spécialisé dans la dématérialisation des dépôts de chèques",
+                    "Architecture : Mise en place d'architectures modulaires utilisant Dagger 2 et RxJava",
+                    "Multi-domaine : Réalisation d'apps VOIP, messagerie instantanée (Tchapper) et guides touristiques"
+                ],
+                skills: ["Android SDK", "Java", "RxJava", "Dagger 2", "Retrofit", "SQLite", "Git"]
             }
         ]
     },
@@ -300,7 +346,6 @@ export const fr: Locale = {
         socials: [
             { icon: "Github", link: SITE_CONFIG.links.github },
             { icon: "Linkedin", link: SITE_CONFIG.links.linkedin },
-            { icon: "Twitter", link: SITE_CONFIG.links.twitter },
             { icon: "Mail", link: `mailto:${SITE_CONFIG.email}` },
         ],
         form: {

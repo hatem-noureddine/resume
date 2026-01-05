@@ -46,11 +46,14 @@ export interface ServiceItem {
     id: number;
     title: string;
     description: string;
+    longDescription?: string;
     icon: string;
 }
 
 export interface ServicesLocale {
     title: string;
+    showMore: string;
+    showLess: string;
     items: ServiceItem[];
 }
 

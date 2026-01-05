@@ -1,0 +1,23 @@
+{
+    "company": "psa-group",
+    "role": "مطور أندرويد أول / قائد تقني",
+    "startDate": "2020-09",
+    "endDate": "2022-06",
+    "description": "إعادة تصميم SDK الخاص بالتواصل مع مركبات المجموعة وتطوير تطبيق نموذجي لتسهيل دمج الأطراف الثالثة.",
+    "highlights": [
+        "الهجرة والتحويل: تحويل SDK التواصل إلى Kotlin و Coroutines لعرض البيانات بشكل تفاعلي",
+        "Design System: دمج مبادئ Atomic Design لدعم الهويات البصرية لعلامات تجارية متعددة",
+        "CI/CD: أتمتة عمليات التسليم عبر سكربتات Python و Gradle مخصصة",
+        "التوثيق: كتابة مواصفات تقنية هيكلية على Confluence لضمان التنسيق بين الفرق"
+    ],
+    "skills": [
+        "Kotlin",
+        "Coroutines",
+        "Atomic Design",
+        "Koin",
+        "Room",
+        "TeamCity",
+        "Architecture Hexagonale"
+    ],
+    "language": "ar"
+}

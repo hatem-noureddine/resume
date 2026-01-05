@@ -9,9 +9,9 @@ export const SITE_CONFIG = {
     address: "Paris, France",
     url: "https://hatem-noureddine-resume.vercel.app/",
     links: {
-        github: "https://github.com/hatemnoureddine",
-        linkedin: "https://linkedin.com/in/hatemnoureddine",
-        twitter: "https://twitter.com/hatemnoureddine",
+        github: "https://github.com/hatem-noureddine",
+        linkedin: "https://linkedin.com/in/hatem-noureddine",
+
         resume: "/files/Hatem_Noureddine_Resume.pdf"
     },
     formspree: {
@@ -55,13 +55,6 @@ export const SITE_METADATA: Metadata = {
                 alt: `${SITE_CONFIG.name} Portfolio`,
             },
         ],
-    },
-    twitter: {
-        card: 'summary_large_image',
-        title: `${SITE_CONFIG.name} - Creative Designer & Developer`,
-        description: 'Personal portfolio website showcasing projects, skills, and experience.',
-        images: [`${SITE_CONFIG.url}api/og?title=${encodeURIComponent(SITE_CONFIG.name)}&subtitle=${encodeURIComponent('Creative Designer & Developer')}&category=Portfolio`],
-        creator: '@hatemnoureddine',
     },
     icons: {
         icon: '/logo_HN.svg',

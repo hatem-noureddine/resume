@@ -21,6 +21,10 @@ const DevToolsSection = dynamic(() => import("@/components/admin/DevToolsSection
     loading: () => <div className="h-64 rounded-xl bg-secondary/20 animate-pulse border border-white/5" />
 });
 
+const FeatureFlagsSection = dynamic(() => import("@/components/admin/FeatureFlagsSection").then(mod => mod.FeatureFlagsSection), {
+    loading: () => <div className="h-48 rounded-xl bg-secondary/20 animate-pulse border border-white/5" />
+});
+
 interface AdminToolCard {
     title: string;
     description: string;
@@ -206,6 +210,9 @@ export default async function AdminPage() {
 
                     {/* Dev Tools Section (Client Component) */}
                     <DevToolsSection />
+
+                    {/* Feature Flags Section */}
+                    <FeatureFlagsSection />
 
                     {/* Quick Actions */}
                     <section className="p-6 rounded-xl bg-linear-to-r from-primary/10 to-primary/5 border border-primary/20">

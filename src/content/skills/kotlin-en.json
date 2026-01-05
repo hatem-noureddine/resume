@@ -1,7 +1,7 @@
 {
-    "name": "Kotlin (EN)",
-    "category": "mobile",
-    "isProfessional": false,
-    "proficiency": 95,
-    "language": "en"
+  "name": "Kotlin (EN)",
+  "category": "development",
+  "isProfessional": false,
+  "proficiency": 95,
+  "language": "en"
 }

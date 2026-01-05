@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Logo } from "@/components/ui/Logo";
 import { LottieLoader } from "@/components/ui/LottieIcon";
-import loadingAnimation from "@/../public/lottie/loading-spinner.json";
+import loadingAnimation from "@/assets/lottie/loading-spinner.json";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
 interface LoadingScreenProps {

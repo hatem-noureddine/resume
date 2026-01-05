@@ -36,30 +36,36 @@ export const ar: Locale = {
     },
     services: {
         title: "خدماتي",
+        showMore: "عرض التفاصيل",
+        showLess: "عرض أقل",
         items: [
             {
                 id: 1,
-                title: "تصميم المواقع",
-                description: "تصميم مواقع تركز على المستخدم وجذابة بصرياً.",
-                icon: "Layout",
-            },
-            {
-                id: 2,
                 title: "التطوير",
-                description: "بناء تطبيقات ويب قوية وقابلة للتوسع.",
+                description: "بناء تطبيقات موبايل قوية وقابلة للتوسع.",
+                longDescription: "خبرة في تطوير أندرويد الأصلي باستخدام Kotlin و Jetpack Compose. أقوم بتصميم بنى برمجية modular (MVVM, MVI) تضمن الأداء وقابلية الاختبار والصيانة على المدى الطويل.",
                 icon: "Code",
             },
             {
-                id: 3,
-                title: "تصميم واجهة المستخدم",
+                id: 2,
+                title: "تصميم UI/UX",
                 description: "إنشاء تجارب مستخدم بديهية وجذابة.",
+                longDescription: "تصميم واجهات حديثة وسلسة تتمحور حول مستخدم الهاتف المحمول. استخدام Figma للنماذج الأولية وتنفيذ رسوم متحركة معقدة باستخدام Framer Motion و Jetpack Compose.",
+                icon: "Layout",
+            },
+            {
+                id: 3,
+                title: "تدقيق الكود",
+                description: "تحليل وتحسين الكود الحالي لتعزيز جودته وأدائه.",
+                longDescription: "تحليل متعمق لقاعدة الكود الخاصة بك لتحديد الديون التقنية، واختناقات الأداء، والثغرات الأمنية. تسليم تقرير مفصل مع توصيات قابلة للتنفيذ.",
                 icon: "Smartphone",
             },
             {
                 id: 4,
-                title: "التصميم الغرافيكي",
-                description: "التواصل البصري من خلال الطباعة والتصوير والتوضيح.",
-                icon: "Palette",
+                title: "CI/CD",
+                description: "إعداد خط أنابيب CI/CD لأتمتة عمليات النشر المختلفة.",
+                longDescription: "أتمتة كاملة لدورة حياة تطبيقاتك: الاختبار، تحليل الجودة (Sonar)، توليد البنى، والنشر في المتاجر (Google Play) عبر GitHub Actions أو Jenkins أو Fastlane.",
+                icon: "Pipeline",
             },
         ]
     },
@@ -75,36 +81,93 @@ export const ar: Locale = {
         items: [
             {
                 id: 1,
-                period: "2020 - الحالي",
-                role: "مطور رئيسي",
-                company: "Tech Solutions Inc.",
+                period: "يوليو 2022 - يونيو 2025",
+                role: "مطور أندرويد رئيسي",
+                company: "Stellantis",
                 logo: "/logo_HN.svg",
-                description: "قيادة فريق الواجهة الأمامية وتصميم حلول قابلة للتوسع لعملاء المؤسسات.",
-                duration: "أكثر من 4 سنوات",
-                startDate: "2020-01",
+                description: "تصميم وتنفيذ SDK « Middleware » متطور لخدمات المركبات غير المتصلة و SDK « Framework » رسومي (Design System) مشترك بين العلامات التجارية للمجموعة.",
+                duration: "3 سنوات",
+                startDate: "2022-07",
+                endDate: "2025-06",
                 highlights: [
-                    "قيادة فريق مكون من 8 مطورين لتسليم أكثر من 15 مشروعاً في الوقت المحدد",
-                    "تصميم هندسة الخدمات المصغرة مما قلل وقت التحميل بنسبة 40%",
-                    "تنفيذ خط CI/CD مما أدى إلى تحسين وتيرة النشر بمقدار 3 أضعاف"
+                    "Middleware SDK: توحيد الخلفيات غير المتجانسة من خلال توحيد مخططات البيانات وتنسيقات الـ API",
+                    "Framework SDK: تطوير SDK للواجهة الرسومية بناءً على Figma Design Tokens عبر JSON (تحديثات بصرية لعلامات تجارية متعددة في الوقت الفعلي)",
+                    "الأتمتة: إنشاء سكربتات Gradle مخصصة لتوليد فئات Kotlin تلقائيًا من design tokens",
+                    "الجودة: القيادة التقنية، مراجعة الكود، وفرض الجودة عبر Sonar و Detekt و ktlint في خطوط CI/CD معقدة",
+                    "المعمارية: تطبيق معمارية برمجية modular (Clean Architecture, MVVM) موجهة نحو الميزات"
                 ],
-                skills: ["Kotlin", "Android", "Jetpack Compose", "MVVM", "CI/CD"]
+                skills: ["Kotlin", "Jetpack Compose", "Coroutines", "Flow", "Ktor", "Koin", "Room", "Firebase Crashlytics", "GitHub Copilot", "TeamCity"]
             },
             {
                 id: 2,
-                period: "2018 - 2020",
-                role: "مطور أندرويد أول",
-                company: "Creative Agency",
+                period: "سبتمبر 2020 - يونيو 2022",
+                role: "مطور أندرويد أول / قائد تقني",
+                company: "PSA (Stellantis)",
                 logo: "/logo_HN.svg",
-                description: "تطوير تطبيقات جوال عالية الأداء لعلامات تجارية عالمية.",
+                description: "إعادة تصميم SDK الخاص بالتواصل مع مركبات المجموعة وتطوير تطبيق نموذجي لتسهيل دمج الأطراف الثالثة.",
                 duration: "سنتان",
-                startDate: "2018-01",
-                endDate: "2020-01",
+                startDate: "2020-09",
+                endDate: "2022-06",
                 highlights: [
-                    "بناء 5 تطبيقات إنتاجية مع أكثر من مليون عملية تحميل مجمعة",
-                    "تقليل معدل تعطل التطبيق بنسبة 85% من خلال معالجة الأخطاء بشكل صحيح",
-                    "توجيه 3 مطورين مبتدئين في أفضل الممارسات"
+                    "الهجرة والتحويل: تحويل SDK التواصل إلى Kotlin و Coroutines لعرض البيانات بشكل تفاعلي",
+                    "Design System: دمج مبادئ Atomic Design لدعم الهويات البصرية لعلامات تجارية متعددة",
+                    "CI/CD: أتمتة عمليات التسليم عبر سكربتات Python و Gradle مخصصة",
+                    "التوثيق: كتابة مواصفات تقنية هيكلية على Confluence لضمان التنسيق بين الفرق"
                 ],
-                skills: ["Kotlin", "Android", "Room", "Retrofit", "Koin"]
+                skills: ["Kotlin", "Coroutines", "Atomic Design", "Koin", "Room", "TeamCity", "Architecture Hexagonale"]
+            },
+            {
+                id: 3,
+                period: "سبتمبر 2018 - أغسطس 2020",
+                role: "مطور أندرويد أول",
+                company: "John Paul (Accor Hotels)",
+                logo: "/logo_HN.svg",
+                description: "تطوير تطبيق modular لخدمة الكونسيرج في Accor Hotels وميزات لشركتي VISA و Toyota.",
+                duration: "سنتان",
+                startDate: "2018-09",
+                endDate: "2020-08",
+                highlights: [
+                    "النمطية (Modularity): إعادة هيكلة الكود المشترك إلى وحدات والهجرة إلى Kotlin و AndroidX",
+                    "النماذج الديناميكية: إنشاء نظام لتوليد النماذج ديناميكيًا عبر إعدادات JSON",
+                    "الأمان: تشفير البيانات الحساسة استعدادًا لشهادة PCI",
+                    "الدمج والربط: Google Maps/Places، Zendesk، و SDKs الدفع (Stripe, Adyen)"
+                ],
+                skills: ["Kotlin", "MVVM", "Dagger 2", "Retrofit", "Fastlane", "GitLab CI", "Sentry"]
+            },
+            {
+                id: 4,
+                period: "ديسمبر 2017 - سبتمبر 2018",
+                role: "مطور أندرويد أول",
+                company: "LCL - Le Crédit Lyonnais",
+                logo: "/logo_HN.svg",
+                description: "إعادة تصميم عميقة لتطبيق البنك « LCL – Mes Comptes » وتحسين أمن الشبكة.",
+                duration: "10 أشهر",
+                startDate: "2017-12",
+                endDate: "2018-09",
+                highlights: [
+                    "Tech Migration: قيادة الانتقال من Java إلى Kotlin والتحول نحو معمارية MVP",
+                    "أداء الواجهة: تحسين التخطيطات عبر ConstraintLayout لتحسين السلاسة",
+                    "أمن الشبكة: الهجرة إلى Retrofit مع تطبيق SSL pinning",
+                    "Banking: تطوير ميزات الحوالات الدائمة والمؤجلة"
+                ],
+                skills: ["Kotlin", "Retrofit", "SSL Pinning", "MVP", "ConstraintLayout", "Jenkins", "Sonar"]
+            },
+            {
+                id: 5,
+                period: "يناير 2012 - نوفمبر 2017",
+                role: "مطور أندرويد رئيسي",
+                company: "Proxym-IT Agency",
+                logo: "/logo_HN.svg",
+                description: "مطور رئيسي في العديد من المشاريع الاستراتيجية للعملاء (Allianz connect, BOZER, VanCleef & Arpel, Dior, إلخ).",
+                duration: "أكثر من 5 سنوات",
+                startDate: "2012-01",
+                endDate: "2017-11",
+                highlights: [
+                    "SDK Banking: تطوير SDK متخصص في رقمنة إيداع الشيكات",
+                    "المعمارية: تطبيق معماريات modular باستخدام Dagger 2 و RxJava",
+                    "مجالات متعددة: تطوير تطبيقات VOIP، المراسلة الفورية (Tchapper) والأدلة السياحية"
+                ],
+                skills: ["Android SDK", "Java", "RxJava", "Dagger 2", "Retrofit", "SQLite", "Git"]
             }
         ]
     },
@@ -157,11 +220,11 @@ export const ar: Locale = {
         professional: {
             title: "مهنية",
             items: [
-                "إدارة الفرق",
+                "إدارة الفريق",
                 "التحليل التقني والوظيفي",
-                "التوثيق التقني",
-                "التعاون الجماعي",
-                "ضمان جودة الكود",
+                "كتابة التوثيق التقني",
+                "التعاون مع الفرق",
+                "السهر على جودة الكود",
                 "مراجعة الكود",
                 "خارطة طريق المنتج",
                 "إدارة قائمة المهام"
@@ -177,6 +240,42 @@ export const ar: Locale = {
                 {
                     name: "التطوير",
                     items: ["Kotlin", "Android", "Jetpack Compose", "Room", "Coroutines", "Koin", "Hilt", "Gradle DSL", "Google Maps", "Ktor", "Retrofit", "Kotlin MultiPlatform", "Compose MultiPlatform"]
+                },
+                {
+                    name: "اختبارات الهاتف المحمول",
+                    items: ["JUnit", "Robolectric", "Mockk", "Espresso"]
+                },
+                {
+                    name: "أنماط التصميم",
+                    items: ["Dependency Injection", "Singleton", "Observer", "Adapter", "Facade", "Repository"]
+                },
+                {
+                    name: "CI/CD للهاتف المحمول",
+                    items: ["Jenkins", "Fastlane", "TeamCity", "GitHub Actions"]
+                },
+                {
+                    name: "UX/UI للهاتف المحمول",
+                    items: ["Figma", "Overflow", "Zeplin"]
+                },
+                {
+                    name: "الذكاء الاصطناعي",
+                    items: ["Copilot", "Gemini"]
+                },
+                {
+                    name: "جودة الكود",
+                    items: ["Sonar", "Detekt", "Lint", "Kover"]
+                },
+                {
+                    name: "إدارة الإصدارات",
+                    items: ["Git", "Gitflow"]
+                },
+                {
+                    name: "أدوات التعاون",
+                    items: ["Jira", "Confluence", "Redmine"]
+                },
+                {
+                    name: "أدوات التحليل",
+                    items: ["Firebase Analytics", "Kotzilla"]
                 }
             ]
         }
@@ -196,7 +295,6 @@ export const ar: Locale = {
         socials: [
             { icon: "Github", link: SITE_CONFIG.links.github },
             { icon: "Linkedin", link: SITE_CONFIG.links.linkedin },
-            { icon: "Twitter", link: SITE_CONFIG.links.twitter },
             { icon: "Mail", link: `mailto:${SITE_CONFIG.email} ` },
         ],
         form: {

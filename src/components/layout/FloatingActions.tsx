@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Download, Mail } from "lucide-react";
-import { SiGithub, SiLinkedin, SiX } from "react-icons/si";
+import { SiGithub, SiLinkedin } from "react-icons/si";
 import { useLanguage } from "@/context/LanguageContext";
 import { localeMetadata } from "@/locales";
 import { SITE_CONFIG } from "@/config/site";
@@ -31,7 +31,6 @@ export function FloatingActions() {
     const socialLinks = [
         { icon: SiGithub, lottieIcon: "github" as const, href: SITE_CONFIG.links.github, label: "GitHub" },
         { icon: SiLinkedin, lottieIcon: "linkedin" as const, href: SITE_CONFIG.links.linkedin, label: "LinkedIn" },
-        { icon: SiX, lottieIcon: null, href: SITE_CONFIG.links.twitter, label: "X (Twitter)" },
         { icon: Mail, lottieIcon: "mail" as const, href: `mailto:${SITE_CONFIG.email}`, label: "Email" },
     ];
 
