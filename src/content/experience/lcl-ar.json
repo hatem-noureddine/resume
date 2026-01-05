@@ -1,0 +1,23 @@
+{
+    "company": "lcl",
+    "role": "مطور أندرويد أول",
+    "startDate": "2017-12",
+    "endDate": "2018-09",
+    "description": "إعادة تصميم عميقة لتطبيق البنك « LCL – Mes Comptes » وتحسين أمن الشبكة.",
+    "highlights": [
+        "Tech Migration: قيادة الانتقال من Java إلى Kotlin والتحول نحو معمارية MVP",
+        "أداء الواجهة: تحسين التخطيطات عبر ConstraintLayout لتحسين السلاسة",
+        "أمن الشبكة: الهجرة إلى Retrofit مع تطبيق SSL pinning",
+        "Banking: تطوير ميزات الحوالات الدائمة والمؤجلة"
+    ],
+    "skills": [
+        "Kotlin",
+        "Retrofit",
+        "SSL Pinning",
+        "MVP",
+        "ConstraintLayout",
+        "Jenkins",
+        "Sonar"
+    ],
+    "language": "ar"
+}

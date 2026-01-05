@@ -1,0 +1,23 @@
+{
+  "role": "Senior Développeur Android / Tech Lead",
+  "company": "PSA (Stellantis)",
+  "description": "Refonte du SDK de communication avec les véhicules du groupe et développement d'une application témoin pour faciliter l'intégration tiers.",
+  "startDate": "2020-09",
+  "endDate": "2022-06",
+  "highlights": [
+    "Migration : Portage du SDK de communication vers Kotlin et Coroutines pour une exposition réactive des données",
+    "Design System : Intégration des principes d'Atomic Design pour supporter les chartes graphiques multi-marques",
+    "CI/CD : Automatisation des processus de livraison via des scripts Python et Gradle personnalisés",
+    "Documentation : Rédaction de spécifications techniques structurées sur Confluence pour l'alignement des équipes"
+  ],
+  "skills": [
+    "Kotlin",
+    "Coroutines",
+    "Atomic Design",
+    "Koin",
+    "Room",
+    "TeamCity",
+    "Architecture Hexagonale"
+  ],
+  "language": "fr"
+}

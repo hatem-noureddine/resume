@@ -1,0 +1,23 @@
+{
+    "company": "lcl",
+    "role": "Senior Desarrollador Android",
+    "startDate": "2017-12",
+    "endDate": "2018-09",
+    "description": "Rediseño profundo de la aplicación bancaria « LCL – Mes Comptes » y optimización de la seguridad de red.",
+    "highlights": [
+        "Tech Migration: Liderazgo en la transición de Java a Kotlin y hacia una arquitectura MVP",
+        "Rendimiento UI: Optimización de layouts mediante ConstraintLayout para mejorar la fluidez",
+        "Seguridad de Red: Migración a Retrofit con implementación de SSL pinning",
+        "Banca: Desarrollo de funciones de transferencias permanentes y diferidas"
+    ],
+    "skills": [
+        "Kotlin",
+        "Retrofit",
+        "SSL Pinning",
+        "MVP",
+        "ConstraintLayout",
+        "Jenkins",
+        "Sonar"
+    ],
+    "language": "es"
+}

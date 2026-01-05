@@ -1,0 +1,22 @@
+{
+    "company": "proxym-it",
+    "role": "مطور أندرويد رئيسي",
+    "startDate": "2012-01",
+    "endDate": "2017-11",
+    "description": "مطور رئيسي في العديد من المشاريع الاستراتيجية للعملاء (Allianz connect, BOZER, VanCleef & Arpel, Dior, إلخ).",
+    "highlights": [
+        "SDK Banking: تطوير SDK متخصص في رقمنة إيداع الشيكات",
+        "المعمارية: تطبيق معماريات modular باستخدام Dagger 2 و RxJava",
+        "مجالات متعددة: تطوير تطبيقات VOIP، المراسلة الفورية (Tchapper) والأدلة السياحية"
+    ],
+    "skills": [
+        "Android SDK",
+        "Java",
+        "RxJava",
+        "Dagger 2",
+        "Retrofit",
+        "SQLite",
+        "Git"
+    ],
+    "language": "ar"
+}

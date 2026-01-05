@@ -1,7 +1,19 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent, act } from '@testing-library/react';
 import { Blog } from './Blog';
 
-// Mock Language
+jest.mock('@/context/LanguageContext', () => ({
+    useLanguage: () => ({
+        t: {
+            blog: {
+                title: 'My Blog',
+                readMore: 'Read More',
+                viewAll: 'View All Posts',
+                notFound: 'No posts found'
+            }
+        },
+        language: 'en',
+    }),
+}));
 jest.mock('@/context/LanguageContext', () => ({
     useLanguage: () => ({
         t: {
@@ -163,7 +175,9 @@ describe('Blog Component', () => {
         );
 
         if (prevButton) {
-            prevButton.click();
+            await act(async () => {
+                fireEvent.click(prevButton);
+            });
         }
     });
 });

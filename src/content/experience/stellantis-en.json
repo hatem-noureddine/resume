@@ -1,24 +1,27 @@
 {
-    "company": "Stellantis (EN)",
-    "role": "Android Tech Lead",
-    "startDate": "2022-06",
-    "endDate": "Present",
-    "description": "Android Tech Lead for the Stellantis Group, working on the mobile universe of various group brands.",
-    "highlights": [
-        "Defined a mobile architectural vision and shared it with teams.",
-        "Drafted technical design documents and ensured architectural consistency.",
-        "Led technical decisions and guided multidisciplinary teams internationally.",
-        "Intervened on complex issues and performance optimization.",
-        "Set up CI/CD strategy for group SDKs and applications.",
-        "Promoted technical excellence and clean code practices."
-    ],
-    "skills": [
-        "Kotlin",
-        "Android SDK",
-        "Jetpack Compose",
-        "Clean Architecture",
-        "MVVM",
-        "CI/CD"
-    ],
-    "language": "en"
+  "role": "Lead Android Developer",
+  "company": "Stellantis",
+  "description": "Design and implementation of an evolutionary 'Middleware' SDK for non-connected vehicle services and a graphical 'Framework' SDK (Design System) shared across group brands.",
+  "startDate": "2022-07",
+  "endDate": "2025-06",
+  "highlights": [
+    "Middleware SDK: Unified heterogeneous backends by normalizing data schemas and API formats",
+    "Framework SDK: Developed a UI SDK based on Figma Design Tokens via JSON (multi-brand visual updates in real-time)",
+    "Automation: Created custom Gradle scripts for automatic Kotlin class generation from design tokens",
+    "Quality: Technical leadership, code reviews, and quality enforcement via Sonar, Detekt, and ktlint in complex CI/CD pipelines",
+    "Architecture: Implemented a feature-oriented modular architecture (Clean Architecture, MVVM)"
+  ],
+  "skills": [
+    "Kotlin",
+    "Jetpack Compose",
+    "Coroutines",
+    "Flow",
+    "Ktor",
+    "Koin",
+    "Room",
+    "Firebase Crashlytics",
+    "GitHub Copilot",
+    "TeamCity"
+  ],
+  "language": "en"
 }

@@ -1,0 +1,27 @@
+{
+    "company": "stellantis",
+    "role": "مطور أندرويد رئيسي",
+    "startDate": "2022-07",
+    "endDate": "2025-06",
+    "description": "تصميم وتنفيذ SDK « Middleware » متطور لخدمات المركبات غير المتصلة و SDK « Framework » رسومي (Design System) مشترك بين العلامات التجارية للمجموعة.",
+    "highlights": [
+        "Middleware SDK: توحيد الخلفيات غير المتجانسة من خلال توحيد مخططات البيانات وتنسيقات الـ API",
+        "Framework SDK: تطوير SDK للواجهة الرسومية بناءً على Figma Design Tokens عبر JSON (تحديثات بصرية لعلامات تجارية متعددة في الوقت الفعلي)",
+        "الأتمتة: إنشاء سكربتات Gradle مخصصة لتوليد فئات Kotlin تلقائيًا من design tokens",
+        "الجودة: القيادة التقنية، مراجعة الكود، وفرض الجودة عبر Sonar و Detekt و ktlint في خطوط CI/CD معقدة",
+        "المعمارية: تطبيق معمارية برمجية modular (Clean Architecture, MVVM) موجهة نحو الميزات"
+    ],
+    "skills": [
+        "Kotlin",
+        "Jetpack Compose",
+        "Coroutines",
+        "Flow",
+        "Ktor",
+        "Koin",
+        "Room",
+        "Firebase Crashlytics",
+        "GitHub Copilot",
+        "TeamCity"
+    ],
+    "language": "ar"
+}

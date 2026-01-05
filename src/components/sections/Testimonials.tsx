@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { useLanguage } from "@/context/LanguageContext";
+import { useFeatureFlags } from "@/context/FeatureFlags";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Quote, ChevronLeft, ChevronRight, Star } from "lucide-react";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
@@ -20,6 +21,7 @@ export interface Testimonial {
 
 export function Testimonials({ items }: Readonly<{ items: Testimonial[] }>) {
     const { language: currentLang } = useLanguage();
+    const { isEnabled } = useFeatureFlags();
     const [currentIndex, setCurrentIndex] = useState(0);
     const prefersReducedMotion = usePrefersReducedMotion();
 
@@ -34,7 +36,7 @@ export function Testimonials({ items }: Readonly<{ items: Testimonial[] }>) {
         return () => clearInterval(timer);
     }, [filteredItems.length]);
 
-    if (!filteredItems || filteredItems.length === 0) return null;
+    if (!isEnabled('showTestimonials') || !filteredItems || filteredItems.length === 0) return null;
 
     const current = filteredItems[currentIndex];
 

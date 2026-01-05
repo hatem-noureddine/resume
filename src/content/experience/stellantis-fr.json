@@ -1,24 +1,27 @@
 {
-    "company": "Stellantis (FR)",
-    "role": "Android Tech Lead",
-    "startDate": "2022-06",
-    "endDate": "Présent",
-    "description": "Tech Lead Android pour le groupe Stellantis, intervenant sur l'univers mobile des différentes marques du groupe.",
-    "highlights": [
-        "Définir une vision architecturale mobile et la partager auprès des équipes.",
-        "Rédiger des documents de conception technique et veiller à la cohérence de l’architecture.",
-        "Piloter les décisions techniques et guider les équipes pluridisciplinaires.",
-        "Intervenir sur des problématiques techniques complexes et l'optimisation des performances.",
-        "Mettre en place une stratégie d’intégration et de déploiement continu.",
-        "Promouvoir l’excellence technique et les pratiques de clean code."
-    ],
-    "skills": [
-        "Kotlin",
-        "Android SDK",
-        "Jetpack Compose",
-        "Clean Architecture",
-        "MVVM",
-        "CI/CD"
-    ],
-    "language": "fr"
+  "role": "Lead Développeur Android",
+  "company": "Stellantis",
+  "description": "Conception et implémentation d'un SDK « Middleware » évolutif pour les services véhicules non-connectés et d'un SDK « Framework » graphique (Design System) commun aux marques du groupe.",
+  "startDate": "2022-07",
+  "endDate": "2025-06",
+  "highlights": [
+    "Middleware SDK : Unification des backends hétérogènes par la normalisation des schémas de données et des formats d'API",
+    "Framework SDK : Développement d'un SDK UI basé sur les Figma Design Tokens via JSON (mises à jour visuelles multi-marques en temps réel)",
+    "Automatisation : Création de scripts Gradle pour la génération automatique de classes Kotlin à partir des design tokens",
+    "Qualité : Leadership technique, revues de code et enforcement qualité via Sonar, Detekt et ktlint dans des pipelines CI/CD complexes",
+    "Architecture : Mise en place d'une architecture modulaire (Clean Architecture, MVVM) orientée features"
+  ],
+  "skills": [
+    "Kotlin",
+    "Jetpack Compose",
+    "Coroutines",
+    "Flow",
+    "Ktor",
+    "Koin",
+    "Room",
+    "Firebase Crashlytics",
+    "GitHub Copilot",
+    "TeamCity"
+  ],
+  "language": "fr"
 }
