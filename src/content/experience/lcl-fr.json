@@ -1,0 +1,23 @@
+{
+  "role": "Senior Développeur Android",
+  "company": "LCL - Le Crédit Lyonnais",
+  "description": "Refonte profonde de l'application bancaire « LCL – Mes Comptes » et optimisation de la sécurité réseau.",
+  "startDate": "2017-12",
+  "endDate": "2018-09",
+  "highlights": [
+    "Tech Migration : Lead du passage de Java vers Kotlin et transition vers une architecture MVP",
+    "Performance UI : Optimisation des layouts via ConstraintLayout pour améliorer la fluidité",
+    "Sécurité Réseau : Migration vers Retrofit avec implémentation de SSL pinning",
+    "Banking : Développement des fonctionnalités de virements permanents et différés"
+  ],
+  "skills": [
+    "Kotlin",
+    "Retrofit",
+    "SSL Pinning",
+    "MVP",
+    "ConstraintLayout",
+    "Jenkins",
+    "Sonar"
+  ],
+  "language": "fr"
+}

@@ -37,30 +37,36 @@ export const en: Locale = {
     },
     services: {
         title: "My Services",
+        showMore: "Show Details",
+        showLess: "Show Less",
         items: [
             {
                 id: 1,
-                title: "Web Design",
-                description: "Crafting visually stunning and user-centric website designs.",
-                icon: "Layout",
-            },
-            {
-                id: 2,
                 title: "Development",
-                description: "Building robust and scalable web applications.",
+                description: "Building robust and scalable mobile applications.",
+                longDescription: "Expertise in native Android development using Kotlin and Jetpack Compose. I design modular architectures (MVVM, MVI) ensuring performance, testability, and long-term maintainability.",
                 icon: "Code",
             },
             {
-                id: 3,
+                id: 2,
                 title: "UI/UX Design",
                 description: "Creating intuitive and engaging user experiences.",
+                longDescription: "Crafting modern and fluid interfaces centered on the mobile user. Using Figma for prototyping and implementing complex animations with Framer Motion and Jetpack Compose.",
+                icon: "Layout",
+            },
+            {
+                id: 3,
+                title: "Code Audit",
+                description: "Analyzing and improving existing code to enhance its quality and performance.",
+                longDescription: "In-depth analysis of your codebase to identify technical debt, performance bottlenecks, and security vulnerabilities. Delivery of a detailed report with actionable recommendations.",
                 icon: "Smartphone",
             },
             {
                 id: 4,
-                title: "Graphics Design",
-                description: "Visual communication through typography, photography and illustration.",
-                icon: "Palette",
+                title: "CI/CD",
+                description: "Setting up a CI/CD pipeline to automate the various deployment processes.",
+                longDescription: "Complete automation of your applications' lifecycle: testing, quality analysis (Sonar), build generation, and store deployment (Google Play) via GitHub Actions, Jenkins, or Fastlane.",
+                icon: "Pipeline",
             },
         ]
     },
@@ -76,66 +82,93 @@ export const en: Locale = {
         items: [
             {
                 id: 1,
-                period: "2020 - Present",
-                role: "Lead Developer",
-                company: "Tech Solutions Inc.",
+                period: "July 2022 - June 2025",
+                role: "Lead Android Developer",
+                company: "Stellantis",
                 logo: "/logo_HN.svg",
-                description: "Leading the frontend team and architecting scalable solutions for enterprise clients.",
-                duration: "4+ years",
-                startDate: "2020-01",
+                description: "Design and implementation of an evolutionary 'Middleware' SDK for non-connected vehicle services and a graphical 'Framework' SDK (Design System) shared across group brands.",
+                duration: "3 years",
+                startDate: "2022-07",
+                endDate: "2025-06",
                 highlights: [
-                    "Led a team of 8 developers to deliver 15+ projects on time",
-                    "Architected microservices reducing load time by 40%",
-                    "Implemented CI/CD pipeline improving deployment frequency by 3x"
+                    "Middleware SDK: Unified heterogeneous backends by normalizing data schemas and API formats",
+                    "Framework SDK: Developed a UI SDK based on Figma Design Tokens via JSON (multi-brand visual updates in real-time)",
+                    "Automation: Created custom Gradle scripts for automatic Kotlin class generation from design tokens",
+                    "Quality: Technical leadership, code reviews, and quality enforcement via Sonar, Detekt, and ktlint in complex CI/CD pipelines",
+                    "Architecture: Implemented a feature-oriented modular architecture (Clean Architecture, MVVM)"
                 ],
-                skills: ["Kotlin", "Android", "Jetpack Compose", "MVVM", "CI/CD"]
+                skills: ["Kotlin", "Jetpack Compose", "Coroutines", "Flow", "Ktor", "Koin", "Room", "Firebase Crashlytics", "GitHub Copilot", "TeamCity"]
             },
             {
                 id: 2,
-                period: "2018 - 2020",
-                role: "Senior Android Developer",
-                company: "Creative Agency",
+                period: "September 2020 - June 2022",
+                role: "Senior Android Developer / Tech Lead",
+                company: "PSA (Stellantis)",
                 logo: "/logo_HN.svg",
-                description: "Developed high-performance mobile applications for global brands.",
+                description: "Overhaul of the group's vehicle communication SDK and development of a sample application to facilitate third-party integration.",
                 duration: "2 years",
-                startDate: "2018-01",
-                endDate: "2020-01",
+                startDate: "2020-09",
+                endDate: "2022-06",
                 highlights: [
-                    "Built 5 production apps with 1M+ combined downloads",
-                    "Reduced app crash rate by 85% through proper error handling",
-                    "Mentored 3 junior developers in best practices"
+                    "Migration: Ported the communication SDK to Kotlin and Coroutines for reactive data exposure",
+                    "Design System: Integrated Atomic Design principles to support multi-brand graphic charters",
+                    "CI/CD: Automated delivery processes via custom Python and Gradle scripts",
+                    "Documentation: Authored structured technical specifications on Confluence for team alignment"
                 ],
-                skills: ["Kotlin", "Android", "Room", "Retrofit", "Koin"]
+                skills: ["Kotlin", "Coroutines", "Atomic Design", "Koin", "Room", "TeamCity", "Hexagonal Architecture"]
             },
             {
                 id: 3,
-                period: "2016 - 2018",
-                role: "Android Developer",
-                company: "StartUp Hub",
+                period: "September 2018 - August 2020",
+                role: "Senior Android Developer",
+                company: "John Paul (Accor Hotels)",
                 logo: "/logo_HN.svg",
-                description: "Collaborated with senior developers to build MVP products for startups.",
+                description: "Development of a modular application for the Accor Hotels concierge service and features for VISA and Toyota.",
                 duration: "2 years",
-                startDate: "2016-01",
-                endDate: "2018-01",
+                startDate: "2018-09",
+                endDate: "2020-08",
                 highlights: [
-                    "Developed 3 MVP applications from scratch",
-                    "Integrated RESTful APIs and third-party SDKs",
-                    "Participated in agile sprints and code reviews"
+                    "Modularity: Refactored common code into modules and migrated to Kotlin and AndroidX",
+                    "Dynamic Forms: Created a dynamic form generation system via JSON configurations",
+                    "Security: Encrypted sensitive data in preparation for PCI certification",
+                    "Integrations: Google Maps/Places, Zendesk, and payment SDKs (Stripe, Adyen)"
                 ],
-                skills: ["Java", "Android", "SQLite", "REST APIs"]
+                skills: ["Kotlin", "MVVM", "Dagger 2", "Retrofit", "Fastlane", "GitLab CI", "Sentry"]
             },
             {
                 id: 4,
-                period: "2014 - 2016",
-                role: "Junior Android Developer",
-                company: "First Company",
+                period: "December 2017 - September 2018",
+                role: "Senior Android Developer",
+                company: "LCL - Le Crédit Lyonnais",
                 logo: "/logo_HN.svg",
-                description: "Started my career...",
-                duration: "2 years",
-                startDate: "2014-01",
-                endDate: "2016-01",
-                highlights: ["Learned Android fundamentals"],
-                skills: ["Java", "Android"]
+                description: "Deep redesign of the 'LCL – Mes Comptes' banking app and optimization of network security.",
+                duration: "10 months",
+                startDate: "2017-12",
+                endDate: "2018-09",
+                highlights: [
+                    "Tech Migration: Led the transition from Java to Kotlin and towards an MVP architecture",
+                    "UI Performance: Optimized layouts via ConstraintLayout to improve fluidity",
+                    "Network Security: Migrated to Retrofit with SSL pinning implementation",
+                    "Banking: Developed permanent and deferred transfer features"
+                ],
+                skills: ["Kotlin", "Retrofit", "SSL Pinning", "MVP", "ConstraintLayout", "Jenkins", "Sonar"]
+            },
+            {
+                id: 5,
+                period: "January 2012 - November 2017",
+                role: "Lead Android Developer",
+                company: "Proxym-IT Agency",
+                logo: "/logo_HN.svg",
+                description: "Lead developer on numerous strategic client projects (Allianz connect, BOZER, VanCleef & Arpel, Dior, etc.).",
+                duration: "5+ years",
+                startDate: "2012-01",
+                endDate: "2017-11",
+                highlights: [
+                    "SDK Banking: Developed a specialized SDK for check deposit digitalization",
+                    "Architecture: Implemented modular architectures using Dagger 2 and RxJava",
+                    "Multi-domain: Built VOIP apps, instant messaging (Tchapper), and tourist guides"
+                ],
+                skills: ["Android SDK", "Java", "RxJava", "Dagger 2", "Retrofit", "SQLite", "Git"]
             }
         ]
     },
@@ -300,7 +333,6 @@ export const en: Locale = {
         socials: [
             { icon: "Github", link: SITE_CONFIG.links.github },
             { icon: "Linkedin", link: SITE_CONFIG.links.linkedin },
-            { icon: "Twitter", link: SITE_CONFIG.links.twitter },
             { icon: "Mail", link: `mailto:${SITE_CONFIG.email} ` },
         ],
         form: {

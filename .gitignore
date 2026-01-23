@@ -17,6 +17,8 @@
 *.coverage.txt
 coverage*.txt
 *_coverage*.txt
+test_output*.txt
+junit.xml
 wrapper
 
 # playwright

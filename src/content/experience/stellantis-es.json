@@ -1,0 +1,27 @@
+{
+    "company": "stellantis",
+    "role": "Lead Desarrollador Android",
+    "startDate": "2022-07",
+    "endDate": "2025-06",
+    "description": "Diseño e implementación de un SDK « Middleware » evolutivo para servicios de vehículos no conectados y un SDK « Framework » gráfico (Design System) compartido entre las marcas del grupo.",
+    "highlights": [
+        "Middleware SDK: Unificación de backends heterogéneos mediante la normalización de esquemas de datos y formatos de API",
+        "Framework SDK: Desarrollo de un SDK de UI basado en Figma Design Tokens a través de JSON (actualizaciones visuales multimarca en tiempo real)",
+        "Automatización: Creación de scripts Gradle personalizados para la generación automática de clases Kotlin a partir de design tokens",
+        "Calidad: Liderazgo técnico, revisiones de código y cumplimiento de calidad mediante Sonar, Detekt y ktlint en pipelines de CI/CD complejos",
+        "Arquitectura: Implementación de una arquitectura modular orientada a features (Clean Architecture, MVVM)"
+    ],
+    "skills": [
+        "Kotlin",
+        "Jetpack Compose",
+        "Coroutines",
+        "Flow",
+        "Ktor",
+        "Koin",
+        "Room",
+        "Firebase Crashlytics",
+        "GitHub Copilot",
+        "TeamCity"
+    ],
+    "language": "es"
+}

@@ -24,6 +24,18 @@ A modern, responsive, and localized portfolio website built with **Next.js 16**,
 - ☠️ **Smart Skeletons** - Layout-matched loading states
 - 📜 **Parallax Scrolling** - Immersive visual depth in Hero section
 
+## 📚 Documentation
+
+For comprehensive documentation, visit the **[Wiki](./docs/wiki/Home.md)**:
+
+| Document | Description |
+|----------|-------------|
+| [Getting Started](./docs/wiki/Getting-Started.md) | Quick setup guide |
+| [Architecture](./docs/wiki/Architecture.md) | System design & decisions |
+| [Components](./docs/wiki/Components.md) | UI component library |
+| [API Reference](./docs/wiki/API-Reference.md) | API endpoints |
+| [Deployment](./docs/wiki/Deployment.md) | Deploy to Vercel |
+
 ## 🚀 Quick Start
 
 ```bash

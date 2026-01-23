@@ -1,0 +1,23 @@
+{
+    "company": "john-paul",
+    "role": "مطور أندرويد أول",
+    "startDate": "2018-09",
+    "endDate": "2020-08",
+    "description": "تطوير تطبيق modular لخدمة الكونسيرج في Accor Hotels وميزات لشركتي VISA و Toyota.",
+    "highlights": [
+        "النمطية (Modularity): إعادة هيكلة الكود المشترك إلى وحدات والهجرة إلى Kotlin و AndroidX",
+        "النماذج الديناميكية: إنشاء نظام لتوليد النماذج ديناميكيًا عبر إعدادات JSON",
+        "الأمان: تشفير البيانات الحساسة استعدادًا لشهادة PCI",
+        "الدمج والربط: Google Maps/Places، Zendesk، و SDKs الدفع (Stripe, Adyen)"
+    ],
+    "skills": [
+        "Kotlin",
+        "MVVM",
+        "Dagger 2",
+        "Retrofit",
+        "Fastlane",
+        "GitLab CI",
+        "Sentry"
+    ],
+    "language": "ar"
+}

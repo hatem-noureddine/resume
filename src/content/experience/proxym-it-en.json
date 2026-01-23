@@ -1,0 +1,22 @@
+{
+  "role": "Lead Android Developer",
+  "company": "Proxym-IT Agency",
+  "description": "Lead developer on numerous strategic client projects (Allianz connect, BOZER, VanCleef & Arpel, Dior, etc.).",
+  "startDate": "2012-01",
+  "endDate": "2017-11",
+  "highlights": [
+    "SDK Banking: Developed a specialized SDK for check deposit digitalization",
+    "Architecture: Implemented modular architectures using Dagger 2 and RxJava",
+    "Multi-domain: Built VOIP apps, instant messaging (Tchapper), and tourist guides"
+  ],
+  "skills": [
+    "Android SDK",
+    "Java",
+    "RxJava",
+    "Dagger 2",
+    "Retrofit",
+    "SQLite",
+    "Git"
+  ],
+  "language": "en"
+}

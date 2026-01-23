@@ -1,0 +1,22 @@
+{
+    "company": "proxym-it",
+    "role": "Lead Desarrollador Android",
+    "startDate": "2012-01",
+    "endDate": "2017-11",
+    "description": "Líder de desarrollo en numerosos proyectos estratégicos de clientes (Allianz connect, BOZER, VanCleef & Arpel, Dior, etc.).",
+    "highlights": [
+        "SDK Banking: Desarrollo de un SDK especializado en la digitalización de depósitos de cheques",
+        "Arquitectura: Implementación de arquitecturas modulares utilizando Dagger 2 y RxJava",
+        "Multidominio: Creación de aplicaciones VOIP, mensajería instantánea (Tchapper) y guías turísticas"
+    ],
+    "skills": [
+        "Android SDK",
+        "Java",
+        "RxJava",
+        "Dagger 2",
+        "Retrofit",
+        "SQLite",
+        "Git"
+    ],
+    "language": "es"
+}

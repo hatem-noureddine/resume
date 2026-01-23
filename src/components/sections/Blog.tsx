@@ -8,6 +8,7 @@ import { Post } from "@/lib/posts";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
 import { useLanguage } from "@/context/LanguageContext";
+import { useFeatureFlags } from "@/context/FeatureFlags";
 import { cn } from "@/lib/utils";
 import type { BlogLocale } from "@/locales/types";
 
@@ -47,13 +48,15 @@ const MobileBlogCard = ({ post, blogText }: { post: Post, blogText: BlogLocale }
     );
 };
 
+
 export function Blog({ posts }: { posts: Post[] }) {
     const { t } = useLanguage();
+    const { isEnabled } = useFeatureFlags();
     const { blog } = t;
     const [currentIndex, setCurrentIndex] = useState(0);
     const [activeCategory, setActiveCategory] = useState("All");
 
-    if (!posts || posts.length === 0) {
+    if (!isEnabled('showBlog') || !posts || posts.length === 0) {
         return null;
     }
 

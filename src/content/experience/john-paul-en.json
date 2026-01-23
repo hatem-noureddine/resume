@@ -1,0 +1,23 @@
+{
+  "role": "Senior Android Developer",
+  "company": "John Paul (Accor Hotels)",
+  "description": "Development of a modular application for the Accor Hotels concierge service and features for VISA and Toyota.",
+  "startDate": "2018-09",
+  "endDate": "2020-08",
+  "highlights": [
+    "Modularity: Refactored common code into modules and migrated to Kotlin and AndroidX",
+    "Dynamic Forms: Created a dynamic form generation system via JSON configurations",
+    "Security: Encrypted sensitive data in preparation for PCI certification",
+    "Integrations: Google Maps/Places, Zendesk, and payment SDKs (Stripe, Adyen)"
+  ],
+  "skills": [
+    "Kotlin",
+    "MVVM",
+    "Dagger 2",
+    "Retrofit",
+    "Fastlane",
+    "GitLab CI",
+    "Sentry"
+  ],
+  "language": "en"
+}

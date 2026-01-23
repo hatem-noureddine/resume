@@ -229,7 +229,7 @@ body {
   }
 
   to {
-    transform: translateX(-50%);
+    transform: translateX(-100%);
   }
 }
 
@@ -239,6 +239,24 @@ body {
 
 .animate-infinite-scroll-reverse {
   animation: infinite-scroll 25s linear infinite reverse;
+}
+
+@keyframes infinite-scroll-half {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-infinite-scroll-half {
+  animation: infinite-scroll-half 25s linear infinite;
+}
+
+.animate-infinite-scroll-half-reverse {
+  animation: infinite-scroll-half 25s linear infinite reverse;
 }
 
 /* Hover utilities for interactive elements */
@@ -595,6 +613,7 @@ a:focus-visible {
    Clean, professional output for printing and PDF export
    ======================================== */
 @media print {
+
   /* Reset colors for print */
   :root {
     --color-background: #ffffff !important;
@@ -675,7 +694,8 @@ a:focus-visible {
     page-break-after: avoid !important;
   }
 
-  p, li {
+  p,
+  li {
     page-break-inside: avoid !important;
     orphans: 3;
     widows: 3;
