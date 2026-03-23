@@ -65,7 +65,7 @@ jobs:
           retention-days: 1
 
       - name: Test Report Summary
-        uses: dorny/test-reporter@v2
+        uses: dorny/test-reporter@v3
         if: always() && github.event_name == 'pull_request'
         with:
           name: Jest Tests
@@ -244,7 +244,7 @@ jobs:
           retention-days: 30
 
       - name: Playwright Summary
-        uses: dorny/test-reporter@v2
+        uses: dorny/test-reporter@v3
         if: always() && github.event_name == 'pull_request'
         with:
           name: Playwright E2E Tests
